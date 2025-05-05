@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Tarifas - Boda Cynthia y Jose Miguel</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="contenido-pagina calculadora-wrapper"> <h1>Calculadora Estimada de Tarifas</h1>
+        <p class="introduccion-calculadora">
+            Utiliza esta herramienta para obtener una estimación del costo de tu estancia en Hotel Xcaret, basada en las tarifas grupales negociadas para nuestra boda.
+            Ingresa tus fechas y el número de personas por habitación.
+        </p>
+
+        <div class="calculadora-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="categoria"><i class="fa-solid fa-hotel"></i> Categoría Habitación:</label>
+                    <select id="categoria" name="categoria">
+                        <option value="garden" selected>Garden View</option>
+                        <option value="ocean">Ocean View</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="checkin"><i class="fa-solid fa-calendar-day"></i> Fecha Check-in:</label>
+                    <input type="date" id="checkin" name="checkin" min="2026-02-01" max="2026-02-28">
+                </div>
+                <div class="form-group">
+                    <label for="checkout"><i class="fa-solid fa-calendar-day"></i> Fecha Check-out:</label>
+                    <input type="date" id="checkout" name="checkout" min="2026-02-01" max="2026-02-28">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="adultos"><i class="fa-solid fa-user"></i> Adultos (12+ años):</label>
+                    <input type="number" id="adultos" name="adultos" min="1" value="2" step="1">
+                </div>
+                <div class="form-group">
+                    <label for="ninos"><i class="fa-solid fa-child"></i> Niños (0-11 años):</label>
+                    <input type="number" id="ninos" name="ninos" min="0" value="0" step="1">
+                </div>
+            </div>
+        </div>
+
+        <div class="calculadora-resultados">
+            <h2><i class="fa-solid fa-receipt"></i> Estimación de Costo</h2>
+            <div class="resultado-item">
+                <span class="resultado-label">Número de Noches:</span>
+                <span class="resultado-valor" id="numNoches">--</span>
+            </div>
+            <div class="resultado-item">
+                <span class="resultado-label">Tarifa Estimada por Noche*:</span>
+                <span class="resultado-valor" id="tarifaNoche">--</span>
+            </div>
+            <div class="resultado-item total">
+                <span class="resultado-label">Tarifa Total Estimada*:</span>
+                <span class="resultado-valor" id="tarifaTotal">--</span>
+            </div>
+             <p class="nota-calculadora">
+                *Tarifas estimadas por habitación, por noche, en pesos mexicanos (MXN), sujetas a disponibilidad y cambios. Incluyen impuestos y plan All-Fun Inclusive®. Los valores se redondean al entero superior. Esta es una herramienta de estimación; por favor, contactanos directamente para que te compartamos el link de nuestro micrositio para reservar.
+            </p>
+        </div>
+
+         <div class="navegacion-volver">
+            <a href="index.html" class="boton-volver">&larr; Volver a la Página Principal</a>
+        </div>
+
+    </div> <script>
+        // Tarifas base (Asegúrate que estos valores coincidan con tu tabla)
+        const tarifas = {
+            garden: { sencilla: 10020.00, doble: 8078.70, adicional: 6060.00, menor: 6060.00 },
+            ocean:  { sencilla: 12200.00, doble: 9842.70, adicional: 7380.00, menor: 7380.00 }
+        };
+
+        // Función principal para calcular la tarifa
+        function calcularTarifa() {
+            // 1. Obtener valores del HTML
+            const categoria = document.getElementById('categoria').value; // 'garden' u 'ocean'
+            const checkinStr = document.getElementById('checkin').value;
+            const checkoutStr = document.getElementById('checkout').value;
+            const adultos = parseInt(document.getElementById('adultos').value) || 0;
+            const ninos = parseInt(document.getElementById('ninos').value) || 0;
+
+            // Resetear resultados si no hay fechas o adultos
+            if (!checkinStr || !checkoutStr || adultos <= 0) {
+                document.getElementById('numNoches').textContent = '--';
+                document.getElementById('tarifaNoche').textContent = '--';
+                document.getElementById('tarifaTotal').textContent = '--';
+                return;
+            }
+
+            // Usar UTC para evitar problemas de zona horaria al calcular diferencia de días
+            const checkinDate = new Date(checkinStr);
+            const checkoutDate = new Date(checkoutStr);
+            // Obtener timestamp UTC al inicio del día
+            const checkinUTC = Date.UTC(checkinDate.getUTCFullYear(), checkinDate.getUTCMonth(), checkinDate.getUTCDate());
+            const checkoutUTC = Date.UTC(checkoutDate.getUTCFullYear(), checkoutDate.getUTCMonth(), checkoutDate.getUTCDate());
+
+
+            if (checkoutUTC <= checkinUTC) {
+                // Solo alertar si ambas fechas están seleccionadas pero son inválidas
+                if (checkinStr && checkoutStr){
+                   alert("La fecha de Check-out debe ser posterior a la fecha de Check-in.");
+                }
+                document.getElementById('numNoches').textContent = '--';
+                document.getElementById('tarifaNoche').textContent = '--';
+                document.getElementById('tarifaTotal').textContent = '--';
+                return;
+            }
+
+            // 3. Calcular número de noches
+            const diffTime = Math.abs(checkoutUTC - checkinUTC);
+            const noches = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+
+            // 4. Calcular tarifa por noche (cálculo preciso inicial)
+            let tarifaNochePrecisa = 0;
+            const t = tarifas[categoria]; // Tarifas de la categoría seleccionada
+
+            if (adultos === 1) {
+                tarifaNochePrecisa = t.sencilla + (ninos * t.menor);
+            } else if (adultos === 2) {
+                // Tarifa base para 2 adultos + tarifa por niños
+                tarifaNochePrecisa = (t.doble * 2) + (ninos * t.menor);
+            } else if (adultos > 2) {
+                // Tarifa base para 2 adultos + tarifa por adulto adicional + tarifa por niños
+                tarifaNochePrecisa = (t.doble * 2) + ((adultos - 2) * t.adicional) + (ninos * t.menor);
+            } else {
+                // Caso adultos = 0 (ya manejado arriba, pero por si acaso)
+                tarifaNochePrecisa = 0;
+            }
+
+            // 5. Calcular tarifa total (cálculo preciso inicial)
+            const tarifaTotalPrecisa = tarifaNochePrecisa * noches;
+
+            // --- MODIFICACIONES EN SCRIPT ORIGINAL ---
+            // (Estas ya estaban en tu script)
+
+            // 6. Redondear HACIA ARRIBA al entero más cercano
+            const tarifaNocheRedondeada = Math.ceil(tarifaNochePrecisa);
+            const tarifaTotalRedondeada = Math.ceil(tarifaTotalPrecisa);
+
+            // 7. Crear formateador para Pesos Mexicanos (MXN) sin centavos
+            const formatterMXN = new Intl.NumberFormat('es-MX', {
+                style: 'currency',
+                currency: 'MXN',
+                minimumFractionDigits: 0, // No mostrar centavos
+                maximumFractionDigits: 0  // No mostrar centavos
+            });
+
+            // 8. Formatear los valores redondeados
+            const tarifaNocheFormateada = formatterMXN.format(tarifaNocheRedondeada);
+            const tarifaTotalFormateada = formatterMXN.format(tarifaTotalRedondeada);
+
+            // --- FIN DE MODIFICACIONES ---
+
+            // 9. Actualizar el HTML con los valores formateados y redondeados
+            document.getElementById('numNoches').textContent = noches;
+            document.getElementById('tarifaNoche').textContent = tarifaNocheFormateada;
+            document.getElementById('tarifaTotal').textContent = tarifaTotalFormateada;
+        }
+
+        // --- Event Listeners para recálculo automático ---
+        document.getElementById('categoria').addEventListener('change', calcularTarifa);
+        document.getElementById('checkin').addEventListener('change', calcularTarifa);
+        document.getElementById('checkout').addEventListener('change', calcularTarifa);
+        // Usar 'input' para reaccionar más rápido a cambios en números (flechas o escritura)
+        document.getElementById('adultos').addEventListener('input', calcularTarifa);
+        document.getElementById('ninos').addEventListener('input', calcularTarifa);
+
+        // Calcular al cargar la página por si hay valores por defecto (o si el navegador los recuerda)
+        document.addEventListener('DOMContentLoaded', calcularTarifa);
+
+    </script>
+
+</body>
+</html>

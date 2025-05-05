@@ -1,0 +1,1094 @@
+/* Estilos básicos para la barra de navegación */
+.menu-navegacion ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Coloca los elementos en línea */
+    justify-content: center; /* Centra los elementos */
+    flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si no caben */
+    background-color: #f8f8f8; /* Color de fondo (ajusta según tu diseño) */
+    padding: 10px 5px; /* Padding arriba/abajo y a los lados */
+  }
+  
+  .menu-navegacion li {
+    margin: 5px 15px; /* Espacio vertical y horizontal entre elementos */
+  }
+  
+  .menu-navegacion a {
+    text-decoration: none;
+    color: #555; /* Color del icono */
+    display: flex;
+    flex-direction: column; /* Coloca icono sobre texto (inicialmente oculto) */
+    align-items: center;
+    position: relative; /* Necesario para posicionar el texto flotante */
+    transition: color 0.3s ease; /* Transición suave para el color del icono */
+  }
+  
+  /* Estilos para los iconos de Font Awesome */
+  .icono {
+    font-size: 24px; /* Tamaño del icono */
+    margin-bottom: 5px; /* Espacio debajo del icono (antes del texto oculto) */
+    width: 30px; /* Ancho fijo para alinear mejor */
+    text-align: center; /* Centra el icono dentro de su espacio */
+  }
+  
+  /* Ocultar el nombre del menú por defecto */
+  .nombre-menu {
+    display: none; /* Oculta el texto */
+    position: absolute;
+    top: 100%; /* Posiciona el texto debajo del icono */
+    left: 50%;
+    transform: translateX(-50%); /* Centra el texto */
+    background-color: rgba(0, 0, 0, 0.75); /* Fondo semitransparente */
+    color: white; /* Color del texto */
+    padding: 4px 8px; /* Espaciado interno */
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    margin-top: 8px; /* Pequeño espacio entre el icono y el texto */
+    z-index: 10; /* Asegura que esté por encima de otros elementos */
+    pointer-events: none; /* Evita que el tooltip interfiera con el hover del icono */
+  }
+  
+  /* Mostrar el nombre del menú al pasar el cursor sobre el enlace (<a>) */
+  .menu-navegacion a:hover .nombre-menu {
+    display: block; /* Muestra el texto */
+  }
+  
+  /* Cambiar el color del icono al pasar el cursor */
+  .menu-navegacion a:hover {
+    color: #007bff; /* Cambia el color del icono (y del enlace si tuviera texto visible) */
+  }
+  
+  /* Asegúrate de que el body tenga margen si el menú está fijo arriba o si no hay más contenido */
+  body {
+      font-family: sans-serif; /* Ejemplo de fuente base */
+      margin: 0;
+      /* Si añades más contenido, ajusta el padding-top si es necesario */
+      /* padding-top: 80px;  */ /* Descomenta si el menú fuera fijo en la parte superior */
+  }
+  /* ===== ESTILOS PARA EL MENÚ (YA EXISTENTES) ===== */
+/* (Mantén los estilos anteriores para .menu-navegacion, .icono, .nombre-menu, etc.) */
+
+body {
+    font-family: 'Lato', sans-serif; /* Fuente base */
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* ===== NUEVOS ESTILOS PARA LA SECCIÓN HERO ===== */
+.hero-section {
+    /* --- Configuración del fondo --- */
+    /* --- >>> DESCOMENTA la línea siguiente y cambia 'portada.jpg' por la ruta REAL de tu imagen <<< --- */
+    background-image: url('Portada.jpg');
+
+    background-color: #f0e8e0; /* Color de fondo suave si no hay imagen o mientras carga */
+    background-size: cover; /* Hace que la imagen cubra toda la sección */
+    background-position: center center; /* Centra la imagen */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Efecto parallax suave (opcional) */
+
+    /* --- Diseño y espaciado --- */
+    min-height: 85vh; /* Altura mínima, ocupa casi toda la pantalla inicial */
+    padding: 60px 20px; /* Espaciado interno */
+    display: flex; /* Para centrar el contenido verticalmente */
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Centra el texto horizontalmente */
+    position: relative; /* Necesario para el pseudo-elemento overlay */
+    color: #443; /* Color de texto por defecto para esta sección (ajusta si usas imagen oscura) */
+}
+
+/* --- Opcional: Overlay semitransparente --- */
+/* (Útil si tu imagen de fondo hace difícil leer el texto) */
+/* .hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3); /* Overlay oscuro semitransparente */
+    /* z-index: 1; */
+/* } */
+
+/* Contenido del Hero (para asegurar que esté sobre el overlay) */
+.hero-content {
+   position: relative;
+   z-index: 2;
+   /* background-color: rgba(255, 255, 255, 0.7); /* Fondo blanco semitransparente opcional para el texto */
+   /* padding: 20px 40px; */
+   /* border-radius: 10px; */
+}
+
+
+/* --- Estilo del texto del Hero --- */
+.hero-section h1 {
+    /* font-family: 'Dancing Script', cursive; /* Fuente cursiva elegante */ */
+    font-family: 'cursive', sans-serif; /* Fuente cursiva elegante */
+    font-size: calc(2.5rem + 3vw); /* Tamaño de fuente responsive */
+    margin-bottom: 0.1em;
+    font-weight: 700; /* Más grueso si la fuente lo permite */
+    color: #5a4a40; /* Color café/oscuro elegante (ajusta según tu paleta) */
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5); /* Sombra clara sutil para legibilidad */
+}
+
+.hero-section .fecha-boda {
+    font-family: 'Lato', sans-serif; /* Fuente más legible para la fecha */
+    font-size: calc(1.1rem + 0.8vw); /* Tamaño responsive */
+    margin-top: 0;
+    font-weight: 400; /* Peso normal o 300 (light) */
+    color: #6b5a50; /* Color ligeramente más claro que el título */
+    letter-spacing: 1px; /* Un poco de espacio entre letras */
+}
+
+/* --- Estilos generales para otras secciones (ejemplo) --- */
+.contenido-seccion {
+    padding: 40px 20px;
+    max-width: 900px;
+    margin: 20px auto; /* Centrar las secciones de contenido */
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.contenido-seccion h2 {
+    text-align: center;
+    color: #5a4a40;
+    margin-bottom: 20px;
+}
+
+
+/* --- Ajustes Responsivos --- */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 60vh; /* Menor altura en pantallas pequeñas */
+        background-attachment: scroll; /* Desactivar fixed en móviles puede mejorar rendimiento */
+    }
+    .hero-section h1 {
+       font-size: calc(2rem + 4vw); /* Ajustar tamaño */
+    }
+    .hero-section .fecha-boda {
+       font-size: calc(1rem + 1vw); /* Ajustar tamaño */
+    }
+}
+/* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
+
+/* Contenedor general para páginas secundarias */
+.contenido-pagina {
+    max-width: 850px; /* Ancho máximo del contenido */
+    margin: 40px auto; /* Centrar el bloque en la página con margen arriba/abajo */
+    padding: 25px 40px; /* Espaciado interno */
+    background-color: #fff; /* Fondo blanco para el contenido */
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1); /* Sombra suave */
+    border-radius: 8px; /* Bordes redondeados */
+    text-align: center; /* Centrar texto por defecto */
+}
+
+.contenido-pagina h1 {
+    color: #5a4a40; /* Color principal oscuro */
+    margin-bottom: 25px;
+    font-family: 'Dancing Script', cursive; /* Fuente elegante */
+    font-size: 3em; /* Tamaño grande */
+    border-bottom: 1px solid #e0e0e0; /* Línea divisoria sutil */
+    padding-bottom: 15px;
+}
+
+.contenido-pagina h2 {
+    color: #6b5a50; /* Color secundario */
+    margin-top: 35px; /* Espacio antes del subtítulo */
+    margin-bottom: 15px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400; /* Peso normal */
+    font-size: 1.8em;
+}
+
+/* Bloque para destacar fecha y hora */
+.detalle-fecha-hora {
+    margin-bottom: 30px;
+    padding: 25px;
+    background-color: #fdf8f2; /* Fondo muy claro, casi blanco */
+    border: 1px solid #f0e8e0; /* Borde sutil */
+    border-radius: 5px;
+}
+
+.fecha-grande, .hora-grande {
+    font-size: 2.8em; /* Tamaño muy grande */
+    color: #c58a50; /* Color acento cálido */
+    margin: 8px 0;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700; /* Negrita */
+    line-height: 1.2; /* Espaciado entre líneas */
+}
+
+.lugar-ceremonia {
+    font-size: 1.2em;
+    color: #777;
+    margin-top: 20px;
+}
+.lugar-ceremonia .fa-location-dot { /* Estilo para el icono de ubicación */
+    margin-right: 8px;
+    color: #c58a50; /* Mismo color de acento */
+}
+
+
+/* Bloque para detalles del lugar */
+.detalle-lugar p {
+    color: #555; /* Color de texto estándar */
+    line-height: 1.7; /* Altura de línea para legibilidad */
+    margin-bottom: 15px;
+    text-align: justify; /* Justificar texto para un look más formal */
+}
+
+.detalle-lugar strong {
+    color: #333; /* Resaltar texto importante */
+    font-weight: 600;
+}
+
+/* Botón para volver */
+.navegacion-volver {
+    margin-top: 40px; /* Espacio antes del botón */
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0; /* Separador superior */
+    text-align: center;
+}
+
+.boton-volver {
+    display: inline-block;
+    padding: 12px 25px; /* Hacer el botón más grande */
+    background-color: #8b786d; /* Color del botón (coordinado) */
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 1em;
+}
+
+.boton-volver:hover {
+    background-color: #6b5a50; /* Oscurecer al pasar el cursor */
+    transform: translateY(-2px); /* Efecto ligero de elevación */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* --- Ajustes Responsivos para .contenido-pagina --- */
+@media (max-width: 768px) {
+    .contenido-pagina {
+        margin: 20px;
+        padding: 20px 25px;
+    }
+    .contenido-pagina h1 {
+        font-size: 2.4em;
+    }
+    .fecha-grande, .hora-grande {
+        font-size: 2.2em;
+    }
+     .contenido-pagina h2 {
+        font-size: 1.5em;
+    }
+     .detalle-lugar p {
+        text-align: left; /* Quizás mejor no justificar en móvil */
+    }
+}
+
+@media (max-width: 480px) {
+     .fecha-grande, .hora-grande {
+        font-size: 1.8em;
+    }
+     .lugar-ceremonia {
+        font-size: 1em;
+     }
+}
+/* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
+
+/* Estilos generales ya existentes para .contenido-pagina, h1, etc., se aplicarán */
+
+/* Introducción en la página de Hospedaje */
+.introduccion-hospedaje {
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 40px; /* Más espacio después de la intro */
+    text-align: center;
+    max-width: 700px; /* Limitar ancho para mejor lectura */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Contenedor para cada opción de hotel */
+.opcion-hotel {
+    display: flex; /* Flexbox para alinear logo/icono y texto */
+    flex-direction: row; /* Dirección horizontal por defecto */
+    align-items: center; /* Centrar verticalmente */
+    margin-bottom: 25px; /* Espacio debajo de cada opción */
+    /* Eliminamos padding-bottom y border-bottom, usamos HR */
+}
+
+/* Estilo para las imágenes de logo */
+.logo-hotel {
+    width: 120px; /* Ancho del logo */
+    height: 120px; /* Alto del logo (ajusta si es necesario) */
+    object-fit: contain; /* Asegura que el logo se vea completo sin distorsión */
+    margin-right: 30px; /* Espacio a la derecha del logo */
+    flex-shrink: 0; /* Evita que el logo se encoja si el texto es largo */
+    border: 1px solid #eee; /* Borde sutil opcional */
+    padding: 5px; /* Pequeño padding interno */
+    background-color: #fff; /* Fondo blanco por si el logo tiene transparencias */
+}
+/* Placeholder si la imagen no carga */
+.logo-hotel[src$=".png"], .logo-hotel[src$=".jpg"] { /* Solo si es png o jpg */
+     /* Añadir aquí un background-color o border si la imagen falla */
+ }
+
+
+/* Estilo para el icono genérico de hotel (para Occidental) */
+ .logo-hotel-generico {
+    font-size: 60px; /* Tamaño del icono */
+    color: #b0a090; /* Color suave tipo piedra/arena */
+    width: 120px; /* Mismo ancho que los logos */
+    height: 120px; /* Mismo alto que los logos */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px;
+    flex-shrink: 0;
+    background-color: #f8f8f8; /* Fondo muy claro */
+    border-radius: 5px; /* Bordes redondeados suaves */
+ }
+
+
+/* Contenedor para la descripción del hotel */
+.descripcion-hotel {
+    flex-grow: 1; /* Ocupa el espacio restante */
+    text-align: left; /* Texto alineado a la izquierda */
+}
+
+.descripcion-hotel h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #8b786d; /* Color principal suave */
+    font-size: 1.7em;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600; /* Un poco más grueso */
+    padding-bottom: 5px;
+    border-bottom: 2px solid #e0d8d0; /* Subrayado sutil */
+    display: inline-block; /* Para que el subrayado no ocupe todo el ancho */
+}
+
+.descripcion-hotel p {
+    margin-bottom: 10px; /* Espacio entre párrafos */
+    color: #555;
+    line-height: 1.6;
+}
+.descripcion-hotel p strong { /* Resaltar texto en negrita */
+    color: #444;
+    font-weight: 600;
+}
+
+/* Botón opcional para visitar sitio web del hotel */
+.boton-hotel {
+     display: inline-block;
+     padding: 8px 18px;
+     background-color: #f0f0f0; /* Fondo claro */
+     color: #333;
+     text-decoration: none;
+     border: 1px solid #ddd; /* Borde sutil */
+     border-radius: 4px;
+     font-size: 0.9em;
+     margin-top: 10px;
+     transition: all 0.3s ease;
+ }
+ .boton-hotel:hover {
+     background-color: #e0e0e0; /* Oscurecer un poco */
+     border-color: #ccc;
+     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+ }
+
+/* Separador visual entre hoteles */
+.separador-hotel {
+     border: 0;
+     height: 1px;
+     background: linear-gradient(to right, transparent, #e0d8d0, transparent); /* Degradado sutil */
+     margin: 30px 0 40px 0; /* Espaciado vertical */
+ }
+
+/* Nota importante al final */
+.nota-importante-hospedaje {
+    margin-top: 40px;
+    padding: 25px;
+    background-color: #fdfaf6; /* Fondo cálido muy claro */
+    border-left: 5px solid #c58a50; /* Borde izquierdo de acento */
+    text-align: left;
+    border-radius: 0 5px 5px 0; /* Redondeo suave en lado derecho */
+}
+
+.nota-importante-hospedaje h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #8b786d; /* Color coordinado */
+    font-size: 1.3em;
+}
+ .nota-importante-hospedaje p {
+     color: #555;
+     margin-bottom: 10px;
+ }
+.nota-importante-hospedaje strong {
+     color: #333;
+     font-weight: 600;
+ }
+
+
+/* --- Ajustes Responsivos para Hospedaje --- */
+@media (max-width: 768px) {
+    .opcion-hotel {
+        flex-direction: column; /* Apilar logo/icono y texto */
+        align-items: center; /* Centrar todo */
+        text-align: center; /* Centrar texto */
+    }
+
+    .logo-hotel, .logo-hotel-generico {
+        margin-right: 0; /* Quitar margen derecho */
+        margin-bottom: 20px; /* Añadir espacio debajo */
+        width: 100px; /* Reducir tamaño en pantallas pequeñas */
+        height: 100px;
+    }
+     .logo-hotel-generico {
+         font-size: 50px; /* Reducir icono genérico también */
+     }
+
+    .descripcion-hotel {
+        text-align: center; /* Centrar texto del hotel */
+    }
+    .descripcion-hotel h2 {
+        display: block; /* Hacer que el título ocupe todo el ancho para centrar bien */
+        border-bottom: none; /* Quitar subrayado si se ve mal centrado */
+        padding-bottom: 0;
+    }
+    .descripcion-hotel h2::after { /* Opcional: añadir subrayado centrado si se quitó arriba */
+         /* content: ''; */
+         /* display: block; */
+         /* width: 50px; */
+         /* height: 2px; */
+         /* background-color: #c58a50; */
+         /* margin: 5px auto 0 auto; */ /* Centrar línea */
+     }
+
+     .descripcion-hotel p {
+         text-align: justify; /* O left, según preferencia en móvil */
+     }
+     .nota-importante-hospedaje {
+          text-align: center;
+          border-left-width: 0; /* Quitar borde izquierdo */
+          border-top: 4px solid #c58a50; /* Poner borde arriba */
+          border-radius: 5px; /* Redondear todas las esquinas */
+          padding: 20px;
+      }
+}
+/* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
+
+/* Estilos específicos para la página de Calculadora */
+.calculadora-wrapper {
+    /* Puedes añadir un fondo distinto si quieres diferenciar la página */
+    /* background-color: #f7f7f7; */
+}
+
+.introduccion-calculadora {
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 35px; /* Más espacio */
+    text-align: center;
+    max-width: 700px; /* Limitar ancho */
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+/* Contenedor del formulario */
+.calculadora-form {
+    background-color: #ffffff; /* Fondo blanco */
+    padding: 25px 35px; /* Más padding */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Sombra un poco más pronunciada */
+    margin-bottom: 35px; /* Espacio antes de resultados */
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap; /* Permitir que se apilen en pantallas pequeñas */
+    gap: 25px; /* Espacio entre grupos de campos */
+    margin-bottom: 25px; /* Espacio entre filas de campos */
+}
+.form-row:last-child {
+    margin-bottom: 10px; /* Menos espacio en la última fila */
+}
+
+.form-group {
+    flex: 1; /* Ocupar espacio disponible */
+    min-width: 200px; /* Ancho mínimo antes de apilarse */
+    display: flex;
+    flex-direction: column; /* Label arriba, input abajo */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600; /* Negrita */
+    color: #444; /* Un poco más oscuro */
+    font-size: 0.9em; /* Ligeramente más pequeño */
+    text-transform: uppercase; /* Mayúsculas */
+    letter-spacing: 0.5px; /* Espaciado */
+}
+.form-group label i { /* Estilo para iconos en labels */
+    margin-right: 6px;
+    color: #8b786d; /* Color principal */
+}
+
+
+.form-group select,
+.form-group input[type="date"],
+.form-group input[type="number"] {
+    width: 100%;
+    padding: 12px 15px; /* Más padding vertical */
+    border: 1px solid #ced4da; /* Borde gris estándar */
+    border-radius: 5px; /* Bordes más redondeados */
+    font-size: 1em;
+    box-sizing: border-box;
+    background-color: #fdfdfd; /* Fondo casi blanco */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    height: 45px; /* Altura fija para consistencia */
+}
+
+/* Mejorar apariencia de flechas en input number (Webkit) */
+.form-group input[type=number]::-webkit-inner-spin-button,
+.form-group input[type=number]::-webkit-outer-spin-button {
+  opacity: 0.7;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+    border-color: #a18f84; /* Borde más oscuro al enfocar */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(139, 120, 109, 0.15); /* Sombra exterior suave */
+    background-color: #fff;
+}
+
+/* Contenedor de Resultados */
+.calculadora-resultados {
+    background-color: #f8f5f2; /* Fondo cálido muy claro */
+    padding: 30px 35px;
+    border-radius: 8px;
+    border: 1px solid #e8e0d8; /* Borde coordinado */
+    margin-bottom: 35px; /* Espacio antes del botón volver */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.calculadora-resultados h2 {
+    margin-top: 0;
+    margin-bottom: 30px; /* Más espacio bajo el título */
+    text-align: center;
+    color: #8b786d; /* Color principal */
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    font-size: 1.8em; /* Más grande */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.calculadora-resultados h2 i { /* Icono en título de resultados */
+    margin-right: 10px;
+}
+
+.resultado-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline; /* Alinear por la base del texto */
+    padding: 15px 0; /* Más padding */
+    border-bottom: 1px dashed #e0d8d0; /* Separador más suave */
+    font-size: 1.1em;
+}
+
+.resultado-label {
+    color: #665; /* Gris cálido */
+    margin-right: 20px;
+    font-weight: 400; /* Peso normal */
+}
+
+.resultado-valor {
+    font-weight: 600; /* Semi-bold */
+    color: #554; /* Gris oscuro cálido */
+    font-size: 1.1em; /* Un poco más grande que el label */
+    text-align: right; /* Alinear valor a la derecha */
+}
+
+/* Estilo especial para el total */
+.resultado-item.total {
+    border-top: 1px solid #d8cdc5; /* Línea superior más sólida */
+    border-bottom: none;
+    margin-top: 20px;
+    padding-top: 20px;
+    font-size: 1.25em; /* Más grande */
+}
+.resultado-item.total .resultado-label {
+    color: #443; /* Más oscuro */
+    font-weight: 600; /* Negrita */
+}
+.resultado-item.total .resultado-valor {
+    color: #bf7e45; /* Color acento más intenso */
+    font-size: 1.3em; /* Más grande aún */
+    font-weight: 700; /* Negrita */
+}
+
+/* Nota al final de la calculadora */
+.nota-calculadora {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e8e0d8; /* Separador */
+    font-size: 0.9em;
+    color: #888;
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* --- Ajustes Responsivos para Calculadora --- */
+@media (max-width: 768px) {
+    .calculadora-form, .calculadora-resultados {
+        padding: 20px 25px; /* Menos padding en móvil */
+    }
+    .form-row {
+        gap: 20px; /* Menos espacio */
+    }
+    .form-group {
+        min-width: calc(50% - 10px); /* Intentar 2 columnas si caben */
+    }
+}
+
+@media (max-width: 500px) {
+    .form-group {
+        min-width: 100%; /* Forzar 1 columna */
+    }
+    .resultado-item {
+        font-size: 1em; /* Reducir fuente en móvil */
+         flex-direction: column; /* Apilar label y valor */
+         align-items: flex-start; /* Alinear a la izquierda */
+         padding: 10px 0;
+     }
+     .resultado-valor {
+         margin-top: 5px; /* Espacio entre label y valor */
+         font-size: 1.1em;
+         text-align: left; /* Alinear a la izquierda */
+     }
+      .resultado-item.total {
+         font-size: 1.1em;
+     }
+     .resultado-item.total .resultado-valor {
+         font-size: 1.2em;
+     }
+
+}
+/* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
+
+/* Estilos generales ya existentes para .contenido-pagina, h1, etc., se aplicarán */
+
+/* Introducción en la página de Vuelos */
+.introduccion-vuelos {
+    font-size: 1.1em;
+    color: #555; /* Un poco más oscuro */
+    margin-bottom: 20px;
+    text-align: center;
+    max-width: 800px; /* Limitar ancho */
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+.introduccion-vuelos strong {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Nota importante amarilla */
+.nota-importante-vuelos {
+    background-color: #fff3cd; /* Amarillo pálido */
+    border: 1px solid #ffeeba; /* Borde amarillo */
+    color: #856404; /* Texto oscuro amarillento */
+    padding: 15px 25px; /* Más padding */
+    border-radius: 6px;
+    margin-bottom: 40px; /* Más espacio abajo */
+    text-align: left; /* Alinear a la izquierda */
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+.nota-importante-vuelos strong {
+    color: #664d03; /* Más oscuro para el strong */
+}
+.nota-importante-vuelos i { /* Icono de información */
+    margin-right: 8px;
+}
+
+/* Contenedor de los buscadores */
+.buscadores-vuelos {
+    display: grid;
+    /* Crea columnas flexibles que tengan al menos 280px */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 35px; /* Espacio entre las tarjetas */
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+/* Estilo individual para cada tarjeta de buscador */
+.buscador-item {
+    background-color: #ffffff;
+    padding: 30px; /* Más padding interno */
+    border-radius: 10px; /* Bordes más redondeados */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Sombra más notoria */
+    text-align: center;
+    border-top: 5px solid; /* Borde superior grueso de color */
+    /* Los colores específicos se asignan abajo */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.buscador-item:hover {
+    transform: translateY(-6px); /* Efecto de elevación */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+/* Asignar colores de borde por clase (aproximados a marcas) */
+.buscador-item.google     { border-color: #4285F4; }
+.buscador-item.skyscanner { border-color: #00a698; }
+.buscador-item.kayak      { border-color: #ff690f; }
+
+/* Icono grande del buscador */
+.buscador-icono {
+    font-size: 3.5em; /* Icono más grande */
+    margin-bottom: 20px;
+    /* Color asignado por clase del item padre */
+}
+.buscador-item.google     .buscador-icono { color: #4285F4; }
+.buscador-item.skyscanner .buscador-icono { color: #00a698; }
+.buscador-item.kayak      .buscador-icono { color: #ff690f; }
+
+
+.buscador-item h2 {
+    margin-top: 0;
+    margin-bottom: 15px; /* Más espacio */
+    font-size: 1.6em;
+    color: #333;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+}
+
+.buscador-item p {
+    color: #666;
+    font-size: 1em;
+    line-height: 1.6; /* Mejor espaciado de línea */
+    flex-grow: 1; /* Empuja el botón hacia abajo */
+    margin-bottom: 25px; /* Espacio antes del botón */
+}
+
+/* Botón para ir al buscador */
+.boton-buscador {
+    display: inline-block;
+    padding: 12px 30px; /* Botón más ancho */
+    background-color: #7a6a60; /* Color base del botón (coordinado) */
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600; /* Negrita */
+    transition: all 0.3s ease;
+    margin-top: auto; /* Asegura que esté al final si el texto varía */
+    align-self: center; /* Centrar botón */
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+/* Colores de botón por marca (opcional, o usar el color base) */
+/* .buscador-item.google .boton-buscador { background-color: #4285F4; } */
+/* .buscador-item.skyscanner .boton-buscador { background-color: #00a698; } */
+/* .buscador-item.kayak .boton-buscador { background-color: #ff690f; } */
+
+
+.boton-buscador:hover {
+    background-color: #5f5148; /* Oscurecer el color base */
+    transform: scale(1.05); /* Agrandar ligeramente */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+
+/* --- Ajustes Responsivos para Vuelos --- */
+@media (max-width: 650px) {
+    .buscadores-vuelos {
+        grid-template-columns: 1fr; /* Una columna */
+        gap: 25px; /* Menos espacio */
+    }
+    .buscador-item {
+        padding: 25px;
+    }
+}
+/* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
+
+/* Estilos generales ya existentes para .contenido-pagina, h1, etc., se aplicarán */
+
+/* Contenedor del mensaje principal de regalos */
+.mensaje-regalos {
+    text-align: center;
+    margin-top: 20px; /* Espacio después del título */
+    margin-bottom: 40px; /* Espacio antes del enlace/botón */
+    padding: 25px 20px;
+    background-color: #fdfdfd; /* Fondo muy claro, casi blanco */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06); /* Sombra muy sutil */
+}
+
+.mensaje-regalos .frase-principal {
+    font-size: 1.6em; /* Más grande */
+    font-weight: 600;
+    color: #7a6a60; /* Color principal suave */
+    margin-bottom: 15px;
+    font-family: 'Dancing Script', cursive; /* Fuente elegante */
+}
+
+.mensaje-regalos p {
+    font-size: 1.1em; /* Tamaño estándar */
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 10px;
+    max-width: 600px; /* Limitar ancho para mejor lectura */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Separador decorativo dentro del mensaje */
+.separador-mensaje {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #e0d8d0, transparent);
+    margin: 25px auto; /* Centrar y espaciar */
+    width: 80%; /* Ancho del separador */
+}
+
+.mensaje-regalos .agradecimiento {
+    font-style: italic;
+    color: #777; /* Gris más claro */
+    margin-top: 20px; /* Espacio después del separador */
+    font-size: 1em; /* Ligeramente más pequeño */
+}
+
+/* Contenedor para el enlace/botón */
+.enlace-mesa-regalos {
+    text-align: center;
+    padding: 35px 20px; /* Más padding vertical */
+    background-color: #f9f6f3; /* Fondo ligeramente distinto */
+    /* border-top: 1px solid #eee; */
+    /* border-bottom: 1px solid #eee; */
+    border-radius: 8px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+ .enlace-mesa-regalos p {
+     margin-bottom: 25px; /* Más espacio antes del botón */
+     color: #666;
+     font-size: 1.1em;
+ }
+
+/* Estilo del botón para ver la mesa de regalos */
+.boton-regalos {
+    display: inline-block;
+    padding: 14px 40px; /* Botón prominente */
+    /* background-color: #8b786d; Color sólido */
+    background: linear-gradient(145deg, #9b8a7f, #7a6a60); /* Degradado */
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 50px; /* Muy redondeado */
+    font-weight: 600;
+    font-size: 1.2em; /* Más grande */
+    letter-spacing: 0.5px; /* Espaciado letras */
+    transition: all 0.35s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.18); /* Sombra más marcada */
+}
+.boton-regalos i {
+     margin-right: 12px; /* Espacio icono */
+     font-size: 0.95em; /* Icono ligeramente más pequeño */
+}
+
+.boton-regalos:hover {
+    background: linear-gradient(145deg, #7a6a60, #5f5148); /* Degradado oscuro */
+    transform: translateY(-4px) scale(1.03); /* Levantar y agrandar */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+}
+
+/* --- Ajustes Responsivos para Regalos --- */
+@media (max-width: 600px) {
+    .mensaje-regalos .frase-principal {
+        font-size: 1.4em;
+    }
+    .mensaje-regalos p {
+        font-size: 1em;
+    }
+    .boton-regalos {
+        padding: 12px 30px;
+        font-size: 1.1em;
+    }
+    .enlace-mesa-regalos {
+        padding: 25px 15px;
+    }
+}
+
+/* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
+
+/* Estilos generales ya existentes para .contenido-pagina, h1, etc., se aplicarán */
+
+/* Descripción del lugar */
+.descripcion-lugar {
+    text-align: center;
+    margin-bottom: 35px; /* Más espacio antes del mapa */
+    padding: 0 10px; /* Padding lateral */
+}
+.descripcion-lugar p {
+    font-size: 1.15em; /* Un poco más grande */
+    color: #555;
+    line-height: 1.7;
+    max-width: 750px; /* Ancho máximo */
+    margin: 12px auto; /* Centrar y espaciar */
+}
+ .descripcion-lugar p strong {
+     color: #443; /* Más oscuro */
+     font-weight: 600;
+ }
+ .descripcion-lugar p a { /* Enlace a Fecha y Hora */
+     color: #a18f84; /* Color coordinado */
+     text-decoration: underline;
+     font-weight: 600;
+     transition: color 0.3s ease;
+ }
+ .descripcion-lugar p a:hover {
+      color: #c58a50; /* Color acento al pasar */
+  }
+
+/* Contenedor del mapa */
+.mapa-container {
+    margin-bottom: 35px; /* Espacio después del mapa */
+}
+
+.mapa-container h2 {
+    text-align: center;
+    color: #8b786d; /* Color coordinado */
+    margin-bottom: 15px; /* Espacio antes del texto P */
+    font-size: 1.7em;
+    font-weight: 600;
+}
+ .mapa-container h2 i { /* Icono del mapa */
+     margin-right: 10px;
+ }
+
+
+/* Contenedor del iframe para hacerlo responsive */
+.google-map-iframe-container {
+    position: relative; /* Necesario para el posicionamiento absoluto del iframe */
+    overflow: hidden; /* Ocultar cualquier desbordamiento */
+    width: 100%;
+    max-width: 950px; /* Ancho máximo opcional del mapa */
+    margin: 0 auto; /* Centrar el contenedor */
+    /* --- Aspect Ratio (16:9 por defecto) --- */
+    padding-top: 56.25%; /* height/width = 9/16 = 0.5625 */
+    /* --- Si prefieres 4:3 --- */
+    /* padding-top: 75%; */
+    /* --- O una altura fija (comenta padding-top si usas height) --- */
+    /* height: 450px; */
+    border-radius: 10px; /* Redondeo para el contenedor */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12); /* Sombra */
+}
+
+.google-map-iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border: none; /* Quitar borde del iframe */
+    border-radius: 10px; /* Heredar redondeo */
+}
+
+/* Sección de dirección */
+.direccion-info {
+    text-align: center;
+    margin-top: 35px; /* Espacio después del mapa */
+    padding: 30px 25px; /* Más padding */
+    background-color: #f8f8f8; /* Fondo gris muy claro */
+    border-radius: 8px;
+    border: 1px solid #eaeaea;
+    max-width: 700px; /* Ancho máximo */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.direccion-info h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #555;
+    font-size: 1.4em; /* Más grande */
+    font-weight: 600;
+}
+ .direccion-info h3 i { /* Icono pin */
+     margin-right: 10px;
+     color: #c58a50;
+ }
+
+
+.direccion-info address { /* Estilo para la dirección */
+    font-style: normal; /* Quitar cursiva por defecto de address */
+    font-size: 1.1em;
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 25px; /* Espacio antes del botón */
+}
+
+/* Botón "Cómo llegar" */
+.boton-como-llegar {
+    display: inline-block;
+    padding: 12px 28px; /* Botón más grande */
+    background-color: #4CAF50; /* Verde estándar para direcciones/mapas */
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600; /* Negrita */
+    transition: all 0.3s ease;
+    font-size: 1.1em; /* Más grande */
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+ .boton-como-llegar i {
+     margin-right: 8px;
+ }
+
+.boton-como-llegar:hover {
+    background-color: #45a049; /* Verde más oscuro */
+    box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+
+/* --- Ajustes Responsivos para Lugar --- */
+@media (max-width: 600px) {
+    .descripcion-lugar p {
+        font-size: 1.05em;
+    }
+    .google-map-iframe-container {
+        /* Podrías ajustar la altura o proporción en móvil si es necesario */
+        /* height: 350px; padding-top: 0; */
+    }
+    .direccion-info {
+        padding: 25px 20px;
+    }
+    .direccion-info h3 {
+        font-size: 1.3em;
+    }
+    .direccion-info address {
+        font-size: 1em;
+    }
+    .boton-como-llegar {
+        padding: 10px 22px;
+        font-size: 1em;
+    }
+}
