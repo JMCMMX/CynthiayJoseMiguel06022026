@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuenta Regresiva - Página Time (Clase Body)</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-time">
+
+    <nav class="menu-navegacion">
+        <ul>
+            <li><a href="index.html"><i class="fa-solid fa-house icono"></i><span class="nombre-menu">Homepage</span></a></li>
+          <li><a href="Time.html"><i class="fa-solid fa-clock icono"></i><span class="nombre-menu">cuanto falta?</span></a></li>            <li><a href="fecha-hora.html"><i class="fa-solid fa-calendar-days icono"></i><span class="nombre-menu">Fecha y hora</span></a></li>
+            <li><a href="hospedaje.html"><i class="fa-solid fa-bed icono"></i><span class="nombre-menu">Hospedaje</span></a></li>
+            <li><a href="calculadora.html"><i class="fa-solid fa-calculator icono"></i><span class="nombre-menu">Calculadora tarifas Xcaret</span></a></li>
+            <li><a href="vuelos.html"><i class="fa-solid fa-plane icono"></i><span class="nombre-menu">Vuelos</span></a></li>
+            <li><a href="regalos.html"><i class="fa-solid fa-gift icono"></i><span class="nombre-menu">Mesa de regalos</span></a></li>
+            <li><a href="lugar.html"><i class="fa-solid fa-map-marker-alt icono"></i><span class="nombre-menu">Nos casamos en!</span></a></li>
+        </ul>
+    </nav>
+    <h1>Tiempo restante hasta el 6 Feb 2026, 18:00</h1>
+
+    <div id="countdown-timer">
+        <div class="time-block">
+            <span id="days" class="number">0</span>
+            <span class="label">Días</span>
+        </div>
+        <div class="time-block">
+            <span id="hours" class="number">0</span>
+            <span class="label">Horas</span>
+        </div>
+        <div class="time-block">
+            <span id="minutes" class="number">0</span>
+            <span class="label">Minutos</span>
+        </div>
+        <div class="time-block">
+            <span id="seconds" class="number">0</span>
+            <span class="label">Segundos</span>
+        </div>
+    </div>
+
+    <div id="message" style="display: none; margin-top: 20px; font-size: 1.5em; color: green;">
+        ¡El tiempo ha terminado!
+    </div>
+    <script src="script.js"></script>
+    <div class="navegacion-volver">
+        <a href="index.html" class="boton-volver">&larr; Volver a la Página Principal</a>
+    </div>
+</body>
+</html>

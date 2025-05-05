@@ -1092,3 +1092,108 @@ body {
         font-size: 1em;
     }
 }
+
+/* === Estilos Generales (Si los tuvieras para todo el sitio) === */
+/* Por ejemplo: */
+/*
+body {
+    margin: 0; // Un reset básico que aplicaría a todas las páginas
+    font-family: 'Arial', sans-serif; // Fuente base para todo el sitio
+}
+a {
+    color: blue; // Estilo de enlaces general
+}
+*/
+
+/* === Estilos Específicos SÓLO para elementos dentro de .page-time === */
+
+/* Estilos aplicados al body SÓLO si tiene la clase page-time */
+.page-time {
+    /* Si no tienes estilos generales de body, puedes ponerlos aquí */
+     font-family: sans-serif; /* Fuente específica para esta página/sección */
+     margin: 0; /* Asegura que no haya márgenes */
+     padding: 0; /* Asegura que no haya padding */
+    /* Estilos específicos del layout de esta página */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    text-align: center;
+}
+
+/* Estilos para H1 SÓLO dentro de .page-time */
+.page-time h1 {
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Estilos para #countdown-timer SÓLO dentro de .page-time */
+.page-time #countdown-timer {
+    display: flex;
+    gap: 20px;
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para .time-block SÓLO dentro de .page-time */
+.page-time .time-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+}
+
+/* Estilos para .number SÓLO dentro de .page-time */
+.page-time .number {
+    font-size: 3em;
+    font-weight: bold;
+    color: #007bff;
+    line-height: 1;
+    padding: 5px 0;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+/* Estilos para .label SÓLO dentro de .page-time */
+.page-time .label {
+    font-size: 0.9em;
+    color: #555;
+    text-transform: uppercase;
+    margin-top: 5px;
+}
+
+/* Estilos para la clase .tick SÓLO cuando está en un elemento dentro de .page-time */
+.page-time .tick {
+    animation: numberTick 0.3s ease-out forwards;
+}
+
+/* La definición de la animación @keyframes es global por naturaleza */
+/* No necesita (y no puede tener) el prefijo .page-time */
+@keyframes numberTick {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Estilos para #message SÓLO dentro de .page-time */
+/* Puedes quitar el style="..." del HTML y usar esto si prefieres */
+/*
+.page-time #message {
+    display: none; /* Oculto por defecto */
+/* margin-top: 20px;
+    font-size: 1.5em;
+    color: green;
+}
+*/
