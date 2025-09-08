@@ -1106,3 +1106,247 @@ body {
     font-size: 1.5em;
     color: #A3ADA0; /* Sage */
 }
+
+/* ======================================================= */
+/* ===== PASO 2: REEMPLAZA EL CSS DEL MENÚ ANTERIOR ===== */
+/* ======================================================= */
+:root {
+    --sm-accent: #C6B28A; /* Color de acento: Champagne */
+}
+
+.staggered-menu-wrapper {
+    position: fixed; /* Lo fijamos para que siempre esté visible */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Ocupa toda la pantalla */
+    z-index: 999;
+    pointer-events: none; /* Permite hacer clic "a través" de la capa */
+}
+
+.staggered-menu-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2em;
+    z-index: 20;
+}
+
+.staggered-menu-header > * {
+    pointer-events: auto; /* Los elementos de la cabecera sí son clickeables */
+}
+
+/* Logo de Texto */
+.sm-logo {
+    user-select: none;
+    text-decoration: none;
+}
+.sm-logo-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 28px;
+    color: #3F3A36; /* Text Dark */
+    font-weight: 700;
+    transition: color 0.4s ease;
+}
+.staggered-menu-wrapper[data-open] .sm-logo-text {
+    color: #F2EEE9; /* Ivory cuando el menú está abierto */
+}
+
+/* Botón de Menú */
+.sm-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #3F3A36; /* Color inicial del botón: Text Dark */
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    line-height: 1;
+    transition: color 0.4s ease;
+    /* ===== LÍNEAS AÑADIDAS ===== */
+    padding: 0.25em 0.6em;
+    border-radius: 6px;
+}
+
+.sm-toggle-textWrap {
+    position: relative;
+    display: inline-block;
+    height: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.sm-toggle-textInner {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.sm-toggle-line {
+    display: block;
+    height: 1em;
+    line-height: 1;
+}
+
+.sm-icon {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    flex: 0 0 14px;
+}
+
+.sm-icon-line {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    transform: translate(-50%, -50%);
+}
+
+/* Panel Desplegable */
+.staggered-menu-panel {
+    position: absolute;
+    top: 0;
+    right: 0; /* Por defecto a la derecha */
+    width: clamp(300px, 38vw, 420px);
+    height: 100%;
+    background: #F2EEE9; /* Fondo del panel: Ivory */
+    display: flex;
+    flex-direction: column;
+    padding: 7em 2em 2em 2em;
+    overflow-y: auto;
+    z-index: 10;
+    pointer-events: auto;
+}
+
+/* Capas de animación */
+.sm-prelayers {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: clamp(300px, 38vw, 420px);
+    pointer-events: none;
+    z-index: 5;
+}
+
+.sm-prelayer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.sm-panel-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Lista de enlaces */
+.sm-panel-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    counter-reset: smItem; /* Para la numeración */
+}
+
+.sm-panel-itemWrap {
+    position: relative;
+    overflow: hidden; /* Clave para la animación de texto */
+    line-height: 1.1;
+}
+
+.sm-panel-item {
+    position: relative;
+    color: #3F3A36; /* Color de enlaces: Text Dark */
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 3rem); /* Tamaño de fuente responsivo */
+    cursor: pointer;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+    transition: color 0.25s ease;
+    display: inline-block;
+    text-decoration: none;
+    padding-right: 1.4em;
+}
+
+.sm-panel-itemLabel {
+    display: inline-block;
+    transform-origin: 0% 100%;
+}
+
+.sm-panel-item:hover {
+    color: var(--sm-accent); /* Color hover de acento */
+}
+
+/* Numeración de los ítems */
+.sm-panel-item::after {
+    counter-increment: smItem;
+    content: counter(smItem, decimal-leading-zero);
+    position: absolute;
+    top: 0.1em;
+    right: 0;
+    font-size: 16px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    color: var(--sm-accent);
+    letter-spacing: 0;
+    pointer-events: none;
+    user-select: none;
+    opacity: var(--sm-num-opacity, 0); /* Controlado por JS */
+    transition: opacity 0.4s ease;
+}
+
+/* Estilos para móviles */
+@media (max-width: 640px) {
+    .staggered-menu-header {
+        padding: 1.5em;
+    }
+    .staggered-menu-panel {
+        width: 100%;
+        left: 0;
+        right: 0;
+        padding-left: 1.5em;
+        padding-right: 1.5em;
+    }
+    .sm-prelayers {
+        width: 100%;
+    }
+}
+/* ===== AJUSTE DE COLOR DEL MENÚ PARA PÁGINAS INTERNAS ===== */
+
+/* Por defecto, el texto del logo y el botón del menú serán oscuros */
+.sm-logo-text, .sm-toggle {
+    color: #3F3A36; /* Text Dark */
+}
+
+/* SOLO en la página principal (home-page), el texto será claro */
+.home-page .sm-logo-text, .home-page .sm-toggle {
+    color: #F2EEE9; /* Ivory */
+}
+
+/* Cuando el menú se abre, el color cambia para contrastar con el panel */
+.staggered-menu-wrapper[data-open] .sm-logo-text {
+    color: #3F3A36; /* Text Dark */
+}
+.staggered-menu-wrapper[data-open] .sm-toggle {
+    color: #3F3A36; /* Text Dark */
+}
