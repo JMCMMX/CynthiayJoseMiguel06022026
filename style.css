@@ -1,3 +1,15 @@
+/* Paleta de colores aplicada:
+🎨 Arena y Mar
+Ivory: #F2EEE9
+Sand: #E6DECF
+Stone: #D3D1CC
+Sage: #A3ADA0
+Navy: #2F4667
+Champagne: #C6B28A
+Text Dark: #3F3A36
+Text Muted: #6B5F56
+*/
+
 /* Estilos básicos para la barra de navegación */
 .menu-navegacion ul {
     list-style: none;
@@ -6,41 +18,41 @@
     display: flex; /* Coloca los elementos en línea */
     justify-content: center; /* Centra los elementos */
     flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si no caben */
-    background-color: #f8f8f8; /* Color de fondo (ajusta según tu diseño) */
+    background-color: #F2EEE9; /* Color de fondo (Ivory) */
     padding: 10px 5px; /* Padding arriba/abajo y a los lados */
-  }
-  
-  .menu-navegacion li {
+}
+
+.menu-navegacion li {
     margin: 5px 15px; /* Espacio vertical y horizontal entre elementos */
-  }
-  
-  .menu-navegacion a {
+}
+
+.menu-navegacion a {
     text-decoration: none;
-    color: #555; /* Color del icono */
+    color: #2F4667; /* Color del icono (Navy) */
     display: flex;
     flex-direction: column; /* Coloca icono sobre texto (inicialmente oculto) */
     align-items: center;
     position: relative; /* Necesario para posicionar el texto flotante */
     transition: color 0.3s ease; /* Transición suave para el color del icono */
-  }
-  
-  /* Estilos para los iconos de Font Awesome */
-  .icono {
+}
+
+/* Estilos para los iconos de Font Awesome */
+.icono {
     font-size: 24px; /* Tamaño del icono */
     margin-bottom: 5px; /* Espacio debajo del icono (antes del texto oculto) */
     width: 30px; /* Ancho fijo para alinear mejor */
     text-align: center; /* Centra el icono dentro de su espacio */
-  }
-  
-  /* Ocultar el nombre del menú por defecto */
-  .nombre-menu {
+}
+
+/* Ocultar el nombre del menú por defecto */
+.nombre-menu {
     display: none; /* Oculta el texto */
     position: absolute;
     top: 100%; /* Posiciona el texto debajo del icono */
     left: 50%;
     transform: translateX(-50%); /* Centra el texto */
-    background-color: rgba(0, 0, 0, 0.75); /* Fondo semitransparente */
-    color: white; /* Color del texto */
+    background-color: rgba(63, 58, 54, 0.85); /* Fondo semitransparente (Text Dark) */
+    color: #F2EEE9; /* Color del texto (Ivory) */
     padding: 4px 8px; /* Espaciado interno */
     border-radius: 4px;
     font-size: 12px;
@@ -48,41 +60,30 @@
     margin-top: 8px; /* Pequeño espacio entre el icono y el texto */
     z-index: 10; /* Asegura que esté por encima de otros elementos */
     pointer-events: none; /* Evita que el tooltip interfiera con el hover del icono */
-  }
-  
-  /* Mostrar el nombre del menú al pasar el cursor sobre el enlace (<a>) */
-  .menu-navegacion a:hover .nombre-menu {
+}
+
+/* Mostrar el nombre del menú al pasar el cursor sobre el enlace (<a>) */
+.menu-navegacion a:hover .nombre-menu {
     display: block; /* Muestra el texto */
-  }
-  
-  /* Cambiar el color del icono al pasar el cursor */
-  .menu-navegacion a:hover {
-    color: #007bff; /* Cambia el color del icono (y del enlace si tuviera texto visible) */
-  }
-  
-  /* Asegúrate de que el body tenga margen si el menú está fijo arriba o si no hay más contenido */
-  body {
-      font-family: sans-serif; /* Ejemplo de fuente base */
-      margin: 0;
-      /* Si añades más contenido, ajusta el padding-top si es necesario */
-      /* padding-top: 80px;  */ /* Descomenta si el menú fuera fijo en la parte superior */
-  }
-  /* ===== ESTILOS PARA EL MENÚ (YA EXISTENTES) ===== */
-/* (Mantén los estilos anteriores para .menu-navegacion, .icono, .nombre-menu, etc.) */
+}
+
+/* Cambiar el color del icono al pasar el cursor */
+.menu-navegacion a:hover {
+    color: #C6B28A; /* Cambia el color del icono (Champagne) */
+}
 
 body {
     font-family: 'Lato', sans-serif; /* Fuente base */
     margin: 0;
     line-height: 1.6;
+    background-color: #F2EEE9; /* Color de fondo general (Ivory) */
 }
 
 /* ===== NUEVOS ESTILOS PARA LA SECCIÓN HERO ===== */
 .hero-section {
     /* --- Configuración del fondo --- */
-    /* --- >>> DESCOMENTA la línea siguiente y cambia 'portada.jpg' por la ruta REAL de tu imagen <<< --- */
     background-image: url('Portada.jpg');
-
-    background-color: #f0e8e0; /* Color de fondo suave si no hay imagen o mientras carga */
+    background-color: #E6DECF; /* Color de fondo suave (Sand) */
     background-size: cover; /* Hace que la imagen cubra toda la sección */
     background-position: center center; /* Centra la imagen */
     background-repeat: no-repeat;
@@ -96,41 +97,35 @@ body {
     align-items: center;
     text-align: center; /* Centra el texto horizontalmente */
     position: relative; /* Necesario para el pseudo-elemento overlay */
-    color: #443; /* Color de texto por defecto para esta sección (ajusta si usas imagen oscura) */
+    color: #3F3A36; /* Color de texto por defecto (Text Dark) */
 }
 
 /* --- Opcional: Overlay semitransparente --- */
-/* (Útil si tu imagen de fondo hace difícil leer el texto) */
-/* .hero-section::before {
+.hero-section::before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.3); /* Overlay oscuro semitransparente */
-    /* z-index: 1; */
-/* } */
+    background-color: rgba(63, 58, 54, 0.3); /* Overlay oscuro semitransparente (Text Dark) */
+    z-index: 1;
+}
 
 /* Contenido del Hero (para asegurar que esté sobre el overlay) */
 .hero-content {
    position: relative;
    z-index: 2;
-   /* background-color: rgba(255, 255, 255, 0.7); /* Fondo blanco semitransparente opcional para el texto */
-   /* padding: 20px 40px; */
-   /* border-radius: 10px; */
 }
-
 
 /* --- Estilo del texto del Hero --- */
 .hero-section h1 {
-    /* font-family: 'Dancing Script', cursive; /* Fuente cursiva elegante */ */
     font-family: 'cursive', sans-serif; /* Fuente cursiva elegante */
     font-size: calc(2.5rem + 3vw); /* Tamaño de fuente responsive */
     margin-bottom: 0.1em;
     font-weight: 700; /* Más grueso si la fuente lo permite */
-    color: #5a4a40; /* Color café/oscuro elegante (ajusta según tu paleta) */
-    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5); /* Sombra clara sutil para legibilidad */
+    color: #3F3A36; /* Color de texto (Text Dark) */
+    text-shadow: 1px 1px 3px rgba(242, 238, 233, 0.5); /* Sombra clara sutil (Ivory) */
 }
 
 .hero-section .fecha-boda {
@@ -138,7 +133,7 @@ body {
     font-size: calc(1.1rem + 0.8vw); /* Tamaño responsive */
     margin-top: 0;
     font-weight: 400; /* Peso normal o 300 (light) */
-    color: #6b5a50; /* Color ligeramente más claro que el título */
+    color: #6B5F56; /* Color de texto (Text Muted) */
     letter-spacing: 1px; /* Un poco de espacio entre letras */
 }
 
@@ -147,16 +142,15 @@ body {
     padding: 40px 20px;
     max-width: 900px;
     margin: 20px auto; /* Centrar las secciones de contenido */
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-color: #F2EEE9; /* Ivory */
+    box-shadow: 0 2px 5px rgba(63, 58, 54, 0.1); /* Sombra con Text Dark */
 }
 
 .contenido-seccion h2 {
     text-align: center;
-    color: #5a4a40;
+    color: #3F3A36; /* Text Dark */
     margin-bottom: 20px;
 }
-
 
 /* --- Ajustes Responsivos --- */
 @media (max-width: 768px) {
@@ -178,23 +172,23 @@ body {
     max-width: 850px; /* Ancho máximo del contenido */
     margin: 40px auto; /* Centrar el bloque en la página con margen arriba/abajo */
     padding: 25px 40px; /* Espaciado interno */
-    background-color: #fff; /* Fondo blanco para el contenido */
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1); /* Sombra suave */
+    background-color: #F2EEE9; /* Fondo (Ivory) */
+    box-shadow: 0 3px 10px rgba(63, 58, 54, 0.1); /* Sombra suave (Text Dark) */
     border-radius: 8px; /* Bordes redondeados */
     text-align: center; /* Centrar texto por defecto */
 }
 
 .contenido-pagina h1 {
-    color: #5a4a40; /* Color principal oscuro */
+    color: #3F3A36; /* Color principal oscuro (Text Dark) */
     margin-bottom: 25px;
     font-family: 'Dancing Script', cursive; /* Fuente elegante */
     font-size: 3em; /* Tamaño grande */
-    border-bottom: 1px solid #e0e0e0; /* Línea divisoria sutil */
+    border-bottom: 1px solid #D3D1CC; /* Línea divisoria sutil (Stone) */
     padding-bottom: 15px;
 }
 
 .contenido-pagina h2 {
-    color: #6b5a50; /* Color secundario */
+    color: #6B5F56; /* Color secundario (Text Muted) */
     margin-top: 35px; /* Espacio antes del subtítulo */
     margin-bottom: 15px;
     font-family: 'Lato', sans-serif;
@@ -206,14 +200,14 @@ body {
 .detalle-fecha-hora {
     margin-bottom: 30px;
     padding: 25px;
-    background-color: #fdf8f2; /* Fondo muy claro, casi blanco */
-    border: 1px solid #f0e8e0; /* Borde sutil */
+    background-color: #E6DECF; /* Fondo (Sand) */
+    border: 1px solid #D3D1CC; /* Borde sutil (Stone) */
     border-radius: 5px;
 }
 
 .fecha-grande, .hora-grande {
     font-size: 2.8em; /* Tamaño muy grande */
-    color: #c58a50; /* Color acento cálido */
+    color: #C6B28A; /* Color acento cálido (Champagne) */
     margin: 8px 0;
     font-family: 'Lato', sans-serif;
     font-weight: 700; /* Negrita */
@@ -222,25 +216,24 @@ body {
 
 .lugar-ceremonia {
     font-size: 1.2em;
-    color: #777;
+    color: #6B5F56; /* Text Muted */
     margin-top: 20px;
 }
 .lugar-ceremonia .fa-location-dot { /* Estilo para el icono de ubicación */
     margin-right: 8px;
-    color: #c58a50; /* Mismo color de acento */
+    color: #C6B28A; /* Mismo color de acento (Champagne) */
 }
-
 
 /* Bloque para detalles del lugar */
 .detalle-lugar p {
-    color: #555; /* Color de texto estándar */
+    color: #6B5F56; /* Color de texto estándar (Text Muted) */
     line-height: 1.7; /* Altura de línea para legibilidad */
     margin-bottom: 15px;
     text-align: justify; /* Justificar texto para un look más formal */
 }
 
 .detalle-lugar strong {
-    color: #333; /* Resaltar texto importante */
+    color: #3F3A36; /* Resaltar texto importante (Text Dark) */
     font-weight: 600;
 }
 
@@ -248,15 +241,15 @@ body {
 .navegacion-volver {
     margin-top: 40px; /* Espacio antes del botón */
     padding-top: 20px;
-    border-top: 1px solid #f0f0f0; /* Separador superior */
+    border-top: 1px solid #D3D1CC; /* Separador superior (Stone) */
     text-align: center;
 }
 
 .boton-volver {
     display: inline-block;
     padding: 12px 25px; /* Hacer el botón más grande */
-    background-color: #8b786d; /* Color del botón (coordinado) */
-    color: #ffffff;
+    background-color: #A3ADA0; /* Color del botón (Sage) */
+    color: #F2EEE9; /* Color de texto (Ivory) */
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s ease, transform 0.2s ease;
@@ -264,9 +257,9 @@ body {
 }
 
 .boton-volver:hover {
-    background-color: #6b5a50; /* Oscurecer al pasar el cursor */
+    background-color: #6B5F56; /* Oscurecer al pasar el cursor (Text Muted) */
     transform: translateY(-2px); /* Efecto ligero de elevación */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 8px rgba(63, 58, 54, 0.15); /* Sombra con Text Dark */
 }
 
 /* --- Ajustes Responsivos para .contenido-pagina --- */
@@ -281,30 +274,28 @@ body {
     .fecha-grande, .hora-grande {
         font-size: 2.2em;
     }
-     .contenido-pagina h2 {
+    .contenido-pagina h2 {
         font-size: 1.5em;
     }
-     .detalle-lugar p {
+    .detalle-lugar p {
         text-align: left; /* Quizás mejor no justificar en móvil */
     }
 }
 
 @media (max-width: 480px) {
-     .fecha-grande, .hora-grande {
+    .fecha-grande, .hora-grande {
         font-size: 1.8em;
     }
-     .lugar-ceremonia {
+    .lugar-ceremonia {
         font-size: 1em;
-     }
+    }
 }
 /* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
-
-/* Estilos generales ya existentes para .contenido-pagina, h1, etc., se aplicarán */
 
 /* Introducción en la página de Hospedaje */
 .introduccion-hospedaje {
     font-size: 1.1em;
-    color: #666;
+    color: #6B5F56; /* Text Muted */
     margin-bottom: 40px; /* Más espacio después de la intro */
     text-align: center;
     max-width: 700px; /* Limitar ancho para mejor lectura */
@@ -318,7 +309,6 @@ body {
     flex-direction: row; /* Dirección horizontal por defecto */
     align-items: center; /* Centrar verticalmente */
     margin-bottom: 25px; /* Espacio debajo de cada opción */
-    /* Eliminamos padding-bottom y border-bottom, usamos HR */
 }
 
 /* Estilo para las imágenes de logo */
@@ -328,20 +318,15 @@ body {
     object-fit: contain; /* Asegura que el logo se vea completo sin distorsión */
     margin-right: 30px; /* Espacio a la derecha del logo */
     flex-shrink: 0; /* Evita que el logo se encoja si el texto es largo */
-    border: 1px solid #eee; /* Borde sutil opcional */
+    border: 1px solid #D3D1CC; /* Borde sutil (Stone) */
     padding: 5px; /* Pequeño padding interno */
-    background-color: #fff; /* Fondo blanco por si el logo tiene transparencias */
+    background-color: #F2EEE9; /* Fondo (Ivory) */
 }
-/* Placeholder si la imagen no carga */
-.logo-hotel[src$=".png"], .logo-hotel[src$=".jpg"] { /* Solo si es png o jpg */
-     /* Añadir aquí un background-color o border si la imagen falla */
- }
-
 
 /* Estilo para el icono genérico de hotel (para Occidental) */
  .logo-hotel-generico {
     font-size: 60px; /* Tamaño del icono */
-    color: #b0a090; /* Color suave tipo piedra/arena */
+    color: #A3ADA0; /* Color (Sage) */
     width: 120px; /* Mismo ancho que los logos */
     height: 120px; /* Mismo alto que los logos */
     display: flex;
@@ -349,10 +334,9 @@ body {
     align-items: center;
     margin-right: 30px;
     flex-shrink: 0;
-    background-color: #f8f8f8; /* Fondo muy claro */
+    background-color: #E6DECF; /* Fondo (Sand) */
     border-radius: 5px; /* Bordes redondeados suaves */
  }
-
 
 /* Contenedor para la descripción del hotel */
 .descripcion-hotel {
@@ -363,58 +347,58 @@ body {
 .descripcion-hotel h2 {
     margin-top: 0;
     margin-bottom: 10px;
-    color: #8b786d; /* Color principal suave */
+    color: #6B5F56; /* Color (Text Muted) */
     font-size: 1.7em;
     font-family: 'Lato', sans-serif;
     font-weight: 600; /* Un poco más grueso */
     padding-bottom: 5px;
-    border-bottom: 2px solid #e0d8d0; /* Subrayado sutil */
+    border-bottom: 2px solid #D3D1CC; /* Subrayado sutil (Stone) */
     display: inline-block; /* Para que el subrayado no ocupe todo el ancho */
 }
 
 .descripcion-hotel p {
     margin-bottom: 10px; /* Espacio entre párrafos */
-    color: #555;
+    color: #6B5F56; /* Text Muted */
     line-height: 1.6;
 }
 .descripcion-hotel p strong { /* Resaltar texto en negrita */
-    color: #444;
+    color: #3F3A36; /* Text Dark */
     font-weight: 600;
 }
 
 /* Botón opcional para visitar sitio web del hotel */
 .boton-hotel {
-     display: inline-block;
-     padding: 8px 18px;
-     background-color: #f0f0f0; /* Fondo claro */
-     color: #333;
-     text-decoration: none;
-     border: 1px solid #ddd; /* Borde sutil */
-     border-radius: 4px;
-     font-size: 0.9em;
-     margin-top: 10px;
-     transition: all 0.3s ease;
- }
- .boton-hotel:hover {
-     background-color: #e0e0e0; /* Oscurecer un poco */
-     border-color: #ccc;
-     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
- }
+    display: inline-block;
+    padding: 8px 18px;
+    background-color: #D3D1CC; /* Fondo claro (Stone) */
+    color: #3F3A36; /* Text Dark */
+    text-decoration: none;
+    border: 1px solid #A3ADA0; /* Borde sutil (Sage) */
+    border-radius: 4px;
+    font-size: 0.9em;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+.boton-hotel:hover {
+    background-color: #A3ADA0; /* Oscurecer un poco (Sage) */
+    border-color: #6B5F56; /* Text Muted */
+    box-shadow: 0 1px 3px rgba(63, 58, 54, 0.1); /* Sombra con Text Dark */
+}
 
 /* Separador visual entre hoteles */
 .separador-hotel {
-     border: 0;
-     height: 1px;
-     background: linear-gradient(to right, transparent, #e0d8d0, transparent); /* Degradado sutil */
-     margin: 30px 0 40px 0; /* Espaciado vertical */
- }
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #D3D1CC, transparent); /* Degradado (Stone) */
+    margin: 30px 0 40px 0; /* Espaciado vertical */
+}
 
 /* Nota importante al final */
 .nota-importante-hospedaje {
     margin-top: 40px;
     padding: 25px;
-    background-color: #fdfaf6; /* Fondo cálido muy claro */
-    border-left: 5px solid #c58a50; /* Borde izquierdo de acento */
+    background-color: #E6DECF; /* Fondo cálido (Sand) */
+    border-left: 5px solid #C6B28A; /* Borde izquierdo de acento (Champagne) */
     text-align: left;
     border-radius: 0 5px 5px 0; /* Redondeo suave en lado derecho */
 }
@@ -422,18 +406,17 @@ body {
 .nota-importante-hospedaje h3 {
     margin-top: 0;
     margin-bottom: 10px;
-    color: #8b786d; /* Color coordinado */
+    color: #6B5F56; /* Color coordinado (Text Muted) */
     font-size: 1.3em;
 }
- .nota-importante-hospedaje p {
-     color: #555;
-     margin-bottom: 10px;
- }
+.nota-importante-hospedaje p {
+    color: #6B5F56; /* Text Muted */
+    margin-bottom: 10px;
+}
 .nota-importante-hospedaje strong {
-     color: #333;
-     font-weight: 600;
- }
-
+    color: #3F3A36; /* Text Dark */
+    font-weight: 600;
+}
 
 /* --- Ajustes Responsivos para Hospedaje --- */
 @media (max-width: 768px) {
@@ -449,9 +432,9 @@ body {
         width: 100px; /* Reducir tamaño en pantallas pequeñas */
         height: 100px;
     }
-     .logo-hotel-generico {
-         font-size: 50px; /* Reducir icono genérico también */
-     }
+    .logo-hotel-generico {
+        font-size: 50px; /* Reducir icono genérico también */
+    }
 
     .descripcion-hotel {
         text-align: center; /* Centrar texto del hotel */
@@ -462,36 +445,31 @@ body {
         padding-bottom: 0;
     }
     .descripcion-hotel h2::after { /* Opcional: añadir subrayado centrado si se quitó arriba */
-         /* content: ''; */
-         /* display: block; */
-         /* width: 50px; */
-         /* height: 2px; */
-         /* background-color: #c58a50; */
-         /* margin: 5px auto 0 auto; */ /* Centrar línea */
-     }
+         content: '';
+         display: block;
+         width: 50px;
+         height: 2px;
+         background-color: #C6B28A; /* Champagne */
+         margin: 5px auto 0 auto; /* Centrar línea */
+    }
 
-     .descripcion-hotel p {
-         text-align: justify; /* O left, según preferencia en móvil */
-     }
-     .nota-importante-hospedaje {
-          text-align: center;
-          border-left-width: 0; /* Quitar borde izquierdo */
-          border-top: 4px solid #c58a50; /* Poner borde arriba */
-          border-radius: 5px; /* Redondear todas las esquinas */
-          padding: 20px;
-      }
+    .descripcion-hotel p {
+        text-align: justify; /* O left, según preferencia en móvil */
+    }
+    .nota-importante-hospedaje {
+         text-align: center;
+         border-left-width: 0; /* Quitar borde izquierdo */
+         border-top: 4px solid #C6B28A; /* Poner borde arriba (Champagne) */
+         border-radius: 5px; /* Redondear todas las esquinas */
+         padding: 20px;
+    }
 }
 /* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
 
 /* Estilos específicos para la página de Calculadora */
-.calculadora-wrapper {
-    /* Puedes añadir un fondo distinto si quieres diferenciar la página */
-    /* background-color: #f7f7f7; */
-}
-
 .introduccion-calculadora {
     font-size: 1.1em;
-    color: #666;
+    color: #6B5F56; /* Text Muted */
     margin-bottom: 35px; /* Más espacio */
     text-align: center;
     max-width: 700px; /* Limitar ancho */
@@ -502,10 +480,10 @@ body {
 
 /* Contenedor del formulario */
 .calculadora-form {
-    background-color: #ffffff; /* Fondo blanco */
+    background-color: #F2EEE9; /* Fondo (Ivory) */
     padding: 25px 35px; /* Más padding */
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Sombra un poco más pronunciada */
+    box-shadow: 0 4px 12px rgba(63, 58, 54, 0.08); /* Sombra (Text Dark) */
     margin-bottom: 35px; /* Espacio antes de resultados */
 }
 
@@ -530,60 +508,53 @@ body {
     display: block;
     margin-bottom: 8px;
     font-weight: 600; /* Negrita */
-    color: #444; /* Un poco más oscuro */
+    color: #3F3A36; /* Text Dark */
     font-size: 0.9em; /* Ligeramente más pequeño */
     text-transform: uppercase; /* Mayúsculas */
     letter-spacing: 0.5px; /* Espaciado */
 }
 .form-group label i { /* Estilo para iconos en labels */
     margin-right: 6px;
-    color: #8b786d; /* Color principal */
+    color: #6B5F56; /* Text Muted */
 }
-
 
 .form-group select,
 .form-group input[type="date"],
 .form-group input[type="number"] {
     width: 100%;
     padding: 12px 15px; /* Más padding vertical */
-    border: 1px solid #ced4da; /* Borde gris estándar */
+    border: 1px solid #D3D1CC; /* Borde (Stone) */
     border-radius: 5px; /* Bordes más redondeados */
     font-size: 1em;
     box-sizing: border-box;
-    background-color: #fdfdfd; /* Fondo casi blanco */
+    background-color: #F2EEE9; /* Fondo (Ivory) */
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     height: 45px; /* Altura fija para consistencia */
 }
 
-/* Mejorar apariencia de flechas en input number (Webkit) */
-.form-group input[type=number]::-webkit-inner-spin-button,
-.form-group input[type=number]::-webkit-outer-spin-button {
-  opacity: 0.7;
-}
-
 .form-group select:focus,
 .form-group input:focus {
-    border-color: #a18f84; /* Borde más oscuro al enfocar */
+    border-color: #A3ADA0; /* Borde más oscuro al enfocar (Sage) */
     outline: none;
-    box-shadow: 0 0 0 3px rgba(139, 120, 109, 0.15); /* Sombra exterior suave */
-    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(163, 173, 160, 0.25); /* Sombra exterior suave (Sage) */
+    background-color: #F2EEE9; /* Ivory */
 }
 
 /* Contenedor de Resultados */
 .calculadora-resultados {
-    background-color: #f8f5f2; /* Fondo cálido muy claro */
+    background-color: #E6DECF; /* Fondo cálido (Sand) */
     padding: 30px 35px;
     border-radius: 8px;
-    border: 1px solid #e8e0d8; /* Borde coordinado */
+    border: 1px solid #D3D1CC; /* Borde coordinado (Stone) */
     margin-bottom: 35px; /* Espacio antes del botón volver */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(63, 58, 54, 0.05); /* Sombra con Text Dark */
 }
 
 .calculadora-resultados h2 {
     margin-top: 0;
     margin-bottom: 30px; /* Más espacio bajo el título */
     text-align: center;
-    color: #8b786d; /* Color principal */
+    color: #6B5F56; /* Color (Text Muted) */
     font-family: 'Lato', sans-serif;
     font-weight: 600;
     font-size: 1.8em; /* Más grande */
@@ -599,37 +570,37 @@ body {
     justify-content: space-between;
     align-items: baseline; /* Alinear por la base del texto */
     padding: 15px 0; /* Más padding */
-    border-bottom: 1px dashed #e0d8d0; /* Separador más suave */
+    border-bottom: 1px dashed #D3D1CC; /* Separador más suave (Stone) */
     font-size: 1.1em;
 }
 
 .resultado-label {
-    color: #665; /* Gris cálido */
+    color: #6B5F56; /* Gris cálido (Text Muted) */
     margin-right: 20px;
     font-weight: 400; /* Peso normal */
 }
 
 .resultado-valor {
     font-weight: 600; /* Semi-bold */
-    color: #554; /* Gris oscuro cálido */
+    color: #3F3A36; /* Gris oscuro cálido (Text Dark) */
     font-size: 1.1em; /* Un poco más grande que el label */
     text-align: right; /* Alinear valor a la derecha */
 }
 
 /* Estilo especial para el total */
 .resultado-item.total {
-    border-top: 1px solid #d8cdc5; /* Línea superior más sólida */
+    border-top: 1px solid #D3D1CC; /* Línea superior más sólida (Stone) */
     border-bottom: none;
     margin-top: 20px;
     padding-top: 20px;
     font-size: 1.25em; /* Más grande */
 }
 .resultado-item.total .resultado-label {
-    color: #443; /* Más oscuro */
+    color: #3F3A36; /* Más oscuro (Text Dark) */
     font-weight: 600; /* Negrita */
 }
 .resultado-item.total .resultado-valor {
-    color: #bf7e45; /* Color acento más intenso */
+    color: #C6B28A; /* Color acento (Champagne) */
     font-size: 1.3em; /* Más grande aún */
     font-weight: 700; /* Negrita */
 }
@@ -638,9 +609,9 @@ body {
 .nota-calculadora {
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid #e8e0d8; /* Separador */
+    border-top: 1px solid #D3D1CC; /* Separador (Stone) */
     font-size: 0.9em;
-    color: #888;
+    color: #6B5F56; /* Text Muted */
     text-align: center;
     line-height: 1.6;
 }
@@ -664,31 +635,29 @@ body {
     }
     .resultado-item {
         font-size: 1em; /* Reducir fuente en móvil */
-         flex-direction: column; /* Apilar label y valor */
-         align-items: flex-start; /* Alinear a la izquierda */
-         padding: 10px 0;
-     }
-     .resultado-valor {
-         margin-top: 5px; /* Espacio entre label y valor */
-         font-size: 1.1em;
-         text-align: left; /* Alinear a la izquierda */
-     }
-      .resultado-item.total {
-         font-size: 1.1em;
-     }
-     .resultado-item.total .resultado-valor {
-         font-size: 1.2em;
-     }
+        flex-direction: column; /* Apilar label y valor */
+        align-items: flex-start; /* Alinear a la izquierda */
+        padding: 10px 0;
+    }
+    .resultado-valor {
+        margin-top: 5px; /* Espacio entre label y valor */
+        font-size: 1.1em;
+        text-align: left; /* Alinear a la izquierda */
+    }
+    .resultado-item.total {
+        font-size: 1.1em;
+    }
+    .resultado-item.total .resultado-valor {
+        font-size: 1.2em;
+    }
 
 }
 /* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
 
-/* Estilos generales ya existentes para .contenido-pagina, h1, etc., se aplicarán */
-
 /* Introducción en la página de Vuelos */
 .introduccion-vuelos {
     font-size: 1.1em;
-    color: #555; /* Un poco más oscuro */
+    color: #6B5F56; /* Text Muted */
     margin-bottom: 20px;
     text-align: center;
     max-width: 800px; /* Limitar ancho */
@@ -697,15 +666,15 @@ body {
     line-height: 1.6;
 }
 .introduccion-vuelos strong {
-    color: #333;
+    color: #3F3A36; /* Text Dark */
     font-weight: 600;
 }
 
-/* Nota importante amarilla */
+/* Nota importante */
 .nota-importante-vuelos {
-    background-color: #fff3cd; /* Amarillo pálido */
-    border: 1px solid #ffeeba; /* Borde amarillo */
-    color: #856404; /* Texto oscuro amarillento */
+    background-color: #E6DECF; /* Sand */
+    border: 1px solid #D3D1CC; /* Stone */
+    color: #3F3A36; /* Text Dark */
     padding: 15px 25px; /* Más padding */
     border-radius: 6px;
     margin-bottom: 40px; /* Más espacio abajo */
@@ -714,7 +683,7 @@ body {
     line-height: 1.6;
 }
 .nota-importante-vuelos strong {
-    color: #664d03; /* Más oscuro para el strong */
+    color: #3F3A36; /* Text Dark */
 }
 .nota-importante-vuelos i { /* Icono de información */
     margin-right: 8px;
@@ -723,7 +692,6 @@ body {
 /* Contenedor de los buscadores */
 .buscadores-vuelos {
     display: grid;
-    /* Crea columnas flexibles que tengan al menos 280px */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 35px; /* Espacio entre las tarjetas */
     margin-top: 30px;
@@ -732,49 +700,46 @@ body {
 
 /* Estilo individual para cada tarjeta de buscador */
 .buscador-item {
-    background-color: #ffffff;
+    background-color: #F2EEE9; /* Ivory */
     padding: 30px; /* Más padding interno */
     border-radius: 10px; /* Bordes más redondeados */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Sombra más notoria */
+    box-shadow: 0 5px 15px rgba(63, 58, 54, 0.08); /* Sombra (Text Dark) */
     text-align: center;
     border-top: 5px solid; /* Borde superior grueso de color */
-    /* Los colores específicos se asignan abajo */
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .buscador-item:hover {
     transform: translateY(-6px); /* Efecto de elevación */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    box-shadow: 0 10px 20px rgba(63, 58, 54, 0.12); /* Sombra (Text Dark) */
 }
 
-/* Asignar colores de borde por clase (aproximados a marcas) */
-.buscador-item.google     { border-color: #4285F4; }
-.buscador-item.skyscanner { border-color: #00a698; }
-.buscador-item.kayak      { border-color: #ff690f; }
+/* Asignar colores de borde por clase */
+.buscador-item.google      { border-color: #2F4667; } /* Navy */
+.buscador-item.skyscanner { border-color: #A3ADA0; } /* Sage */
+.buscador-item.kayak      { border-color: #C6B28A; } /* Champagne */
 
 /* Icono grande del buscador */
 .buscador-icono {
     font-size: 3.5em; /* Icono más grande */
     margin-bottom: 20px;
-    /* Color asignado por clase del item padre */
 }
-.buscador-item.google     .buscador-icono { color: #4285F4; }
-.buscador-item.skyscanner .buscador-icono { color: #00a698; }
-.buscador-item.kayak      .buscador-icono { color: #ff690f; }
-
+.buscador-item.google      .buscador-icono { color: #2F4667; } /* Navy */
+.buscador-item.skyscanner .buscador-icono { color: #A3ADA0; } /* Sage */
+.buscador-item.kayak      .buscador-icono { color: #C6B28A; } /* Champagne */
 
 .buscador-item h2 {
     margin-top: 0;
     margin-bottom: 15px; /* Más espacio */
     font-size: 1.6em;
-    color: #333;
+    color: #3F3A36; /* Text Dark */
     font-family: 'Lato', sans-serif;
     font-weight: 600;
 }
 
 .buscador-item p {
-    color: #666;
+    color: #6B5F56; /* Text Muted */
     font-size: 1em;
     line-height: 1.6; /* Mejor espaciado de línea */
     flex-grow: 1; /* Empuja el botón hacia abajo */
@@ -785,8 +750,8 @@ body {
 .boton-buscador {
     display: inline-block;
     padding: 12px 30px; /* Botón más ancho */
-    background-color: #7a6a60; /* Color base del botón (coordinado) */
-    color: #ffffff;
+    background-color: #2F4667; /* Color base (Navy) */
+    color: #F2EEE9; /* Texto (Ivory) */
     text-decoration: none;
     border-radius: 5px;
     font-weight: 600; /* Negrita */
@@ -798,18 +763,11 @@ body {
     font-size: 1em;
 }
 
-/* Colores de botón por marca (opcional, o usar el color base) */
-/* .buscador-item.google .boton-buscador { background-color: #4285F4; } */
-/* .buscador-item.skyscanner .boton-buscador { background-color: #00a698; } */
-/* .buscador-item.kayak .boton-buscador { background-color: #ff690f; } */
-
-
 .boton-buscador:hover {
-    background-color: #5f5148; /* Oscurecer el color base */
+    background-color: #3F3A36; /* Oscurecer (Text Dark) */
     transform: scale(1.05); /* Agrandar ligeramente */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(63, 58, 54, 0.1); /* Sombra con Text Dark */
 }
-
 
 /* --- Ajustes Responsivos para Vuelos --- */
 @media (max-width: 650px) {
@@ -823,30 +781,28 @@ body {
 }
 /* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
 
-/* Estilos generales ya existentes para .contenido-pagina, h1, etc., se aplicarán */
-
 /* Contenedor del mensaje principal de regalos */
 .mensaje-regalos {
     text-align: center;
     margin-top: 20px; /* Espacio después del título */
     margin-bottom: 40px; /* Espacio antes del enlace/botón */
     padding: 25px 20px;
-    background-color: #fdfdfd; /* Fondo muy claro, casi blanco */
+    background-color: #F2EEE9; /* Fondo (Ivory) */
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06); /* Sombra muy sutil */
+    box-shadow: 0 2px 8px rgba(63, 58, 54, 0.06); /* Sombra (Text Dark) */
 }
 
 .mensaje-regalos .frase-principal {
     font-size: 1.6em; /* Más grande */
     font-weight: 600;
-    color: #7a6a60; /* Color principal suave */
+    color: #6B5F56; /* Color (Text Muted) */
     margin-bottom: 15px;
     font-family: 'Dancing Script', cursive; /* Fuente elegante */
 }
 
 .mensaje-regalos p {
     font-size: 1.1em; /* Tamaño estándar */
-    color: #555;
+    color: #6B5F56; /* Text Muted */
     line-height: 1.7;
     margin-bottom: 10px;
     max-width: 600px; /* Limitar ancho para mejor lectura */
@@ -858,14 +814,14 @@ body {
 .separador-mensaje {
     border: 0;
     height: 1px;
-    background: linear-gradient(to right, transparent, #e0d8d0, transparent);
+    background: linear-gradient(to right, transparent, #D3D1CC, transparent); /* Stone */
     margin: 25px auto; /* Centrar y espaciar */
     width: 80%; /* Ancho del separador */
 }
 
 .mensaje-regalos .agradecimiento {
     font-style: italic;
-    color: #777; /* Gris más claro */
+    color: #6B5F56; /* Text Muted */
     margin-top: 20px; /* Espacio después del separador */
     font-size: 1em; /* Ligeramente más pequeño */
 }
@@ -874,26 +830,23 @@ body {
 .enlace-mesa-regalos {
     text-align: center;
     padding: 35px 20px; /* Más padding vertical */
-    background-color: #f9f6f3; /* Fondo ligeramente distinto */
-    /* border-top: 1px solid #eee; */
-    /* border-bottom: 1px solid #eee; */
+    background-color: #E6DECF; /* Fondo (Sand) */
     border-radius: 8px;
     margin-top: 30px;
     margin-bottom: 40px;
 }
- .enlace-mesa-regalos p {
-     margin-bottom: 25px; /* Más espacio antes del botón */
-     color: #666;
-     font-size: 1.1em;
- }
+.enlace-mesa-regalos p {
+    margin-bottom: 25px; /* Más espacio antes del botón */
+    color: #6B5F56; /* Text Muted */
+    font-size: 1.1em;
+}
 
 /* Estilo del botón para ver la mesa de regalos */
 .boton-regalos {
     display: inline-block;
     padding: 14px 40px; /* Botón prominente */
-    /* background-color: #8b786d; Color sólido */
-    background: linear-gradient(145deg, #9b8a7f, #7a6a60); /* Degradado */
-    color: #ffffff;
+    background: #C6B28A; /* Color (Champagne) */
+    color: #3F3A36; /* Color texto (Text Dark) */
     text-decoration: none;
     border-radius: 50px; /* Muy redondeado */
     font-weight: 600;
@@ -902,17 +855,18 @@ body {
     transition: all 0.35s ease;
     border: none;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.18); /* Sombra más marcada */
+    box-shadow: 0 5px 15px rgba(63, 58, 54, 0.18); /* Sombra (Text Dark) */
 }
 .boton-regalos i {
-     margin-right: 12px; /* Espacio icono */
-     font-size: 0.95em; /* Icono ligeramente más pequeño */
+    margin-right: 12px; /* Espacio icono */
+    font-size: 0.95em; /* Icono ligeramente más pequeño */
 }
 
 .boton-regalos:hover {
-    background: linear-gradient(145deg, #7a6a60, #5f5148); /* Degradado oscuro */
+    background: #A3ADA0; /* Color hover (Sage) */
+    color: #F2EEE9; /* Color texto (Ivory) */
     transform: translateY(-4px) scale(1.03); /* Levantar y agrandar */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 8px 20px rgba(63, 58, 54, 0.22); /* Sombra (Text Dark) */
 }
 
 /* --- Ajustes Responsivos para Regalos --- */
@@ -934,8 +888,6 @@ body {
 
 /* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
 
-/* Estilos generales ya existentes para .contenido-pagina, h1, etc., se aplicarán */
-
 /* Descripción del lugar */
 .descripcion-lugar {
     text-align: center;
@@ -944,24 +896,24 @@ body {
 }
 .descripcion-lugar p {
     font-size: 1.15em; /* Un poco más grande */
-    color: #555;
+    color: #6B5F56; /* Text Muted */
     line-height: 1.7;
     max-width: 750px; /* Ancho máximo */
     margin: 12px auto; /* Centrar y espaciar */
 }
- .descripcion-lugar p strong {
-     color: #443; /* Más oscuro */
-     font-weight: 600;
- }
- .descripcion-lugar p a { /* Enlace a Fecha y Hora */
-     color: #a18f84; /* Color coordinado */
-     text-decoration: underline;
-     font-weight: 600;
-     transition: color 0.3s ease;
- }
- .descripcion-lugar p a:hover {
-      color: #c58a50; /* Color acento al pasar */
-  }
+.descripcion-lugar p strong {
+    color: #3F3A36; /* Text Dark */
+    font-weight: 600;
+}
+.descripcion-lugar p a { /* Enlace a Fecha y Hora */
+    color: #A3ADA0; /* Color (Sage) */
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+.descripcion-lugar p a:hover {
+    color: #C6B28A; /* Color acento al pasar (Champagne) */
+}
 
 /* Contenedor del mapa */
 .mapa-container {
@@ -970,15 +922,14 @@ body {
 
 .mapa-container h2 {
     text-align: center;
-    color: #8b786d; /* Color coordinado */
+    color: #6B5F56; /* Color coordinado (Text Muted) */
     margin-bottom: 15px; /* Espacio antes del texto P */
     font-size: 1.7em;
     font-weight: 600;
 }
- .mapa-container h2 i { /* Icono del mapa */
-     margin-right: 10px;
- }
-
+.mapa-container h2 i { /* Icono del mapa */
+    margin-right: 10px;
+}
 
 /* Contenedor del iframe para hacerlo responsive */
 .google-map-iframe-container {
@@ -987,14 +938,9 @@ body {
     width: 100%;
     max-width: 950px; /* Ancho máximo opcional del mapa */
     margin: 0 auto; /* Centrar el contenedor */
-    /* --- Aspect Ratio (16:9 por defecto) --- */
-    padding-top: 56.25%; /* height/width = 9/16 = 0.5625 */
-    /* --- Si prefieres 4:3 --- */
-    /* padding-top: 75%; */
-    /* --- O una altura fija (comenta padding-top si usas height) --- */
-    /* height: 450px; */
+    padding-top: 56.25%; /* Aspect Ratio 16:9 */
     border-radius: 10px; /* Redondeo para el contenedor */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.12); /* Sombra */
+    box-shadow: 0 5px 15px rgba(63, 58, 54, 0.12); /* Sombra (Text Dark) */
 }
 
 .google-map-iframe-container iframe {
@@ -1014,9 +960,9 @@ body {
     text-align: center;
     margin-top: 35px; /* Espacio después del mapa */
     padding: 30px 25px; /* Más padding */
-    background-color: #f8f8f8; /* Fondo gris muy claro */
+    background-color: #E6DECF; /* Fondo (Sand) */
     border-radius: 8px;
-    border: 1px solid #eaeaea;
+    border: 1px solid #D3D1CC; /* Stone */
     max-width: 700px; /* Ancho máximo */
     margin-left: auto;
     margin-right: auto;
@@ -1025,20 +971,19 @@ body {
 .direccion-info h3 {
     margin-top: 0;
     margin-bottom: 15px;
-    color: #555;
+    color: #6B5F56; /* Text Muted */
     font-size: 1.4em; /* Más grande */
     font-weight: 600;
 }
- .direccion-info h3 i { /* Icono pin */
-     margin-right: 10px;
-     color: #c58a50;
- }
-
+.direccion-info h3 i { /* Icono pin */
+    margin-right: 10px;
+    color: #C6B28A; /* Champagne */
+}
 
 .direccion-info address { /* Estilo para la dirección */
     font-style: normal; /* Quitar cursiva por defecto de address */
     font-size: 1.1em;
-    color: #666;
+    color: #6B5F56; /* Text Muted */
     line-height: 1.7;
     margin-bottom: 25px; /* Espacio antes del botón */
 }
@@ -1047,8 +992,8 @@ body {
 .boton-como-llegar {
     display: inline-block;
     padding: 12px 28px; /* Botón más grande */
-    background-color: #4CAF50; /* Verde estándar para direcciones/mapas */
-    color: #ffffff;
+    background-color: #A3ADA0; /* Sage */
+    color: #F2EEE9; /* Ivory */
     text-decoration: none;
     border-radius: 5px;
     font-weight: 600; /* Negrita */
@@ -1056,27 +1001,22 @@ body {
     font-size: 1.1em; /* Más grande */
     border: none;
     cursor: pointer;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 8px rgba(63, 58, 54, 0.1); /* Sombra con Text Dark */
 }
- .boton-como-llegar i {
-     margin-right: 8px;
- }
+.boton-como-llegar i {
+    margin-right: 8px;
+}
 
 .boton-como-llegar:hover {
-    background-color: #45a049; /* Verde más oscuro */
-    box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+    background-color: #6B5F56; /* Text Muted */
+    box-shadow: 0 5px 12px rgba(63, 58, 54, 0.15); /* Sombra con Text Dark */
     transform: translateY(-2px);
 }
-
 
 /* --- Ajustes Responsivos para Lugar --- */
 @media (max-width: 600px) {
     .descripcion-lugar p {
         font-size: 1.05em;
-    }
-    .google-map-iframe-container {
-        /* Podrías ajustar la altura o proporción en móvil si es necesario */
-        /* height: 350px; padding-top: 0; */
     }
     .direccion-info {
         padding: 25px 20px;
@@ -1093,53 +1033,31 @@ body {
     }
 }
 
-/* === Estilos Generales (Si los tuvieras para todo el sitio) === */
-/* Por ejemplo: */
-/*
-body {
-    margin: 0; // Un reset básico que aplicaría a todas las páginas
-    font-family: 'Arial', sans-serif; // Fuente base para todo el sitio
-}
-a {
-    color: blue; // Estilo de enlaces general
-}
-*/
-
 /* === Estilos Específicos SÓLO para elementos dentro de .page-time === */
-
-/* Estilos aplicados al body SÓLO si tiene la clase page-time */
 .page-time {
-    /* Si no tienes estilos generales de body, puedes ponerlos aquí */
-     font-family: sans-serif; /* Fuente específica para esta página/sección */
-     margin: 0; /* Asegura que no haya márgenes */
-     padding: 0; /* Asegura que no haya padding */
-    /* Estilos específicos del layout de esta página */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #E6DECF; /* Sand */
     text-align: center;
 }
 
-/* Estilos para H1 SÓLO dentro de .page-time */
 .page-time h1 {
-    color: #333;
+    color: #3F3A36; /* Text Dark */
     margin-bottom: 30px;
 }
 
-/* Estilos para #countdown-timer SÓLO dentro de .page-time */
 .page-time #countdown-timer {
     display: flex;
     gap: 20px;
-    background-color: #fff;
+    background-color: #F2EEE9; /* Ivory */
     padding: 30px 40px;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(63, 58, 54, 0.1); /* Sombra con Text Dark */
 }
 
-/* Estilos para .time-block SÓLO dentro de .page-time */
 .page-time .time-block {
     display: flex;
     flex-direction: column;
@@ -1147,31 +1065,26 @@ a {
     min-width: 80px;
 }
 
-/* Estilos para .number SÓLO dentro de .page-time */
 .page-time .number {
     font-size: 3em;
     font-weight: bold;
-    color: #007bff;
+    color: #2F4667; /* Navy */
     line-height: 1;
     padding: 5px 0;
     transition: transform 0.2s ease-out, opacity 0.2s ease-out;
 }
 
-/* Estilos para .label SÓLO dentro de .page-time */
 .page-time .label {
     font-size: 0.9em;
-    color: #555;
+    color: #6B5F56; /* Text Muted */
     text-transform: uppercase;
     margin-top: 5px;
 }
 
-/* Estilos para la clase .tick SÓLO cuando está en un elemento dentro de .page-time */
 .page-time .tick {
     animation: numberTick 0.3s ease-out forwards;
 }
 
-/* La definición de la animación @keyframes es global por naturaleza */
-/* No necesita (y no puede tener) el prefijo .page-time */
 @keyframes numberTick {
     0% {
         transform: scale(1);
@@ -1187,13 +1100,9 @@ a {
     }
 }
 
-/* Estilos para #message SÓLO dentro de .page-time */
-/* Puedes quitar el style="..." del HTML y usar esto si prefieres */
-/*
 .page-time #message {
-    display: none; /* Oculto por defecto */
-/* margin-top: 20px;
+    display: none;
+    margin-top: 20px;
     font-size: 1.5em;
-    color: green;
+    color: #A3ADA0; /* Sage */
 }
-*/
