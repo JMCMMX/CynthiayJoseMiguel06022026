@@ -1134,6 +1134,8 @@ body {
     justify-content: space-between;
     padding: 2em;
     z-index: 20;
+    flex-direction: row-reverse; /* <-- LÍNEA AÑADIDA */
+
 }
 
 .staggered-menu-header > * {
@@ -1217,7 +1219,7 @@ body {
 .staggered-menu-panel {
     position: absolute;
     top: 0;
-    right: 0; /* Por defecto a la derecha */
+    left: 0; /* Por defecto a la derecha */
     width: clamp(300px, 38vw, 420px);
     height: 100%;
     background: #F2EEE9; /* Fondo del panel: Ivory */
