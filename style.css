@@ -28,7 +28,7 @@ Text Muted: #6B5F56
 
 .menu-navegacion a {
     text-decoration: none;
-    color: #2F4667; /* Color del icono (Navy) */
+    color: #A3ADA0; /* Color del icono (Navy) */
     display: flex;
     flex-direction: column; /* Coloca icono sobre texto (inicialmente oculto) */
     align-items: center;
@@ -69,7 +69,7 @@ Text Muted: #6B5F56
 
 /* Cambiar el color del icono al pasar el cursor */
 .menu-navegacion a:hover {
-    color: #C6B28A; /* Cambia el color del icono (Champagne) */
+    color: #2F4667; /* Cambia el color del icono (Champagne) */
 }
 
 body {
@@ -1068,7 +1068,7 @@ body {
 .page-time .number {
     font-size: 3em;
     font-weight: bold;
-    color: #2F4667; /* Navy */
+    color: #A3ADA0; /* Navy */
     line-height: 1;
     padding: 5px 0;
     transition: transform 0.2s ease-out, opacity 0.2s ease-out;
