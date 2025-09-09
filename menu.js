@@ -30,8 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- FUNCIÓN PARA ANIMAR EL TEXTO DEL BOTÓN (MENU/CLOSE) ---
     const animateText = (opening) => {
-        const currentText = opening ? 'Menu' : 'Close';
-        const nextText = opening ? 'Close' : 'Menu';
+        const currentText = opening ? 'Menu' : 'Menu';
+        const nextText = opening ? 'Menu' : 'Menu';
         
         textInner.innerHTML = `
             <span class="sm-toggle-line">${currentText}</span>

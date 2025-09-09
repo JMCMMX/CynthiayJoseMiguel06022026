@@ -1134,8 +1134,6 @@ body {
     justify-content: space-between;
     padding: 2em;
     z-index: 20;
-    flex-direction: row-reverse; /* <-- LÍNEA AÑADIDA */
-
 }
 
 .staggered-menu-header > * {
@@ -1167,22 +1165,39 @@ body {
     background: transparent;
     border: none;
     cursor: pointer;
-    color: #3F3A36; /* Color inicial del botón: Text Dark */
     font-family: 'Lato', sans-serif;
     font-weight: 500;
     line-height: 1;
     transition: color 0.4s ease;
-    /* ===== LÍNEAS AÑADIDAS ===== */
-    padding: 0.25em 0.6em;
-    border-radius: 6px;
+
+    /* === MODIFICACIONES AQUÍ para hacerlo más grande y visible === */
+    padding: 0.5em 1.2em; /* Aumentamos el padding para hacerlo más grande */
+    border-radius: 8px;   /* Un poco más redondeado */
+    font-size: 1.1em;     /* Hacemos el texto un poco más grande */
+
+    /* Aseguramos que tenga un fondo sutil al pasar el ratón para destacarlo */
+    transition: background-color 0.3s ease, color 0.4s ease;
+}
+
+/* Agregamos un efecto hover para que se destaque el botón */
+.home-page .sm-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.15); /* Fondo blanco semitransparente */
+    color: #F2EEE9; /* Asegura que el texto siga siendo blanco */
+}
+
+.staggered-menu-wrapper[data-open] .sm-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.08); /* Fondo oscuro semitransparente para el modo abierto */
+    color: #3F3A36; /* Asegura que el texto siga siendo oscuro */
 }
 
 .sm-toggle-textWrap {
     position: relative;
     display: inline-block;
     height: 1em;
-    overflow: hidden;
+    /* overflow: hidden; */ /* <-- ELIMINAR ESTA LÍNEA */
     white-space: nowrap;
+    min-width: 55px;      /* <-- AUMENTAMOS EL ANCHO MÍNIMO */
+    text-align: left;
 }
 
 .sm-toggle-textInner {
@@ -1219,7 +1234,7 @@ body {
 .staggered-menu-panel {
     position: absolute;
     top: 0;
-    left: 0; /* Por defecto a la derecha */
+    right: 0; /* Por defecto a la derecha */
     width: clamp(300px, 38vw, 420px);
     height: 100%;
     background: #F2EEE9; /* Fondo del panel: Ivory */
@@ -1326,8 +1341,8 @@ body {
         width: 100%;
         left: 0;
         right: 0;
-        padding-left: 1.5em;
-        padding-right: 1.5em;
+        padding-left: 2.5em;
+        padding-right: 2.5em;
     }
     .sm-prelayers {
         width: 100%;
@@ -1352,51 +1367,57 @@ body {
 .staggered-menu-wrapper[data-open] .sm-toggle {
     color: #3F3A36; /* Text Dark */
 }
+
 /* ======================================================= */
-/* ===== CSS PARA EL NUEVO EFECTO ZOOM & PAN ============= */
+/* ===== CSS PARA EL EFECTO LINTERNA (CHROMA EFFECT) ===== */
 /* ======================================================= */
 
+/* Aseguramos que la sección hero sea el contenedor del efecto */
 .hero-section {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    min-height: 100vh;
-    color: white;
-    overflow: hidden; /* Muy importante para que el zoom no se salga */
+    position: relative; /* Necesario para posicionar la capa del efecto */
+    overflow: hidden;   /* Evita que el efecto se salga de los bordes */
+
+    /* Definimos las variables que controlará el JavaScript */
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+    --radius: 250px; /* Tamaño inicial de la linterna. Puedes ajustarlo. */
 }
 
-/* El pseudo-elemento ::before ahora contiene la imagen y el overlay oscuro */
-.hero-section::before {
-    content: '';
+/* La capa que aplica el efecto de blanco y negro y la máscara */
+.chroma-effect-overlay {
     position: absolute;
-    inset: 0;
-    z-index: 1;
+    inset: 0; /* Cubre toda la sección hero */
+    z-index: 1; /* Se coloca entre la imagen de fondo y el texto */
+    pointer-events: none; /* Permite que el ratón interactúe con lo que hay debajo */
 
-    /* Combinamos el overlay oscuro y tu imagen en una sola capa */
-    background-image: linear-gradient(rgba(63, 58, 54, 0.4), rgba(63, 58, 54, 0.4)), url('portada.jpg');
-    background-size: cover;
+    /* Aplica el filtro de blanco y negro y oscurecimiento a TODA la capa */
+    background-color: transparent; /* No es estrictamente necesario, pero aclara la intención */
+    backdrop-filter: grayscale(1) brightness(0.7);
+    -webkit-backdrop-filter: grayscale(1) brightness(0.7);
     
-    /* La posición es controlada por JS a través de estas variables */
-    background-position: var(--zoom-x, 50%) var(--zoom-y, 50%);
+    /* La máscara de recorte en forma de círculo que sigue al ratón */
+    /* Lo que es "transparent" en la máscara revela el fondo (la imagen original) */
+    /* Lo que es "black" o cualquier color en la máscara aplica el backdrop-filter */
+    mask-image: radial-gradient(
+        circle var(--radius) at var(--mouse-x) var(--mouse-y),
+        transparent 0%,      /* El centro es transparente (imagen original a color) */
+        transparent 30%,     /* Transición suave */
+        rgba(0,0,0,1) 60%     /* El resto es opaco, permitiendo el filtro de fondo */
+    );
+    -webkit-mask-image: radial-gradient(
+        circle var(--radius) at var(--mouse-x) var(--mouse-y),
+        transparent 0%,
+        transparent 30%,
+        rgba(0,0,0,1) 60%
+    );
 
-    /* Estado inicial (sin zoom) */
-    transform: scale(1);
-    
-    /* Transición suave para el zoom y el paneo */
-    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* El filtro inicial para oscurecer el fondo si la máscara no se aplica inicialmente por algún motivo */
+    /* Este era el `:before` en tu código original, ahora fusionado aquí. */
+    background-color: rgba(63, 58, 54, 0.4); /* Un ligero oscurecimiento general por si acaso */
 }
 
-/* Al pasar el ratón por encima, hacemos zoom a la imagen (al pseudo-elemento) */
-.hero-section:hover::before {
-    transform: scale(1.1); /* Puedes ajustar el nivel de zoom (ej. 1.05 para menos, 1.2 para más) */
-}
-
-/* El contenido de texto siempre debe estar por encima */
+/* Aseguramos que el texto esté por encima del efecto */
 .hero-content {
     position: relative;
-    z-index: 2;
+    z-index: 3; /* Se coloca por encima de la capa del efecto */
 }
-
-/* El resto de tus estilos para h1, .fecha-boda, etc., se mantienen igual */
