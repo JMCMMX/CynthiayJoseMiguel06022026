@@ -1,95 +1,351 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mesa de Regalos - Boda Cynthia y Jose Miguel</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mesa de Regalos - Boda Cynthia y Jose Miguel</title>
+
+  <!-- Tu CSS global -->
+  <link rel="stylesheet" href="style.css"/>
+
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+  <!-- (Opcional) Tus fuentes globales ya definidas -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet"/>
+
+  <!-- Shim mínimo para integrarse al layout global (no rompe tu CSS) -->
+  <style>
+    :root{
+      /* Fallback si no existe en style.css */
+      --sm-accent: var(--brand, #2F4667);
+      --container-max: 1100px;   /* ajústalo si tu sitio usa otro */
+      --container-x: 16px;
+    }
+    /* Asegura que las pre-capas no tapen el contenido */
+    .staggered-menu-wrapper .sm-prelayers{ position: relative; z-index: 0; pointer-events: none; }
+    /* El header y el panel ya los maneja tu menú; el contenido va encima */
+    .sm-content{ position: relative; z-index: 1; }
+    /* Contenedor coherente con el resto del sitio */
+    .sm-container{ max-width: var(--container-max); margin: 0 auto; padding-inline: var(--container-x); }
+    /* Titular de página: usa tu acento si existe */
+    .page-title i{ color: var(--sm-accent); }
+    /* Utilidades suaves (no sobreescriben tu tema) */
+    .muted{ opacity:.8 }
+    .center{ text-align:center }
+    .strong{ font-weight:600 }
+    .grid{ display:grid; gap:16px }
+    .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+    .card{ border-radius:12px; padding:16px; margin-bottom:16px; background: var(--card-bg,#fff); border: var(--card-border,1px solid rgba(0,0,0,.08)); box-shadow: var(--card-shadow,0 6px 24px rgba(0,0,0,.06)); }
+    .list{ margin:8px 0 12px 0; padding-left:18px }
+    .btn-primary, .btn-outline, .btn-ghost, .btn-pill{ cursor:pointer } /* tus clases globales harán el resto */
+    .btn-pill{ border-radius:999px; padding:10px 14px }
+    .qr-actions{ grid-template-columns: 1fr auto; align-items:center }
+    .qr-box img{ width:168px; height:168px; border-radius:12px; border:1px solid #eee; background:#fff }
+    .exp-grid{ grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); }
+    .exp-card{ display:flex; gap:12px; padding:14px; border-radius:14px; background: var(--card-bg,#fff); border: var(--card-border,1px solid rgba(0,0,0,.08)); box-shadow: var(--card-shadow,0 8px 24px rgba(0,0,0,.06)); }
+    .exp-icon{ font-size:36px; width:64px; height:64px; display:grid; place-items:center; border-radius:14px; background: var(--chip-bg,#f7fbfd); border:1px solid var(--chip-border,#e8f0f3) }
+    .gift-section{ padding: clamp(24px,4vw,48px) 0 }
+    .hero-experiencias{ border-radius:16px; padding:24px 20px; margin-bottom:16px; background: var(--hero-bg,#fafafa) }
+  </style>
 </head>
 <body>
-
-    <div class="staggered-menu-wrapper">
-        <div class="sm-prelayers" aria-hidden="true">
-            <div class="sm-prelayer" style="background: #2F4667;"></div>
-            <div class="sm-prelayer" style="background: #A3ADA0;"></div>
-            <div class="sm-prelayer" style="background: #E6DECF;"></div>
-        </div>
-        <header class="staggered-menu-header">
-            <a href="index.html" class="sm-logo" aria-label="Homepage"><span class="sm-logo-text">C & JM</span></a>
-            <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
-                <span class="sm-toggle-textWrap" aria-hidden="true"><span class="sm-toggle-textInner"></span></span>
-                <span class="sm-icon" aria-hidden="true"><span class="sm-icon-line"></span><span class="sm-icon-line sm-icon-line-v"></span></span>
-            </button>
-        </header>
-        <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
-            <div class="sm-panel-inner">
-                <ul class="sm-panel-list" role="list">
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Homepage</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora de tarifas</span></a></li>
-</ul>
-            </div>
-        </aside>
+  <!-- ====== NAV / MENU ====== -->
+  <div class="staggered-menu-wrapper">
+    <div class="sm-prelayers" aria-hidden="true">
+      <div class="sm-prelayer" style="background:#2F4667;"></div>
+      <div class="sm-prelayer" style="background:#A3ADA0;"></div>
+      <div class="sm-prelayer" style="background:#E6DECF;"></div>
     </div>
 
-    <div class="contenido-pagina">
-        <h1><i class="fa-solid fa-gifts" style="color: var(--sm-accent);"></i> Mesa de Regalos</h1>
+    <header class="staggered-menu-header">
+      <a href="index.html" class="sm-logo" aria-label="Homepage"><span class="sm-logo-text">C & JM</span></a>
+      <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
+        <span class="sm-toggle-textWrap" aria-hidden="true"><span class="sm-toggle-textInner"></span></span>
+        <span class="sm-icon" aria-hidden="true"><span class="sm-icon-line"></span><span class="sm-icon-line sm-icon-line-v"></span></span>
+      </button>
+    </header>
 
-        <div class="mensaje-regalos">
-            <p class="frase-principal">Tu presencia es nuestro mejor regalo.</p>
-            <p>Sin embargo, si quisieras hacernos un obsequio, ¡te lo agradeceremos siempre!</p>
-            <hr class="separador-mensaje">
-            <p class="agradecimiento">
-                Gracias por ser parte de nuestra historia de amor
-                y compartir con nosotros este día tan especial.
-            </p>
-        </div>
+    <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
+      <div class="sm-panel-inner">
+        <ul class="sm-panel-list" role="list">
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Homepage</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora de tarifas</span></a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
 
-        <div class="iframe-mesa-regalos">
-            <h2><i class="fa-solid fa-store"></i> Nuestra Mesa de Regalos en Liverpool</h2>
-            <p>Puedes explorar nuestra mesa de regalos directamente aquí abajo.
-                <strong>(Nota: Si el recuadro aparece en blanco o da error, por favor utiliza el botón/enlace directo que está justo debajo.)</strong>
-            </p>
+  <!-- ====== CONTENIDO ====== -->
+  <main class="sm-content">
+    <div class="sm-container">
+      <h1 class="page-title">
+        <i class="fa-solid fa-gifts"></i> Mesa de Regalos
+      </h1>
 
-            <div class="iframe-container">
-                <iframe
-                    id="liverpool-registry-iframe"
-                    src="https://mesaderegalos.liverpool.com.mx/milistaderegalos/51654728"
-                    width="100%"
-                    height="650"
-                    style="border:1px solid #D3D1CC; border-radius: 8px;"
-                    title="Mesa de Regalos Liverpool"
-                    frameborder="0"
-                    allowfullscreen>
-                    Tu navegador no soporta iframes. Por favor, visita nuestra mesa de regalos en
-                    <a href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/51654728" target="_blank">este enlace de Liverpool</a>.
-                </iframe>
+      <!-- ====== REGALOS & EXPERIENCIAS ====== -->
+      <section id="regalos" class="gift-section">
+        <div class="container">
+          <header class="hero-experiencias">
+            <div class="hero-inner">
+              <h2>Tu regalo más especial 💌</h2>
+              <p>Tu presencia es nuestro mejor obsequio. Si deseas apoyarnos, puedes contribuir a nuestro <strong>fondo de experiencias</strong> o realizar una transferencia / PayPal.</p>
+            </div>
+          </header>
+
+          <!-- Selector MX / Internacional -->
+          <div class="audience-switch row" role="group" aria-label="Región del invitado">
+            <button id="btn-mx" class="btn-pill" data-target="mx" aria-pressed="false">Soy de México</button>
+            <button id="btn-intl" class="btn-pill" data-target="intl" aria-pressed="false">Soy del extranjero</button>
+            <small class="muted">Detectamos automáticamente tu región, pero puedes cambiarla.</small>
+          </div>
+
+          <!-- 🇲🇽 CLABE -->
+          <div id="card-mx" class="card" hidden>
+            <h3>Transferencia bancaria (SPEI) 🇲🇽</h3>
+            <ul class="list">
+              <li><strong>Banco:</strong> <span id="banco-text">BBVA</span></li>
+              <li><strong>Beneficiario:</strong> <span id="titular-text">José Miguel Castrillo</span></li>
+              <li><strong>CLABE:</strong> <span id="clabe-text">012650015650301375</span>
+                <button class="btn-outline xs" data-copy="#clabe-text">Copiar</button>
+              </li>
+            </ul>
+
+            <div class="grid qr-actions">
+              <div class="qr-box">
+                <img id="qr-mx" alt="QR SPEI" />
+                <small class="muted">Escanéalo para ver los datos de transferencia.</small>
+              </div>
+              <div class="actions" style="display:flex;flex-direction:column;gap:10px;">
+                <button id="btn-gen-qr-mx" class="btn-ghost">Generar QR</button>
+                <button id="btn-download-mx" class="btn-primary">Descargar tarjeta SPEI (PNG)</button>
+              </div>
             </div>
 
-            <p class="enlace-fallback">
-                <strong>¿El recuadro de arriba no carga correctamente?</strong> No te preocupes, puedes acceder directamente a la mesa de regalos haciendo clic aquí: <br>
-                <a href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/51654728" target="_blank" class="boton-regalos-fallback">
-                    <i class="fa-solid fa-up-right-from-square"></i> Abrir Mesa de Regalos en Liverpool.com.mx
-                </a>
+            <p class="muted">Sugerencia de <em>Referencia</em> si apoyas una experiencia: <code>THAI</code>, <code>CHINA</code> o <code>SUR</code>.</p>
+          </div>
+
+          <!-- 🌎 PayPal -->
+          <div id="card-intl" class="card" hidden>
+            <h3>PayPal (invitados internacionales) 🌎</h3>
+            <p>Si estás fuera de México o prefieres PayPal:</p>
+            <p class="row">
+              <a id="paypal-link" class="btn-primary" target="_blank" rel="noopener" href="https://www.paypal.me/jmcastrillo">Enviar con PayPal</a>
+              <button class="btn-outline xs" data-copy="#paypal-link" data-attr="href">Copiar enlace</button>
             </p>
-        </div>
 
-        <div class="navegacion-volver">
-            <a href="index.html" class="boton-volver">&larr; Volver a la Página Principal</a>
+            <div class="grid qr-actions">
+              <div class="qr-box">
+                <img id="qr-intl" alt="QR PayPal" />
+                <small class="muted">Escanéalo para ir directo a nuestro PayPal.</small>
+              </div>
+              <div class="actions" style="display:flex;flex-direction:column;gap:10px;">
+                <button id="btn-gen-qr-intl" class="btn-ghost">Generar QR</button>
+                <button id="btn-download-intl" class="btn-primary">Descargar tarjeta PayPal (PNG)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 🎯 Fondo de Experiencias (sin metas) -->
+          <section class="experiencias">
+            <h3>Fondo de experiencias ✨</h3>
+            <p class="muted">Nos encantaría vivir alguna de estas aventuras como parte de nuestra luna de miel. Si te inspira alguna, puedes apoyarla directamente.</p>
+
+            <div class="grid exp-grid">
+              <article class="exp-card" data-key="THAI">
+                <div class="exp-icon" aria-hidden="true">🐘</div>
+                <div class="exp-body">
+                  <h4>Tailandia</h4>
+                  <p>Templos, elefantes y playas cristalinas. ¡Nuestro sueño tropical! 🌴</p>
+                  <div class="exp-actions row">
+                    <button class="btn-primary" data-paypal-note="Experiencia THAI">Aportar vía PayPal</button>
+                    <button class="btn-outline xs" data-copy-ref="THAI">Referencia SPEI: THAI</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="exp-card" data-key="CHINA">
+                <div class="exp-icon" aria-hidden="true">🐉</div>
+                <div class="exp-body">
+                  <h4>China</h4>
+                  <p>Historia milenaria, la Gran Muralla y gastronomía increíble. Un viaje cultural inolvidable.</p>
+                  <div class="exp-actions row">
+                    <button class="btn-primary" data-paypal-note="Experiencia CHINA">Aportar vía PayPal</button>
+                    <button class="btn-outline xs" data-copy-ref="CHINA">Referencia SPEI: CHINA</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="exp-card" data-key="SUR">
+                <div class="exp-icon" aria-hidden="true">🗺️</div>
+                <div class="exp-body">
+                  <h4>Viaje por Sudamérica</h4>
+                  <p>Patagonia, Andes y costas del Pacífico. Ruta de naturaleza, cultura y aventura.</p>
+                  <div class="exp-actions row">
+                    <button class="btn-primary" data-paypal-note="Experiencia SUR">Aportar vía PayPal</button>
+                    <button class="btn-outline xs" data-copy-ref="SUR">Referencia SPEI: SUR</button>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <details class="details">
+              <summary>¿Cómo se usa tu apoyo?</summary>
+              <p>Todo aporte se destina a experiencias (vuelos, hospedaje, tours) y lo registramos con la <em>referencia</em> que elijas (THAI, CHINA o SUR) para agradecerte personalmente.</p>
+            </details>
+          </section>
+
+          <p class="center strong">¡Gracias por ser parte de este momento tan especial! 💖</p>
         </div>
+      </section>
+
+      <div class="navegacion-volver" style="margin:24px 0">
+        <a href="index.html" class="boton-volver">&larr; Volver a la Página Principal</a>
+      </div>
     </div>
+  </main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="menu.js"></script>
+  <!-- Librerías del menú -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="menu.js"></script>
 
+  <!-- Lógica de la sección -->
+  <script>
+  (function(){
+    const cardMX=document.getElementById('card-mx');
+    const cardINTL=document.getElementById('card-intl');
+    const btnMX=document.getElementById('btn-mx');
+    const btnINTL=document.getElementById('btn-intl');
+    const imgQRMX=document.getElementById('qr-mx');
+    const imgQRIntl=document.getElementById('qr-intl');
+    const elPayPal=document.getElementById('paypal-link');
+
+    function show(target){
+      const isMX = target === 'mx';
+      cardMX.hidden = !isMX;
+      cardINTL.hidden = isMX;
+      btnMX.setAttribute('aria-pressed', isMX);
+      btnINTL.setAttribute('aria-pressed', !isMX);
+    }
+    function isLikelyMexico(){
+      try{
+        const lang=(navigator.language||'').toLowerCase();
+        if(lang.includes('es-mx')) return true;
+        const tz=(Intl.DateTimeFormat().resolvedOptions().timeZone||'').toLowerCase();
+        if(tz.includes('mexico')||tz.includes('cancun')||tz.includes('mazatlan')||tz.includes('tijuana')||tz.includes('hermosillo')) return true;
+      }catch(e){}
+      return false;
+    }
+
+    function buildQR(data){ return `https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=${encodeURIComponent(data)}`; }
+    function refreshQRMX(){
+      imgQRMX.src = buildQR('Banco: BBVA\\nBeneficiario: José Miguel Castrillo\\nCLABE: 012650015650301375');
+      imgQRMX.alt = 'QR SPEI';
+    }
+    function refreshQRIntl(){
+      imgQRIntl.src = buildQR('https://www.paypal.me/jmcastrillo');
+      imgQRIntl.alt = 'QR PayPal';
+    }
+
+    show(isLikelyMexico() ? 'mx' : 'intl');
+    refreshQRMX(); refreshQRIntl();
+    btnMX.addEventListener('click',()=>show('mx'));
+    btnINTL.addEventListener('click',()=>show('intl'));
+
+    document.querySelectorAll('[data-copy], [data-copy-ref]').forEach(btn=>{
+      const ref = btn.getAttribute('data-copy-ref');
+      if(ref){
+        btn.addEventListener('click', async ()=>{
+          const text = `Referencia SPEI: ${ref}`;
+          try{ await navigator.clipboard.writeText(text); btn.textContent='Referencia copiada ✓'; setTimeout(()=>btn.textContent=`Referencia SPEI: ${ref}`,1600);}catch(e){ alert(text); }
+        });
+      }else{
+        btn.addEventListener('click', async ()=>{
+          const sel = btn.getAttribute('data-copy');
+          const attr = btn.getAttribute('data-attr');
+          const el = document.querySelector(sel);
+          if(!el) return;
+          const val = (attr ? el.getAttribute(attr) : el.textContent).trim();
+          try{ await navigator.clipboard.writeText(val); const prev=btn.textContent; btn.textContent='Copiado ✓'; setTimeout(()=>btn.textContent=prev||'Copiar',1600);}catch(e){ alert(val); }
+        });
+      }
+    });
+
+    document.getElementById('btn-gen-qr-mx').addEventListener('click', refreshQRMX);
+    document.getElementById('btn-gen-qr-intl').addEventListener('click', refreshQRIntl);
+
+    document.getElementById('btn-download-mx').addEventListener('click', ()=>downloadCard('mx'));
+    document.getElementById('btn-download-intl').addEventListener('click', ()=>downloadCard('intl'));
+
+    async function downloadCard(type){
+      const w=1080,h=600;
+      const canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h;
+      const ctx=canvas.getContext('2d');
+
+      const g=ctx.createLinearGradient(0,0,0,h);
+      g.addColorStop(0,getComputedStyle(document.documentElement).getPropertyValue('--card-accent-start')||'#f4f1ea');
+      g.addColorStop(1,getComputedStyle(document.documentElement).getPropertyValue('--card-accent-end')||'#ffffff');
+      ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+
+      ctx.fillStyle='#ffffff';
+      roundRect(ctx,40,40,w-80,h-80,28,true,false);
+      ctx.strokeStyle='rgba(0,0,0,.08)'; ctx.lineWidth=2;
+      roundRect(ctx,40,40,w-80,h-80,28,false,true);
+
+      ctx.fillStyle=getCSS('--brand-strong','#1f3b4d');
+      ctx.font='700 42px system-ui, -apple-system, Segoe UI, Roboto, Arial';
+      ctx.fillText(type==='mx'?'Tarjeta de Aporte — SPEI':'Tarjeta de Aporte — PayPal',64,110);
+
+      ctx.fillStyle=getCSS('--text','#2b2b2b');
+      ctx.font='400 26px system-ui, -apple-system, Segoe UI, Roboto, Arial';
+      if(type==='mx'){
+        drawLines(ctx,['Banco: BBVA','Beneficiario: José Miguel Castrillo','CLABE: 012650015650301375'],64,160,36);
+        const qr=new Image(); qr.crossOrigin='anonymous'; qr.src=document.getElementById('qr-mx').src; await qr.decode();
+        ctx.drawImage(qr,w-360,200,280,280);
+      }else{
+        drawLines(ctx,['Gracias por tu apoyo 💖','Escanea o visita:','paypal.me/jmcastrillo'],64,160,36);
+        const qr=new Image(); qr.crossOrigin='anonymous'; qr.src=document.getElementById('qr-intl').src; await qr.decode();
+        ctx.drawImage(qr,w-360,200,280,280);
+      }
+      ctx.fillStyle=getCSS('--brand','#5aa7c1');
+      ctx.fillRect(40,h-120,w-80,80);
+      ctx.fillStyle='#fff'; ctx.font='700 28px system-ui, -apple-system, Segoe UI, Roboto, Arial';
+      ctx.fillText('¡Gracias por ser parte de nuestra historia! ✨',64,h-70);
+
+      const a=document.createElement('a');
+      a.download= type==='mx' ? 'Tarjeta_SPEI.png' : 'Tarjeta_PayPal.png';
+      a.href=canvas.toDataURL('image/png'); a.click();
+
+      function getCSS(varName,fallback){ const v=getComputedStyle(document.documentElement).getPropertyValue(varName).trim(); return v||fallback; }
+      function roundRect(ctx,x,y,w,h,r,fill,stroke){
+        if(typeof r==='number'){r={tl:r,tr:r,br:r,bl:r}}
+        ctx.beginPath();
+        ctx.moveTo(x+r.tl,y);ctx.lineTo(x+w-r.tr,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r.tr);
+        ctx.lineTo(x+w,y+h-r.br);ctx.quadraticCurveTo(x+w,y+h,x+w-r.br,y+h);
+        ctx.lineTo(x+r.bl,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r.bl);
+        ctx.lineTo(x,y+r.tl);ctx.quadraticCurveTo(x,y,x+r.tl,y);ctx.closePath();
+        if(fill)ctx.fill(); if(stroke)ctx.stroke();
+      }
+      function drawLines(ctx,arr,x,y,lh){arr.forEach((t,i)=>ctx.fillText(t,x,y+i*lh));}
+    }
+
+    // Experiencias: acción de PayPal + sugerencia de nota
+    document.querySelectorAll('.exp-card .btn-primary').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const note = btn.getAttribute('data-paypal-note') || 'Experiencia';
+        window.open('https://www.paypal.me/jmcastrillo', '_blank');
+        setTimeout(()=>alert('Sugerencia: agrega la nota "'+note+'" en PayPal para que podamos agradecerte correctamente 💖'), 200);
+      });
+    });
+  })();
+  </script>
 </body>
 </html>
