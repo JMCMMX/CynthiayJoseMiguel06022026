@@ -11,48 +11,76 @@
   <!-- Iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
-  <!-- (Opcional) Tus fuentes globales ya definidas -->
+  <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet"/>
 
-  <!-- Shim mínimo para integrarse al layout global (no rompe tu CSS) -->
+  <!-- Shim mínimo + fixes de menú -->
   <style>
     :root{
-      /* Fallback si no existe en style.css */
       --sm-accent: var(--brand, #2F4667);
-      --container-max: 1100px;   /* ajústalo si tu sitio usa otro */
+      --container-max: 1100px;
       --container-x: 16px;
     }
-    /* Asegura que las pre-capas no tapen el contenido */
-    .staggered-menu-wrapper .sm-prelayers{ position: relative; z-index: 0; pointer-events: none; }
-    /* El header y el panel ya los maneja tu menú; el contenido va encima */
+
+    /* ===== FIX: que el texto del panel sea visible al abrir ===== */
+    .staggered-menu-wrapper[data-open] .sm-panel-list,
+    .staggered-menu-wrapper[data-open] .sm-panel-itemWrap,
+    .staggered-menu-wrapper[data-open] .sm-panel-item,
+    .staggered-menu-wrapper[data-open] .sm-panel-itemLabel{
+      opacity: 1 !important;
+      transform: none !important;
+      visibility: visible !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
+    .staggered-menu-panel{ background:#F2EEE9; z-index:10; }
+    .sm-panel-item{ color:#3F3A36; }
+    .sm-panel-item:hover{ color:#C6B28A; }
+
+    /* Logo como imagen (grande) */
+    .sm-logo-img{
+      height: 92px;   /* ajusta a gusto (80–110px) */
+      width: auto;
+      display: block;
+      transition: filter .3s ease, transform .3s ease;
+    }
+    @media (max-width: 768px){
+      .sm-logo-img{ height: 72px; }
+    }
+
+    /* En portada claro; aquí no usamos .home-page, así que colores oscuros por defecto */
+    .sm-logo-text, .sm-toggle{ color:#3F3A36; }
+
+    /* Botón: asegura ancho del texto “Menu” */
+    .sm-toggle-textWrap{ min-width:56px; }
+
+    /* Contenido */
     .sm-content{ position: relative; z-index: 1; }
-    /* Contenedor coherente con el resto del sitio */
     .sm-container{ max-width: var(--container-max); margin: 0 auto; padding-inline: var(--container-x); }
-    /* Titular de página: usa tu acento si existe */
     .page-title i{ color: var(--sm-accent); }
-    /* Utilidades suaves (no sobreescriben tu tema) */
+
+    /* Utilidades suaves */
     .muted{ opacity:.8 }
     .center{ text-align:center }
     .strong{ font-weight:600 }
     .grid{ display:grid; gap:16px }
     .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
-    .card{ border-radius:12px; padding:16px; margin-bottom:16px; background: var(--card-bg,#fff); border: var(--card-border,1px solid rgba(0,0,0,.08)); box-shadow: var(--card-shadow,0 6px 24px rgba(0,0,0,.06)); }
+    .card{ border-radius:12px; padding:16px; margin-bottom:16px; background:#fff; border:1px solid rgba(0,0,0,.08); box-shadow:0 6px 24px rgba(0,0,0,.06); }
     .list{ margin:8px 0 12px 0; padding-left:18px }
-    .btn-primary, .btn-outline, .btn-ghost, .btn-pill{ cursor:pointer } /* tus clases globales harán el resto */
-    .btn-pill{ border-radius:999px; padding:10px 14px }
+    .btn-pill{ border-radius:999px; padding:10px 14px; cursor:pointer }
     .qr-actions{ grid-template-columns: 1fr auto; align-items:center }
     .qr-box img{ width:168px; height:168px; border-radius:12px; border:1px solid #eee; background:#fff }
     .exp-grid{ grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); }
-    .exp-card{ display:flex; gap:12px; padding:14px; border-radius:14px; background: var(--card-bg,#fff); border: var(--card-border,1px solid rgba(0,0,0,.08)); box-shadow: var(--card-shadow,0 8px 24px rgba(0,0,0,.06)); }
-    .exp-icon{ font-size:36px; width:64px; height:64px; display:grid; place-items:center; border-radius:14px; background: var(--chip-bg,#f7fbfd); border:1px solid var(--chip-border,#e8f0f3) }
+    .exp-card{ display:flex; gap:12px; padding:14px; border-radius:14px; background:#fff; border:1px solid rgba(0,0,0,.08); box-shadow:0 8px 24px rgba(0,0,0,.06); }
+    .exp-icon{ font-size:36px; width:64px; height:64px; display:grid; place-items:center; border-radius:14px; background:#f7fbfd; border:1px solid #e8f0f3 }
     .gift-section{ padding: clamp(24px,4vw,48px) 0 }
-    .hero-experiencias{ border-radius:16px; padding:24px 20px; margin-bottom:16px; background: var(--hero-bg,#fafafa) }
+    .hero-experiencias{ border-radius:16px; padding:24px 20px; margin-bottom:16px; background:#fafafa }
   </style>
 </head>
 <body>
-  <!-- ====== NAV / MENU ====== -->
+  <!-- ====== NAV / MENÚ (igual en TODAS las páginas) ====== -->
   <div class="staggered-menu-wrapper">
     <div class="sm-prelayers" aria-hidden="true">
       <div class="sm-prelayer" style="background:#2F4667;"></div>
@@ -61,11 +89,19 @@
     </div>
 
     <header class="staggered-menu-header">
-      <a href="index.html" class="sm-logo" aria-label="Homepage"><span class="sm-logo-text">C & JM</span></a>
-      <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
-        <span class="sm-toggle-textWrap" aria-hidden="true"><span class="sm-toggle-textInner"></span></span>
-        <span class="sm-icon" aria-hidden="true"><span class="sm-icon-line"></span><span class="sm-icon-line sm-icon-line-v"></span></span>
-      </button>
+      <!-- Logo como imagen -->
+      <a href="index.html" class="sm-logo" aria-label="Homepage">
+        <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img">
+      </a>
+
+     <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
+  <span class="sm-icon" aria-hidden="true">
+    <span class="sm-icon-line"></span>
+    <span class="sm-icon-line"></span>
+    <span class="sm-icon-line"></span>
+  </span>
+</button>
+
     </header>
 
     <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
@@ -115,7 +151,7 @@
               <li><strong>Banco:</strong> <span id="banco-text">BBVA</span></li>
               <li><strong>Beneficiario:</strong> <span id="titular-text">José Miguel Castrillo</span></li>
               <li><strong>CLABE:</strong> <span id="clabe-text">012650015650301375</span>
-                <button class="btn-outline xs" data-copy="#clabe-text">Copiar</button>
+                <button class="btn-pill" data-copy="#clabe-text">Copiar</button>
               </li>
             </ul>
 
@@ -125,8 +161,8 @@
                 <small class="muted">Escanéalo para ver los datos de transferencia.</small>
               </div>
               <div class="actions" style="display:flex;flex-direction:column;gap:10px;">
-                <button id="btn-gen-qr-mx" class="btn-ghost">Generar QR</button>
-                <button id="btn-download-mx" class="btn-primary">Descargar tarjeta SPEI (PNG)</button>
+                <button id="btn-gen-qr-mx" class="btn-pill">Generar QR</button>
+                <button id="btn-download-mx" class="btn-pill">Descargar tarjeta SPEI (PNG)</button>
               </div>
             </div>
 
@@ -138,8 +174,8 @@
             <h3>PayPal (invitados internacionales) 🌎</h3>
             <p>Si estás fuera de México o prefieres PayPal:</p>
             <p class="row">
-              <a id="paypal-link" class="btn-primary" target="_blank" rel="noopener" href="https://www.paypal.me/jmcastrillo">Enviar con PayPal</a>
-              <button class="btn-outline xs" data-copy="#paypal-link" data-attr="href">Copiar enlace</button>
+              <a id="paypal-link" class="btn-pill" target="_blank" rel="noopener" href="https://www.paypal.me/jmcastrillo">Enviar con PayPal</a>
+              <button class="btn-pill" data-copy="#paypal-link" data-attr="href">Copiar enlace</button>
             </p>
 
             <div class="grid qr-actions">
@@ -148,13 +184,13 @@
                 <small class="muted">Escanéalo para ir directo a nuestro PayPal.</small>
               </div>
               <div class="actions" style="display:flex;flex-direction:column;gap:10px;">
-                <button id="btn-gen-qr-intl" class="btn-ghost">Generar QR</button>
-                <button id="btn-download-intl" class="btn-primary">Descargar tarjeta PayPal (PNG)</button>
+                <button id="btn-gen-qr-intl" class="btn-pill">Generar QR</button>
+                <button id="btn-download-intl" class="btn-pill">Descargar tarjeta PayPal (PNG)</button>
               </div>
             </div>
           </div>
 
-          <!-- 🎯 Fondo de Experiencias (sin metas) -->
+          <!-- 🎯 Fondo de Experiencias -->
           <section class="experiencias">
             <h3>Fondo de experiencias ✨</h3>
             <p class="muted">Nos encantaría vivir alguna de estas aventuras como parte de nuestra luna de miel. Si te inspira alguna, puedes apoyarla directamente.</p>
@@ -166,8 +202,8 @@
                   <h4>Tailandia</h4>
                   <p>Templos, elefantes y playas cristalinas. ¡Nuestro sueño tropical! 🌴</p>
                   <div class="exp-actions row">
-                    <button class="btn-primary" data-paypal-note="Experiencia THAI">Aportar vía PayPal</button>
-                    <button class="btn-outline xs" data-copy-ref="THAI">Referencia SPEI: THAI</button>
+                    <button class="btn-pill" data-paypal-note="Experiencia THAI">Aportar vía PayPal</button>
+                    <button class="btn-pill" data-copy-ref="THAI">Referencia SPEI: THAI</button>
                   </div>
                 </div>
               </article>
@@ -178,8 +214,8 @@
                   <h4>China</h4>
                   <p>Historia milenaria, la Gran Muralla y gastronomía increíble. Un viaje cultural inolvidable.</p>
                   <div class="exp-actions row">
-                    <button class="btn-primary" data-paypal-note="Experiencia CHINA">Aportar vía PayPal</button>
-                    <button class="btn-outline xs" data-copy-ref="CHINA">Referencia SPEI: CHINA</button>
+                    <button class="btn-pill" data-paypal-note="Experiencia CHINA">Aportar vía PayPal</button>
+                    <button class="btn-pill" data-copy-ref="CHINA">Referencia SPEI: CHINA</button>
                   </div>
                 </div>
               </article>
@@ -190,8 +226,8 @@
                   <h4>Viaje por Sudamérica</h4>
                   <p>Patagonia, Andes y costas del Pacífico. Ruta de naturaleza, cultura y aventura.</p>
                   <div class="exp-actions row">
-                    <button class="btn-primary" data-paypal-note="Experiencia SUR">Aportar vía PayPal</button>
-                    <button class="btn-outline xs" data-copy-ref="SUR">Referencia SPEI: SUR</button>
+                    <button class="btn-pill" data-paypal-note="Experiencia SUR">Aportar vía PayPal</button>
+                    <button class="btn-pill" data-copy-ref="SUR">Referencia SPEI: SUR</button>
                   </div>
                 </div>
               </article>
@@ -216,6 +252,16 @@
   <!-- Librerías del menú -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="menu.js"></script>
+
+  <!-- Fallback mínimo: asegura texto del botón + visibilidad en caso de que menu.js no lo ponga -->
+  <script>
+    (function(){
+      const textInner = document.querySelector('.sm-toggle-textInner');
+      if (textInner && !textInner.textContent.trim()) {
+        textInner.innerHTML = '<span class="sm-toggle-line">Menu</span>';
+      }
+    })();
+  </script>
 
   <!-- Lógica de la sección -->
   <script>
@@ -338,12 +384,14 @@
     }
 
     // Experiencias: acción de PayPal + sugerencia de nota
-    document.querySelectorAll('.exp-card .btn-primary').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const note = btn.getAttribute('data-paypal-note') || 'Experiencia';
-        window.open('https://www.paypal.me/jmcastrillo', '_blank');
-        setTimeout(()=>alert('Sugerencia: agrega la nota "'+note+'" en PayPal para que podamos agradecerte correctamente 💖'), 200);
-      });
+    document.querySelectorAll('.exp-card .btn-pill').forEach(btn=>{
+      if(btn.hasAttribute('data-paypal-note')){
+        btn.addEventListener('click', ()=>{
+          const note = btn.getAttribute('data-paypal-note') || 'Experiencia';
+          window.open('https://www.paypal.me/jmcastrillo', '_blank');
+          setTimeout(()=>alert('Sugerencia: agrega la nota "'+note+'" en PayPal para que podamos agradecerte correctamente 💖'), 200);
+        });
+      }
     });
   })();
   </script>

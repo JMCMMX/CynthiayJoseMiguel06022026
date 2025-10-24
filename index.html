@@ -1,347 +1,306 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boda Cynthia y Jose Miguel</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boda Cynthia y Jose Miguel</title>
 
-    <style>
-        /* ======================================================= */
-        /* CSS GENERAL Y DE LA SECCIÓN HERO                      */
-        /* ======================================================= */
-        :root {
-            --sm-accent: #C6B28A; /* Color de acento: Champagne */
-        }
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
 
-        body {
-            margin: 0;
-            font-family: 'Lato', sans-serif;
-            background-color: #F2EEE9; /* Ivory */
-            line-height: 1.6;
-        }
+  <style>
+    :root {
+      --sm-accent: #C6B28A;
+    }
 
-        .hero-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            min-height: 100vh;
-            color: white;
-            position: relative;
-            
-            /* --- IMAGEN DE FONDO --- */
-            /* NOTA: Cambia esta URL de imagen por la tuya ('Portada.jpg') */
-           background-image: url('Portada.jpg');
-            background-size: cover;
-            background-position: center center;
-            background-attachment: fixed;
-            overflow: hidden;
-            --mouse-x: 50%;
-            --mouse-y: 50%;
-            --radius: 250px;
-        }
+    body {
+      margin: 0;
+      font-family: 'Lato', sans-serif;
+      background-color: #F2EEE9;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-        .hero-content {
-            position: relative;
-            z-index: 3; /* Por encima de todos los efectos */
-        }
+    /* ---------- PORTADA ---------- */
+    .hero-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 100vh;
+      color: white;
+      position: relative;
+      background-image: url('Portada.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+    }
 
-        .hero-content h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: calc(2.5rem + 3vw);
-            margin: 0;
-            font-weight: 700;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-        }
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: rgba(63, 58, 54, 0.45);
+      z-index: 1;
+    }
 
-        .hero-content .fecha-boda {
-            font-size: calc(1.1rem + 0.8vw);
-            margin-top: 0.2em;
-            font-weight: 300;
-            letter-spacing: 2px;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-        }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
 
-        /* ======================================================= */
-        /* CSS DEL EFECTO LINTERNA (CHROMA EFFECT)               */
-        /* ======================================================= */
-        .hero-section::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-color: rgba(63, 58, 54, 0.4);
-            z-index: 1;
-        }
-        
-        .chroma-effect-overlay {
-            position: absolute;
-            inset: 0;
-            z-index: 2;
-            pointer-events: none;
-            backdrop-filter: grayscale(1) brightness(0.7);
-            -webkit-backdrop-filter: grayscale(1) brightness(0.7);
-            mask-image: radial-gradient(circle var(--radius) at var(--mouse-x) var(--mouse-y), transparent 0%, transparent 30%, black 60%);
-            -webkit-mask-image: radial-gradient(circle var(--radius) at var(--mouse-x) var(--mouse-y), transparent 0%, transparent 30%, black 60%);
-        }
+    .hero-content h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: calc(2.5rem + 3vw);
+      margin: 0;
+      font-weight: 700;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    }
 
-        /* ======================================================= */
-        /* CSS DEL MENÚ LATERAL                                  */
-        /* ======================================================= */
-        .staggered-menu-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: 999;
-            pointer-events: none;
-        }
+    .hero-content .fecha-boda {
+      font-size: calc(1.1rem + 0.8vw);
+      margin-top: 0.3em;
+      letter-spacing: 2px;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    }
 
-        .staggered-menu-header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 2em;
-            z-index: 20;
-        }
+    /* ---------- MENÚ ---------- */
+    .staggered-menu-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 999;
+      pointer-events: none;
+    }
 
-        .staggered-menu-header > * {
-            pointer-events: auto;
-        }
+    .staggered-menu-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2em;
+      z-index: 20;
+    }
 
-        .sm-logo-text {
-            font-family: 'Dancing Script', cursive;
-            font-size: 28px;
-            font-weight: 700;
-            transition: color 0.4s ease;
-        }
+    .staggered-menu-header > * { pointer-events: auto; }
 
-        .sm-logo {
-            user-select: none;
-            text-decoration: none;
-        }
+    .sm-logo img {
+      height: 48px;
+      width: auto;
+      filter: invert(1) brightness(2);
+      transition: all 0.3s ease;
+    }
 
-        .sm-toggle {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            font-family: 'Lato', sans-serif;
-            font-weight: 500;
-            line-height: 1;
-            transition: color 0.4s ease;
-            padding: 0.25em 0.6em;
-            border-radius: 6px;
-        }
+    .menu-open .sm-logo img { filter: none; }
 
-        .home-page .sm-logo-text, .home-page .sm-toggle {
-            color: #F2EEE9;
-        }
-        
-        .staggered-menu-wrapper[data-open] .sm-logo-text,
-        .staggered-menu-wrapper[data-open] .sm-toggle {
-            color: #3F3A36;
-        }
-        
-        .sm-toggle-textWrap {
-            position: relative;
-            display: inline-block;
-            height: 1em;
-            overflow: hidden;
-            white-space: nowrap;
-        }
+    .sm-toggle {
+      position: relative;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      font-size: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      z-index: 1001;
+    }
 
-        .sm-toggle-textInner {
-            display: flex;
-            flex-direction: column;
-            line-height: 1;
-        }
+    .sm-toggle span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background: currentColor;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
 
-        .sm-toggle-line {
-            display: block;
-            height: 1em;
-            line-height: 1;
-        }
+    .staggered-menu-wrapper[data-open] .sm-toggle span:nth-child(1) {
+      transform: rotate(45deg) translateY(8px);
+    }
+    .staggered-menu-wrapper[data-open] .sm-toggle span:nth-child(2) {
+      opacity: 0;
+    }
+    .staggered-menu-wrapper[data-open] .sm-toggle span:nth-child(3) {
+      transform: rotate(-45deg) translateY(-8px);
+    }
 
-        .sm-icon {
-            position: relative;
-            width: 14px;
-            height: 14px;
-            flex: 0 0 14px;
-        }
+    .staggered-menu-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: clamp(280px, 38vw, 400px);
+      height: 100%;
+      background: #F2EEE9;
+      display: flex;
+      flex-direction: column;
+      padding: 7em 2em 2em 2em;
+      overflow-y: auto;
+      pointer-events: auto;
+      z-index: 10;
+      transform: translateX(100%);
+      transition: transform 0.6s ease;
+    }
 
-        .sm-icon-line {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 100%;
-            height: 2px;
-            background: currentColor;
-            border-radius: 2px;
-            transform: translate(-50%, -50%);
-        }
+    .staggered-menu-wrapper[data-open] .staggered-menu-panel {
+      transform: translateX(0);
+    }
 
-        .staggered-menu-panel, .sm-prelayers {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: clamp(300px, 38vw, 420px);
-            height: 100%;
-        }
+    .sm-panel-item {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 600;
+      text-decoration: none;
+      color: #3F3A36;
+      display: block;
+      margin: 0.4em 0;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+    }
 
-        .staggered-menu-panel {
-            background: #F2EEE9;
-            display: flex;
-            flex-direction: column;
-            padding: 7em 2em 2em 2em;
-            overflow-y: auto;
-            z-index: 10;
-            pointer-events: auto;
-        }
-        
-        .sm-prelayers {
-            pointer-events: none;
-            z-index: 5;
-        }
+    .sm-panel-item:hover {
+      color: var(--sm-accent);
+    }
 
-        .sm-prelayer {
-            position: absolute;
-            top: 0;
-            right: 0;
-            height: 100%;
-            width: 100%;
-        }
+    /* ---------- TOOLTIP ---------- */
+    #menuGuide {
+      position: fixed;
+      top: 20px;
+      right: 120px; /* no tapa el botón */
+      background: rgba(47,70,103,.95);
+      color: #F2EEE9;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font: 600 14px/1.2 'Lato', sans-serif;
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
 
-        .sm-panel-inner {
-            flex: 1;
-        }
+    #menuGuide .pulse-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--sm-accent);
+      animation: pulse 1.4s ease-in-out infinite;
+    }
 
-        .sm-panel-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            counter-reset: smItem;
-        }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: .65; }
+      100% { transform: scale(1); opacity: 1; }
+    }
 
-        .sm-panel-itemWrap {
-            position: relative;
-            overflow: hidden;
-            line-height: 1.1;
-        }
-
-        .sm-panel-item {
-            position: relative;
-            color: #3F3A36;
-            font-family: 'Lato', sans-serif;
-            font-weight: 600;
-            font-size: clamp(2rem, 5vw, 3rem);
-            cursor: pointer;
-            line-height: 1.1;
-            letter-spacing: -2px;
-            text-transform: uppercase;
-            transition: color 0.25s ease;
-            display: inline-block;
-            text-decoration: none;
-            padding-right: 1.4em;
-        }
-
-        .sm-panel-itemLabel {
-            display: inline-block;
-            transform-origin: 0% 100%;
-        }
-
-        .sm-panel-item:hover {
-            color: var(--sm-accent);
-        }
-
-        .sm-panel-item::after {
-            counter-increment: smItem;
-            content: counter(smItem, decimal-leading-zero);
-            position: absolute;
-            top: 0.1em;
-            right: 0;
-            font-size: 16px;
-            font-family: 'Lato', sans-serif;
-            font-weight: 400;
-            color: var(--sm-accent);
-            letter-spacing: 0;
-            pointer-events: none;
-            user-select: none;
-            opacity: var(--sm-num-opacity, 0);
-            transition: opacity 0.4s ease;
-        }
-
-        @media (max-width: 640px) {
-            .staggered-menu-header {
-                padding: 1.5em;
-            }
-            .staggered-menu-panel, .sm-prelayers {
-                width: 100%;
-                left: 0;
-                right: 0;
-            }
-            .staggered-menu-panel {
-                padding-left: 1.5em;
-                padding-right: 1.5em;
-            }
-        }
-    </style>
+    #menuGuide:focus-visible {
+      outline: 2px solid #C6B28A;
+      outline-offset: 2px;
+    }
+  </style>
 </head>
+
 <body class="home-page">
-
-    <div class="staggered-menu-wrapper">
-        <div class="sm-prelayers" aria-hidden="true">
-            <div class="sm-prelayer" style="background: #2F4667;"></div>
-            <div class="sm-prelayer" style="background: #A3ADA0;"></div>
-            <div class="sm-prelayer" style="background: #E6DECF;"></div>
-        </div>
-        <header class="staggered-menu-header">
-            <a href="index.html" class="sm-logo" aria-label="Homepage"><span class="sm-logo-text">C & JM</span></a>
-            <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
-                <span class="sm-toggle-textWrap" aria-hidden="true"><span class="sm-toggle-textInner"></span></span>
-                <span class="sm-icon" aria-hidden="true"><span class="sm-icon-line"></span><span class="sm-icon-line sm-icon-line-v"></span></span>
-            </button>
-        </header>
-        <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
-            <div class="sm-panel-inner">
-                <ul class="sm-panel-list" role="list">
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Homepage</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
-                </ul>
-            </div>
-        </aside>
-    </div>
-
-    <header class="hero-section" id="homepage">
-        <div class="hero-content">
-            <h1>Cynthia y Jose Miguel</h1>
-            <p class="fecha-boda">06 de Febrero de 2026</p>
-        </div>
+  <!-- ======== MENÚ ======== -->
+  <div class="staggered-menu-wrapper">
+    <header class="staggered-menu-header">
+      <a href="index.html" class="sm-logo"><img src="logo.svg" alt="Logo"></a>
+      <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" type="button">
+        <span></span><span></span><span></span>
+      </button>
     </header>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="menu.js"></script>
-    <script src="hero-effect.js"></script>
 
+    <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
+      <nav>
+        <a class="sm-panel-item" href="index.html">Inicio</a>
+        <a class="sm-panel-item" href="fecha-hora.html">Fecha y Hora</a>
+        <a class="sm-panel-item" href="lugar.html">El Lugar</a>
+        <a class="sm-panel-item" href="hospedaje.html">Hospedaje</a>
+        <a class="sm-panel-item" href="vuelos.html">Vuelos</a>
+        <a class="sm-panel-item" href="regalos.html">Regalos</a>
+        <a class="sm-panel-item" href="calculadora.html">Calculadora</a>
+        <a class="sm-panel-item" href="Time.html">Cuenta Regresiva</a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Portada -->
+  <header class="hero-section">
+    <div class="hero-content">
+      <h1>Cynthia y Jose Miguel</h1>
+      <p class="fecha-boda">06 de Febrero de 2026</p>
+    </div>
+  </header>
+
+  <!-- Tooltip fijo y clicable -->
+  <div id="menuGuide" role="button" tabindex="0" aria-label="Abrir menú">
+    <span class="pulse-dot"></span> Aquí está el menú 👋
+  </div>
+
+  <!-- Librerías -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="menu.js"></script>
+
+  <!-- Secuencia automática -->
+  <script>
+  (function(){
+    const wrapper = document.querySelector('.staggered-menu-wrapper');
+    const panel   = document.getElementById('staggered-menu-panel');
+    const toggle  = document.querySelector('.sm-toggle');
+    const guide   = document.getElementById('menuGuide');
+
+    if(!wrapper || !panel || !toggle || !guide) return;
+
+    function openMenu(){
+      toggle.setAttribute('aria-expanded','true');
+      panel.setAttribute('aria-hidden','false');
+      wrapper.setAttribute('data-open','');
+      document.body.classList.add('menu-open');
+    }
+
+    function closeMenu(){
+      toggle.setAttribute('aria-expanded','false');
+      panel.setAttribute('aria-hidden','true');
+      wrapper.removeAttribute('data-open');
+      document.body.classList.remove('menu-open');
+    }
+
+    function runAuto(){
+      closeMenu();
+      setTimeout(openMenu, 600);   // abre solo
+      setTimeout(closeMenu, 3500); // cierra solo
+    }
+
+    // Click en el icono hamburguesa
+    toggle.addEventListener('click', ()=>{
+      if(wrapper.hasAttribute('data-open')) closeMenu(); else openMenu();
+    });
+
+    // Tooltip clicable y accesible
+    guide.addEventListener('click', ()=>{
+      if(wrapper.hasAttribute('data-open')) closeMenu(); else openMenu();
+    });
+    guide.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        if(wrapper.hasAttribute('data-open')) closeMenu(); else openMenu();
+      }
+    });
+
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', runAuto);
+    } else {
+      runAuto();
+    }
+  })();
+  </script>
 </body>
 </html>

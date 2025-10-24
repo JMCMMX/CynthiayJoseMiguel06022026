@@ -1,234 +1,390 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Tarifas - Boda Cynthia y Jose Miguel</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora Tarifas - Boda Cynthia y Jose Miguel</title>
+
+  <!-- Estilos globales de tu sitio -->
+  <link rel="stylesheet" href="style.css"/>
+
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet"/>
+
+  <!-- CSS mínimo complementario: icono menú + tooltip + logo -->
+  <style>
+    /* Logo grande y responsive */
+    .sm-logo-img {
+      height: 90px;
+      width: auto;
+      display: block;
+      transition: filter .3s ease, transform .3s ease;
+    }
+    @media (max-width: 768px){
+      .sm-logo-img { height: 70px; }
+    }
+    /* Si tu logo es oscuro/transparente y en portada se pierde, puedes invertirlo allí:
+       .home-page:not(.menu-open) .sm-logo-img { filter: invert(1) brightness(2) contrast(1); } */
+
+    /* Icono hamburguesa animado */
+    .sm-icon {
+      width: 30px; height: 22px; position: relative; display: inline-block; cursor: pointer;
+    }
+    .sm-icon-line {
+      position: absolute; left: 0; width: 100%; height: 3px;
+      background-color: #3F3A36; border-radius: 2px;
+      transition: transform .3s ease, opacity .25s ease, background-color .2s ease;
+    }
+    .sm-icon-line:nth-child(1){ top: 0; }
+    .sm-icon-line:nth-child(2){ top: 9px; }
+    .sm-icon-line:nth-child(3){ top: 18px; }
+    .sm-toggle:hover .sm-icon-line { background-color: #C6B28A; }
+    .sm-toggle:hover .sm-icon { animation: wiggle .3s ease-in-out; }
+    @keyframes wiggle { 0%,100%{transform:rotate(0)} 25%{transform:rotate(3deg)} 75%{transform:rotate(-3deg)} }
+
+    /* Tooltip “Haz clic aquí para abrir el menú” (solo 1ª vez) */
+    .menu-tooltip {
+      position: absolute; right: 45px; top: 50%; transform: translateY(-50%);
+      background:#2F4667; color:#fff; font-size:13px; font-weight:500;
+      padding:6px 10px; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,.2);
+      opacity:0; pointer-events:none; transition: opacity .4s ease, transform .4s ease;
+      white-space:nowrap; z-index: 9999;
+    }
+    .menu-tooltip::after {
+      content:""; position:absolute; right:-5px; top:50%; transform:translateY(-50%);
+      border-left:6px solid #2F4667; border-top:6px solid transparent; border-bottom:6px solid transparent;
+    }
+    .menu-tooltip.visible { opacity:1; transform:translateY(-50%) translateX(-5px); }
+
+    /* Asegurar que el panel tenga fondo y esté por encima del contenido */
+    .staggered-menu-panel { z-index: 10; background:#F2EEE9; }
+
+    /* Garantizar que el contenido del panel sea visible cuando está abierto */
+    .staggered-menu-wrapper[data-open] .sm-panel-list,
+    .staggered-menu-wrapper[data-open] .sm-panel-itemWrap,
+    .staggered-menu-wrapper[data-open] .sm-panel-item,
+    .staggered-menu-wrapper[data-open] .sm-panel-itemLabel {
+      opacity:1 !important; transform:none !important; visibility:visible !important; height:auto !important; overflow:visible !important;
+    }
+
+    /* Animación de entrada/salida del panel (refuerzo por si tu CSS no lo tuviera) */
+    .staggered-menu-panel { transform: translateX(100%); transition: transform .5s ease; }
+    .staggered-menu-wrapper[data-open] .staggered-menu-panel { transform: translateX(0); }
+
+    /* Opcional: cuando el menú está abierto, ajusta visualmente tu hero (si lo hubiera en esta página) */
+    .hero-section { transition: transform .6s ease, width .6s ease; }
+    .menu-open .hero-section { transform: translateX(-18vw); width: 82vw; background-attachment: scroll; }
+    @media (max-width: 768px){ .menu-open .hero-section { transform:none; width:100vw; } }
+  </style>
 </head>
 <body>
 
-    <div class="staggered-menu-wrapper">
-        <div class="sm-prelayers" aria-hidden="true">
-            <div class="sm-prelayer" style="background: #2F4667;"></div>
-            <div class="sm-prelayer" style="background: #A3ADA0;"></div>
-            <div class="sm-prelayer" style="background: #E6DECF;"></div>
-        </div>
-        <header class="staggered-menu-header">
-            <a href="index.html" class="sm-logo" aria-label="Homepage"><span class="sm-logo-text">C & JM</span></a>
-            <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
-                <span class="sm-toggle-textWrap" aria-hidden="true"><span class="sm-toggle-textInner"></span></span>
-                <span class="sm-icon" aria-hidden="true"><span class="sm-icon-line"></span><span class="sm-icon-line sm-icon-line-v"></span></span>
-            </button>
-        </header>
-        <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
-            <div class="sm-panel-inner">
-                <ul class="sm-panel-list" role="list">
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Homepage</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora de tarifas</span></a></li>
-                </ul>
-            </div>
-        </aside>
+  <!-- ====== MENÚ LATERAL ====== -->
+  <div class="staggered-menu-wrapper">
+    <div class="sm-prelayers" aria-hidden="true">
+      <div class="sm-prelayer" style="background:#2F4667;"></div>
+      <div class="sm-prelayer" style="background:#A3ADA0;"></div>
+      <div class="sm-prelayer" style="background:#E6DECF;"></div>
     </div>
 
-    <div class="contenido-pagina calculadora-wrapper">
-        <h1>Calculadora Estimada de Tarifas</h1>
-        <p class="introduccion-calculadora">
-            Estimación basada en las <strong>tarifas grupales de nuestro contrato</strong> en Hotel Xcaret (All-Fun Inclusive®, impuestos incluidos).
-            Selecciona categoría, fechas y ocupación por habitación. <em>Ocupación máxima: 4 personas por habitación.</em>
-        </p>
+    <header class="staggered-menu-header">
+      <a href="index.html" class="sm-logo" aria-label="Homepage">
+        <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img">
+      </a>
 
-        <div class="calculadora-form">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="categoria"><i class="fa-solid fa-hotel"></i> Categoría Habitación:</label>
-                    <select id="categoria" name="categoria">
-                        <option value="garden" selected>Suite Garden View</option>
-                        <option value="ocean">Suite Ocean View</option>
-                    </select>
-                </div>
-            </div>
+<button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
+  <span class="sm-icon" aria-hidden="true">
+    <span class="sm-icon-line"></span>
+    <span class="sm-icon-line"></span>
+    <span class="sm-icon-line"></span>
+  </span>
+  <span class="menu-guide">Aquí está el menú 👋</span>
+</button>
+    </header>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="checkin"><i class="fa-solid fa-calendar-day"></i> Fecha Check-in:</label>
-                    <input type="date" id="checkin" name="checkin" min="2026-02-01" max="2026-02-28" value="2026-02-05">
-                </div>
-                <div class="form-group">
-                    <label for="checkout"><i class="fa-solid fa-calendar-day"></i> Fecha Check-out:</label>
-                    <input type="date" id="checkout" name="checkout" min="2026-02-01" max="2026-02-28" value="2026-02-08">
-                </div>
-            </div>
+    <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
+      <div class="sm-panel-inner">
+        <ul class="sm-panel-list" role="list">
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Homepage</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora de tarifas</span></a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="adultos"><i class="fa-solid fa-user"></i> Adultos (12+):</label>
-                    <input type="number" id="adultos" name="adultos" min="1" max="3" value="2" step="1">
-                </div>
-                <div class="form-group">
-                    <label for="ninos05"><i class="fa-solid fa-baby"></i> Niños 0–5 años (gratis):</label>
-                    <input type="number" id="ninos05" name="ninos05" min="0" max="3" value="0" step="1">
-                </div>
-                <div class="form-group">
-                    <label for="ninos617"><i class="fa-solid fa-child"></i> Niños 6–17 años:</label>
-                    <input type="number" id="ninos617" name="ninos617" min="0" max="3" value="0" step="1">
-                </div>
-            </div>
+  <!-- ====== CONTENIDO DE LA PÁGINA ====== -->
+  <div class="contenido-pagina calculadora-wrapper">
+    <h1>Calculadora Estimada de Tarifas</h1>
+    <p class="introduccion-calculadora">
+      Estimación basada en las <strong>tarifas grupales de nuestro contrato</strong> en Hotel Xcaret (All-Fun Inclusive®, impuestos incluidos).
+      Selecciona categoría, fechas y ocupación por habitación. <em>Ocupación máxima: 4 personas por habitación.</em>
+    </p>
+
+    <div class="calculadora-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="categoria"><i class="fa-solid fa-hotel"></i> Categoría Habitación:</label>
+          <select id="categoria" name="categoria">
+            <option value="garden" selected>Suite Garden View</option>
+            <option value="ocean">Suite Ocean View</option>
+          </select>
         </div>
+      </div>
 
-        <div class="calculadora-resultados">
-            <h2><i class="fa-solid fa-receipt"></i> Estimación de Costo</h2>
-
-            <div class="resultado-item">
-                <span class="resultado-label">Número de Noches:</span>
-                <span class="resultado-valor" id="numNoches">--</span>
-            </div>
-
-            <div class="resultado-item">
-                <span class="resultado-label">Tarifa por Noche (habitación):</span>
-                <span class="resultado-valor" id="tarifaNoche">--</span>
-            </div>
-
-            <div class="resultado-item">
-                <span class="resultado-label">Composición:</span>
-                <span class="resultado-valor" id="detalleOcupacion">--</span>
-            </div>
-
-            <div class="resultado-item total">
-                <span class="resultado-label">Tarifa Total Estimada:</span>
-                <span class="resultado-valor" id="tarifaTotal">--</span>
-            </div>
-
-            <p class="nota-calculadora">
-                *Tarifas estimadas por habitación, por noche, en pesos mexicanos (MXN), sujetas a disponibilidad y cambios. Incluyen impuestos y plan All-Fun Inclusive®. Los valores se redondean al entero superior. Esta es una herramienta de estimación; por favor, contáctanos directamente para que te compartamos el link de nuestro micrositio para reservar.
-
-</p>
-            <p id="alerta" style="color:#b00020;font-weight:600;"></p>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="checkin"><i class="fa-solid fa-calendar-day"></i> Fecha Check-in:</label>
+          <input type="date" id="checkin" name="checkin" min="2026-02-01" max="2026-02-28" value="2026-02-05">
         </div>
-
-        <div class="navegacion-volver">
-            <a href="index.html" class="boton-volver">&larr; Volver a la Página Principal</a>
+        <div class="form-group">
+          <label for="checkout"><i class="fa-solid fa-calendar-day"></i> Fecha Check-out:</label>
+          <input type="date" id="checkout" name="checkout" min="2026-02-01" max="2026-02-28" value="2026-02-08">
         </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="adultos"><i class="fa-solid fa-user"></i> Adultos (12+):</label>
+          <input type="number" id="adultos" name="adultos" min="1" max="3" value="2" step="1">
+        </div>
+        <div class="form-group">
+          <label for="ninos05"><i class="fa-solid fa-baby"></i> Niños 0–5 años (gratis):</label>
+          <input type="number" id="ninos05" name="ninos05" min="0" max="3" value="0" step="1">
+        </div>
+        <div class="form-group">
+          <label for="ninos617"><i class="fa-solid fa-child"></i> Niños 6–17 años:</label>
+          <input type="number" id="ninos617" name="ninos617" min="0" max="3" value="0" step="1">
+        </div>
+      </div>
     </div>
 
-    <script>
-        // === TARIFAS DEL CONTRATO (por persona, por noche) ===
-        // Suite Garden View y Suite Ocean View (valores de tu tabla)
-        // sencilla = 1 adulto solo en habitación
-        // doble = tarifa por persona cuando hay 2 adultos (se multiplica por 2)
-        // adicional = adulto adicional (3er adulto)
-        // menor = 6–17 años (mismo importe que adicional en tu tabla)
-        const tarifas = {
-            garden: { nombre: "Suite Garden View", sencilla: 10020.00, doble: 8078.70, adicional: 6060.00, menor: 6060.00 },
-            ocean:  { nombre: "Suite Ocean View",  sencilla: 12200.00, doble: 9842.70, adicional: 7380.00, menor: 7380.00 }
-        };
+    <div class="calculadora-resultados">
+      <h2><i class="fa-solid fa-receipt"></i> Estimación de Costo</h2>
 
-        const formatterMXN = new Intl.NumberFormat('es-MX', {
-            style: 'currency',
-            currency: 'MXN',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
+      <div class="resultado-item">
+        <span class="resultado-label">Número de Noches:</span>
+        <span class="resultado-valor" id="numNoches">--</span>
+      </div>
+
+      <div class="resultado-item">
+        <span class="resultado-label">Tarifa por Noche (habitación):</span>
+        <span class="resultado-valor" id="tarifaNoche">--</span>
+      </div>
+
+      <div class="resultado-item">
+        <span class="resultado-label">Composición:</span>
+        <span class="resultado-valor" id="detalleOcupacion">--</span>
+      </div>
+
+      <div class="resultado-item total">
+        <span class="resultado-label">Tarifa Total Estimada:</span>
+        <span class="resultado-valor" id="tarifaTotal">--</span>
+      </div>
+
+      <p class="nota-calculadora">
+        *Tarifas estimadas por habitación, por noche, en pesos mexicanos (MXN), sujetas a disponibilidad y cambios. Incluyen impuestos y plan All-Fun Inclusive®. Los valores se redondean al entero superior. Esta es una herramienta de estimación; por favor, contáctanos directamente para que te compartamos el link de nuestro micrositio para reservar.
+      </p>
+      <p id="alerta" style="color:#b00020;font-weight:600;"></p>
+    </div>
+
+    <div class="navegacion-volver">
+      <a href="index.html" class="boton-volver">&larr; Volver a la Página Principal</a>
+    </div>
+  </div>
+
+  <!-- ====== LÓGICA CALCULADORA ====== -->
+  <script>
+    const tarifas = {
+      garden: { nombre: "Suite Garden View", sencilla: 10020.00, doble: 8078.70, adicional: 6060.00, menor: 6060.00 },
+      ocean:  { nombre: "Suite Ocean View",  sencilla: 12200.00, doble: 9842.70, adicional: 7380.00, menor: 7380.00 }
+    };
+    const formatterMXN = new Intl.NumberFormat('es-MX',{ style:'currency', currency:'MXN', minimumFractionDigits:0, maximumFractionDigits:0 });
+
+    function pintar(noches, tarifaNoche, tarifaTotal, detalle){
+      document.getElementById('numNoches').textContent = noches;
+      document.getElementById('tarifaNoche').textContent = tarifaNoche;
+      document.getElementById('tarifaTotal').textContent = tarifaTotal;
+      document.getElementById('detalleOcupacion').textContent = detalle;
+    }
+
+    function calcularTarifa(){
+      const categoria = document.getElementById('categoria').value;
+      const checkinStr = document.getElementById('checkin').value;
+      const checkoutStr = document.getElementById('checkout').value;
+      const adultos = parseInt(document.getElementById('adultos').value) || 0;
+      const ninos05 = parseInt(document.getElementById('ninos05').value) || 0;
+      const ninos617 = parseInt(document.getElementById('ninos617').value) || 0;
+      const alerta = document.getElementById('alerta'); alerta.textContent = "";
+
+      if (!checkinStr || !checkoutStr || adultos <= 0){ pintar("--","--","--",""); return; }
+
+      const inD = new Date(checkinStr), outD = new Date(checkoutStr);
+      const inU = Date.UTC(inD.getUTCFullYear(), inD.getUTCMonth(), inD.getUTCDate());
+      const outU= Date.UTC(outD.getUTCFullYear(),outD.getUTCMonth(),outD.getUTCDate());
+      if (outU <= inU){ alerta.textContent = "La fecha de Check-out debe ser posterior a la fecha de Check-in."; pintar("--","--","--",""); return; }
+
+      const noches = Math.ceil(Math.abs(outU - inU) / (1000*60*60*24));
+      const totalPersonas = adultos + ninos05 + ninos617;
+      if (totalPersonas > 4){ alerta.textContent = "Ocupación máxima por habitación: 4 personas."; pintar(noches,"--","--",`Adultos: ${adultos}, 0–5: ${ninos05}, 6–17: ${ninos617}`); return; }
+      if (adultos > 3){ alerta.textContent = "Máximo 3 adultos por habitación (sugerido por políticas de ocupación)."; }
+
+      const t = tarifas[categoria]; let tarifaNochePrecisa = 0;
+      if (adultos === 1) tarifaNochePrecisa = t.sencilla + (ninos617 * t.menor);
+      else if (adultos === 2) tarifaNochePrecisa = (t.doble * 2) + (ninos617 * t.menor);
+      else if (adultos >= 3) tarifaNochePrecisa = (t.doble * 2) + ((adultos - 2) * t.adicional) + (ninos617 * t.menor);
+
+      const tarifaTotalPrecisa = tarifaNochePrecisa * noches;
+      const tarifaNocheRedondeada = Math.ceil(tarifaNochePrecisa);
+      const tarifaTotalRedondeada = Math.ceil(tarifaTotalPrecisa);
+      const detalle = `Adultos: ${adultos}, 0–5: ${ninos05}, 6–17: ${ninos617} — ${t.nombre}`;
+      pintar(noches, formatterMXN.format(tarifaNocheRedondeada), formatterMXN.format(tarifaTotalRedondeada), detalle);
+    }
+
+    // Listeners
+    document.addEventListener('DOMContentLoaded', ()=>{
+      ['categoria','checkin','checkout','adultos','ninos05','ninos617'].forEach(id=>{
+        document.getElementById(id).addEventListener(id==='categoria' || id.includes('date') ? 'change' : 'input', calcularTarifa);
+      });
+      calcularTarifa();
+    });
+  </script>
+
+  <!-- ====== GSAP (para animaciones del menú) ====== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+/* ===== FIX: limpiar estados “auto-open” antiguos y forzar cerrado al iniciar ===== */
+document.addEventListener('DOMContentLoaded', function(){
+  const wrapper   = document.querySelector('.staggered-menu-wrapper');
+  const panel     = document.querySelector('#staggered-menu-panel');
+  const prelayers = document.querySelector('.sm-prelayers');
+
+  // Si algún script viejo dejó el menú abierto, lo cerramos:
+  if (wrapper) wrapper.removeAttribute('data-open');
+  if (panel)   panel.setAttribute('aria-hidden','true');
+  document.body.classList.remove('menu-open');
+
+  // Nos aseguramos de que las pre-capas no queden a la vista:
+  if (prelayers){
+    prelayers.style.transform = 'translateX(100%)';
+    prelayers.style.display   = 'none';
+  }
+});
+</script>
+
+  <!-- ====== MENÚ (inline, reemplaza a menu.js) ====== -->
+  <script>
+    (function () {
+      const wrapper   = document.querySelector('.staggered-menu-wrapper');
+      const panel     = document.querySelector('#staggered-menu-panel');
+      const toggleBtn = document.querySelector('.sm-toggle');
+      const preLayers = document.querySelectorAll('.sm-prelayer');
+      const panelItems= document.querySelectorAll('.sm-panel-item');
+      const itemLabels= document.querySelectorAll('.sm-panel-itemLabel');
+      const icon      = toggleBtn ? toggleBtn.querySelector('.sm-icon') : null;
+      const hasGSAP   = typeof window.gsap === 'function';
+      if (!wrapper || !panel || !toggleBtn) return;
+
+      let isOpen = false;
+
+      // Tooltip (solo 1ª vez)
+      const TOOLTIP_KEY = "menuTooltipSeen";
+      function createTooltip() {
+        try { if (localStorage.getItem(TOOLTIP_KEY)) return; } catch(e){}
+        const tip = document.createElement('div');
+        tip.className = 'menu-tooltip';
+        tip.textContent = 'Haz clic aquí para abrir el menú';
+        toggleBtn.parentElement.appendChild(tip);
+        requestAnimationFrame(() => tip.classList.add('visible'));
+        setTimeout(() => {
+          tip.classList.remove('visible');
+          setTimeout(() => tip.remove(), 400);
+          try { localStorage.setItem(TOOLTIP_KEY, '1'); } catch(e){}
+        }, 4000);
+      }
+
+      // Estado visual + accesibilidad
+      function applyState(open) {
+        isOpen = !!open;
+        if (isOpen) wrapper.setAttribute('data-open',''); else wrapper.removeAttribute('data-open');
+        panel.setAttribute('aria-hidden', String(!isOpen));
+        toggleBtn.setAttribute('aria-expanded', String(isOpen));
+        document.body.classList.toggle('menu-open', isOpen);
+      }
+
+      // Animación del ícono hamburguesa -> X
+      function animateIcon(opening) {
+        if (!icon) return;
+        const lines = icon.querySelectorAll('.sm-icon-line');
+        if (hasGSAP) {
+          const tl = gsap.timeline({ defaults: { duration: 0.35, ease: 'power2.inOut' } });
+          if (opening) {
+            tl.to(lines[1], { opacity: 0 }, 0)
+              .to(lines[0], { y: 8, rotate: 45 }, 0)
+              .to(lines[2], { y: -8, rotate: -45 }, 0);
+          } else {
+            tl.to(lines[0], { y: 0, rotate: 0 }, 0)
+              .to(lines[2], { y: 0, rotate: 0 }, 0)
+              .to(lines[1], { opacity: 1 }, 0.1);
+          }
+        } else {
+          lines[1].style.opacity = opening ? '0' : '1';
+          lines[0].style.transform = opening ? 'translateY(8px) rotate(45deg)' : '';
+          lines[2].style.transform = opening ? 'translateY(-8px) rotate(-45deg)' : '';
+        }
+      }
+
+      // Animaciones del panel con GSAP
+      function gsapInitPositions(){
+        if (!hasGSAP) return;
+        gsap.set([panel, ...preLayers], { xPercent:100 });
+        gsap.set(itemLabels, { yPercent:120 });
+      }
+      function gsapOpen(){
+        if (!hasGSAP) return;
+        const tl = gsap.timeline();
+        tl.to(preLayers,{xPercent:0,duration:0.45,stagger:0.06,ease:'power3.out'})
+          .to(panel,{xPercent:0,duration:0.55,ease:'power3.out'},'-=0.35')
+          .to(itemLabels,{yPercent:0,duration:0.6,stagger:0.08,ease:'power3.out'},'-=0.45');
+      }
+      function gsapClose(){
+        if (!hasGSAP) return;
+        gsap.to([panel,...preLayers],{
+          xPercent:100,duration:0.35,ease:'power3.in',overwrite:true,
+          onComplete:()=>gsap.set(itemLabels,{yPercent:120})
         });
+      }
 
-        function calcularTarifa() {
-            const categoria = document.getElementById('categoria').value;
-            const checkinStr = document.getElementById('checkin').value;
-            const checkoutStr = document.getElementById('checkout').value;
-            const adultos = parseInt(document.getElementById('adultos').value) || 0;
-            const ninos05 = parseInt(document.getElementById('ninos05').value) || 0;
-            const ninos617 = parseInt(document.getElementById('ninos617').value) || 0;
+      function openMenu(){ applyState(true); animateIcon(true); gsapOpen(); }
+      function closeMenu(){ animateIcon(false); gsapClose(); setTimeout(()=>applyState(false), hasGSAP?280:0); }
+      function toggleMenu(){ isOpen ? closeMenu() : openMenu(); }
 
-            const alerta = document.getElementById('alerta');
-            alerta.textContent = "";
+      toggleBtn.addEventListener('click', e=>{
+        toggleMenu();
+        try { localStorage.setItem(TOOLTIP_KEY, '1'); } catch(e){}
+        const tip = document.querySelector('.menu-tooltip'); if (tip) tip.remove();
+      });
 
-            // Validación básica
-            if (!checkinStr || !checkoutStr || adultos <= 0) {
-                pintar("--", "--", "--", "");
-                return;
-            }
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape'&&isOpen) closeMenu(); });
+      document.addEventListener('click', e=>{
+        if(!isOpen) return;
+        if(!panel.contains(e.target) && !toggleBtn.contains(e.target)) closeMenu();
+      });
 
-            const checkinDate = new Date(checkinStr);
-            const checkoutDate = new Date(checkoutStr);
-            const checkinUTC = Date.UTC(checkinDate.getUTCFullYear(), checkinDate.getUTCMonth(), checkinDate.getUTCDate());
-            const checkoutUTC = Date.UTC(checkoutDate.getUTCFullYear(), checkoutDate.getUTCMonth(), checkoutDate.getUTCDate());
-
-            if (checkoutUTC <= checkinUTC) {
-                alerta.textContent = "La fecha de Check-out debe ser posterior a la fecha de Check-in.";
-                pintar("--", "--", "--", "");
-                return;
-            }
-
-            const diffTime = Math.abs(checkoutUTC - checkinUTC);
-            const noches = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-            // Validaciones de ocupación
-            const totalPersonas = adultos + ninos05 + ninos617;
-            if (totalPersonas > 4) {
-                alerta.textContent = "Ocupación máxima por habitación: 4 personas.";
-                pintar(noches, "--", "--", `Adultos: ${adultos}, 0–5: ${ninos05}, 6–17: ${ninos617}`);
-                return;
-            }
-            if (adultos > 3) {
-                alerta.textContent = "Máximo 3 adultos por habitación (sugerido por políticas de ocupación).";
-            }
-
-            const t = tarifas[categoria];
-            let tarifaNochePrecisa = 0;
-
-            // Cálculo base según número de adultos
-            if (adultos === 1) {
-                // 1 adulto paga sencilla; menores 6–17 se cobran; 0–5 gratis
-                tarifaNochePrecisa = t.sencilla + (ninos617 * t.menor);
-            } else if (adultos === 2) {
-                // 2 adultos pagan doble por persona (×2); menores 6–17 se cobran
-                tarifaNochePrecisa = (t.doble * 2) + (ninos617 * t.menor);
-            } else if (adultos >= 3) {
-                // 2 adultos base doble×2 + adultos extra como adicional; menores 6–17 se cobran
-                const adultosAdicionales = adultos - 2;
-                tarifaNochePrecisa = (t.doble * 2) + (adultosAdicionales * t.adicional) + (ninos617 * t.menor);
-            }
-
-            // Niños 0–5 no suman costo (ninos05 * 0)
-
-            const tarifaTotalPrecisa = tarifaNochePrecisa * noches;
-
-            const tarifaNocheRedondeada = Math.ceil(tarifaNochePrecisa);
-            const tarifaTotalRedondeada = Math.ceil(tarifaTotalPrecisa);
-
-            const detalle = `Adultos: ${adultos}, 0–5: ${ninos05}, 6–17: ${ninos617} — ${t.nombre}`;
-
-            pintar(noches, formatterMXN.format(tarifaNocheRedondeada), formatterMXN.format(tarifaTotalRedondeada), detalle);
-        }
-
-        function pintar(noches, tarifaNoche, tarifaTotal, detalle) {
-            document.getElementById('numNoches').textContent = noches;
-            document.getElementById('tarifaNoche').textContent = tarifaNoche;
-            document.getElementById('tarifaTotal').textContent = tarifaTotal;
-            document.getElementById('detalleOcupacion').textContent = detalle;
-        }
-
-        // Listeners
-        document.getElementById('categoria').addEventListener('change', calcularTarifa);
-        document.getElementById('checkin').addEventListener('change', calcularTarifa);
-        document.getElementById('checkout').addEventListener('change', calcularTarifa);
-        document.getElementById('adultos').addEventListener('input', calcularTarifa);
-        document.getElementById('ninos05').addEventListener('input', calcularTarifa);
-        document.getElementById('ninos617').addEventListener('input', calcularTarifa);
-
-        document.addEventListener('DOMContentLoaded', calcularTarifa);
-    </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="menu.js"></script>
+      gsapInitPositions();
+      applyState(false);
+      createTooltip();
+    })();
+  </script>
 </body>
 </html>

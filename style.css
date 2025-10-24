@@ -1,1423 +1,734 @@
-/* Paleta de colores aplicada:
-🎨 Arena y Mar
-Ivory: #F2EEE9
-Sand: #E6DECF
-Stone: #D3D1CC
-Sage: #A3ADA0
-Navy: #2F4667
-Champagne: #C6B28A
-Text Dark: #3F3A36
-Text Muted: #6B5F56
-*/
+/* =========================================================
+   Paleta de colores - Arena y Mar
+   Ivory: #F2EEE9 | Sand: #E6DECF | Stone: #D3D1CC
+   Sage: #A3ADA0 | Navy: #2F4667  | Champagne: #C6B28A
+   Text Dark: #3F3A36 | Text Muted: #6B5F56
+========================================================= */
 
-/* Estilos básicos para la barra de navegación */
-.menu-navegacion ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex; /* Coloca los elementos en línea */
-    justify-content: center; /* Centra los elementos */
-    flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si no caben */
-    background-color: #F2EEE9; /* Color de fondo (Ivory) */
-    padding: 10px 5px; /* Padding arriba/abajo y a los lados */
+/* -------------------- Base -------------------- */
+:root {
+  --sm-accent: #C6B28A;
 }
 
-.menu-navegacion li {
-    margin: 5px 15px; /* Espacio vertical y horizontal entre elementos */
-}
-
-.menu-navegacion a {
-    text-decoration: none;
-    color: #A3ADA0; /* Color del icono (Navy) */
-    display: flex;
-    flex-direction: column; /* Coloca icono sobre texto (inicialmente oculto) */
-    align-items: center;
-    position: relative; /* Necesario para posicionar el texto flotante */
-    transition: color 0.3s ease; /* Transición suave para el color del icono */
-}
-
-/* Estilos para los iconos de Font Awesome */
-.icono {
-    font-size: 24px; /* Tamaño del icono */
-    margin-bottom: 5px; /* Espacio debajo del icono (antes del texto oculto) */
-    width: 30px; /* Ancho fijo para alinear mejor */
-    text-align: center; /* Centra el icono dentro de su espacio */
-}
-
-/* Ocultar el nombre del menú por defecto */
-.nombre-menu {
-    display: none; /* Oculta el texto */
-    position: absolute;
-    top: 100%; /* Posiciona el texto debajo del icono */
-    left: 50%;
-    transform: translateX(-50%); /* Centra el texto */
-    background-color: rgba(63, 58, 54, 0.85); /* Fondo semitransparente (Text Dark) */
-    color: #F2EEE9; /* Color del texto (Ivory) */
-    padding: 4px 8px; /* Espaciado interno */
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
-    margin-top: 8px; /* Pequeño espacio entre el icono y el texto */
-    z-index: 10; /* Asegura que esté por encima de otros elementos */
-    pointer-events: none; /* Evita que el tooltip interfiera con el hover del icono */
-}
-
-/* Mostrar el nombre del menú al pasar el cursor sobre el enlace (<a>) */
-.menu-navegacion a:hover .nombre-menu {
-    display: block; /* Muestra el texto */
-}
-
-/* Cambiar el color del icono al pasar el cursor */
-.menu-navegacion a:hover {
-    color: #2F4667; /* Cambia el color del icono (Champagne) */
-}
+* { box-sizing: border-box; }
 
 body {
-    font-family: 'Lato', sans-serif; /* Fuente base */
-    margin: 0;
-    line-height: 1.6;
-    background-color: #F2EEE9; /* Color de fondo general (Ivory) */
+  font-family: 'Lato', sans-serif;
+  margin: 0;
+  line-height: 1.6;
+  background-color: #F2EEE9; /* Ivory */
+  color: #3F3A36;            /* Text Dark (por defecto) */
 }
 
-/* ===== NUEVOS ESTILOS PARA LA SECCIÓN HERO ===== */
-.hero-section {
-    /* --- Configuración del fondo --- */
-    background-image: url('Portada.jpg');
-    background-color: #E6DECF; /* Color de fondo suave (Sand) */
-    background-size: cover; /* Hace que la imagen cubra toda la sección */
-    background-position: center center; /* Centra la imagen */
-    background-repeat: no-repeat;
-    background-attachment: fixed; /* Efecto parallax suave (opcional) */
-
-    /* --- Diseño y espaciado --- */
-    min-height: 85vh; /* Altura mínima, ocupa casi toda la pantalla inicial */
-    padding: 60px 20px; /* Espaciado interno */
-    display: flex; /* Para centrar el contenido verticalmente */
-    justify-content: center;
-    align-items: center;
-    text-align: center; /* Centra el texto horizontalmente */
-    position: relative; /* Necesario para el pseudo-elemento overlay */
-    color: #3F3A36; /* Color de texto por defecto (Text Dark) */
+/* -------------------- Barra de iconos simple (si la usas en alguna página) -------------------- */
+.menu-navegacion ul{
+  list-style:none;
+  padding:10px 5px;
+  margin:0;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  background:#F2EEE9;
 }
-
-/* --- Opcional: Overlay semitransparente --- */
-.hero-section::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(63, 58, 54, 0.3); /* Overlay oscuro semitransparente (Text Dark) */
-    z-index: 1;
+.menu-navegacion li{ margin:5px 15px; }
+.menu-navegacion a{
+  text-decoration:none;
+  color:#A3ADA0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  position:relative;
+  transition:color .3s ease;
 }
-
-/* Contenido del Hero (para asegurar que esté sobre el overlay) */
-.hero-content {
-   position: relative;
-   z-index: 2;
+.icono{ font-size:24px; margin-bottom:5px; width:30px; text-align:center; }
+.nombre-menu{
+  display:none;
+  position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  background:rgba(63,58,54,.85); color:#F2EEE9; padding:4px 8px; border-radius:4px;
+  font-size:12px; white-space:nowrap; margin-top:8px; z-index:10; pointer-events:none;
 }
+.menu-navegacion a:hover{ color:#2F4667; }
+.menu-navegacion a:hover .nombre-menu{ display:block; }
 
-/* --- Estilo del texto del Hero --- */
-.hero-section h1 {
-    font-family: 'cursive', sans-serif; /* Fuente cursiva elegante */
-    font-size: calc(2.5rem + 3vw); /* Tamaño de fuente responsive */
-    margin-bottom: 0.1em;
-    font-weight: 700; /* Más grueso si la fuente lo permite */
-    color: #3F3A36; /* Color de texto (Text Dark) */
-    text-shadow: 1px 1px 3px rgba(242, 238, 233, 0.5); /* Sombra clara sutil (Ivory) */
+/* -------------------- HERO -------------------- */
+.hero-section{
+  background-image:url('Portada.jpg');
+  background-color:#E6DECF;
+  background-size:cover; background-position:center; background-repeat:no-repeat;
+  background-attachment:fixed;
+
+  min-height:85vh;
+  padding:60px 20px;
+  display:flex; justify-content:center; align-items:center; text-align:center;
+  position:relative; color:#3F3A36;
+
+  /* Para efecto linterna */
+  --mouse-x:50%; --mouse-y:50%; --radius:250px;
+  transition: transform .6s ease, width .6s ease; /* para ajuste con menú */
 }
-
-.hero-section .fecha-boda {
-    font-family: 'Lato', sans-serif; /* Fuente más legible para la fecha */
-    font-size: calc(1.1rem + 0.8vw); /* Tamaño responsive */
-    margin-top: 0;
-    font-weight: 400; /* Peso normal o 300 (light) */
-    color: #6B5F56; /* Color de texto (Text Muted) */
-    letter-spacing: 1px; /* Un poco de espacio entre letras */
+.hero-section::before{
+  content:""; position:absolute; inset:0;
+  background-color:rgba(63,58,54,.3);
+  z-index:1;
 }
-
-/* --- Estilos generales para otras secciones (ejemplo) --- */
-.contenido-seccion {
-    padding: 40px 20px;
-    max-width: 900px;
-    margin: 20px auto; /* Centrar las secciones de contenido */
-    background-color: #F2EEE9; /* Ivory */
-    box-shadow: 0 2px 5px rgba(63, 58, 54, 0.1); /* Sombra con Text Dark */
+.hero-content{ position:relative; z-index:2; }
+.hero-section h1{
+  font-family:'Dancing Script', cursive;
+  font-size:calc(2.5rem + 3vw);
+  margin:.0 0 .1em 0;
+  font-weight:700;
+  color:#3F3A36;
+  text-shadow:1px 1px 3px rgba(242,238,233,.5);
 }
-
-.contenido-seccion h2 {
-    text-align: center;
-    color: #3F3A36; /* Text Dark */
-    margin-bottom: 20px;
+.hero-section .fecha-boda{
+  font-size:calc(1.1rem + .8vw);
+  margin-top:0;
+  font-weight:400;
+  color:#6B5F56;
+  letter-spacing:1px;
 }
 
-/* --- Ajustes Responsivos --- */
-@media (max-width: 768px) {
-    .hero-section {
-        min-height: 60vh; /* Menor altura en pantallas pequeñas */
-        background-attachment: scroll; /* Desactivar fixed en móviles puede mejorar rendimiento */
-    }
-    .hero-section h1 {
-       font-size: calc(2rem + 4vw); /* Ajustar tamaño */
-    }
-    .hero-section .fecha-boda {
-       font-size: calc(1rem + 1vw); /* Ajustar tamaño */
-    }
-}
-/* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
-
-/* Contenedor general para páginas secundarias */
-.contenido-pagina {
-    max-width: 850px; /* Ancho máximo del contenido */
-    margin: 40px auto; /* Centrar el bloque en la página con margen arriba/abajo */
-    padding: 25px 40px; /* Espaciado interno */
-    background-color: #F2EEE9; /* Fondo (Ivory) */
-    box-shadow: 0 3px 10px rgba(63, 58, 54, 0.1); /* Sombra suave (Text Dark) */
-    border-radius: 8px; /* Bordes redondeados */
-    text-align: center; /* Centrar texto por defecto */
+/* Efecto linterna (chroma) */
+.chroma-effect-overlay{
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+  background-color:transparent;
+  backdrop-filter:grayscale(1) brightness(.7);
+  -webkit-backdrop-filter:grayscale(1) brightness(.7);
+  mask-image:radial-gradient(circle var(--radius) at var(--mouse-x) var(--mouse-y),
+    transparent 0%, transparent 30%, rgba(0,0,0,1) 60%);
+  -webkit-mask-image:radial-gradient(circle var(--radius) at var(--mouse-x) var(--mouse-y),
+    transparent 0%, transparent 30%, rgba(0,0,0,1) 60%);
+  /* oscurecimiento de respaldo */
+  background-color:rgba(63,58,54,.4);
 }
 
-.contenido-pagina h1 {
-    color: #3F3A36; /* Color principal oscuro (Text Dark) */
-    margin-bottom: 25px;
-    font-family: 'Dancing Script', cursive; /* Fuente elegante */
-    font-size: 3em; /* Tamaño grande */
-    border-bottom: 1px solid #D3D1CC; /* Línea divisoria sutil (Stone) */
-    padding-bottom: 15px;
+/* Ajustes hero cuando el menú está abierto (solo si agregas body.menu-open) */
+.menu-open .hero-section{
+  transform:translateX(-18vw);
+  width:82vw;
+  background-attachment:scroll;
 }
 
-.contenido-pagina h2 {
-    color: #6B5F56; /* Color secundario (Text Muted) */
-    margin-top: 35px; /* Espacio antes del subtítulo */
-    margin-bottom: 15px;
-    font-family: 'Lato', sans-serif;
-    font-weight: 400; /* Peso normal */
-    font-size: 1.8em;
+@media (max-width:768px){
+  .hero-section{ min-height:60vh; background-attachment:scroll; }
+  .hero-section h1{ font-size:calc(2rem + 4vw); }
+  .hero-section .fecha-boda{ font-size:calc(1rem + 1vw); }
+  .menu-open .hero-section{ transform:none; width:100vw; }
 }
 
-/* Bloque para destacar fecha y hora */
-.detalle-fecha-hora {
-    margin-bottom: 30px;
-    padding: 25px;
-    background-color: #E6DECF; /* Fondo (Sand) */
-    border: 1px solid #D3D1CC; /* Borde sutil (Stone) */
-    border-radius: 5px;
+/* -------------------- Contenido genérico de secciones -------------------- */
+.contenido-seccion{
+  padding:40px 20px;
+  max-width:900px; margin:20px auto;
+  background:#F2EEE9;
+  box-shadow:0 2px 5px rgba(63,58,54,.1);
+}
+.contenido-seccion h2{
+  text-align:center; color:#3F3A36; margin-bottom:20px;
 }
 
-.fecha-grande, .hora-grande {
-    font-size: 2.8em; /* Tamaño muy grande */
-    color: #C6B28A; /* Color acento cálido (Champagne) */
-    margin: 8px 0;
-    font-family: 'Lato', sans-serif;
-    font-weight: 700; /* Negrita */
-    line-height: 1.2; /* Espaciado entre líneas */
+/* -------------------- Páginas internas: bloque central -------------------- */
+.contenido-pagina{
+  max-width:850px; margin:40px auto; padding:25px 40px;
+  background:#F2EEE9; box-shadow:0 3px 10px rgba(63,58,54,.1);
+  border-radius:8px; text-align:center;
+}
+.contenido-pagina h1{
+  color:#3F3A36; margin-bottom:25px;
+  font-family:'Dancing Script', cursive; font-size:3em;
+  border-bottom:1px solid #D3D1CC; padding-bottom:15px;
+}
+.contenido-pagina h2{
+  color:#6B5F56; margin:35px 0 15px; font-weight:400; font-size:1.8em;
+}
+@media (max-width:768px){
+  .contenido-pagina{ margin:20px; padding:20px 25px; }
+  .contenido-pagina h1{ font-size:2.4em; }
+}
+@media (max-width:480px){
+  .fecha-grande, .hora-grande{ font-size:1.8em; }
 }
 
-.lugar-ceremonia {
-    font-size: 1.2em;
-    color: #6B5F56; /* Text Muted */
-    margin-top: 20px;
+/* -------------------- Fecha/Hora destacados -------------------- */
+.detalle-fecha-hora{
+  margin-bottom:30px; padding:25px;
+  background:#E6DECF; border:1px solid #D3D1CC; border-radius:5px;
 }
-.lugar-ceremonia .fa-location-dot { /* Estilo para el icono de ubicación */
-    margin-right: 8px;
-    color: #C6B28A; /* Mismo color de acento (Champagne) */
+.fecha-grande, .hora-grande{
+  font-size:2.8em; color:#C6B28A; margin:8px 0; font-weight:700; line-height:1.2;
+}
+.lugar-ceremonia{ font-size:1.2em; color:#6B5F56; margin-top:20px; }
+.lugar-ceremonia .fa-location-dot{ margin-right:8px; color:#C6B28A; }
+
+.detalle-lugar p{ color:#6B5F56; line-height:1.7; margin-bottom:15px; text-align:justify; }
+.detalle-lugar strong{ color:#3F3A36; font-weight:600; }
+
+.navegacion-volver{ margin-top:40px; padding-top:20px; border-top:1px solid #D3D1CC; text-align:center; }
+.boton-volver{
+  display:inline-block; padding:12px 25px; background:#A3ADA0; color:#F2EEE9;
+  text-decoration:none; border-radius:5px; transition: background-color .3s ease, transform .2s ease;
+  font-size:1em;
+}
+.boton-volver:hover{
+  background:#6B5F56; transform:translateY(-2px);
+  box-shadow:0 4px 8px rgba(63,58,54,.15);
 }
 
-/* Bloque para detalles del lugar */
-.detalle-lugar p {
-    color: #6B5F56; /* Color de texto estándar (Text Muted) */
-    line-height: 1.7; /* Altura de línea para legibilidad */
-    margin-bottom: 15px;
-    text-align: justify; /* Justificar texto para un look más formal */
+/* -------------------- Hospedaje -------------------- */
+.introduccion-hospedaje{
+  font-size:1.1em; color:#6B5F56; margin-bottom:40px; text-align:center; max-width:700px; margin-inline:auto;
+}
+.opcion-hotel{
+  display:flex; flex-direction:row; align-items:center; margin-bottom:25px;
+}
+.logo-hotel{
+  width:120px; height:120px; object-fit:contain; margin-right:30px; flex-shrink:0;
+  border:1px solid #D3D1CC; padding:5px; background:#F2EEE9;
+}
+.logo-hotel-generico{
+  font-size:60px; color:#A3ADA0; width:120px; height:120px; display:flex; justify-content:center; align-items:center;
+  margin-right:30px; flex-shrink:0; background:#E6DECF; border-radius:5px;
+}
+.descripcion-hotel{ flex-grow:1; text-align:left; }
+.descripcion-hotel h2{
+  margin:0 0 10px; color:#6B5F56; font-size:1.7em; font-weight:600; padding-bottom:5px;
+  border-bottom:2px solid #D3D1CC; display:inline-block;
+}
+.descripcion-hotel p{ margin-bottom:10px; color:#6B5F56; line-height:1.6; }
+.descripcion-hotel p strong{ color:#3F3A36; font-weight:600; }
+.boton-hotel{
+  display:inline-block; padding:8px 18px; background:#D3D1CC; color:#3F3A36; text-decoration:none;
+  border:1px solid #A3ADA0; border-radius:4px; font-size:.9em; margin-top:10px; transition:all .3s ease;
+}
+.boton-hotel:hover{ background:#A3ADA0; border-color:#6B5F56; box-shadow:0 1px 3px rgba(63,58,54,.1); }
+.separador-hotel{
+  border:0; height:1px; background:linear-gradient(to right, transparent, #D3D1CC, transparent);
+  margin:30px 0 40px;
+}
+.nota-importante-hospedaje{
+  margin-top:40px; padding:25px; background:#E6DECF; border-left:5px solid #C6B28A; text-align:left;
+  border-radius:0 5px 5px 0;
+}
+.nota-importante-hospedaje h3{ margin:0 0 10px; color:#6B5F56; font-size:1.3em; }
+.nota-importante-hospedaje p{ color:#6B5F56; margin-bottom:10px; }
+.nota-importante-hospedaje strong{ color:#3F3A36; font-weight:600; }
+
+@media (max-width:768px){
+  .opcion-hotel{ flex-direction:column; align-items:center; text-align:center; }
+  .logo-hotel, .logo-hotel-generico{ margin-right:0; margin-bottom:20px; width:100px; height:100px; }
+  .logo-hotel-generico{ font-size:50px; }
+  .descripcion-hotel{ text-align:center; }
+  .descripcion-hotel h2{ display:block; border-bottom:none; padding-bottom:0; }
+  .descripcion-hotel h2::after{
+    content:''; display:block; width:50px; height:2px; background:#C6B28A; margin:5px auto 0;
+  }
+  .descripcion-hotel p{ text-align:justify; }
+  .nota-importante-hospedaje{
+    text-align:center; border-left-width:0; border-top:4px solid #C6B28A; border-radius:5px; padding:20px;
+  }
 }
 
-.detalle-lugar strong {
-    color: #3F3A36; /* Resaltar texto importante (Text Dark) */
-    font-weight: 600;
+/* -------------------- Calculadora -------------------- */
+.introduccion-calculadora{
+  font-size:1.1em; color:#6B5F56; margin-bottom:35px; text-align:center; max-width:700px; margin-inline:auto; line-height:1.6;
 }
-
-/* Botón para volver */
-.navegacion-volver {
-    margin-top: 40px; /* Espacio antes del botón */
-    padding-top: 20px;
-    border-top: 1px solid #D3D1CC; /* Separador superior (Stone) */
-    text-align: center;
+.calculadora-form{
+  background:#F2EEE9; padding:25px 35px; border-radius:8px;
+  box-shadow:0 4px 12px rgba(63,58,54,.08); margin-bottom:35px;
 }
-
-.boton-volver {
-    display: inline-block;
-    padding: 12px 25px; /* Hacer el botón más grande */
-    background-color: #A3ADA0; /* Color del botón (Sage) */
-    color: #F2EEE9; /* Color de texto (Ivory) */
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: 1em;
+.form-row{ display:flex; flex-wrap:wrap; gap:25px; margin-bottom:25px; }
+.form-row:last-child{ margin-bottom:10px; }
+.form-group{ flex:1; min-width:200px; display:flex; flex-direction:column; }
+.form-group label{
+  margin-bottom:8px; font-weight:600; color:#3F3A36; font-size:.9em; text-transform:uppercase; letter-spacing:.5px;
 }
-
-.boton-volver:hover {
-    background-color: #6B5F56; /* Oscurecer al pasar el cursor (Text Muted) */
-    transform: translateY(-2px); /* Efecto ligero de elevación */
-    box-shadow: 0 4px 8px rgba(63, 58, 54, 0.15); /* Sombra con Text Dark */
-}
-
-/* --- Ajustes Responsivos para .contenido-pagina --- */
-@media (max-width: 768px) {
-    .contenido-pagina {
-        margin: 20px;
-        padding: 20px 25px;
-    }
-    .contenido-pagina h1 {
-        font-size: 2.4em;
-    }
-    .fecha-grande, .hora-grande {
-        font-size: 2.2em;
-    }
-    .contenido-pagina h2 {
-        font-size: 1.5em;
-    }
-    .detalle-lugar p {
-        text-align: left; /* Quizás mejor no justificar en móvil */
-    }
-}
-
-@media (max-width: 480px) {
-    .fecha-grande, .hora-grande {
-        font-size: 1.8em;
-    }
-    .lugar-ceremonia {
-        font-size: 1em;
-    }
-}
-/* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
-
-/* Introducción en la página de Hospedaje */
-.introduccion-hospedaje {
-    font-size: 1.1em;
-    color: #6B5F56; /* Text Muted */
-    margin-bottom: 40px; /* Más espacio después de la intro */
-    text-align: center;
-    max-width: 700px; /* Limitar ancho para mejor lectura */
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Contenedor para cada opción de hotel */
-.opcion-hotel {
-    display: flex; /* Flexbox para alinear logo/icono y texto */
-    flex-direction: row; /* Dirección horizontal por defecto */
-    align-items: center; /* Centrar verticalmente */
-    margin-bottom: 25px; /* Espacio debajo de cada opción */
-}
-
-/* Estilo para las imágenes de logo */
-.logo-hotel {
-    width: 120px; /* Ancho del logo */
-    height: 120px; /* Alto del logo (ajusta si es necesario) */
-    object-fit: contain; /* Asegura que el logo se vea completo sin distorsión */
-    margin-right: 30px; /* Espacio a la derecha del logo */
-    flex-shrink: 0; /* Evita que el logo se encoja si el texto es largo */
-    border: 1px solid #D3D1CC; /* Borde sutil (Stone) */
-    padding: 5px; /* Pequeño padding interno */
-    background-color: #F2EEE9; /* Fondo (Ivory) */
-}
-
-/* Estilo para el icono genérico de hotel (para Occidental) */
- .logo-hotel-generico {
-    font-size: 60px; /* Tamaño del icono */
-    color: #A3ADA0; /* Color (Sage) */
-    width: 120px; /* Mismo ancho que los logos */
-    height: 120px; /* Mismo alto que los logos */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 30px;
-    flex-shrink: 0;
-    background-color: #E6DECF; /* Fondo (Sand) */
-    border-radius: 5px; /* Bordes redondeados suaves */
- }
-
-/* Contenedor para la descripción del hotel */
-.descripcion-hotel {
-    flex-grow: 1; /* Ocupa el espacio restante */
-    text-align: left; /* Texto alineado a la izquierda */
-}
-
-.descripcion-hotel h2 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: #6B5F56; /* Color (Text Muted) */
-    font-size: 1.7em;
-    font-family: 'Lato', sans-serif;
-    font-weight: 600; /* Un poco más grueso */
-    padding-bottom: 5px;
-    border-bottom: 2px solid #D3D1CC; /* Subrayado sutil (Stone) */
-    display: inline-block; /* Para que el subrayado no ocupe todo el ancho */
-}
-
-.descripcion-hotel p {
-    margin-bottom: 10px; /* Espacio entre párrafos */
-    color: #6B5F56; /* Text Muted */
-    line-height: 1.6;
-}
-.descripcion-hotel p strong { /* Resaltar texto en negrita */
-    color: #3F3A36; /* Text Dark */
-    font-weight: 600;
-}
-
-/* Botón opcional para visitar sitio web del hotel */
-.boton-hotel {
-    display: inline-block;
-    padding: 8px 18px;
-    background-color: #D3D1CC; /* Fondo claro (Stone) */
-    color: #3F3A36; /* Text Dark */
-    text-decoration: none;
-    border: 1px solid #A3ADA0; /* Borde sutil (Sage) */
-    border-radius: 4px;
-    font-size: 0.9em;
-    margin-top: 10px;
-    transition: all 0.3s ease;
-}
-.boton-hotel:hover {
-    background-color: #A3ADA0; /* Oscurecer un poco (Sage) */
-    border-color: #6B5F56; /* Text Muted */
-    box-shadow: 0 1px 3px rgba(63, 58, 54, 0.1); /* Sombra con Text Dark */
-}
-
-/* Separador visual entre hoteles */
-.separador-hotel {
-    border: 0;
-    height: 1px;
-    background: linear-gradient(to right, transparent, #D3D1CC, transparent); /* Degradado (Stone) */
-    margin: 30px 0 40px 0; /* Espaciado vertical */
-}
-
-/* Nota importante al final */
-.nota-importante-hospedaje {
-    margin-top: 40px;
-    padding: 25px;
-    background-color: #E6DECF; /* Fondo cálido (Sand) */
-    border-left: 5px solid #C6B28A; /* Borde izquierdo de acento (Champagne) */
-    text-align: left;
-    border-radius: 0 5px 5px 0; /* Redondeo suave en lado derecho */
-}
-
-.nota-importante-hospedaje h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: #6B5F56; /* Color coordinado (Text Muted) */
-    font-size: 1.3em;
-}
-.nota-importante-hospedaje p {
-    color: #6B5F56; /* Text Muted */
-    margin-bottom: 10px;
-}
-.nota-importante-hospedaje strong {
-    color: #3F3A36; /* Text Dark */
-    font-weight: 600;
-}
-
-/* --- Ajustes Responsivos para Hospedaje --- */
-@media (max-width: 768px) {
-    .opcion-hotel {
-        flex-direction: column; /* Apilar logo/icono y texto */
-        align-items: center; /* Centrar todo */
-        text-align: center; /* Centrar texto */
-    }
-
-    .logo-hotel, .logo-hotel-generico {
-        margin-right: 0; /* Quitar margen derecho */
-        margin-bottom: 20px; /* Añadir espacio debajo */
-        width: 100px; /* Reducir tamaño en pantallas pequeñas */
-        height: 100px;
-    }
-    .logo-hotel-generico {
-        font-size: 50px; /* Reducir icono genérico también */
-    }
-
-    .descripcion-hotel {
-        text-align: center; /* Centrar texto del hotel */
-    }
-    .descripcion-hotel h2 {
-        display: block; /* Hacer que el título ocupe todo el ancho para centrar bien */
-        border-bottom: none; /* Quitar subrayado si se ve mal centrado */
-        padding-bottom: 0;
-    }
-    .descripcion-hotel h2::after { /* Opcional: añadir subrayado centrado si se quitó arriba */
-         content: '';
-         display: block;
-         width: 50px;
-         height: 2px;
-         background-color: #C6B28A; /* Champagne */
-         margin: 5px auto 0 auto; /* Centrar línea */
-    }
-
-    .descripcion-hotel p {
-        text-align: justify; /* O left, según preferencia en móvil */
-    }
-    .nota-importante-hospedaje {
-         text-align: center;
-         border-left-width: 0; /* Quitar borde izquierdo */
-         border-top: 4px solid #C6B28A; /* Poner borde arriba (Champagne) */
-         border-radius: 5px; /* Redondear todas las esquinas */
-         padding: 20px;
-    }
-}
-/* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
-
-/* Estilos específicos para la página de Calculadora */
-.introduccion-calculadora {
-    font-size: 1.1em;
-    color: #6B5F56; /* Text Muted */
-    margin-bottom: 35px; /* Más espacio */
-    text-align: center;
-    max-width: 700px; /* Limitar ancho */
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.6;
-}
-
-/* Contenedor del formulario */
-.calculadora-form {
-    background-color: #F2EEE9; /* Fondo (Ivory) */
-    padding: 25px 35px; /* Más padding */
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(63, 58, 54, 0.08); /* Sombra (Text Dark) */
-    margin-bottom: 35px; /* Espacio antes de resultados */
-}
-
-.form-row {
-    display: flex;
-    flex-wrap: wrap; /* Permitir que se apilen en pantallas pequeñas */
-    gap: 25px; /* Espacio entre grupos de campos */
-    margin-bottom: 25px; /* Espacio entre filas de campos */
-}
-.form-row:last-child {
-    margin-bottom: 10px; /* Menos espacio en la última fila */
-}
-
-.form-group {
-    flex: 1; /* Ocupar espacio disponible */
-    min-width: 200px; /* Ancho mínimo antes de apilarse */
-    display: flex;
-    flex-direction: column; /* Label arriba, input abajo */
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600; /* Negrita */
-    color: #3F3A36; /* Text Dark */
-    font-size: 0.9em; /* Ligeramente más pequeño */
-    text-transform: uppercase; /* Mayúsculas */
-    letter-spacing: 0.5px; /* Espaciado */
-}
-.form-group label i { /* Estilo para iconos en labels */
-    margin-right: 6px;
-    color: #6B5F56; /* Text Muted */
-}
-
+.form-group label i{ margin-right:6px; color:#6B5F56; }
 .form-group select,
 .form-group input[type="date"],
-.form-group input[type="number"] {
-    width: 100%;
-    padding: 12px 15px; /* Más padding vertical */
-    border: 1px solid #D3D1CC; /* Borde (Stone) */
-    border-radius: 5px; /* Bordes más redondeados */
-    font-size: 1em;
-    box-sizing: border-box;
-    background-color: #F2EEE9; /* Fondo (Ivory) */
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    height: 45px; /* Altura fija para consistencia */
+.form-group input[type="number"]{
+  width:100%; padding:12px 15px; border:1px solid #D3D1CC; border-radius:5px; font-size:1em; background:#F2EEE9;
+  transition:border-color .2s ease, box-shadow .2s ease; height:45px;
 }
-
 .form-group select:focus,
-.form-group input:focus {
-    border-color: #A3ADA0; /* Borde más oscuro al enfocar (Sage) */
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(163, 173, 160, 0.25); /* Sombra exterior suave (Sage) */
-    background-color: #F2EEE9; /* Ivory */
-}
-
-/* Contenedor de Resultados */
-.calculadora-resultados {
-    background-color: #E6DECF; /* Fondo cálido (Sand) */
-    padding: 30px 35px;
-    border-radius: 8px;
-    border: 1px solid #D3D1CC; /* Borde coordinado (Stone) */
-    margin-bottom: 35px; /* Espacio antes del botón volver */
-    box-shadow: 0 2px 8px rgba(63, 58, 54, 0.05); /* Sombra con Text Dark */
-}
-
-.calculadora-resultados h2 {
-    margin-top: 0;
-    margin-bottom: 30px; /* Más espacio bajo el título */
-    text-align: center;
-    color: #6B5F56; /* Color (Text Muted) */
-    font-family: 'Lato', sans-serif;
-    font-weight: 600;
-    font-size: 1.8em; /* Más grande */
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-.calculadora-resultados h2 i { /* Icono en título de resultados */
-    margin-right: 10px;
-}
-
-.resultado-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline; /* Alinear por la base del texto */
-    padding: 15px 0; /* Más padding */
-    border-bottom: 1px dashed #D3D1CC; /* Separador más suave (Stone) */
-    font-size: 1.1em;
-}
-
-.resultado-label {
-    color: #6B5F56; /* Gris cálido (Text Muted) */
-    margin-right: 20px;
-    font-weight: 400; /* Peso normal */
-}
-
-.resultado-valor {
-    font-weight: 600; /* Semi-bold */
-    color: #3F3A36; /* Gris oscuro cálido (Text Dark) */
-    font-size: 1.1em; /* Un poco más grande que el label */
-    text-align: right; /* Alinear valor a la derecha */
-}
-
-/* Estilo especial para el total */
-.resultado-item.total {
-    border-top: 1px solid #D3D1CC; /* Línea superior más sólida (Stone) */
-    border-bottom: none;
-    margin-top: 20px;
-    padding-top: 20px;
-    font-size: 1.25em; /* Más grande */
-}
-.resultado-item.total .resultado-label {
-    color: #3F3A36; /* Más oscuro (Text Dark) */
-    font-weight: 600; /* Negrita */
-}
-.resultado-item.total .resultado-valor {
-    color: #C6B28A; /* Color acento (Champagne) */
-    font-size: 1.3em; /* Más grande aún */
-    font-weight: 700; /* Negrita */
-}
-
-/* Nota al final de la calculadora */
-.nota-calculadora {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #D3D1CC; /* Separador (Stone) */
-    font-size: 0.9em;
-    color: #6B5F56; /* Text Muted */
-    text-align: center;
-    line-height: 1.6;
-}
-
-/* --- Ajustes Responsivos para Calculadora --- */
-@media (max-width: 768px) {
-    .calculadora-form, .calculadora-resultados {
-        padding: 20px 25px; /* Menos padding en móvil */
-    }
-    .form-row {
-        gap: 20px; /* Menos espacio */
-    }
-    .form-group {
-        min-width: calc(50% - 10px); /* Intentar 2 columnas si caben */
-    }
-}
-
-@media (max-width: 500px) {
-    .form-group {
-        min-width: 100%; /* Forzar 1 columna */
-    }
-    .resultado-item {
-        font-size: 1em; /* Reducir fuente en móvil */
-        flex-direction: column; /* Apilar label y valor */
-        align-items: flex-start; /* Alinear a la izquierda */
-        padding: 10px 0;
-    }
-    .resultado-valor {
-        margin-top: 5px; /* Espacio entre label y valor */
-        font-size: 1.1em;
-        text-align: left; /* Alinear a la izquierda */
-    }
-    .resultado-item.total {
-        font-size: 1.1em;
-    }
-    .resultado-item.total .resultado-valor {
-        font-size: 1.2em;
-    }
-
-}
-/* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
-
-/* Introducción en la página de Vuelos */
-.introduccion-vuelos {
-    font-size: 1.1em;
-    color: #6B5F56; /* Text Muted */
-    margin-bottom: 20px;
-    text-align: center;
-    max-width: 800px; /* Limitar ancho */
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.6;
-}
-.introduccion-vuelos strong {
-    color: #3F3A36; /* Text Dark */
-    font-weight: 600;
-}
-
-/* Nota importante */
-.nota-importante-vuelos {
-    background-color: #E6DECF; /* Sand */
-    border: 1px solid #D3D1CC; /* Stone */
-    color: #3F3A36; /* Text Dark */
-    padding: 15px 25px; /* Más padding */
-    border-radius: 6px;
-    margin-bottom: 40px; /* Más espacio abajo */
-    text-align: left; /* Alinear a la izquierda */
-    font-size: 0.95em;
-    line-height: 1.6;
-}
-.nota-importante-vuelos strong {
-    color: #3F3A36; /* Text Dark */
-}
-.nota-importante-vuelos i { /* Icono de información */
-    margin-right: 8px;
-}
-
-/* Contenedor de los buscadores */
-.buscadores-vuelos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 35px; /* Espacio entre las tarjetas */
-    margin-top: 30px;
-    margin-bottom: 40px;
-}
-
-/* Estilo individual para cada tarjeta de buscador */
-.buscador-item {
-    background-color: #F2EEE9; /* Ivory */
-    padding: 30px; /* Más padding interno */
-    border-radius: 10px; /* Bordes más redondeados */
-    box-shadow: 0 5px 15px rgba(63, 58, 54, 0.08); /* Sombra (Text Dark) */
-    text-align: center;
-    border-top: 5px solid; /* Borde superior grueso de color */
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.buscador-item:hover {
-    transform: translateY(-6px); /* Efecto de elevación */
-    box-shadow: 0 10px 20px rgba(63, 58, 54, 0.12); /* Sombra (Text Dark) */
-}
-
-/* Asignar colores de borde por clase */
-.buscador-item.google      { border-color: #2F4667; } /* Navy */
-.buscador-item.skyscanner { border-color: #A3ADA0; } /* Sage */
-.buscador-item.kayak      { border-color: #C6B28A; } /* Champagne */
-
-/* Icono grande del buscador */
-.buscador-icono {
-    font-size: 3.5em; /* Icono más grande */
-    margin-bottom: 20px;
-}
-.buscador-item.google      .buscador-icono { color: #2F4667; } /* Navy */
-.buscador-item.skyscanner .buscador-icono { color: #A3ADA0; } /* Sage */
-.buscador-item.kayak      .buscador-icono { color: #C6B28A; } /* Champagne */
-
-.buscador-item h2 {
-    margin-top: 0;
-    margin-bottom: 15px; /* Más espacio */
-    font-size: 1.6em;
-    color: #3F3A36; /* Text Dark */
-    font-family: 'Lato', sans-serif;
-    font-weight: 600;
-}
-
-.buscador-item p {
-    color: #6B5F56; /* Text Muted */
-    font-size: 1em;
-    line-height: 1.6; /* Mejor espaciado de línea */
-    flex-grow: 1; /* Empuja el botón hacia abajo */
-    margin-bottom: 25px; /* Espacio antes del botón */
-}
-
-/* Botón para ir al buscador */
-.boton-buscador {
-    display: inline-block;
-    padding: 12px 30px; /* Botón más ancho */
-    background-color: #2F4667; /* Color base (Navy) */
-    color: #F2EEE9; /* Texto (Ivory) */
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: 600; /* Negrita */
-    transition: all 0.3s ease;
-    margin-top: auto; /* Asegura que esté al final si el texto varía */
-    align-self: center; /* Centrar botón */
-    border: none;
-    cursor: pointer;
-    font-size: 1em;
-}
-
-.boton-buscador:hover {
-    background-color: #3F3A36; /* Oscurecer (Text Dark) */
-    transform: scale(1.05); /* Agrandar ligeramente */
-    box-shadow: 0 4px 8px rgba(63, 58, 54, 0.1); /* Sombra con Text Dark */
-}
-
-/* --- Ajustes Responsivos para Vuelos --- */
-@media (max-width: 650px) {
-    .buscadores-vuelos {
-        grid-template-columns: 1fr; /* Una columna */
-        gap: 25px; /* Menos espacio */
-    }
-    .buscador-item {
-        padding: 25px;
-    }
-}
-/* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
-
-/* Contenedor del mensaje principal de regalos */
-.mensaje-regalos {
-    text-align: center;
-    margin-top: 20px; /* Espacio después del título */
-    margin-bottom: 40px; /* Espacio antes del enlace/botón */
-    padding: 25px 20px;
-    background-color: #F2EEE9; /* Fondo (Ivory) */
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(63, 58, 54, 0.06); /* Sombra (Text Dark) */
-}
-
-.mensaje-regalos .frase-principal {
-    font-size: 1.6em; /* Más grande */
-    font-weight: 600;
-    color: #6B5F56; /* Color (Text Muted) */
-    margin-bottom: 15px;
-    font-family: 'Dancing Script', cursive; /* Fuente elegante */
-}
-
-.mensaje-regalos p {
-    font-size: 1.1em; /* Tamaño estándar */
-    color: #6B5F56; /* Text Muted */
-    line-height: 1.7;
-    margin-bottom: 10px;
-    max-width: 600px; /* Limitar ancho para mejor lectura */
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Separador decorativo dentro del mensaje */
-.separador-mensaje {
-    border: 0;
-    height: 1px;
-    background: linear-gradient(to right, transparent, #D3D1CC, transparent); /* Stone */
-    margin: 25px auto; /* Centrar y espaciar */
-    width: 80%; /* Ancho del separador */
-}
-
-.mensaje-regalos .agradecimiento {
-    font-style: italic;
-    color: #6B5F56; /* Text Muted */
-    margin-top: 20px; /* Espacio después del separador */
-    font-size: 1em; /* Ligeramente más pequeño */
-}
-
-/* Contenedor para el enlace/botón */
-.enlace-mesa-regalos {
-    text-align: center;
-    padding: 35px 20px; /* Más padding vertical */
-    background-color: #E6DECF; /* Fondo (Sand) */
-    border-radius: 8px;
-    margin-top: 30px;
-    margin-bottom: 40px;
-}
-.enlace-mesa-regalos p {
-    margin-bottom: 25px; /* Más espacio antes del botón */
-    color: #6B5F56; /* Text Muted */
-    font-size: 1.1em;
-}
-
-/* Estilo del botón para ver la mesa de regalos */
-.boton-regalos {
-    display: inline-block;
-    padding: 14px 40px; /* Botón prominente */
-    background: #C6B28A; /* Color (Champagne) */
-    color: #3F3A36; /* Color texto (Text Dark) */
-    text-decoration: none;
-    border-radius: 50px; /* Muy redondeado */
-    font-weight: 600;
-    font-size: 1.2em; /* Más grande */
-    letter-spacing: 0.5px; /* Espaciado letras */
-    transition: all 0.35s ease;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(63, 58, 54, 0.18); /* Sombra (Text Dark) */
-}
-.boton-regalos i {
-    margin-right: 12px; /* Espacio icono */
-    font-size: 0.95em; /* Icono ligeramente más pequeño */
-}
-
-.boton-regalos:hover {
-    background: #A3ADA0; /* Color hover (Sage) */
-    color: #F2EEE9; /* Color texto (Ivory) */
-    transform: translateY(-4px) scale(1.03); /* Levantar y agrandar */
-    box-shadow: 0 8px 20px rgba(63, 58, 54, 0.22); /* Sombra (Text Dark) */
-}
-
-/* --- Ajustes Responsivos para Regalos --- */
-@media (max-width: 600px) {
-    .mensaje-regalos .frase-principal {
-        font-size: 1.4em;
-    }
-    .mensaje-regalos p {
-        font-size: 1em;
-    }
-    .boton-regalos {
-        padding: 12px 30px;
-        font-size: 1.1em;
-    }
-    .enlace-mesa-regalos {
-        padding: 25px 15px;
-    }
-}
-
-/* ===== AÑADIR ESTOS ESTILOS A style.css ===== */
-
-/* Descripción del lugar */
-.descripcion-lugar {
-    text-align: center;
-    margin-bottom: 35px; /* Más espacio antes del mapa */
-    padding: 0 10px; /* Padding lateral */
-}
-.descripcion-lugar p {
-    font-size: 1.15em; /* Un poco más grande */
-    color: #6B5F56; /* Text Muted */
-    line-height: 1.7;
-    max-width: 750px; /* Ancho máximo */
-    margin: 12px auto; /* Centrar y espaciar */
-}
-.descripcion-lugar p strong {
-    color: #3F3A36; /* Text Dark */
-    font-weight: 600;
-}
-.descripcion-lugar p a { /* Enlace a Fecha y Hora */
-    color: #A3ADA0; /* Color (Sage) */
-    text-decoration: underline;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-.descripcion-lugar p a:hover {
-    color: #C6B28A; /* Color acento al pasar (Champagne) */
-}
-
-/* Contenedor del mapa */
-.mapa-container {
-    margin-bottom: 35px; /* Espacio después del mapa */
-}
-
-.mapa-container h2 {
-    text-align: center;
-    color: #6B5F56; /* Color coordinado (Text Muted) */
-    margin-bottom: 15px; /* Espacio antes del texto P */
-    font-size: 1.7em;
-    font-weight: 600;
-}
-.mapa-container h2 i { /* Icono del mapa */
-    margin-right: 10px;
-}
-
-/* Contenedor del iframe para hacerlo responsive */
-.google-map-iframe-container {
-    position: relative; /* Necesario para el posicionamiento absoluto del iframe */
-    overflow: hidden; /* Ocultar cualquier desbordamiento */
-    width: 100%;
-    max-width: 950px; /* Ancho máximo opcional del mapa */
-    margin: 0 auto; /* Centrar el contenedor */
-    padding-top: 56.25%; /* Aspect Ratio 16:9 */
-    border-radius: 10px; /* Redondeo para el contenedor */
-    box-shadow: 0 5px 15px rgba(63, 58, 54, 0.12); /* Sombra (Text Dark) */
-}
-
-.google-map-iframe-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    border: none; /* Quitar borde del iframe */
-    border-radius: 10px; /* Heredar redondeo */
-}
-
-/* Sección de dirección */
-.direccion-info {
-    text-align: center;
-    margin-top: 35px; /* Espacio después del mapa */
-    padding: 30px 25px; /* Más padding */
-    background-color: #E6DECF; /* Fondo (Sand) */
-    border-radius: 8px;
-    border: 1px solid #D3D1CC; /* Stone */
-    max-width: 700px; /* Ancho máximo */
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.direccion-info h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: #6B5F56; /* Text Muted */
-    font-size: 1.4em; /* Más grande */
-    font-weight: 600;
-}
-.direccion-info h3 i { /* Icono pin */
-    margin-right: 10px;
-    color: #C6B28A; /* Champagne */
-}
-
-.direccion-info address { /* Estilo para la dirección */
-    font-style: normal; /* Quitar cursiva por defecto de address */
-    font-size: 1.1em;
-    color: #6B5F56; /* Text Muted */
-    line-height: 1.7;
-    margin-bottom: 25px; /* Espacio antes del botón */
-}
-
-/* Botón "Cómo llegar" */
-.boton-como-llegar {
-    display: inline-block;
-    padding: 12px 28px; /* Botón más grande */
-    background-color: #A3ADA0; /* Sage */
-    color: #F2EEE9; /* Ivory */
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: 600; /* Negrita */
-    transition: all 0.3s ease;
-    font-size: 1.1em; /* Más grande */
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 3px 8px rgba(63, 58, 54, 0.1); /* Sombra con Text Dark */
-}
-.boton-como-llegar i {
-    margin-right: 8px;
-}
-
-.boton-como-llegar:hover {
-    background-color: #6B5F56; /* Text Muted */
-    box-shadow: 0 5px 12px rgba(63, 58, 54, 0.15); /* Sombra con Text Dark */
-    transform: translateY(-2px);
-}
-
-/* --- Ajustes Responsivos para Lugar --- */
-@media (max-width: 600px) {
-    .descripcion-lugar p {
-        font-size: 1.05em;
-    }
-    .direccion-info {
-        padding: 25px 20px;
-    }
-    .direccion-info h3 {
-        font-size: 1.3em;
-    }
-    .direccion-info address {
-        font-size: 1em;
-    }
-    .boton-como-llegar {
-        padding: 10px 22px;
-        font-size: 1em;
-    }
-}
-
-/* === Estilos Específicos SÓLO para elementos dentro de .page-time === */
-.page-time {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #E6DECF; /* Sand */
-    text-align: center;
-}
-
-.page-time h1 {
-    color: #3F3A36; /* Text Dark */
-    margin-bottom: 30px;
-}
-
-.page-time #countdown-timer {
-    display: flex;
-    gap: 20px;
-    background-color: #F2EEE9; /* Ivory */
-    padding: 30px 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(63, 58, 54, 0.1); /* Sombra con Text Dark */
-}
-
-.page-time .time-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 80px;
-}
-
-.page-time .number {
-    font-size: 3em;
-    font-weight: bold;
-    color: #A3ADA0; /* Navy */
-    line-height: 1;
-    padding: 5px 0;
-    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
-}
-
-.page-time .label {
-    font-size: 0.9em;
-    color: #6B5F56; /* Text Muted */
-    text-transform: uppercase;
-    margin-top: 5px;
-}
-
-.page-time .tick {
-    animation: numberTick 0.3s ease-out forwards;
-}
-
-@keyframes numberTick {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.2);
-        opacity: 0.7;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-.page-time #message {
-    display: none;
-    margin-top: 20px;
-    font-size: 1.5em;
-    color: #A3ADA0; /* Sage */
-}
-
-/* ======================================================= */
-/* ===== PASO 2: REEMPLAZA EL CSS DEL MENÚ ANTERIOR ===== */
-/* ======================================================= */
-:root {
-    --sm-accent: #C6B28A; /* Color de acento: Champagne */
-}
-
-.staggered-menu-wrapper {
-    position: fixed; /* Lo fijamos para que siempre esté visible */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh; /* Ocupa toda la pantalla */
-    z-index: 999;
-    pointer-events: none; /* Permite hacer clic "a través" de la capa */
-}
-
-.staggered-menu-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 2em;
-    z-index: 20;
-}
-
-.staggered-menu-header > * {
-    pointer-events: auto; /* Los elementos de la cabecera sí son clickeables */
-}
-
-/* Logo de Texto */
-.sm-logo {
-    user-select: none;
-    text-decoration: none;
-}
-.sm-logo-text {
-    font-family: 'Dancing Script', cursive;
-    font-size: 28px;
-    color: #3F3A36; /* Text Dark */
-    font-weight: 700;
-    transition: color 0.4s ease;
-}
-.staggered-menu-wrapper[data-open] .sm-logo-text {
-    color: #F2EEE9; /* Ivory cuando el menú está abierto */
-}
-
-/* Botón de Menú */
-.sm-toggle {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-family: 'Lato', sans-serif;
-    font-weight: 500;
-    line-height: 1;
-    transition: color 0.4s ease;
-
-    /* === MODIFICACIONES AQUÍ para hacerlo más grande y visible === */
-    padding: 0.5em 1.2em; /* Aumentamos el padding para hacerlo más grande */
-    border-radius: 8px;   /* Un poco más redondeado */
-    font-size: 1.1em;     /* Hacemos el texto un poco más grande */
-
-    /* Aseguramos que tenga un fondo sutil al pasar el ratón para destacarlo */
-    transition: background-color 0.3s ease, color 0.4s ease;
-}
-
-/* Agregamos un efecto hover para que se destaque el botón */
-.home-page .sm-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.15); /* Fondo blanco semitransparente */
-    color: #F2EEE9; /* Asegura que el texto siga siendo blanco */
-}
-
-.staggered-menu-wrapper[data-open] .sm-toggle:hover {
-    background-color: rgba(0, 0, 0, 0.08); /* Fondo oscuro semitransparente para el modo abierto */
-    color: #3F3A36; /* Asegura que el texto siga siendo oscuro */
-}
-
-.sm-toggle-textWrap {
-    position: relative;
-    display: inline-block;
-    height: 1em;
-    /* overflow: hidden; */ /* <-- ELIMINAR ESTA LÍNEA */
-    white-space: nowrap;
-    min-width: 55px;      /* <-- AUMENTAMOS EL ANCHO MÍNIMO */
-    text-align: left;
-}
-
-.sm-toggle-textInner {
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-}
-
-.sm-toggle-line {
-    display: block;
-    height: 1em;
-    line-height: 1;
-}
-
+.form-group input:focus{
+  border-color:#A3ADA0; outline:none; box-shadow:0 0 0 3px rgba(163,173,160,.25);
+}
+.calculadora-resultados{
+  background:#E6DECF; padding:30px 35px; border-radius:8px; border:1px solid #D3D1CC; margin-bottom:35px;
+  box-shadow:0 2px 8px rgba(63,58,54,.05);
+}
+.calculadora-resultados h2{
+  margin:0 0 30px; text-align:center; color:#6B5F56; font-weight:600; font-size:1.8em; text-transform:uppercase; letter-spacing:1px;
+}
+.calculadora-resultados h2 i{ margin-right:10px; }
+.resultado-item{
+  display:flex; justify-content:space-between; align-items:baseline; padding:15px 0;
+  border-bottom:1px dashed #D3D1CC; font-size:1.1em;
+}
+.resultado-label{ color:#6B5F56; margin-right:20px; font-weight:400; }
+.resultado-valor{ font-weight:600; color:#3F3A36; font-size:1.1em; text-align:right; }
+.resultado-item.total{
+  border-top:1px solid #D3D1CC; border-bottom:none; margin-top:20px; padding-top:20px; font-size:1.25em;
+}
+.resultado-item.total .resultado-label{ color:#3F3A36; font-weight:600; }
+.resultado-item.total .resultado-valor{ color:#C6B28A; font-size:1.3em; font-weight:700; }
+.nota-calculadora{
+  margin-top:30px; padding-top:20px; border-top:1px solid #D3D1CC;
+  font-size:.9em; color:#6B5F56; text-align:center; line-height:1.6;
+}
+@media (max-width:768px){
+  .calculadora-form, .calculadora-resultados{ padding:20px 25px; }
+  .form-row{ gap:20px; }
+  .form-group{ min-width:calc(50% - 10px); }
+}
+@media (max-width:500px){
+  .form-group{ min-width:100%; }
+  .resultado-item{ font-size:1em; flex-direction:column; align-items:flex-start; padding:10px 0; }
+  .resultado-valor{ margin-top:5px; font-size:1.1em; text-align:left; }
+  .resultado-item.total{ font-size:1.1em; }
+  .resultado-item.total .resultado-valor{ font-size:1.2em; }
+}
+
+/* -------------------- Vuelos -------------------- */
+.introduccion-vuelos{
+  font-size:1.1em; color:#6B5F56; margin-bottom:20px; text-align:center; max-width:800px; margin-inline:auto; line-height:1.6;
+}
+.nota-importante-vuelos{
+  background:#E6DECF; border:1px solid #D3D1CC; color:#3F3A36;
+  padding:15px 25px; border-radius:6px; margin-bottom:40px; text-align:left; font-size:.95em; line-height:1.6;
+}
+.nota-importante-vuelos i{ margin-right:8px; }
+.buscadores-vuelos{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  gap:35px; margin:30px 0 40px;
+}
+.buscador-item{
+  background:#F2EEE9; padding:30px; border-radius:10px; box-shadow:0 5px 15px rgba(63,58,54,.08);
+  text-align:center; border-top:5px solid; display:flex; flex-direction:column; transition:transform .3s ease, box-shadow .3s ease;
+}
+.buscador-item:hover{ transform:translateY(-6px); box-shadow:0 10px 20px rgba(63,58,54,.12); }
+.buscador-item.google{ border-color:#2F4667; }
+.buscador-item.skyscanner{ border-color:#A3ADA0; }
+.buscador-item.kayak{ border-color:#C6B28A; }
+.buscador-icono{ font-size:3.5em; margin-bottom:20px; }
+.buscador-item.google .buscador-icono{ color:#2F4667; }
+.buscador-item.skyscanner .buscador-icono{ color:#A3ADA0; }
+.buscador-item.kayak .buscador-icono{ color:#C6B28A; }
+.buscador-item h2{ margin:0 0 15px; font-size:1.6em; color:#3F3A36; font-weight:600; }
+.buscador-item p{ color:#6B5F56; font-size:1em; line-height:1.6; flex-grow:1; margin-bottom:25px; }
+.boton-buscador{
+  display:inline-block; padding:12px 30px; background:#2F4667; color:#F2EEE9; text-decoration:none; border-radius:5px;
+  font-weight:600; transition:all .3s ease; margin-top:auto; align-self:center; border:none; cursor:pointer; font-size:1em;
+}
+.boton-buscador:hover{ background:#3F3A36; transform:scale(1.05); box-shadow:0 4px 8px rgba(63,58,54,.1); }
+@media (max-width:650px){
+  .buscadores-vuelos{ grid-template-columns:1fr; gap:25px; }
+  .buscador-item{ padding:25px; }
+}
+
+/* -------------------- Regalos -------------------- */
+.mensaje-regalos{
+  text-align:center; margin:20px 0 40px; padding:25px 20px; background:#F2EEE9;
+  border-radius:8px; box-shadow:0 2px 8px rgba(63,58,54,.06);
+}
+.mensaje-regalos .frase-principal{
+  font-size:1.6em; font-weight:600; color:#6B5F56; margin-bottom:15px; font-family:'Dancing Script', cursive;
+}
+.mensaje-regalos p{
+  font-size:1.1em; color:#6B5F56; line-height:1.7; margin-bottom:10px; max-width:600px; margin-inline:auto;
+}
+.separador-mensaje{
+  border:0; height:1px; background:linear-gradient(to right, transparent, #D3D1CC, transparent);
+  margin:25px auto; width:80%;
+}
+.mensaje-regalos .agradecimiento{ font-style:italic; color:#6B5F56; margin-top:20px; font-size:1em; }
+.enlace-mesa-regalos{
+  text-align:center; padding:35px 20px; background:#E6DECF; border-radius:8px; margin:30px 0 40px;
+}
+.enlace-mesa-regalos p{ margin-bottom:25px; color:#6B5F56; font-size:1.1em; }
+.boton-regalos{
+  display:inline-block; padding:14px 40px; background:#C6B28A; color:#3F3A36; text-decoration:none; border-radius:50px;
+  font-weight:600; font-size:1.2em; letter-spacing:.5px; transition:all .35s ease; border:none; cursor:pointer;
+  box-shadow:0 5px 15px rgba(63,58,54,.18);
+}
+.boton-regalos i{ margin-right:12px; font-size:.95em; }
+.boton-regalos:hover{
+  background:#A3ADA0; color:#F2EEE9; transform:translateY(-4px) scale(1.03);
+  box-shadow:0 8px 20px rgba(63,58,54,.22);
+}
+@media (max-width:600px){
+  .mensaje-regalos .frase-principal{ font-size:1.4em; }
+  .mensaje-regalos p{ font-size:1em; }
+  .boton-regalos{ padding:12px 30px; font-size:1.1em; }
+  .enlace-mesa-regalos{ padding:25px 15px; }
+}
+
+/* -------------------- Lugar -------------------- */
+.descripcion-lugar{ text-align:center; margin-bottom:35px; padding:0 10px; }
+.descripcion-lugar p{
+  font-size:1.15em; color:#6B5F56; line-height:1.7; max-width:750px; margin:12px auto;
+}
+.descripcion-lugar p strong{ color:#3F3A36; font-weight:600; }
+.descripcion-lugar p a{ color:#A3ADA0; text-decoration:underline; font-weight:600; transition:color .3s ease; }
+.descripcion-lugar p a:hover{ color:#C6B28A; }
+
+.mapa-container{ margin-bottom:35px; }
+.mapa-container h2{
+  text-align:center; color:#6B5F56; margin-bottom:15px; font-size:1.7em; font-weight:600;
+}
+.mapa-container h2 i{ margin-right:10px; }
+.google-map-iframe-container{
+  position:relative; overflow:hidden; width:100%; max-width:950px; margin:0 auto;
+  padding-top:56.25%; border-radius:10px; box-shadow:0 5px 15px rgba(63,58,54,.12);
+}
+.google-map-iframe-container iframe{
+  position:absolute; inset:0; width:100%; height:100%; border:none; border-radius:10px;
+}
+.direccion-info{
+  text-align:center; margin-top:35px; padding:30px 25px; background:#E6DECF; border-radius:8px; border:1px solid #D3D1CC;
+  max-width:700px; margin-inline:auto;
+}
+.direccion-info h3{ margin:0 0 15px; color:#6B5F56; font-size:1.4em; font-weight:600; }
+.direccion-info h3 i{ margin-right:10px; color:#C6B28A; }
+.direccion-info address{ font-style:normal; font-size:1.1em; color:#6B5F56; line-height:1.7; margin-bottom:25px; }
+.boton-como-llegar{
+  display:inline-block; padding:12px 28px; background:#A3ADA0; color:#F2EEE9; text-decoration:none; border-radius:5px;
+  font-weight:600; transition:all .3s ease; font-size:1.1em; border:none; cursor:pointer; box-shadow:0 3px 8px rgba(63,58,54,.1);
+}
+.boton-como-llegar i{ margin-right:8px; }
+.boton-como-llegar:hover{ background:#6B5F56; box-shadow:0 5px 12px rgba(63,58,54,.15); transform:translateY(-2px); }
+@media (max-width:600px){
+  .descripcion-lugar p{ font-size:1.05em; }
+  .direccion-info{ padding:25px 20px; }
+  .direccion-info h3{ font-size:1.3em; }
+  .direccion-info address{ font-size:1em; }
+  .boton-como-llegar{ padding:10px 22px; font-size:1em; }
+}
+
+/* -------------------- Cuenta regresiva (Time) -------------------- */
+.page-time{
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  min-height:100vh; background:#E6DECF; text-align:center;
+}
+.page-time h1{ color:#3F3A36; margin-bottom:30px; }
+.page-time #countdown-timer{
+  display:flex; gap:20px; background:#F2EEE9; padding:30px 40px; border-radius:10px; box-shadow:0 4px 15px rgba(63,58,54,.1);
+}
+.page-time .time-block{ display:flex; flex-direction:column; align-items:center; min-width:80px; }
+.page-time .number{
+  font-size:3em; font-weight:bold; color:#A3ADA0; line-height:1; padding:5px 0;
+  transition:transform .2s ease-out, opacity .2s ease-out;
+}
+.page-time .label{ font-size:.9em; color:#6B5F56; text-transform:uppercase; margin-top:5px; }
+.page-time .tick{ animation:numberTick .3s ease-out forwards; }
+@keyframes numberTick{
+  0%{ transform:scale(1); opacity:1; }
+  50%{ transform:scale(1.2); opacity:.7; }
+  100%{ transform:scale(1); opacity:1; }
+}
+.page-time #message{ display:none; margin-top:20px; font-size:1.5em; color:#A3ADA0; }
+
+/* =======================================================
+   MENÚ LATERAL (GSAP)
+======================================================= */
+.staggered-menu-wrapper{
+  position:fixed; top:0; left:0; width:100%; height:100vh; z-index:999; pointer-events:none;
+}
+.staggered-menu-header{
+  position:absolute; top:0; left:0; width:100%;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:2em; z-index:20;
+}
+.staggered-menu-header > *{ pointer-events:auto; }
+
+/* Logo (texto o imagen) */
+.sm-logo{ user-select:none; text-decoration:none; }
+.sm-logo-text{
+  font-family:'Dancing Script', cursive; font-size:28px; color:#3F3A36; font-weight:700; transition:color .4s ease;
+}
+.staggered-menu-wrapper[data-open] .sm-logo-text{ color:#F2EEE9; }
+
+/* Logo imagen grande (si usas <img class="sm-logo-img">) */
+.sm-logo-img{
+  height:90px; width:auto; display:block; transition:filter .3s ease, transform .3s ease;
+}
+@media (max-width:768px){ .sm-logo-img{ height:70px; } }
+/* En portada, si el logo es oscuro, iluminar mientras el menú está cerrado */
+.home-page:not(.menu-open) .sm-logo-img{
+  filter: invert(1) brightness(2) contrast(1);
+}
+
+/* Botón de menú */
+.sm-toggle{
+  position:relative; display:inline-flex; align-items:center; gap:.5rem; background:transparent; border:none; cursor:pointer;
+  font-family:'Lato', sans-serif; font-weight:500; line-height:1;
+  padding:.5em 1.2em; border-radius:8px; font-size:1.1em;
+  transition: background-color .3s ease, color .4s ease;
+  color:#3F3A36; /* default páginas internas */
+}
+.home-page .sm-toggle{ color:#F2EEE9; } /* portada */
+.home-page .sm-toggle:hover{ background-color:rgba(255,255,255,.15); color:#F2EEE9; }
+.staggered-menu-wrapper[data-open] .sm-toggle{ color:#3F3A36; }
+.staggered-menu-wrapper[data-open] .sm-toggle:hover{ background-color:rgba(0,0,0,.08); color:#3F3A36; }
+
+.sm-toggle-textWrap{ position:relative; display:inline-block; height:1em; white-space:nowrap; min-width:55px; text-align:left; }
+.sm-toggle-textInner{ display:flex; flex-direction:column; line-height:1; }
+.sm-toggle-line{ display:block; height:1em; line-height:1; }
+.sm-icon{ position:relative; width:14px; height:14px; flex:0 0 14px; }
+.sm-icon-line{
+  position:absolute; left:50%; top:50%; width:100%; height:2px; background:currentColor; border-radius:2px; transform:translate(-50%,-50%);
+}
+
+/* Panel y pre-layers */
+.staggered-menu-panel{
+  position:absolute; top:0; right:0; width:clamp(300px, 38vw, 420px); height:100%;
+  background:#F2EEE9; display:flex; flex-direction:column; padding:7em 2em 2em; overflow-y:auto; z-index:10; pointer-events:auto;
+
+  /* estado cerrado/abierto (se anima con GSAP y también con CSS por si acaso) */
+  transform:translateX(100%); transition:transform .5s ease;
+}
+.staggered-menu-wrapper[data-open] .staggered-menu-panel{ transform:translateX(0); }
+
+.sm-prelayers{
+  position:absolute; top:0; right:0; bottom:0; width:clamp(300px,38vw,420px); pointer-events:none; z-index:5;
+}
+.sm-prelayer{ position:absolute; top:0; right:0; height:100%; width:100%; }
+
+/* Lista del panel */
+.sm-panel-inner{ flex:1; display:flex; flex-direction:column; gap:1.25rem; }
+.sm-panel-list{
+  list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.5rem; counter-reset:smItem;
+}
+.sm-panel-itemWrap{ position:relative; overflow:hidden; line-height:1.1; }
+.sm-panel-item{
+  position:relative; color:#3F3A36; font-weight:600; font-size:clamp(2rem, 5vw, 3rem);
+  cursor:pointer; line-height:1.1; letter-spacing:-2px; text-transform:uppercase; transition:color .25s ease;
+  display:inline-block; text-decoration:none; padding-right:1.4em;
+}
+.sm-panel-item:hover{ color:var(--sm-accent); }
+.sm-panel-itemLabel{ display:inline-block; transform-origin:0% 100%; }
+
+/* Numeración */
+.sm-panel-item::after{
+  counter-increment:smItem; content:counter(smItem, decimal-leading-zero);
+  position:absolute; top:.1em; right:0; font-size:16px; font-weight:400; color:var(--sm-accent); letter-spacing:0;
+  pointer-events:none; user-select:none; opacity:var(--sm-num-opacity, 0); transition:opacity .4s ease;
+}
+
+/* Colores del header según página */
+.sm-logo-text, .sm-toggle{ color:#3F3A36; }           /* internas */
+.home-page .sm-logo-text, .home-page .sm-toggle{ color:#F2EEE9; } /* portada */
+.staggered-menu-wrapper[data-open] .sm-logo-text,
+.staggered-menu-wrapper[data-open] .sm-toggle{ color:#3F3A36; }
+
+/* Fijar visibilidad si abres por JS antes de animar (fallback seguro) */
+.staggered-menu-wrapper[data-open] .sm-panel-list,
+.staggered-menu-wrapper[data-open] .sm-panel-itemWrap,
+.staggered-menu-wrapper[data-open] .sm-panel-item,
+.staggered-menu-wrapper[data-open] .sm-panel-itemLabel{
+  opacity:1 !important; transform:none !important; visibility:visible !important;
+  height:auto !important; overflow:visible !important;
+}
+
+/* Responsive menú */
+@media (max-width:640px){
+  .staggered-menu-header{ padding:1.5em; }
+  .staggered-menu-panel{ width:100%; left:0; right:0; padding-left:2.5em; padding-right:2.5em; }
+  .sm-prelayers{ width:100%; }
+}
+/* ===== FIX VISIBILIDAD MENÚ (forzar texto visible) ===== */
+.staggered-menu-wrapper[data-open] .sm-panel-list,
+.staggered-menu-wrapper[data-open] .sm-panel-itemWrap,
+.staggered-menu-wrapper[data-open] .sm-panel-item,
+.staggered-menu-wrapper[data-open] .sm-panel-itemLabel{
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Color de enlaces dentro del panel (fondo marfil) */
+.staggered-menu-panel { background: #F2EEE9; z-index: 10; }
+.sm-panel-item { color:#3F3A36; }
+.sm-panel-item:hover { color:#C6B28A; }
+/* ==== FIX menú clickeable en TODAS las páginas ==== */
+.staggered-menu-wrapper{
+  /* en reposo puedes dejarlo en none si quieres “clic a través”… */
+  pointer-events: none;
+}
+
+/* …pero cuando el menú está ABIERTO debe aceptar clics */
+.staggered-menu-wrapper[data-open]{
+  pointer-events: auto;
+}
+
+/* Asegura que el panel esté encima y reciba clics */
+.staggered-menu-panel{
+  z-index: 9999;           /* más alto que cualquier contenido */
+  pointer-events: auto;    /* el panel sí recibe clics */
+  background: #F2EEE9;     /* fondo para que el texto contraste */
+}
+
+/* El texto siempre visible al abrir (por si la animación no corre) */
+.staggered-menu-wrapper[data-open] .sm-panel-list,
+.staggered-menu-wrapper[data-open] .sm-panel-item,
+.staggered-menu-wrapper[data-open] .sm-panel-itemLabel{
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+/* Colores legibles del listado */
+.sm-panel-item{ color:#3F3A36; }
+.sm-panel-item:hover{ color:#C6B28A; }
+
+/* ==== Icono hamburguesa animado ==== */
 .sm-icon {
-    position: relative;
-    width: 14px;
-    height: 14px;
-    flex: 0 0 14px;
+  width: 30px;
+  height: 22px;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
 }
-
 .sm-icon-line {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 100%;
-    height: 2px;
-    background: currentColor;
-    border-radius: 2px;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #3F3A36;
+  border-radius: 2px;
+  transition: transform .3s ease, opacity .25s ease;
+}
+.sm-icon-line:nth-child(1) { top: 0; }
+.sm-icon-line:nth-child(2) { top: 9px; }
+.sm-icon-line:nth-child(3) { top: 18px; }
+.sm-toggle:hover .sm-icon-line { background-color: #C6B28A; }
+
+/* vibración ligera */
+.sm-toggle:hover .sm-icon {
+  animation: wiggle 0.3s ease-in-out;
+}
+@keyframes wiggle {
+  0%,100% { transform: rotate(0deg); }
+  25% { transform: rotate(3deg); }
+  75% { transform: rotate(-3deg); }
 }
 
-/* Panel Desplegable */
-.staggered-menu-panel {
-    position: absolute;
-    top: 0;
-    right: 0; /* Por defecto a la derecha */
-    width: clamp(300px, 38vw, 420px);
-    height: 100%;
-    background: #F2EEE9; /* Fondo del panel: Ivory */
-    display: flex;
-    flex-direction: column;
-    padding: 7em 2em 2em 2em;
-    overflow-y: auto;
-    z-index: 10;
-    pointer-events: auto;
+/* ==== Tooltip animado ==== */
+.menu-tooltip {
+  position: absolute;
+  right: 45px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #2F4667;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s ease, transform .4s ease;
+  white-space: nowrap;
+  z-index: 9999;
+}
+.menu-tooltip::after {
+  content: '';
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 6px solid #2F4667;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+}
+.menu-tooltip.visible {
+  opacity: 1;
+  transform: translateY(-50%) translateX(-5px);
 }
 
-/* Capas de animación */
-.sm-prelayers {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: clamp(300px, 38vw, 420px);
-    pointer-events: none;
-    z-index: 5;
+/* ===== FIX: pre-capas ocultas cuando el menú está cerrado ===== */
+.sm-prelayers{
+  position:absolute;
+  top:0; right:0; bottom:0;
+  width:clamp(300px,38vw,420px);
+  pointer-events:none;
+  z-index:5;
+
+  /* Cerrado por defecto (sin depender de GSAP) */
+  transform: translateX(100%);
+  transition: transform .5s ease;
+  display: none;            /* <- clave para eliminar la franja */
+}
+.staggered-menu-wrapper[data-open] .sm-prelayers{
+  transform: translateX(0);
+  display: block;
 }
 
-.sm-prelayer {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 100%;
+/* El panel también cerrado por defecto */
+.staggered-menu-panel{
+  transform: translateX(100%);
+  transition: transform .5s ease;
+  background: #F2EEE9;
+  z-index: 10;
+}
+.staggered-menu-wrapper[data-open] .staggered-menu-panel{
+  transform: translateX(0);
 }
 
-.sm-panel-inner {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
+/* (Por si algún estilo previo los hacía visibles/transparentes) */
+.staggered-menu-wrapper[data-open] .sm-panel-list,
+.staggered-menu-wrapper[data-open] .sm-panel-itemWrap,
+.staggered-menu-wrapper[data-open] .sm-panel-item,
+.staggered-menu-wrapper[data-open] .sm-panel-itemLabel{
+  opacity:1 !important; visibility:visible !important; transform:none !important;
+}
+/* --- Guía de texto junto al ícono de menú --- */
+.menu-guide {
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2F4667;
+  margin-left: 10px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .5s ease, transform .5s ease;
+  display: inline-block;
+  pointer-events: none;
 }
 
-/* Lista de enlaces */
-.sm-panel-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    counter-reset: smItem; /* Para la numeración */
+/* Visible al cargar (animación de entrada) */
+.menu-guide.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.sm-panel-itemWrap {
-    position: relative;
-    overflow: hidden; /* Clave para la animación de texto */
-    line-height: 1.1;
+/* Se oculta al abrir el menú o al pasar el mouse */
+.menu-open .menu-guide,
+.sm-toggle:hover .menu-guide {
+  opacity: 0;
+  transform: translateY(-5px);
 }
 
-.sm-panel-item {
-    position: relative;
-    color: #3F3A36; /* Color de enlaces: Text Dark */
-    font-family: 'Lato', sans-serif;
-    font-weight: 600;
-    font-size: clamp(2rem, 5vw, 3rem); /* Tamaño de fuente responsivo */
-    cursor: pointer;
-    line-height: 1.1;
-    letter-spacing: -2px;
-    text-transform: uppercase;
-    transition: color 0.25s ease;
-    display: inline-block;
-    text-decoration: none;
-    padding-right: 1.4em;
+/* Contenedor del botón */
+.sm-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+.menu-guide {
+  cursor: pointer;                 /* ahora parece botón */
+  user-select: none;               /* no selecciona texto al hacer click */
+  right: 120px;                    /* lo alejamos para no tapar al toggle */
 }
 
-.sm-panel-itemLabel {
-    display: inline-block;
-    transform-origin: 0% 100%;
-}
-
-.sm-panel-item:hover {
-    color: var(--sm-accent); /* Color hover de acento */
-}
-
-/* Numeración de los ítems */
-.sm-panel-item::after {
-    counter-increment: smItem;
-    content: counter(smItem, decimal-leading-zero);
-    position: absolute;
-    top: 0.1em;
-    right: 0;
-    font-size: 16px;
-    font-family: 'Lato', sans-serif;
-    font-weight: 400;
-    color: var(--sm-accent);
-    letter-spacing: 0;
-    pointer-events: none;
-    user-select: none;
-    opacity: var(--sm-num-opacity, 0); /* Controlado por JS */
-    transition: opacity 0.4s ease;
-}
-
-/* Estilos para móviles */
-@media (max-width: 640px) {
-    .staggered-menu-header {
-        padding: 1.5em;
-    }
-    .staggered-menu-panel {
-        width: 100%;
-        left: 0;
-        right: 0;
-        padding-left: 2.5em;
-        padding-right: 2.5em;
-    }
-    .sm-prelayers {
-        width: 100%;
-    }
-}
-/* ===== AJUSTE DE COLOR DEL MENÚ PARA PÁGINAS INTERNAS ===== */
-
-/* Por defecto, el texto del logo y el botón del menú serán oscuros */
-.sm-logo-text, .sm-toggle {
-    color: #3F3A36; /* Text Dark */
-}
-
-/* SOLO en la página principal (home-page), el texto será claro */
-.home-page .sm-logo-text, .home-page .sm-toggle {
-    color: #F2EEE9; /* Ivory */
-}
-
-/* Cuando el menú se abre, el color cambia para contrastar con el panel */
-.staggered-menu-wrapper[data-open] .sm-logo-text {
-    color: #3F3A36; /* Text Dark */
-}
-.staggered-menu-wrapper[data-open] .sm-toggle {
-    color: #3F3A36; /* Text Dark */
-}
-
-/* ======================================================= */
-/* ===== CSS PARA EL EFECTO LINTERNA (CHROMA EFFECT) ===== */
-/* ======================================================= */
-
-/* Aseguramos que la sección hero sea el contenedor del efecto */
-.hero-section {
-    position: relative; /* Necesario para posicionar la capa del efecto */
-    overflow: hidden;   /* Evita que el efecto se salga de los bordes */
-
-    /* Definimos las variables que controlará el JavaScript */
-    --mouse-x: 50%;
-    --mouse-y: 50%;
-    --radius: 250px; /* Tamaño inicial de la linterna. Puedes ajustarlo. */
-}
-
-/* La capa que aplica el efecto de blanco y negro y la máscara */
-.chroma-effect-overlay {
-    position: absolute;
-    inset: 0; /* Cubre toda la sección hero */
-    z-index: 1; /* Se coloca entre la imagen de fondo y el texto */
-    pointer-events: none; /* Permite que el ratón interactúe con lo que hay debajo */
-
-    /* Aplica el filtro de blanco y negro y oscurecimiento a TODA la capa */
-    background-color: transparent; /* No es estrictamente necesario, pero aclara la intención */
-    backdrop-filter: grayscale(1) brightness(0.7);
-    -webkit-backdrop-filter: grayscale(1) brightness(0.7);
-    
-    /* La máscara de recorte en forma de círculo que sigue al ratón */
-    /* Lo que es "transparent" en la máscara revela el fondo (la imagen original) */
-    /* Lo que es "black" o cualquier color en la máscara aplica el backdrop-filter */
-    mask-image: radial-gradient(
-        circle var(--radius) at var(--mouse-x) var(--mouse-y),
-        transparent 0%,      /* El centro es transparente (imagen original a color) */
-        transparent 30%,     /* Transición suave */
-        rgba(0,0,0,1) 60%     /* El resto es opaco, permitiendo el filtro de fondo */
-    );
-    -webkit-mask-image: radial-gradient(
-        circle var(--radius) at var(--mouse-x) var(--mouse-y),
-        transparent 0%,
-        transparent 30%,
-        rgba(0,0,0,1) 60%
-    );
-
-    /* El filtro inicial para oscurecer el fondo si la máscara no se aplica inicialmente por algún motivo */
-    /* Este era el `:before` en tu código original, ahora fusionado aquí. */
-    background-color: rgba(63, 58, 54, 0.4); /* Un ligero oscurecimiento general por si acaso */
-}
-
-/* Aseguramos que el texto esté por encima del efecto */
-.hero-content {
-    position: relative;
-    z-index: 3; /* Se coloca por encima de la capa del efecto */
+.menu-guide:focus-visible {
+  outline: 2px solid #C6B28A;      /* accesible con teclado */
+  outline-offset: 2px;
 }
