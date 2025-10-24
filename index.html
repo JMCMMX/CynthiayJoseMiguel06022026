@@ -389,5 +389,195 @@
       gsap.delayedCall(DURATION, ()=> go(1));
     })();
   </script>
+  <!-- ============ ASISTENTE QA (NO AUTO-ABRE + CERRABLE) ============ -->
+<div class="qa-bot" id="qaBot" aria-live="polite">
+  <!-- Botón flotante -->
+  <button class="qa-fab" id="qaFab" aria-controls="qaPanel" aria-expanded="false" aria-label="Abrir ayuda de preguntas frecuentes">
+    <span class="qa-fab-ring" aria-hidden="true"></span>
+    <span class="qa-fab-avatar" aria-hidden="true">
+      <img src="logo.svg" alt="Asistente" />
+    </span>
+  </button>
+
+  <!-- Burbujas guía (no abren el panel) -->
+  <div class="qa-bubbles" id="qaBubbles" aria-hidden="true">
+    <div class="qa-bubble qa-bubble-main">¿Dudas? Toca aquí</div>
+    <div class="qa-bubble qa-bubble-typing" id="qaTyping">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+  </div>
+
+  <!-- Capa para cerrar al hacer clic fuera -->
+  <div class="qa-overlay" id="qaOverlay" hidden></div>
+
+  <!-- Panel -->
+  <aside class="qa-panel" id="qaPanel" role="dialog" aria-modal="false" aria-labelledby="qaTitle" hidden>
+    <header class="qa-header">
+      <h2 id="qaTitle">¿En qué te ayudamos?</h2>
+      <button class="qa-close" id="qaClose" aria-label="Cerrar ayuda">✕</button>
+    </header>
+
+    <div class="qa-list" role="list">
+      <article class="qa-item">
+        <button class="qa-q" aria-controls="qa-a-1" aria-expanded="false">¿Necesito hospedarme en el Hotel Xcaret?</button>
+        <div class="qa-a" id="qa-a-1" hidden>
+          <p>No es necesario; puedes hospedarte en el hotel de tu preferencia. Lo que más nos importa es tu compañía. Si lo prefieres, contamos con <strong>tarifa preferencial</strong> en <strong>Hotel Xcaret México</strong>.</p>
+          <a class="qa-link" href="hospedaje.html">Ver opciones de hospedaje</a>
+        </div>
+      </article>
+
+      <article class="qa-item">
+        <button class="qa-q" aria-controls="qa-a-2" aria-expanded="false">¿Código de vestimenta?</button>
+        <div class="qa-a" id="qa-a-2" hidden>
+          <p>El código más habitual es <strong>“Formal de playa”</strong> (o guayabera formal) o <strong>“Cóctel de playa”</strong>.</p>
+          <p>Colores sugeridos:</p>
+          <span class="qa-chip" style="--c:#F2EEE9">Ivory</span>
+          <span class="qa-chip" style="--c:#E6DECF">Sand</span>
+          <span class="qa-chip" style="--c:#A3ADA0">Sage</span>
+          <span class="qa-chip" style="--c:#C6B28A">Champagne</span>
+          <span class="qa-chip qa-chip-dark" style="--c:#2F4667">Navy</span>
+        </div>
+      </article>
+
+      <article class="qa-item">
+        <button class="qa-q" aria-controls="qa-a-3" aria-expanded="false">¿A qué hora es?</button>
+        <div class="qa-a" id="qa-a-3" hidden>
+          <p>La ceremonia inicia a las <strong>6:00 p.m.</strong></p>
+          <a class="qa-link" href="fecha-hora.html">Ver detalles</a>
+        </div>
+      </article>
+
+      <article class="qa-item">
+        <button class="qa-q" aria-controls="qa-a-4" aria-expanded="false">¿Debo llevar regalo?</button>
+        <div class="qa-a" id="qa-a-4" hidden>
+          <p><strong>No, no es necesario</strong>; tu <strong>presencia</strong> es lo más importante. Si deseas hacer un detalle, visita:</p>
+          <a class="qa-link" href="regalos.html">Mesa de Regalos</a>
+        </div>
+      </article>
+
+      <article class="qa-item">
+        <button class="qa-q" aria-controls="qa-a-5" aria-expanded="false">¿Esta es una invitación?</button>
+        <div class="qa-a" id="qa-a-5" hidden>
+          <p>No; este es nuestro <strong>sitio web informativo</strong>. Las <strong>invitaciones</strong> se entregarán <strong>personalmente</strong>.</p>
+        </div>
+      </article>
+
+      <article class="qa-item">
+        <button class="qa-q" aria-controls="qa-a-6" aria-expanded="false">¿Puedo llevar niños?</button>
+        <div class="qa-a" id="qa-a-6" hidden>
+          <p><strong>No</strong>. Por razones de seguridad, las instalaciones no permiten el ingreso de menores.</p>
+        </div>
+      </article>
+    </div>
+
+    <footer class="qa-footer">
+      <small>Preguntas frecuentes de la boda · Si tienes otra duda, contáctanos ✨</small>
+    </footer>
+  </aside>
+</div>
+
+<style>
+  :root { --qa-brand:#2F4667; --qa-accent:#C6B28A; }
+  .qa-bot { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+
+  /* FAB */
+  .qa-fab { position: relative; border: none; cursor: pointer; width: 70px; height: 70px; border-radius: 50%; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,.25); display: grid; place-items: center; }
+  .qa-fab-avatar img { width: 55px; height: 55px; object-fit: contain; border-radius: 50%; }
+  .qa-fab-ring { position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 0 rgba(47,70,103,.35); animation: qa-pulse 2.4s ease-out infinite; }
+  @keyframes qa-pulse { 0%{box-shadow:0 0 0 0 rgba(47,70,103,.4)} 70%{box-shadow:0 0 0 20px rgba(47,70,103,0)} 100%{box-shadow:0 0 0 0 rgba(47,70,103,0)} }
+
+  /* Burbujas guía */
+  .qa-bubbles { position: absolute; right: 84px; bottom: 50%; transform: translateY(50%); display: flex; flex-direction: column; gap: 6px; pointer-events: none; transition: opacity .6s ease, transform .6s ease; }
+  .qa-bubble { background: var(--qa-brand); color:#fff; font-weight:700; padding: 10px 14px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,.2); max-width: 240px; }
+  .qa-bubble-main { animation: qa-popin .6s ease-out both; }
+  @keyframes qa-popin { from { opacity:0; transform: translate(12px,50%);} to {opacity:1; transform: translate(0,50%);} }
+
+  .qa-bubble-typing { display: inline-flex; align-items: center; gap: 6px; height: 18px; padding: 8px 12px; opacity: 0; }
+  .qa-bubble-typing .dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; opacity:.5; animation: typing 1.2s infinite; }
+  .qa-bubble-typing .dot:nth-child(2){ animation-delay:.15s }
+  .qa-bubble-typing .dot:nth-child(3){ animation-delay:.3s }
+  @keyframes typing { 0%{transform:translateY(0);opacity:.4} 30%{transform:translateY(-3px);opacity:1} 60%{transform:translateY(0);opacity:.6} 100%{transform:translateY(0);opacity:.4} }
+
+  .qa-bubbles.hide { opacity: 0; transform: translateY(50%) translateX(8px); }
+
+  /* Overlay para cerrar al hacer clic fuera */
+  .qa-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 999; }
+
+  /* Panel */
+  .qa-panel { position: fixed; bottom: 100px; right: 20px; width: min(92vw, 480px); max-height: 70vh; background:#fff; border-radius: 18px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,.25); display: none; grid-template-rows: auto 1fr auto; z-index: 1000; }
+  .qa-bot.open .qa-panel { display: grid; animation: qa-pop .25s ease-out; }
+  .qa-bot.open #qaOverlay { display:block; }
+  @keyframes qa-pop { from { transform: translateY(15px); opacity:0 } to { transform: translateY(0); opacity:1 } }
+
+  .qa-header { background: linear-gradient(to right, #F2EEE9, #E6DECF); padding: 12px 16px; display:flex; justify-content:space-between; align-items:center; }
+  .qa-header h2 { margin: 0; font-size: 18px; color: var(--qa-brand); }
+  .qa-close { border:none; background:transparent; font-size:22px; cursor:pointer; }
+
+  .qa-list { padding: 10px 16px; overflow-y:auto; }
+  .qa-item { border: 1px solid rgba(0,0,0,.08); border-radius: 12px; margin-bottom: 10px; }
+  .qa-q { width: 100%; text-align: left; border: none; background:#fff; padding: 14px; font-weight: 700; font-size: 17px; cursor: pointer; }
+  .qa-a { padding: 10px 14px; border-top: 1px dashed rgba(0,0,0,.1); }
+  .qa-a p { margin: 8px 0; }
+  .qa-link { display:inline-block; margin-top:6px; padding: 8px 12px; border-radius:999px; background: var(--qa-accent); color:#3F3A36; font-weight:700; text-decoration:none; }
+  .qa-footer { font-size: 14px; padding: 10px; text-align:center; color:#6B5F56; background:#faf8f4; }
+  .qa-chip { display:inline-block; padding:6px 10px; margin:4px 4px 0 0; border-radius:999px; background:var(--c); font-size:13px; font-weight:700; color:#3F3A36; }
+  .qa-chip-dark { color:#fff; }
+</style>
+
+<script>
+(function(){
+  const root     = document.getElementById('qaBot');
+  const fab      = document.getElementById('qaFab');
+  const panel    = document.getElementById('qaPanel');
+  const overlay  = document.getElementById('qaOverlay');
+  const closeBtn = document.getElementById('qaClose');
+  const bubbles  = document.getElementById('qaBubbles');
+  const typing   = document.getElementById('qaTyping');
+
+  // Estado seguro inicial (no abierto)
+  function setOpen(open){
+    root.classList.toggle('open', open);
+    panel.hidden   = !open;
+    overlay.hidden = !open;
+    fab.setAttribute('aria-expanded', String(open));
+  }
+  setOpen(false);
+
+  // Burbujas guía (solo visual, no abre)
+  setTimeout(()=> typing.style.opacity = '1', 4000);   // aparecen los puntitos
+  setTimeout(()=> bubbles.classList.add('hide'), 10000); // se desvanecen
+
+  // Toggle por botón
+  fab.addEventListener('click', (e)=>{ e.stopPropagation(); setOpen( fab.getAttribute('aria-expanded') !== 'true' ); });
+
+  // Cerrar por botón X
+  closeBtn.addEventListener('click', ()=> setOpen(false));
+
+  // Cerrar al hacer clic fuera
+  overlay.addEventListener('click', ()=> setOpen(false));
+
+  // Cerrar con ESC
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') setOpen(false); });
+
+  // Evitar que los clics dentro del panel propaguen al overlay
+  panel.addEventListener('click', (e)=> e.stopPropagation());
+
+  // Acordeones accesibles
+  document.querySelectorAll('.qa-q').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.getAttribute('aria-controls');
+      const ans = document.getElementById(id);
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      ans.hidden = expanded;
+    });
+  });
+
+  // Defensa extra: si algún script externo lo abre solo, lo cerramos al terminar de cargar
+  window.addEventListener('load', ()=> setOpen(false));
+})();
+</script>
+<!-- ===================== FIN ASISTENTE QA ===================== -->
+
 </body>
 </html>
