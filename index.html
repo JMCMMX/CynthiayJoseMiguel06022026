@@ -1,306 +1,379 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Boda Cynthia y Jose Miguel</title>
 
-  <!-- Fuentes -->
+  <!-- Fuentes e iconos -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
   <style>
-    :root {
-      --sm-accent: #C6B28A;
+    :root{ --sm-accent:#C6B28A; }
+
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0;
+      font-family:'Lato',sans-serif;
+      background:#F2EEE9;
+      color:#3F3A36;
+      line-height:1.6;
     }
 
-    body {
-      margin: 0;
-      font-family: 'Lato', sans-serif;
-      background-color: #F2EEE9;
-      line-height: 1.6;
-      overflow-x: hidden;
+    /* ====== MENÚ ====== */
+    .staggered-menu-wrapper{
+      position:fixed; inset:0; height:100vh; width:100%;
+      z-index:999; pointer-events:none;
+    }
+    .staggered-menu-header{
+      position:absolute; top:0; left:0; width:100%;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:2em; z-index:20;
+    }
+    .staggered-menu-header>*{ pointer-events:auto; }
+
+    .sm-logo{ display:inline-flex; align-items:center; gap:.5rem; text-decoration:none; }
+    .sm-logo-img{ height:60px; width:auto; display:block; transition:filter .3s ease }
+    .home-page:not(.menu-open) .sm-logo-img{ filter:invert(1) brightness(2) contrast(1); }
+    .menu-open .sm-logo-img{ filter:none; }
+
+    .sm-toggle{
+      position:relative; display:inline-flex; align-items:center; gap:.6rem;
+      background:rgba(0,0,0,0); color:#F2EEE9; border:none; cursor:pointer;
+      padding:.5em .7em; border-radius:10px; transition:background .3s ease,color .3s ease;
+    }
+    .staggered-menu-wrapper[data-open] .sm-toggle{ color:#3F3A36; }
+    .sm-icon{ position:relative; width:24px; height:18px; flex:0 0 24px; }
+    .sm-icon-line{
+      position:absolute; left:0; right:0; height:2px; background:currentColor; border-radius:2px; transition:transform .4s ease,opacity .3s ease;
+    }
+    .sm-icon-line:nth-child(1){ top:0 }
+    .sm-icon-line:nth-child(2){ top:8px }
+    .sm-icon-line:nth-child(3){ top:16px }
+    .staggered-menu-wrapper[data-open] .sm-icon-line:nth-child(1){ transform:translateY(8px) rotate(45deg) }
+    .staggered-menu-wrapper[data-open] .sm-icon-line:nth-child(2){ opacity:0 }
+    .staggered-menu-wrapper[data-open] .sm-icon-line:nth-child(3){ transform:translateY(-8px) rotate(-45deg) }
+
+    .menu-tip{
+      position:absolute; right:64px; top:22px; z-index:22;
+      background:#2F4667; color:#F2EEE9; padding:.45rem .7rem; border-radius:999px;
+      font-size:.9rem; box-shadow:0 10px 28px rgba(0,0,0,.22);
+      display:flex; align-items:center; gap:.4rem; pointer-events:none;
     }
 
-    /* ---------- PORTADA ---------- */
-    .hero-section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      min-height: 100vh;
-      color: white;
-      position: relative;
-      background-image: url('Portada.jpg');
-      background-size: cover;
-      background-position: center center;
-      background-attachment: fixed;
+    .staggered-menu-panel,.sm-prelayers{
+      position:absolute; top:0; right:0; width:clamp(300px,38vw,420px); height:100%;
+    }
+    .staggered-menu-panel{
+      background:#F2EEE9; display:flex; flex-direction:column; padding:7em 2em 2em;
+      overflow-y:auto; z-index:10; pointer-events:auto; transform:translateX(100%); transition:transform .55s ease;
+    }
+    .staggered-menu-wrapper[data-open] .staggered-menu-panel{ transform:translateX(0) }
+    .sm-prelayers{ pointer-events:none; z-index:5 }
+    .sm-prelayer{ position:absolute; inset:0; transform:translateX(100%); transition:transform .5s ease }
+    .staggered-menu-wrapper[data-open] .sm-prelayer{ transform:translateX(0) }
+
+    .sm-panel-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.6rem; counter-reset:smItem }
+    .sm-panel-item{
+      position:relative; color:#3F3A36; font-weight:700; text-decoration:none;
+      font-size:clamp(2rem,5vw,3rem); text-transform:uppercase; letter-spacing:-2px;
+      padding-right:1.6em; display:inline-block; transition:color .25s ease;
+    }
+    .sm-panel-item:hover{ color:var(--sm-accent) }
+    .sm-panel-item::after{
+      counter-increment:smItem; content:counter(smItem,decimal-leading-zero);
+      position:absolute; top:.1em; right:0; font-size:16px; color:var(--sm-accent); opacity:.9;
     }
 
-    .hero-section::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-color: rgba(63, 58, 54, 0.45);
-      z-index: 1;
+    @media (max-width:640px){
+      .staggered-menu-header{ padding:1.2em }
+      .staggered-menu-panel,.sm-prelayers{ width:100%; left:0; right:0 }
+      .staggered-menu-panel{ padding-left:1.6em; padding-right:1.6em }
+      .menu-tip{ right:56px; top:18px; font-size:.85rem }
+      .sm-logo-img{ height:50px }
     }
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
+    /* ====== HERO SLIDESHOW (impacto) ====== */
+    .hero{
+      position:relative; height:100vh; width:100%; overflow:hidden;
+      background:#000;
+    }
+    /* capa por si quieres tener una “Portada.jpg” inicial al fondo */
+    .hero::before{
+      content:""; position:absolute; inset:0;
+      background-image:url('Portada.jpg'); background-size:cover; background-position:center;
+      opacity:.25; filter:saturate(.9) contrast(1.05);
     }
 
-    .hero-content h1 {
-      font-family: 'Dancing Script', cursive;
-      font-size: calc(2.5rem + 3vw);
-      margin: 0;
-      font-weight: 700;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    .slides{
+      position:absolute; inset:0; isolation:isolate;
+    }
+    .slide{
+      position:absolute; inset:0; opacity:0; clip-path:circle(0vmax at 50% 50%);
+      will-change:opacity,clip-path;
+      z-index:1;
+    }
+    .slide.is-under{ z-index:1 }
+    .slide.is-top{ z-index:2 }
+
+    /* Imagen interna para Ken Burns (zoom/pan) */
+    .slide .kb{
+      position:absolute; inset:-10% -10%; /* margen para que el pan no deje bordes */
+      background-size:cover; background-position:center;
+      transform:scale(1.15); will-change:transform,translate;
+      filter: saturate(1.05) contrast(1.05);
     }
 
-    .hero-content .fecha-boda {
-      font-size: calc(1.1rem + 0.8vw);
-      margin-top: 0.3em;
-      letter-spacing: 2px;
-      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    /* Texto de portada */
+    .hero-title{
+      position:absolute; inset:0; display:grid; place-items:center; text-align:center; z-index:3; color:#fff; pointer-events:none;
+      text-shadow:0 12px 36px rgba(0,0,0,.55);
+    }
+    .hero-title h1{
+      margin:0 12px 6px; font-family:'Dancing Script',cursive; font-weight:700;
+      font-size:clamp(42px,6vw,86px);
+    }
+    .hero-title p{ margin:0; font-weight:300; letter-spacing:2px; font-size:clamp(16px,2.2vw,22px) }
+
+    /* ====== GALERÍA AUTOSCROLL ====== */
+    .auto-gallery{
+      position:relative; background:#F2EEE9; padding:24px 0; overflow:hidden;
+      border-top:1px solid rgba(0,0,0,.06); border-bottom:1px solid rgba(0,0,0,.06);
+    }
+    .ag-track{
+      display:flex; gap:16px; will-change:transform; animation:marquee 40s linear infinite;
+    }
+    .ag-track:hover{ animation-play-state:paused }
+    .ag-item{
+      flex:0 0 auto; width:min(40vw,380px); height:min(28vw,240px);
+      border-radius:14px; overflow:hidden; box-shadow:0 10px 26px rgba(0,0,0,.08);
+      background:#ddd;
+    }
+    .ag-item img{ width:100%; height:100%; object-fit:cover; display:block; filter:contrast(1.05) saturate(1.05) }
+
+    @keyframes marquee{
+      from{ transform:translateX(0) }
+      to{ transform:translateX(-50%) }
     }
 
-    /* ---------- MENÚ ---------- */
-    .staggered-menu-wrapper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      z-index: 999;
-      pointer-events: none;
-    }
-
-    .staggered-menu-header {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 2em;
-      z-index: 20;
-    }
-
-    .staggered-menu-header > * { pointer-events: auto; }
-
-    .sm-logo img {
-      height: 48px;
-      width: auto;
-      filter: invert(1) brightness(2);
-      transition: all 0.3s ease;
-    }
-
-    .menu-open .sm-logo img { filter: none; }
-
-    .sm-toggle {
-      position: relative;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      color: #fff;
-      font-size: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      z-index: 1001;
-    }
-
-    .sm-toggle span {
-      display: block;
-      width: 25px;
-      height: 3px;
-      background: currentColor;
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
-
-    .staggered-menu-wrapper[data-open] .sm-toggle span:nth-child(1) {
-      transform: rotate(45deg) translateY(8px);
-    }
-    .staggered-menu-wrapper[data-open] .sm-toggle span:nth-child(2) {
-      opacity: 0;
-    }
-    .staggered-menu-wrapper[data-open] .sm-toggle span:nth-child(3) {
-      transform: rotate(-45deg) translateY(-8px);
-    }
-
-    .staggered-menu-panel {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: clamp(280px, 38vw, 400px);
-      height: 100%;
-      background: #F2EEE9;
-      display: flex;
-      flex-direction: column;
-      padding: 7em 2em 2em 2em;
-      overflow-y: auto;
-      pointer-events: auto;
-      z-index: 10;
-      transform: translateX(100%);
-      transition: transform 0.6s ease;
-    }
-
-    .staggered-menu-wrapper[data-open] .staggered-menu-panel {
-      transform: translateX(0);
-    }
-
-    .sm-panel-item {
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
-      font-weight: 600;
-      text-decoration: none;
-      color: #3F3A36;
-      display: block;
-      margin: 0.4em 0;
-      text-transform: uppercase;
-      letter-spacing: -1px;
-    }
-
-    .sm-panel-item:hover {
-      color: var(--sm-accent);
-    }
-
-    /* ---------- TOOLTIP ---------- */
-    #menuGuide {
-      position: fixed;
-      top: 20px;
-      right: 120px; /* no tapa el botón */
-      background: rgba(47,70,103,.95);
-      color: #F2EEE9;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font: 600 14px/1.2 'Lato', sans-serif;
-      box-shadow: 0 10px 24px rgba(0,0,0,.18);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    #menuGuide .pulse-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--sm-accent);
-      animation: pulse 1.4s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.35); opacity: .65; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    #menuGuide:focus-visible {
-      outline: 2px solid #C6B28A;
-      outline-offset: 2px;
+    .ag-title{
+      text-align:center; margin:8px auto 18px; color:#6B5F56; font-weight:600;
+      letter-spacing:.6px;
     }
   </style>
 </head>
-
 <body class="home-page">
-  <!-- ======== MENÚ ======== -->
-  <div class="staggered-menu-wrapper">
+
+  <!-- ===== Menú ===== -->
+  <div class="staggered-menu-wrapper" data-open="">
+    <div class="sm-prelayers" aria-hidden="true">
+      <div class="sm-prelayer" style="background:#2F4667;"></div>
+      <div class="sm-prelayer" style="background:#A3ADA0;"></div>
+      <div class="sm-prelayer" style="background:#E6DECF;"></div>
+    </div>
+
     <header class="staggered-menu-header">
-      <a href="index.html" class="sm-logo"><img src="logo.svg" alt="Logo"></a>
-      <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" type="button">
-        <span></span><span></span><span></span>
+      <a href="index.html" class="sm-logo" aria-label="Homepage">
+        <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img" loading="eager" decoding="async">
+      </a>
+
+      <span class="menu-tip"><i class="fa-solid fa-hand-point-right"></i> Aquí está el menú</span>
+
+      <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="true" aria-controls="staggered-menu-panel" type="button">
+        <span class="sm-icon" aria-hidden="true">
+          <span class="sm-icon-line"></span>
+          <span class="sm-icon-line"></span>
+          <span class="sm-icon-line"></span>
+        </span>
       </button>
     </header>
 
-    <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
-      <nav>
-        <a class="sm-panel-item" href="index.html">Inicio</a>
-        <a class="sm-panel-item" href="fecha-hora.html">Fecha y Hora</a>
-        <a class="sm-panel-item" href="lugar.html">El Lugar</a>
-        <a class="sm-panel-item" href="hospedaje.html">Hospedaje</a>
-        <a class="sm-panel-item" href="vuelos.html">Vuelos</a>
-        <a class="sm-panel-item" href="regalos.html">Regalos</a>
-        <a class="sm-panel-item" href="calculadora.html">Calculadora</a>
-        <a class="sm-panel-item" href="Time.html">Cuenta Regresiva</a>
-      </nav>
+    <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="false">
+      <div class="sm-panel-inner">
+        <ul class="sm-panel-list" role="list">
+          <li><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Homepage</span></a></li>
+          <li><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
+          <li><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
+          <li><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
+          <li><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
+          <li><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora</span></a></li>
+          <li><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
+          <li><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
+        </ul>
+      </div>
     </aside>
   </div>
 
-  <!-- Portada -->
-  <header class="hero-section">
-    <div class="hero-content">
-      <h1>Cynthia y Jose Miguel</h1>
-      <p class="fecha-boda">06 de Febrero de 2026</p>
+  <!-- ===== Hero Slideshow ===== -->
+  <section class="hero" id="hero">
+    <div class="slides" id="slides">
+      <!-- Cada slide tiene un hijo .kb para la animación Ken Burns -->
+      <div class="slide is-top">
+        <div class="kb" style="background-image:url('1.jpg')"></div>
+      </div>
+      <div class="slide">
+        <div class="kb" style="background-image:url('2.jpg')"></div>
+      </div>
+      <div class="slide">
+        <div class="kb" style="background-image:url('3.jpg')"></div>
+      </div>
+      <div class="slide">
+        <div class="kb" style="background-image:url('4.jpg')"></div>
+      </div>
+      <div class="slide">
+        <div class="kb" style="background-image:url('5.jpg')"></div>
+      </div>
+      <div class="slide">
+        <div class="kb" style="background-image:url('6.jpg')"></div>
+      </div>
+      <div class="slide">
+        <div class="kb" style="background-image:url('7.jpg')"></div>
+      </div>
+      <div class="slide">
+        <div class="kb" style="background-image:url('8.jpg')"></div>
+      </div>
+      <div class="slide">
+        <div class="kb" style="background-image:url('9.jpg')"></div>
+      </div>
+      <div class="slide">
+        <div class="kb" style="background-image:url('10.jpg')"></div>
+      </div>
+      <div class="slide">
+        <div class="kb" style="background-image:url('11.jpg')"></div>
+      </div>
     </div>
-  </header>
 
-  <!-- Tooltip fijo y clicable -->
-  <div id="menuGuide" role="button" tabindex="0" aria-label="Abrir menú">
-    <span class="pulse-dot"></span> Aquí está el menú 👋
-  </div>
+    <div class="hero-title">
+      <div>
+        <h1>Cynthia y Jose Miguel</h1>
+        <p>06 de Febrero de 2026</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Galería auto–desplazable ===== -->
+  <section class="auto-gallery">
+    <div class="ag-title">Momentos que amamos</div>
+    <div class="ag-track">
+      <!-- Duplicamos para bucle infinito -->
+      <div class="ag-item"><img src="1.jpg" alt=""></div>
+      <div class="ag-item"><img src="2.jpg" alt=""></div>
+      <div class="ag-item"><img src="3.jpg" alt=""></div>
+      <div class="ag-item"><img src="4.jpg" alt=""></div>
+      <div class="ag-item"><img src="5.jpg" alt=""></div>
+      <div class="ag-item"><img src="6.jpg" alt=""></div>
+      <div class="ag-item"><img src="7.jpg" alt=""></div>
+      <div class="ag-item"><img src="8.jpg" alt=""></div>
+      <div class="ag-item"><img src="9.jpg" alt=""></div>
+      <div class="ag-item"><img src="10.jpg" alt=""></div>
+      <div class="ag-item"><img src="11.jpg" alt=""></div>
+
+      <div class="ag-item"><img src="1.jpg" alt=""></div>
+      <div class="ag-item"><img src="2.jpg" alt=""></div>
+      <div class="ag-item"><img src="3.jpg" alt=""></div>
+      <div class="ag-item"><img src="4.jpg" alt=""></div>
+      <div class="ag-item"><img src="5.jpg" alt=""></div>
+      <div class="ag-item"><img src="6.jpg" alt=""></div>
+      <div class="ag-item"><img src="7.jpg" alt=""></div>
+      <div class="ag-item"><img src="8.jpg" alt=""></div>
+      <div class="ag-item"><img src="9.jpg" alt=""></div>
+      <div class="ag-item"><img src="10.jpg" alt=""></div>
+      <div class="ag-item"><img src="11.jpg" alt=""></div>
+    </div>
+  </section>
 
   <!-- Librerías -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="menu.js"></script>
 
-  <!-- Secuencia automática -->
   <script>
-  (function(){
-    const wrapper = document.querySelector('.staggered-menu-wrapper');
-    const panel   = document.getElementById('staggered-menu-panel');
-    const toggle  = document.querySelector('.sm-toggle');
-    const guide   = document.getElementById('menuGuide');
+    /* ===== Menú: abrir al entrar -> cerrar a los 2.2s -> queda operativo ===== */
+    (function(){
+      const wrapper = document.querySelector('.staggered-menu-wrapper');
+      const panel   = document.getElementById('staggered-menu-panel');
+      const toggle  = document.querySelector('.sm-toggle');
+      const body    = document.body;
 
-    if(!wrapper || !panel || !toggle || !guide) return;
-
-    function openMenu(){
-      toggle.setAttribute('aria-expanded','true');
-      panel.setAttribute('aria-hidden','false');
-      wrapper.setAttribute('data-open','');
-      document.body.classList.add('menu-open');
-    }
-
-    function closeMenu(){
-      toggle.setAttribute('aria-expanded','false');
-      panel.setAttribute('aria-hidden','true');
-      wrapper.removeAttribute('data-open');
-      document.body.classList.remove('menu-open');
-    }
-
-    function runAuto(){
-      closeMenu();
-      setTimeout(openMenu, 600);   // abre solo
-      setTimeout(closeMenu, 3500); // cierra solo
-    }
-
-    // Click en el icono hamburguesa
-    toggle.addEventListener('click', ()=>{
-      if(wrapper.hasAttribute('data-open')) closeMenu(); else openMenu();
-    });
-
-    // Tooltip clicable y accesible
-    guide.addEventListener('click', ()=>{
-      if(wrapper.hasAttribute('data-open')) closeMenu(); else openMenu();
-    });
-    guide.addEventListener('keydown', (e)=>{
-      if(e.key === 'Enter' || e.key === ' '){
-        e.preventDefault();
-        if(wrapper.hasAttribute('data-open')) closeMenu(); else openMenu();
+      function openMenu(){
+        wrapper.setAttribute('data-open','');
+        panel.setAttribute('aria-hidden','false');
+        toggle.setAttribute('aria-expanded','true');
+        body.classList.add('menu-open');
       }
-    });
+      function closeMenu(){
+        wrapper.removeAttribute('data-open');
+        panel.setAttribute('aria-hidden','true');
+        toggle.setAttribute('aria-expanded','false');
+        body.classList.remove('menu-open');
+      }
+      function isOpen(){ return toggle.getAttribute('aria-expanded') === 'true'; }
 
-    if(document.readyState === 'loading'){
-      document.addEventListener('DOMContentLoaded', runAuto);
-    } else {
-      runAuto();
-    }
-  })();
+      toggle.addEventListener('click', ()=>{ isOpen()? closeMenu(): openMenu(); });
+
+      function autoIntro(){
+        openMenu();
+        setTimeout(closeMenu, 2200);
+      }
+      if(document.readyState==='loading'){
+        document.addEventListener('DOMContentLoaded', autoIntro);
+      }else{ autoIntro(); }
+    })();
+
+    /* ===== HERO: Carrusel impactante (reveal circular + Ken Burns) ===== */
+    (function(){
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const kbImgs = slides.map(s=>s.querySelector('.kb'));
+      if(slides.length === 0) return;
+
+      let index = 0;
+      const DURATION = 4.5;   // tiempo total por slide
+      const REVEAL = 1.6;     // duración del reveal
+      const EASE = 'power3.out';
+
+      // Estado inicial
+      gsap.set(slides, { opacity:0, clipPath:'circle(0vmax at 50% 50%)', zIndex:1 });
+      gsap.set(slides[0], { opacity:1, clipPath:'circle(140vmax at 50% 50%)', zIndex:2 });
+      gsap.set(kbImgs, { scale:1.15, xPercent:0, yPercent:0 });
+      // Ken Burns inicial corre suave
+      gsap.to(kbImgs[0], { scale:1, duration:DURATION, ease:'power1.out' });
+
+      function randPan(){
+        return { xPercent: gsap.utils.random(-6,6), yPercent: gsap.utils.random(-6,6) };
+      }
+      function nextIndex(i){ return (i+1) % slides.length; }
+
+      function go(next){
+        const curr = index;
+        const nxt  = next;
+
+        // prepara próximo
+        gsap.set(slides[nxt], { zIndex:2, opacity:1, clipPath:'circle(0vmax at 50% 50%)' });
+        const pan = randPan();
+        gsap.set(kbImgs[nxt], { scale:1.18, xPercent:pan.xPercent, yPercent:pan.yPercent });
+
+        const tl = gsap.timeline({
+          defaults:{ ease:EASE },
+          onComplete(){
+            // relega el anterior
+            gsap.set(slides[curr], { zIndex:1, opacity:0, clipPath:'circle(0vmax at 50% 50%)' });
+            index = nxt;
+            // siguiente cambio programado
+            gsap.delayedCall(DURATION, ()=> go(nextIndex(index)));
+          }
+        });
+
+        // REVEAL circular del nuevo + ken burns
+        tl.to(slides[nxt], { clipPath:'circle(140vmax at 50% 50%)', duration:REVEAL }, 0)
+          .to(kbImgs[nxt], { scale:1, xPercent:0, yPercent:0, duration:DURATION, ease:'power1.out' }, 0)
+          .to(slides[curr], { opacity:0, duration:0.9, ease:'power2.out' }, 0.4);
+      }
+
+      // arranca el loop
+      gsap.delayedCall(DURATION, ()=> go(1));
+    })();
   </script>
 </body>
 </html>
