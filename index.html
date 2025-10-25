@@ -5,14 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Boda Cynthia y Jose Miguel</title>
 
-  <!-- Favicon moderno -->
+  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="alternate icon" type="image/png" sizes="32x32" href="favicon-32.png">
-  <link rel="alternate icon" type="image/png" sizes="16x16" href="favicon-16.png">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#2F4667">
-  <link rel="manifest" href="site.webmanifest">
-  <meta name="theme-color" content="#F2EEE9">
+
+  <!-- Tu CSS global -->
+  <link rel="stylesheet" href="style.css">
 
   <!-- Fuentes e iconos -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,174 +18,99 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
   <style>
-    :root{ --sm-accent:#C6B28A; }
+    :root{
+      --sm-accent:#C6B28A;
+      --qa-brand:#2F4667;
+      --qa-accent:#C6B28A;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:'Lato',sans-serif;background:#F2EEE9;color:#3F3A36}
 
-    *{ box-sizing:border-box }
-    html,body{ height:100% }
-    body{
-      margin:0;
-      font-family:'Lato',sans-serif;
-      background:#F2EEE9;
-      color:#3F3A36;
-      line-height:1.6;
-    }
+    /* ===== MENÚ lateral (no auto-abrir) ===== */
+    .staggered-menu-wrapper{position:fixed;inset:0;z-index:999;pointer-events:none}
+    .staggered-menu-header{position:absolute;top:0;left:0;width:100%;display:flex;align-items:center;justify-content:space-between;padding:1.25em 1.5em;z-index:20}
+    .staggered-menu-header>*{pointer-events:auto}
+    .sm-logo-img{height:48px;filter:invert(1) brightness(2)}
+    .sm-toggle{display:inline-flex;align-items:center;background:none;border:none;cursor:pointer;color:#fff;padding:.45em;border-radius:8px}
+    .sm-icon{width:24px;height:18px;position:relative}
+    .sm-icon-line{position:absolute;left:0;right:0;height:2px;background:#fff;border-radius:2px;transition:.35s}
+    .sm-icon-line:nth-child(1){top:0}
+    .sm-icon-line:nth-child(2){top:8px}
+    .sm-icon-line:nth-child(3){top:16px}
+    .staggered-menu-wrapper[data-open] .sm-icon-line:nth-child(1){transform:translateY(8px) rotate(45deg)}
+    .staggered-menu-wrapper[data-open] .sm-icon-line:nth-child(2){opacity:0}
+    .staggered-menu-wrapper[data-open] .sm-icon-line:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
 
-    /* ====== MENÚ ====== */
-    .staggered-menu-wrapper{
-      position:fixed; inset:0; height:100vh; width:100%;
-      z-index:999; pointer-events:none;
-    }
-    .staggered-menu-header{
-      position:absolute; top:0; left:0; width:100%;
-      display:flex; align-items:center; justify-content:space-between;
-      padding:2em; z-index:20;
-    }
-    .staggered-menu-header>*{ pointer-events:auto; }
+    .menu-tip{position:absolute;right:64px;top:16px;background:#2F4667;color:#fff;padding:.4rem .7rem;border-radius:999px;font-size:.85rem;box-shadow:0 8px 20px rgba(0,0,0,.25);transition:opacity .6s,transform .6s}
+    .menu-tip.hide{opacity:0;transform:translateX(8px)}
 
-    .sm-logo{ display:inline-flex; align-items:center; gap:.5rem; text-decoration:none; }
-    .sm-logo-img{ height:60px; width:auto; display:block; transition:filter .3s ease }
-    .home-page:not(.menu-open) .sm-logo-img{ filter:invert(1) brightness(2) contrast(1); }
-    .menu-open .sm-logo-img{ filter:none; }
-
-    .sm-toggle{
-      position:relative; display:inline-flex; align-items:center; gap:.6rem;
-      background:rgba(0,0,0,0); color:#F2EEE9; border:none; cursor:pointer;
-      padding:.5em .7em; border-radius:10px; transition:background .3s ease,color .3s ease;
-    }
-    .staggered-menu-wrapper[data-open] .sm-toggle{ color:#3F3A36; }
-    .sm-icon{ position:relative; width:24px; height:18px; flex:0 0 24px; }
-    .sm-icon-line{
-      position:absolute; left:0; right:0; height:2px; background:currentColor; border-radius:2px; transition:transform .4s ease,opacity .3s ease;
-    }
-    .sm-icon-line:nth-child(1){ top:0 }
-    .sm-icon-line:nth-child(2){ top:8px }
-    .sm-icon-line:nth-child(3){ top:16px }
-    .staggered-menu-wrapper[data-open] .sm-icon-line:nth-child(1){ transform:translateY(8px) rotate(45deg) }
-    .staggered-menu-wrapper[data-open] .sm-icon-line:nth-child(2){ opacity:0 }
-    .staggered-menu-wrapper[data-open] .sm-icon-line:nth-child(3){ transform:translateY(-8px) rotate(-45deg) }
-
-    .menu-tip{
-      position:absolute; right:64px; top:22px; z-index:22;
-      background:#2F4667; color:#F2EEE9; padding:.45rem .7rem; border-radius:999px;
-      font-size:.9rem; box-shadow:0 10px 28px rgba(0,0,0,.22);
-      display:flex; align-items:center; gap:.4rem; pointer-events:none;
-    }
-
-    .staggered-menu-panel,.sm-prelayers{
-      position:absolute; top:0; right:0; width:clamp(300px,38vw,420px); height:100%;
-    }
-    .staggered-menu-panel{
-      background:#F2EEE9; display:flex; flex-direction:column; padding:7em 2em 2em;
-      overflow-y:auto; z-index:10; pointer-events:auto; transform:translateX(100%); transition:transform .55s ease;
-    }
-    .staggered-menu-wrapper[data-open] .staggered-menu-panel{ transform:translateX(0) }
-    .sm-prelayers{ pointer-events:none; z-index:5 }
-    .sm-prelayer{ position:absolute; inset:0; transform:translateX(100%); transition:transform .5s ease }
-    .staggered-menu-wrapper[data-open] .sm-prelayer{ transform:translateX(0) }
-
-    .sm-panel-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.6rem; counter-reset:smItem }
-    .sm-panel-item{
-      position:relative; color:#3F3A36; font-weight:700; text-decoration:none;
-      font-size:clamp(2rem,5vw,3rem); text-transform:uppercase; letter-spacing:-2px;
-      padding-right:1.6em; display:inline-block; transition:color .25s ease;
-    }
-    .sm-panel-item:hover{ color:var(--sm-accent) }
-    .sm-panel-item::after{
-      counter-increment:smItem; content:counter(smItem,decimal-leading-zero);
-      position:absolute; top:.1em; right:0; font-size:16px; color:var(--sm-accent); opacity:.9;
-    }
+    .staggered-menu-panel{position:absolute;top:0;right:0;width:clamp(300px,44vw,420px);height:100%;background:#F2EEE9;overflow-y:auto;padding:7em 2em 2em;z-index:10;pointer-events:auto;transform:translateX(100%);transition:transform .5s ease}
+    .staggered-menu-wrapper[data-open] .staggered-menu-panel{transform:translateX(0)}
+    .sm-panel-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem}
+    .sm-panel-item{font-size:2rem;text-transform:uppercase;text-decoration:none;color:#3F3A36;font-weight:800}
+    .sm-panel-item:hover{color:var(--sm-accent)}
 
     @media (max-width:640px){
-      .staggered-menu-header{ padding:1.2em }
-      .staggered-menu-panel,.sm-prelayers{ width:100%; left:0; right:0 }
-      .staggered-menu-panel{ padding-left:1.6em; padding-right:1.6em }
-      .menu-tip{ right:56px; top:18px; font-size:.85rem }
-      .sm-logo-img{ height:50px }
+      .sm-logo-img{height:44px}
+      .menu-tip{right:56px}
+      .staggered-menu-panel{width:100%}
     }
 
-    /* ====== HERO SLIDESHOW (impacto) ====== */
-    .hero{
-      position:relative; height:100vh; width:100%; overflow:hidden;
-      background:#000;
-    }
-    .hero::before{
-      content:""; position:absolute; inset:0;
-      background-image:url('Portada.jpg'); background-size:cover; background-position:center;
-      opacity:.25; filter:saturate(.9) contrast(1.05);
-    }
+    /* ===== HERO SLIDESHOW (impacto, fluido móvil) ===== */
+    .hero{height:100vh;position:relative;overflow:hidden;background:#000}
+    .hero::before{content:"";position:absolute;inset:0;background:url('1.jpg') center/cover no-repeat;opacity:.25}
+    .slides{position:absolute;inset:0}
+    .slide{position:absolute;inset:0;opacity:0;clip-path:circle(0vmax at 50% 50%)}
+    .slide.is-top{opacity:1;clip-path:circle(140vmax at 50% 50%)}
+    .kb{position:absolute;inset:-10%;background-size:cover;background-position:center;transform:scale(1.12);will-change:transform}
 
-    .slides{ position:absolute; inset:0; isolation:isolate; }
-    .slide{
-      position:absolute; inset:0; opacity:0; clip-path:circle(0vmax at 50% 50%);
-      will-change:opacity,clip-path; z-index:1;
-    }
-    .slide.is-top{ z-index:2 }
+    .hero-title{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#fff;text-shadow:0 12px 36px rgba(0,0,0,.55)}
+    .hero-title h1{margin:0 12px 6px;font-family:'Dancing Script',cursive;font-weight:700;font-size:clamp(42px,6vw,86px)}
+    .hero-title p{margin:0;font-weight:300;letter-spacing:2px;font-size:clamp(16px,2.2vw,22px)}
 
-    .slide .kb{
-      position:absolute; inset:-10% -10%;
-      background-size:cover; background-position:center;
-      transform:scale(1.15); will-change:transform;
-      filter: saturate(1.05) contrast(1.05);
-    }
+    /* ===== GALERÍA AUTO ===== */
+    .auto-gallery{background:#F2EEE9;padding:22px 0;overflow:hidden;border-top:1px solid rgba(0,0,0,.06);border-bottom:1px solid rgba(0,0,0,.06)}
+    .ag-title{text-align:center;font-weight:600;color:#6B5F56;margin-bottom:10px}
+    .ag-track{display:flex;gap:14px;animation:marquee 36s linear infinite}
+    @keyframes marquee{to{transform:translateX(-50%)}}
+    .ag-item{width:280px;height:200px;border-radius:12px;overflow:hidden;background:#ddd;box-shadow:0 10px 24px rgba(0,0,0,.08)}
+    .ag-item img{width:100%;height:100%;object-fit:cover;display:block}
 
-    .hero-title{
-      position:absolute; inset:0; display:grid; place-items:center; text-align:center; z-index:3; color:#fff; pointer-events:none;
-      text-shadow:0 12px 36px rgba(0,0,0,.55);
-    }
-    .hero-title h1{
-      margin:0 12px 6px; font-family:'Dancing Script',cursive; font-weight:700;
-      font-size:clamp(42px,6vw,86px);
-    }
-    .hero-title p{ margin:0; font-weight:300; letter-spacing:2px; font-size:clamp(16px,2.2vw,22px) }
-
-    /* ====== GALERÍA AUTOSCROLL ====== */
-    .auto-gallery{
-      position:relative; background:#F2EEE9; padding:24px 0; overflow:hidden;
-      border-top:1px solid rgba(0,0,0,.06); border-bottom:1px solid rgba(0,0,0,.06);
-    }
-    .ag-track{
-      display:flex; gap:16px; will-change:transform; animation:marquee 40s linear infinite;
-    }
-    .ag-track:hover{ animation-play-state:paused }
-    .ag-item{
-      flex:0 0 auto; width:min(40vw,380px); height:min(28vw,240px);
-      border-radius:14px; overflow:hidden; box-shadow:0 10px 26px rgba(0,0,0,.08);
-      background:#ddd;
-    }
-    .ag-item img{ width:100%; height:100%; object-fit:cover; display:block; filter:contrast(1.05) saturate(1.05) }
-
-    @keyframes marquee{ from{ transform:translateX(0) } to{ transform:translateX(-50%) } }
-
-    .ag-title{
-      text-align:center; margin:8px auto 18px; color:#6B5F56; font-weight:600;
-      letter-spacing:.6px;
-    }
-
-    /* ====== Parche anti-parpadeo móvil ====== */
-    @media (max-width: 900px), (hover: none), (pointer: coarse) {
-      .hero { background-attachment: scroll !important; }
-    }
-    .hero, .slides, .slide, .kb { transform: translateZ(0); backface-visibility: hidden; will-change: transform, opacity; }
+    /* ===== QA BOT (integrado, no auto-abrir) ===== */
+    .qa-bot{position:fixed;bottom:20px;right:20px;z-index:900}
+    .qa-fab{width:66px;height:66px;border-radius:50%;background:#fff;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25);display:grid;place-items:center}
+    .qa-fab img{width:54px;height:54px;object-fit:contain}
+    .qa-bubbles{position:absolute;right:80px;bottom:50%;transform:translateY(50%);display:flex;flex-direction:column;gap:6px;pointer-events:none;transition:opacity .6s,transform .6s}
+    .qa-bubble{background:var(--qa-brand);color:#fff;font-weight:700;padding:9px 12px;border-radius:14px;box-shadow:0 8px 20px rgba(0,0,0,.2);max-width:240px}
+    .qa-bubbles.hide{opacity:0;transform:translateY(50%) translateX(8px)}
+    .qa-panel{position:fixed;bottom:100px;right:20px;width:min(92vw,480px);max-height:70vh;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.25);display:none;grid-template-rows:auto 1fr auto}
+    .qa-bot.open .qa-panel{display:grid;animation:qa-pop .25s ease-out}
+    @keyframes qa-pop{from{transform:translateY(15px);opacity:0}}
+    .qa-header{background:linear-gradient(to right,#F2EEE9,#E6DECF);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+    .qa-header h2{margin:0;font-size:18px;color:var(--qa-brand)}
+    .qa-close{border:none;background:transparent;font-size:22px;cursor:pointer}
+    .qa-list{padding:10px 16px;overflow-y:auto}
+    .qa-item{border:1px solid rgba(0,0,0,.08);border-radius:12px;margin-bottom:10px}
+    .qa-q{width:100%;text-align:left;border:none;background:#fff;padding:14px;font-weight:700;font-size:17px;cursor:pointer}
+    .qa-a{padding:10px 14px;border-top:1px dashed rgba(0,0,0,.1)}
+    .qa-a p{margin:8px 0}
+    .qa-link{display:inline-block;margin-top:6px;padding:8px 12px;border-radius:999px;background:var(--qa-accent);color:#3F3A36;font-weight:700;text-decoration:none}
+    .qa-footer{font-size:13px;padding:10px;text-align:center;color:#6B5F56;background:#faf8f4}
   </style>
 </head>
+
 <body class="home-page">
 
-  <!-- ===== Menú (inicial cerrado) ===== -->
+  <!-- ===== MENÚ ===== -->
   <div class="staggered-menu-wrapper">
-    <div class="sm-prelayers" aria-hidden="true">
-      <div class="sm-prelayer" style="background:#2F4667;"></div>
-      <div class="sm-prelayer" style="background:#A3ADA0;"></div>
-      <div class="sm-prelayer" style="background:#E6DECF;"></div>
-    </div>
-
     <header class="staggered-menu-header">
       <a href="index.html" class="sm-logo" aria-label="Homepage">
         <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img" loading="eager" decoding="async">
       </a>
 
-      <span class="menu-tip"><i class="fa-solid fa-hand-point-right"></i> Aquí está el menú</span>
+      <span class="menu-tip" id="menuTip"><i class="fa-solid fa-hand-point-right"></i> Aquí está el menú</span>
 
-      <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
+      <button class="sm-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="menuPanel" type="button">
         <span class="sm-icon" aria-hidden="true">
           <span class="sm-icon-line"></span>
           <span class="sm-icon-line"></span>
@@ -197,23 +119,21 @@
       </button>
     </header>
 
-    <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
-      <div class="sm-panel-inner">
-        <ul class="sm-panel-list" role="list">
-          <li><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Homepage</span></a></li>
-          <li><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
-          <li><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
-          <li><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
-          <li><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
-          <li><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora</span></a></li>
-          <li><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
-          <li><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
-        </ul>
-      </div>
+    <aside id="menuPanel" class="staggered-menu-panel" aria-hidden="true">
+      <ul class="sm-panel-list" role="list">
+        <li><a class="sm-panel-item" href="index.html">Inicio</a></li>
+        <li><a class="sm-panel-item" href="fecha-hora.html">Fecha & Hora</a></li>
+        <li><a class="sm-panel-item" href="lugar.html">El Lugar</a></li>
+        <li><a class="sm-panel-item" href="hospedaje.html">Hospedaje</a></li>
+        <li><a class="sm-panel-item" href="vuelos.html">Vuelos</a></li>
+        <li><a class="sm-panel-item" href="regalos.html">Regalos</a></li>
+        <li><a class="sm-panel-item" href="Time.html">Cuenta Regresiva</a></li>
+        <li><a class="sm-panel-item" href="calculadora.html">Calculadora</a></li>
+      </ul>
     </aside>
   </div>
 
-  <!-- ===== Hero Slideshow ===== -->
+  <!-- ===== HERO (14 imágenes) ===== -->
   <section class="hero" id="hero">
     <div class="slides" id="slides">
       <div class="slide is-top"><div class="kb" style="background-image:url('1.jpg')"></div></div>
@@ -240,151 +160,54 @@
     </div>
   </section>
 
-  <!-- ===== Galería auto–desplazable ===== -->
+  <!-- ===== Galería auto desplazable ===== -->
   <section class="auto-gallery">
     <div class="ag-title">Momentos que amamos</div>
     <div class="ag-track">
-      <!-- Duplicamos para bucle infinito -->
-      <div class="ag-item"><img src="1.jpg" alt=""></div>
-      <div class="ag-item"><img src="2.jpg" alt=""></div>
-      <div class="ag-item"><img src="3.jpg" alt=""></div>
-      <div class="ag-item"><img src="4.jpg" alt=""></div>
-      <div class="ag-item"><img src="5.jpg" alt=""></div>
-      <div class="ag-item"><img src="6.jpg" alt=""></div>
-      <div class="ag-item"><img src="7.jpg" alt=""></div>
-      <div class="ag-item"><img src="8.jpg" alt=""></div>
-      <div class="ag-item"><img src="9.jpg" alt=""></div>
-      <div class="ag-item"><img src="10.jpg" alt=""></div>
-      <div class="ag-item"><img src="11.jpg" alt=""></div>
-      <div class="ag-item"><img src="12.jpg" alt=""></div>
-      <div class="ag-item"><img src="13.jpg" alt=""></div>
-      <div class="ag-item"><img src="14.jpg" alt=""></div>
+      <!-- Duplicamos para bucle infinito fluido -->
+      <div class="ag-item"><img src="1.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="2.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="3.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="4.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="5.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="6.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="7.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="8.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="9.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="10.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="11.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="12.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="13.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="14.jpg" alt="" loading="lazy"></div>
 
-      <div class="ag-item"><img src="1.jpg" alt=""></div>
-      <div class="ag-item"><img src="2.jpg" alt=""></div>
-      <div class="ag-item"><img src="3.jpg" alt=""></div>
-      <div class="ag-item"><img src="4.jpg" alt=""></div>
-      <div class="ag-item"><img src="5.jpg" alt=""></div>
-      <div class="ag-item"><img src="6.jpg" alt=""></div>
-      <div class="ag-item"><img src="7.jpg" alt=""></div>
-      <div class="ag-item"><img src="8.jpg" alt=""></div>
-      <div class="ag-item"><img src="9.jpg" alt=""></div>
-      <div class="ag-item"><img src="10.jpg" alt=""></div>
-      <div class="ag-item"><img src="11.jpg" alt=""></div>
-      <div class="ag-item"><img src="12.jpg" alt=""></div>
-      <div class="ag-item"><img src="13.jpg" alt=""></div>
-      <div class="ag-item"><img src="14.jpg" alt=""></div>
+      <div class="ag-item"><img src="1.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="2.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="3.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="4.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="5.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="6.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="7.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="8.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="9.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="10.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="11.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="12.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="13.jpg" alt="" loading="lazy"></div>
+      <div class="ag-item"><img src="14.jpg" alt="" loading="lazy"></div>
     </div>
   </section>
 
-  <!-- Librerías -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-
-  <script>
-    /* ===== Menú: abrir al entrar -> cerrar a los 2.2s -> queda operativo ===== */
-    (function(){
-      const wrapper = document.querySelector('.staggered-menu-wrapper');
-      const panel   = document.getElementById('staggered-menu-panel');
-      const toggle  = document.querySelector('.sm-toggle');
-      const body    = document.body;
-
-      function openMenu(){
-        wrapper.setAttribute('data-open','');
-        panel.setAttribute('aria-hidden','false');
-        toggle.setAttribute('aria-expanded','true');
-        body.classList.add('menu-open');
-      }
-      function closeMenu(){
-        wrapper.removeAttribute('data-open');
-        panel.setAttribute('aria-hidden','true');
-        toggle.setAttribute('aria-expanded','false');
-        body.classList.remove('menu-open');
-      }
-      function isOpen(){ return toggle.getAttribute('aria-expanded') === 'true'; }
-
-      // Toggle manual
-      toggle.addEventListener('click', ()=>{ isOpen()? closeMenu(): openMenu(); });
-
-      // Show de bienvenida
-      function autoIntro(){
-        openMenu();
-        setTimeout(closeMenu, 2200);
-      }
-      if(document.readyState==='loading'){
-        document.addEventListener('DOMContentLoaded', autoIntro);
-      }else{ autoIntro(); }
-    })();
-
-    /* ===== HERO: Carrusel impactante (reveal circular + Ken Burns) ===== */
-    (function(){
-      const slides = Array.from(document.querySelectorAll('.slide'));
-      const kbImgs = slides.map(s=>s.querySelector('.kb'));
-      if(slides.length === 0) return;
-
-      let index = 0;
-      const DURATION = 1.5;   // tiempo entre cambios programados
-      const REVEAL = 1.6;     // duración del reveal
-      const EASE = 'power3.out';
-
-      // Estado inicial
-      gsap.set(slides, { opacity:0, clipPath:'circle(0vmax at 50% 50%)', zIndex:1 });
-      gsap.set(slides[0], { opacity:1, clipPath:'circle(140vmax at 50% 50%)', zIndex:2 });
-      gsap.set(kbImgs, { scale:1.15, xPercent:0, yPercent:0 });
-      gsap.to(kbImgs[0], { scale:1, duration:DURATION, ease:'power1.out' });
-
-      function randPan(){
-        return { xPercent: gsap.utils.random(-6,6), yPercent: gsap.utils.random(-6,6) };
-      }
-      function nextIndex(i){ return (i+1) % slides.length; }
-
-      function go(next){
-        const curr = index;
-        const nxt  = next;
-
-        // prepara próximo
-        gsap.set(slides[nxt], { zIndex:2, opacity:1, clipPath:'circle(0vmax at 50% 50%)' });
-        const pan = randPan();
-        gsap.set(kbImgs[nxt], { scale:1.18, xPercent:pan.xPercent, yPercent:pan.yPercent });
-
-        const tl = gsap.timeline({
-          defaults:{ ease:EASE },
-          onComplete(){
-            gsap.set(slides[curr], { zIndex:1, opacity:0, clipPath:'circle(0vmax at 50% 50%)' });
-            index = nxt;
-            gsap.delayedCall(DURATION, ()=> go(nextIndex(index)));
-          }
-        });
-
-        tl.to(slides[nxt], { clipPath:'circle(140vmax at 50% 50%)', duration:REVEAL }, 0)
-          .to(kbImgs[nxt], { scale:1, xPercent:0, yPercent:0, duration:DURATION, ease:'power1.out' }, 0)
-          .to(slides[curr], { opacity:0, duration:0.9, ease:'power2.out' }, 0.4);
-      }
-
-      // arranca el loop
-      gsap.delayedCall(DURATION, ()=> go(1));
-    })();
-  </script>
-
-  <!-- ============ ASISTENTE QA (NO AUTO-ABRE + CERRABLE) ============ -->
+  <!-- ===== Asistente de Preguntas (integrado y cerrable) ===== -->
   <div class="qa-bot" id="qaBot" aria-live="polite">
     <!-- Botón flotante -->
     <button class="qa-fab" id="qaFab" aria-controls="qaPanel" aria-expanded="false" aria-label="Abrir ayuda de preguntas frecuentes">
-      <span class="qa-fab-ring" aria-hidden="true"></span>
-      <span class="qa-fab-avatar" aria-hidden="true">
-        <img src="logo.svg" alt="Asistente" />
-      </span>
+      <img src="logo.svg" alt="Asistente">
     </button>
 
     <!-- Burbujas guía (no abren el panel) -->
     <div class="qa-bubbles" id="qaBubbles" aria-hidden="true">
-      <div class="qa-bubble qa-bubble-main">¿Dudas? Toca aquí</div>
-      <div class="qa-bubble qa-bubble-typing" id="qaTyping">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      </div>
+      <div class="qa-bubble">¿Dudas? Toca aquí</div>
     </div>
-
-    <!-- Capa para cerrar al hacer clic fuera -->
-    <div class="qa-overlay" id="qaOverlay" hidden></div>
 
     <!-- Panel -->
     <aside class="qa-panel" id="qaPanel" role="dialog" aria-modal="false" aria-labelledby="qaTitle" hidden>
@@ -406,7 +229,7 @@
           <button class="qa-q" aria-controls="qa-a-2" aria-expanded="false">¿Código de vestimenta?</button>
           <div class="qa-a" id="qa-a-2" hidden>
             <p>El código más habitual es <strong>“Formal de playa”</strong> (o guayabera formal) o <strong>“Cóctel de playa”</strong>.</p>
-            <p>Evitar colores claros/blancos</p>
+            <p>Colores sugeridos acordes a la paleta del sitio.</p>
           </div>
         </article>
 
@@ -436,107 +259,109 @@
         <article class="qa-item">
           <button class="qa-q" aria-controls="qa-a-6" aria-expanded="false">¿Puedo llevar niños?</button>
           <div class="qa-a" id="qa-a-6" hidden>
-            <p>No. Por razones de seguridad, las instalaciones <strong>NO</strong> permiten el ingreso de menores de edad.</p>
+            <p>No. Por razones de seguridad, las instalaciones <strong>no permiten</strong> el ingreso de menores de edad.</p>
           </div>
         </article>
       </div>
 
       <footer class="qa-footer">
-        <small>Preguntas frecuentes de la boda · Si tienes otra duda, contáctanos ✨</small>
+        <small>Preguntas frecuentes · Si tienes otra duda, contáctanos ✨</small>
       </footer>
     </aside>
   </div>
 
-  <style>
-    :root { --qa-brand:#2F4667; --qa-accent:#C6B28A; }
-    .qa-bot { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
-
-    /* FAB */
-    .qa-fab { position: relative; border: none; cursor: pointer; width: 70px; height: 70px; border-radius: 50%; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,.25); display: grid; place-items: center; }
-    .qa-fab-avatar img { width: 55px; height: 55px; object-fit: contain; border-radius: 50%; }
-    .qa-fab-ring { position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 0 rgba(47,70,103,.35); animation: qa-pulse 2.4s ease-out infinite; }
-    @keyframes qa-pulse { 0%{box-shadow:0 0 0 0 rgba(47,70,103,.4)} 70%{box-shadow:0 0 0 20px rgba(47,70,103,0)} 100%{box-shadow:0 0 0 0 rgba(47,70,103,0)} }
-
-    /* Burbujas guía */
-    .qa-bubbles { position: absolute; right: 84px; bottom: 50%; transform: translateY(50%); display: flex; flex-direction: column; gap: 6px; pointer-events: none; transition: opacity .6s ease, transform .6s ease; }
-    .qa-bubble { background: var(--qa-brand); color:#fff; font-weight:700; padding: 10px 14px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,.2); max-width: 240px; }
-    .qa-bubble-main { animation: qa-popin .6s ease-out both; }
-    @keyframes qa-popin { from { opacity:0; transform: translate(12px,50%);} to {opacity:1; transform: translate(0,50%);} }
-
-    .qa-bubble-typing { display: inline-flex; align-items: center; gap: 6px; height: 18px; padding: 8px 12px; opacity: 0; }
-    .qa-bubble-typing .dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; opacity:.5; animation: typing 1.2s infinite; }
-    .qa-bubble-typing .dot:nth-child(2){ animation-delay:.15s }
-    .qa-bubble-typing .dot:nth-child(3){ animation-delay:.3s }
-    @keyframes typing { 0%{transform:translateY(0);opacity:.4} 30%{transform:translateY(-3px);opacity:1} 60%{transform:translateY(0);opacity:.6} 100%{transform:translateY(0);opacity:.4} }
-
-    .qa-bubbles.hide { opacity: 0; transform: translateY(50%) translateX(8px); }
-
-    /* Overlay para cerrar al hacer clic fuera */
-    .qa-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 999; }
-
-    /* Panel */
-    .qa-panel { position: fixed; bottom: 100px; right: 20px; width: min(92vw, 480px); max-height: 70vh; background:#fff; border-radius: 18px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,.25); display: none; grid-template-rows: auto 1fr auto; z-index: 1000; }
-    .qa-bot.open .qa-panel { display: grid; animation: qa-pop .25s ease-out; }
-    .qa-bot.open #qaOverlay { display:block; }
-    @keyframes qa-pop { from { transform: translateY(15px); opacity:0 } to { transform: translateY(0); opacity:1 } }
-
-    .qa-header { background: linear-gradient(to right, #F2EEE9, #E6DECF); padding: 12px 16px; display:flex; justify-content:space-between; align-items:center; }
-    .qa-header h2 { margin: 0; font-size: 18px; color: var(--qa-brand); }
-    .qa-close { border:none; background:transparent; font-size:22px; cursor:pointer; }
-
-    .qa-list { padding: 10px 16px; overflow-y:auto; }
-    .qa-item { border: 1px solid rgba(0,0,0,.08); border-radius: 12px; margin-bottom: 10px; }
-    .qa-q { width: 100%; text-align: left; border: none; background:#fff; padding: 14px; font-weight: 700; font-size: 17px; cursor: pointer; }
-    .qa-a { padding: 10px 14px; border-top: 1px dashed rgba(0,0,0,.1); }
-    .qa-a p { margin: 8px 0; }
-    .qa-link { display:inline-block; margin-top:6px; padding: 8px 12px; border-radius:999px; background: var(--qa-accent); color:#3F3A36; font-weight:700; text-decoration:none; }
-    .qa-footer { font-size: 14px; padding: 10px; text-align:center; color:#6B5F56; background:#faf8f4; }
-    .qa-chip { display:inline-block; padding:6px 10px; margin:4px 4px 0 0; border-radius:999px; background:var(--c); font-size:13px; font-weight:700; color:#3F3A36; }
-    .qa-chip-dark { color:#fff; }
-  </style>
-
+  <!-- ===== Scripts ===== -->
   <script>
+    /* Menú: toggle por click, sin auto-abrir */
     (function(){
-      const root     = document.getElementById('qaBot');
-      const fab      = document.getElementById('qaFab');
-      const panel    = document.getElementById('qaPanel');
-      const overlay  = document.getElementById('qaOverlay');
-      const closeBtn = document.getElementById('qaClose');
-      const bubbles  = document.getElementById('qaBubbles');
-      const typing   = document.getElementById('qaTyping');
+      const wrapper=document.querySelector('.staggered-menu-wrapper');
+      const toggle=document.getElementById('menuToggle');
+      const tip=document.getElementById('menuTip');
+      const panel=document.getElementById('menuPanel');
+
+      function isOpen(){ return wrapper.hasAttribute('data-open'); }
+      function open(){ wrapper.setAttribute('data-open',''); panel.setAttribute('aria-hidden','false'); toggle.setAttribute('aria-expanded','true'); }
+      function close(){ wrapper.removeAttribute('data-open'); panel.setAttribute('aria-hidden','true'); toggle.setAttribute('aria-expanded','false'); }
+
+      toggle.addEventListener('click', ()=> isOpen()? close(): open());
+      // Oculta la burbuja guía tras unos segundos
+      setTimeout(()=> tip.classList.add('hide'), 5000);
+    })();
+
+    /* Hero: transición circular + ken burns suave (sin jank en móvil) */
+    (function(){
+      const slides=[...document.querySelectorAll('.slide')];
+      const kbs=slides.map(s=>s.querySelector('.kb'));
+      if(!slides.length) return;
+
+      let i=0;
+      const DUR=1.5;      // tiempo por transición
+      const HOLD=3.0;     // tiempo visible de cada slide
+
+      function rand(min,max){ return Math.random()*(max-min)+min; }
+
+      function show(next){
+        const curr=i, nxt=next;
+        // preparar próximo
+        slides[nxt].style.opacity=1;
+        slides[nxt].style.clipPath='circle(0vmax at 50% 50%)';
+        slides[nxt].classList.add('is-top');
+
+        // pan aleatorio suave
+        kbs[nxt].style.transform=`scale(1.12) translate(${rand(-4,4)}%, ${rand(-4,4)}%)`;
+
+        // animación CSS (GSAP-free)
+        slides[nxt].animate([{clipPath:'circle(0vmax at 50% 50%)'},{clipPath:'circle(140vmax at 50% 50%)'}],{duration:DUR*1000,easing:'cubic-bezier(.22,.61,.36,1)'});
+        kbs[nxt].animate([{transform:kbs[nxt].style.transform},{transform:'scale(1.0) translate(0,0)'}],{duration:(HOLD+DUR)*1000,easing:'ease-out'});
+
+        // ocultar anterior
+        if(curr!==nxt){
+          slides[curr].animate([{opacity:1},{opacity:0}],{duration:900,fill:'forwards',easing:'ease-out'}).onfinish=()=>{
+            slides[curr].classList.remove('is-top');
+            slides[curr].style.opacity=0;
+            slides[curr].style.clipPath='circle(0vmax at 50% 50%)';
+          };
+        }
+
+        i=nxt;
+        setTimeout(()=> show((i+1)%slides.length), HOLD*1000);
+      }
+      setTimeout(()=> show(1), HOLD*1000);
+    })();
+
+    /* QA Bot: no auto-abrir; panel pequeño en esquina */
+    (function(){
+      const root=document.getElementById('qaBot');
+      const fab=document.getElementById('qaFab');
+      const panel=document.getElementById('qaPanel');
+      const closeBtn=document.getElementById('qaClose');
+      const bubbles=document.getElementById('qaBubbles');
 
       function setOpen(open){
         root.classList.toggle('open', open);
-        panel.hidden   = !open;
-        overlay.hidden = !open;
+        panel.hidden=!open;
         fab.setAttribute('aria-expanded', String(open));
       }
       setOpen(false);
 
-      // Burbujas guía (sólo visual)
-      setTimeout(()=> typing.style.opacity = '1', 4000);
-      setTimeout(()=> bubbles.classList.add('hide'), 10000);
+      // Burbujas guía se desvanecen solas
+      setTimeout(()=> bubbles.classList.add('hide'), 6000);
 
-      // Toggle por botón
-      fab.addEventListener('click', (e)=>{ e.stopPropagation(); setOpen( fab.getAttribute('aria-expanded') !== 'true' ); });
-
-      // Cerrar por botón X
+      fab.addEventListener('click', (e)=>{ e.stopPropagation(); setOpen(fab.getAttribute('aria-expanded')!=='true'); });
       closeBtn.addEventListener('click', ()=> setOpen(false));
+      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') setOpen(false); });
 
-      // Cerrar al hacer clic fuera
-      overlay.addEventListener('click', ()=> setOpen(false));
-
-      // Cerrar con ESC
-      document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') setOpen(false); });
-
-      // Evitar propagación interna del panel
-      panel.addEventListener('click', (e)=> e.stopPropagation());
-
-      // Defensa extra: asegurar cerrado al terminar de cargar
-      window.addEventListener('load', ()=> setOpen(false));
+      // Acordeones
+      document.querySelectorAll('.qa-q').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const id=btn.getAttribute('aria-controls');
+          const ans=document.getElementById(id);
+          const expanded=btn.getAttribute('aria-expanded')==='true';
+          btn.setAttribute('aria-expanded', String(!expanded));
+          ans.hidden=expanded;
+        });
+      });
     })();
   </script>
-  <!-- ===================== FIN ASISTENTE QA ===================== -->
-
 </body>
 </html>
