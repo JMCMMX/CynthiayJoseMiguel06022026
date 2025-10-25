@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Boda Cynthia y Jose Miguel</title>
 
-  <!-- Favicon (opcional, conserva los tuyos si ya los tienes) -->
+  <!-- Favicon / PWA -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="alternate icon" type="image/png" sizes="32x32" href="favicon-32.png">
   <link rel="alternate icon" type="image/png" sizes="16x16" href="favicon-16.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#2F4667">
+  <link rel="manifest" href="site.webmanifest">
   <meta name="theme-color" content="#F2EEE9">
 
   <!-- Fuentes e iconos -->
@@ -31,34 +33,24 @@
       line-height:1.6;
     }
 
-    /* ====== MENÚ ====== */
-    .staggered-menu-wrapper{
-      position:fixed; inset:0; height:100vh; width:100%;
-      z-index:999; pointer-events:none;
-    }
-    .staggered-menu-header{
-      position:absolute; top:0; left:0; width:100%;
-      display:flex; align-items:center; justify-content:space-between;
-      padding:1.4em 1.6em; z-index:20;
-    }
+    /* ====== MENÚ (no auto-abrir) ====== */
+    .staggered-menu-wrapper{ position:fixed; inset:0; height:100vh; width:100%; z-index:999; pointer-events:none; }
+    .staggered-menu-header{ position:absolute; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; padding:1.5em; z-index:20; }
     .staggered-menu-header>*{ pointer-events:auto; }
-
     .sm-logo{ display:inline-flex; align-items:center; gap:.5rem; text-decoration:none; }
     .sm-logo-img{ height:56px; width:auto; display:block; transition:filter .3s ease }
-    .home-page .sm-logo-img{ filter:invert(1) brightness(2) contrast(1); }
-    .staggered-menu-wrapper[data-open] .sm-logo-img{ filter:none; }
+    .home-page:not(.menu-open) .sm-logo-img{ filter:invert(1) brightness(2) contrast(1); }
+    .menu-open .sm-logo-img{ filter:none; }
 
     .sm-toggle{
       position:relative; display:inline-flex; align-items:center; gap:.6rem;
-      background:rgba(255,255,255,.15); color:#F2EEE9; border:none; cursor:pointer;
-      padding:.6em .8em; border-radius:14px; backdrop-filter:blur(6px);
-      transition:background .3s ease,color .3s ease;
+      background:rgba(0,0,0,0.25); color:#F2EEE9; border:none; cursor:pointer;
+      padding:.6em .8em; border-radius:14px; backdrop-filter: blur(6px);
     }
-    .staggered-menu-wrapper[data-open] .sm-toggle{ background:transparent; color:#3F3A36; }
-    .sm-icon{ position:relative; width:24px; height:18px; flex:0 0 24px; }
-    .sm-icon-line{
-      position:absolute; left:0; right:0; height:2px; background:currentColor; border-radius:2px; transition:transform .4s ease,opacity .3s ease;
-    }
+    .staggered-menu-wrapper[data-open] .sm-toggle{ color:#3F3A36; background:rgba(255,255,255,0.8) }
+
+    .sm-icon{ position:relative; width:26px; height:18px; flex:0 0 26px; }
+    .sm-icon-line{ position:absolute; left:0; right:0; height:2px; background:currentColor; border-radius:2px; transition:transform .4s ease,opacity .3s ease; }
     .sm-icon-line:nth-child(1){ top:0 }
     .sm-icon-line:nth-child(2){ top:8px }
     .sm-icon-line:nth-child(3){ top:16px }
@@ -67,15 +59,14 @@
     .staggered-menu-wrapper[data-open] .sm-icon-line:nth-child(3){ transform:translateY(-8px) rotate(-45deg) }
 
     .menu-tip{
-      position:absolute; right:84px; top:14px; z-index:22;
-      background:#2F4667; color:#F2EEE9; padding:.45rem .7rem; border-radius:999px;
-      font-size:.9rem; box-shadow:0 10px 28px rgba(0,0,0,.22);
-      display:flex; align-items:center; gap:.4rem; pointer-events:none;
+      position:absolute; left:50%; transform:translateX(-50%);
+      top:14px; z-index:22; background:#2F4667; color:#F2EEE9;
+      padding:.55rem .9rem; border-radius:999px; font-size:.95rem;
+      box-shadow:0 10px 28px rgba(0,0,0,.22); display:flex; align-items:center; gap:.5rem;
+      pointer-events:none;
     }
 
-    .staggered-menu-panel,.sm-prelayers{
-      position:absolute; top:0; right:0; width:clamp(300px,38vw,420px); height:100%;
-    }
+    .staggered-menu-panel,.sm-prelayers{ position:absolute; top:0; right:0; width:clamp(300px,38vw,420px); height:100%; }
     .staggered-menu-panel{
       background:#F2EEE9; display:flex; flex-direction:column; padding:7em 2em 2em;
       overflow-y:auto; z-index:10; pointer-events:auto; transform:translateX(100%); transition:transform .55s ease;
@@ -96,98 +87,43 @@
       counter-increment:smItem; content:counter(smItem,decimal-leading-zero);
       position:absolute; top:.1em; right:0; font-size:16px; color:var(--sm-accent); opacity:.9;
     }
-
     @media (max-width:640px){
-      .staggered-menu-header{ padding:1.2em }
+      .staggered-menu-header{ padding:1.1em }
       .staggered-menu-panel,.sm-prelayers{ width:100%; left:0; right:0 }
-      .staggered-menu-panel{ padding-left:1.6em; padding-right:1.6em }
-      .menu-tip{ right:76px; top:10px; font-size:.85rem }
-      .sm-logo-img{ height:48px }
+      .staggered-menu-panel{ padding-left:1.4em; padding-right:1.4em }
+      .menu-tip{ top:12px; font-size:.9rem }
+      .sm-logo-img{ height:50px }
     }
 
     /* ====== HERO SLIDESHOW ====== */
-    .hero{
-      position:relative; height:100vh; width:100%; overflow:hidden; background:#000;
-    }
-    .hero::before{
-      content:""; position:absolute; inset:0;
-      background-image:url('1.jpg'); background-size:cover; background-position:center;
-      opacity:.22; filter:saturate(.9) contrast(1.05);
-    }
+    .hero{ position:relative; height:100vh; width:100%; overflow:hidden; background:#000; }
+    .hero::before{ content:""; position:absolute; inset:0; background-image:url('1.jpg'); background-size:cover; background-position:center; opacity:.25; filter:saturate(.9) contrast(1.05); }
     .slides{ position:absolute; inset:0; isolation:isolate; }
     .slide{ position:absolute; inset:0; opacity:0; clip-path:circle(0vmax at 50% 50%); will-change:opacity,clip-path; z-index:1; }
     .slide.is-top{ z-index:2 }
-    .slide .kb{
-      position:absolute; inset:-10% -10%;
-      background-size:cover; background-position:center;
-      transform:scale(1.15); will-change:transform;
-      filter: saturate(1.05) contrast(1.05);
-    }
-    .hero-title{
-      position:absolute; inset:0; display:grid; place-items:center; text-align:center; z-index:3; color:#fff; pointer-events:none;
-      text-shadow:0 12px 36px rgba(0,0,0,.55);
-    }
-    .hero-title h1{ margin:0 12px 6px; font-family:'Dancing Script',cursive; font-weight:700; font-size:clamp(42px,6vw,86px); }
+    .slide .kb{ position:absolute; inset:-10% -10%; background-size:cover; background-position:center; transform:scale(1.15); will-change:transform; filter:saturate(1.05) contrast(1.05) }
+    .hero-title{ position:absolute; inset:0; display:grid; place-items:center; text-align:center; z-index:3; color:#fff; pointer-events:none; text-shadow:0 12px 36px rgba(0,0,0,.55) }
+    .hero-title h1{ margin:0 12px 6px; font-family:'Dancing Script',cursive; font-weight:700; font-size:clamp(42px,6vw,86px) }
     .hero-title p{ margin:0; font-weight:300; letter-spacing:2px; font-size:clamp(16px,2.2vw,22px) }
 
-    /* ====== GALERÍA SCROLL-SNAP + BUCLE ====== */
-    .gallery{
-      background:#F2EEE9; padding:28px 0 38px; border-top:1px solid rgba(0,0,0,.06);
-    }
-    .gal-head{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      max-width:1200px; margin:0 auto 12px; padding:0 16px; color:#6B5F56;
-    }
-    .gal-title{ font-weight:700; letter-spacing:.6px; }
-    .gal-ctrl{ display:flex; gap:8px; }
-    .gal-btn{
-      border:none; cursor:pointer; width:42px; height:42px; border-radius:50%;
-      background:#fff; box-shadow:0 6px 18px rgba(0,0,0,.15); display:grid; place-items:center; color:#3F3A36;
-    }
-
+    /* ====== GALERÍA ====== */
+    .auto-gallery{ position:relative; background:#F2EEE9; padding:20px 0 36px; border-top:1px solid rgba(0,0,0,.06); border-bottom:1px solid rgba(0,0,0,.06); }
+    .ag-title{ text-align:center; margin:8px auto 12px; color:#6B5F56; font-weight:700; letter-spacing:.6px; }
+    .snap-wrap{ position:relative; max-width:1100px; margin:0 auto; padding:0 16px; }
     .snap-viewport{
-      display:flex; gap:14px; overflow-x:auto; scroll-behavior:smooth; scroll-snap-type:x mandatory;
-      -webkit-overflow-scrolling:touch; max-width:1200px; margin:0 auto; padding:0 16px;
+      display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain;
+      will-change: scroll-position; contain: paint layout;  /* OPTIMIZACIONES */
     }
-    /* Ocultar barra scroll (sin romper interacción) */
-    .snap-viewport::-webkit-scrollbar{ display:none; }
-    .snap-viewport{ scrollbar-width:none; }
+    .snap-item{ flex:0 0 auto; width:min(62vw,340px); height:min(42vw,240px); scroll-snap-align:center; border-radius:14px; overflow:hidden; box-shadow:0 10px 26px rgba(0,0,0,.08); background:#ddd; }
+    .snap-item img{ width:100%; height:100%; object-fit:cover; display:block; filter:contrast(1.05) saturate(1.05); content-visibility:auto; transform: translateZ(0); /* OPTIMIZACIONES */ }
 
-    .snap-item{
-      flex:0 0 auto; width:min(70vw,380px); height:min(52vw,260px);
-      border-radius:14px; overflow:hidden; box-shadow:0 10px 26px rgba(0,0,0,.08);
-      background:#ddd; scroll-snap-align:center;
+    .snap-controls{ display:flex; justify-content:center; gap:10px; margin-top:14px; }
+    .snap-btn{
+      width:44px; height:44px; border-radius:50%; border:none; cursor:pointer; background:#fff; box-shadow:0 6px 16px rgba(0,0,0,.18);
+      display:grid; place-items:center; transition:transform .15s ease;
     }
-    .snap-item img{ width:100%; height:100%; object-fit:cover; display:block; filter:contrast(1.05) saturate(1.05) }
-    @media (min-width:900px){ .snap-item{ width:360px; height:240px } }
-
-    /* ===== QA BOT (igual que antes) ===== */
-    .qa-bot { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
-    .qa-fab { position: relative; border: none; cursor: pointer; width: 70px; height: 70px; border-radius: 50%; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,.25); display: grid; place-items: center; }
-    .qa-fab-avatar img { width: 55px; height: 55px; object-fit: contain; border-radius: 50%; }
-    .qa-fab-ring { position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 0 rgba(47,70,103,.35); animation: qa-pulse 2.4s ease-out infinite; }
-    @keyframes qa-pulse { 0%{box-shadow:0 0 0 0 rgba(47,70,103,.4)} 70%{box-shadow:0 0 0 20px rgba(47,70,103,0)} 100%{box-shadow:0 0 0 0 rgba(47,70,103,0)} }
-    .qa-bubbles { position: absolute; right: 84px; bottom: 50%; transform: translateY(50%); display: flex; flex-direction: column; gap: 6px; pointer-events: none; transition: opacity .6s ease, transform .6s ease; }
-    .qa-bubble { background: var(--brand); color:#fff; font-weight:700; padding: 10px 14px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,.2); max-width: 240px; }
-    .qa-bubble-typing { display: inline-flex; align-items: center; gap: 6px; height: 18px; padding: 8px 12px; opacity: 0; }
-    .qa-bubble-typing .dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; opacity:.5; animation: typing 1.2s infinite; }
-    .qa-bubble-typing .dot:nth-child(2){ animation-delay:.15s } .qa-bubble-typing .dot:nth-child(3){ animation-delay:.3s }
-    @keyframes typing { 0%{transform:translateY(0);opacity:.4} 30%{transform:translateY(-3px);opacity:1} 60%{transform:translateY(0);opacity:.6} 100%{transform:translateY(0);opacity:.4} }
-    .qa-bubbles.hide { opacity: 0; transform: translateY(50%) translateX(8px); }
-    .qa-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 999; }
-    .qa-panel { position: fixed; bottom: 100px; right: 20px; width: min(92vw, 480px); max-height: 70vh; background:#fff; border-radius: 18px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,.25); display: none; grid-template-rows: auto 1fr auto; z-index: 1000; }
-    .qa-bot.open .qa-panel { display: grid; animation: qa-pop .25s ease-out; }
-    .qa-bot.open #qaOverlay { display:block; }
-    .qa-header { background: linear-gradient(to right, #F2EEE9, #E6DECF); padding: 12px 16px; display:flex; justify-content:space-between; align-items:center; }
-    .qa-header h2 { margin: 0; font-size: 18px; color: var(--brand); }
-    .qa-close { border:none; background:transparent; font-size:22px; cursor:pointer; }
-    .qa-list { padding: 10px 16px; overflow-y:auto; }
-    .qa-item { border: 1px solid rgba(0,0,0,.08); border-radius: 12px; margin-bottom: 10px; }
-    .qa-q { width: 100%; text-align: left; border: none; background:#fff; padding: 14px; font-weight: 700; font-size: 17px; cursor: pointer; }
-    .qa-a { padding: 10px 14px; border-top: 1px dashed rgba(0,0,0,.1); }
-    .qa-a p { margin: 8px 0; }
-    .qa-link { display:inline-block; margin-top:6px; padding: 8px 12px; border-radius:999px; background: var(--sm-accent); color:#3F3A36; font-weight:700; text-decoration:none; }
-    .qa-footer { font-size: 14px; padding: 10px; text-align:center; color:#6B5F56; background:#faf8f4; }
+    .snap-btn:active{ transform:scale(.96) }
+    .snap-btn i{ color:var(--brand) }
   </style>
 </head>
 <body class="home-page">
@@ -250,7 +186,6 @@
       <div class="slide"><div class="kb" style="background-image:url('13.jpg')"></div></div>
       <div class="slide"><div class="kb" style="background-image:url('14.jpg')"></div></div>
     </div>
-
     <div class="hero-title">
       <div>
         <h1>Cynthia y Jose Miguel</h1>
@@ -259,112 +194,35 @@
     </div>
   </section>
 
-  <!-- ===== Galería con scroll-snap, flechas y bucle infinito suave ===== -->
-  <section class="gallery" aria-label="Momentos que amamos">
-    <div class="gal-head">
-      <div class="gal-title">Momentos que amamos</div>
-      <div class="gal-ctrl">
-        <button class="gal-btn" id="snapPrev" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
-        <button class="gal-btn" id="snapNext" aria-label="Imagen siguiente"><i class="fa-solid fa-chevron-right"></i></button>
+  <!-- ===== Galería auto–desplazable (scroll + botones) ===== -->
+  <section class="auto-gallery">
+    <div class="ag-title">Momentos que amamos</div>
+    <div class="snap-wrap">
+      <div class="snap-viewport" id="gal">
+        <!-- Set ORIGINAL (el script lo clonará 2× más) -->
+        <div class="snap-item"><img src="1.jpg" alt=""></div>
+        <div class="snap-item"><img src="2.jpg" alt=""></div>
+        <div class="snap-item"><img src="3.jpg" alt=""></div>
+        <div class="snap-item"><img src="4.jpg" alt=""></div>
+        <div class="snap-item"><img src="5.jpg" alt=""></div>
+        <div class="snap-item"><img src="6.jpg" alt=""></div>
+        <div class="snap-item"><img src="7.jpg" alt=""></div>
+        <div class="snap-item"><img src="8.jpg" alt=""></div>
+        <div class="snap-item"><img src="9.jpg" alt=""></div>
+        <div class="snap-item"><img src="10.jpg" alt=""></div>
+        <div class="snap-item"><img src="11.jpg" alt=""></div>
+        <div class="snap-item"><img src="12.jpg" alt=""></div>
+        <div class="snap-item"><img src="13.jpg" alt=""></div>
+        <div class="snap-item"><img src="14.jpg" alt=""></div>
       </div>
-    </div>
-
-    <div class="snap-viewport" id="gal">
-      <!-- Solo los 14 ítems originales; el JS duplica para el loop -->
-      <figure class="snap-item"><img src="1.jpg"  loading="lazy" alt=""></figure>
-      <figure class="snap-item"><img src="2.jpg"  loading="lazy" alt=""></figure>
-      <figure class="snap-item"><img src="3.jpg"  loading="lazy" alt=""></figure>
-      <figure class="snap-item"><img src="4.jpg"  loading="lazy" alt=""></figure>
-      <figure class="snap-item"><img src="5.jpg"  loading="lazy" alt=""></figure>
-      <figure class="snap-item"><img src="6.jpg"  loading="lazy" alt=""></figure>
-      <figure class="snap-item"><img src="7.jpg"  loading="lazy" alt=""></figure>
-      <figure class="snap-item"><img src="8.jpg"  loading="lazy" alt=""></figure>
-      <figure class="snap-item"><img src="9.jpg"  loading="lazy" alt=""></figure>
-      <figure class="snap-item"><img src="10.jpg" loading="lazy" alt=""></figure>
-      <figure class="snap-item"><img src="11.jpg" loading="lazy" alt=""></figure>
-      <figure class="snap-item"><img src="12.jpg" loading="lazy" alt=""></figure>
-      <figure class="snap-item"><img src="13.jpg" loading="lazy" alt=""></figure>
-      <figure class="snap-item"><img src="14.jpg" loading="lazy" alt=""></figure>
+      <div class="snap-controls">
+        <button class="snap-btn" id="snapPrev" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="snap-btn" id="snapNext" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
     </div>
   </section>
 
-  <!-- ===== Asistente QA (flotante, no autoabre, cerrable) ===== -->
-  <div class="qa-bot" id="qaBot" aria-live="polite">
-    <button class="qa-fab" id="qaFab" aria-controls="qaPanel" aria-expanded="false" aria-label="Abrir ayuda de preguntas frecuentes">
-      <span class="qa-fab-ring" aria-hidden="true"></span>
-      <span class="qa-fab-avatar" aria-hidden="true"><img src="logo.svg" alt="Asistente" /></span>
-    </button>
-
-    <div class="qa-bubbles" id="qaBubbles" aria-hidden="true">
-      <div class="qa-bubble">¿Dudas? Toca aquí</div>
-      <div class="qa-bubble qa-bubble-typing" id="qaTyping">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      </div>
-    </div>
-
-    <div class="qa-overlay" id="qaOverlay" hidden></div>
-
-    <aside class="qa-panel" id="qaPanel" role="dialog" aria-modal="false" aria-labelledby="qaTitle" hidden>
-      <header class="qa-header">
-        <h2 id="qaTitle">¿En qué te ayudamos?</h2>
-        <button class="qa-close" id="qaClose" aria-label="Cerrar ayuda">✕</button>
-      </header>
-
-      <div class="qa-list" role="list">
-        <article class="qa-item">
-          <button class="qa-q" aria-controls="qa-a-1" aria-expanded="false">¿Necesito hospedarme en el Hotel Xcaret?</button>
-          <div class="qa-a" id="qa-a-1" hidden>
-            <p>No es necesario; puedes hospedarte en el hotel de tu preferencia. Lo que más nos importa es tu compañía. Si lo prefieres, contamos con <strong>tarifa preferencial</strong> en <strong>Hotel Xcaret México</strong>.</p>
-            <a class="qa-link" href="hospedaje.html">Ver opciones de hospedaje</a>
-          </div>
-        </article>
-
-        <article class="qa-item">
-          <button class="qa-q" aria-controls="qa-a-2" aria-expanded="false">¿Código de vestimenta?</button>
-          <div class="qa-a" id="qa-a-2" hidden>
-            <p>El código más habitual es <strong>“Formal de playa”</strong> (o guayabera formal) o <strong>“Cóctel de playa”</strong>.</p>
-            <p>Evitar colores blancos o muy claros.</p>
-          </div>
-        </article>
-
-        <article class="qa-item">
-          <button class="qa-q" aria-controls="qa-a-3" aria-expanded="false">¿A qué hora es?</button>
-          <div class="qa-a" id="qa-a-3" hidden>
-            <p>La ceremonia inicia a las <strong>6:00 p.m.</strong></p>
-            <a class="qa-link" href="fecha-hora.html">Ver detalles</a>
-          </div>
-        </article>
-
-        <article class="qa-item">
-          <button class="qa-q" aria-controls="qa-a-4" aria-expanded="false">¿Debo llevar regalo?</button>
-          <div class="qa-a" id="qa-a-4" hidden>
-            <p><strong>No es necesario</strong>; tu presencia es lo más importante. Si deseas hacer un detalle, visita:</p>
-            <a class="qa-link" href="regalos.html">Mesa de Regalos</a>
-          </div>
-        </article>
-
-        <article class="qa-item">
-          <button class="qa-q" aria-controls="qa-a-5" aria-expanded="false">¿Esta es una invitación?</button>
-          <div class="qa-a" id="qa-a-5" hidden>
-            <p>No, este es nuestro <strong>sitio web informativo</strong>. Las <strong>invitaciones</strong> se entregarán <strong>personalmente</strong>.</p>
-          </div>
-        </article>
-
-        <article class="qa-item">
-          <button class="qa-q" aria-controls="qa-a-6" aria-expanded="false">¿Puedo llevar niños?</button>
-          <div class="qa-a" id="qa-a-6" hidden>
-            <p>No. Por razones de seguridad, las instalaciones <strong>no permiten</strong> el ingreso de menores de edad.</p>
-          </div>
-        </article>
-      </div>
-
-      <footer class="qa-footer">
-        <small>Preguntas frecuentes de la boda · Si tienes otra duda, contáctanos ✨</small>
-      </footer>
-    </aside>
-  </div>
-
-  <!-- Librería para hero -->
+  <!-- Librería GSAP para el hero -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
   <script>
@@ -373,22 +231,33 @@
       const wrapper = document.querySelector('.staggered-menu-wrapper');
       const panel   = document.getElementById('staggered-menu-panel');
       const toggle  = document.querySelector('.sm-toggle');
-      function openMenu(){ wrapper.setAttribute('data-open',''); panel.setAttribute('aria-hidden','false'); toggle.setAttribute('aria-expanded','true'); }
-      function closeMenu(){ wrapper.removeAttribute('data-open'); panel.setAttribute('aria-hidden','true'); toggle.setAttribute('aria-expanded','false'); }
-      function isOpen(){ return toggle.getAttribute('aria-expanded') === 'true'; }
-      toggle.addEventListener('click', ()=> isOpen()? closeMenu(): openMenu());
+      const body    = document.body;
+      const isOpen = ()=> toggle.getAttribute('aria-expanded') === 'true';
+      function open(){
+        wrapper.setAttribute('data-open','');
+        panel.setAttribute('aria-hidden','false');
+        toggle.setAttribute('aria-expanded','true');
+        body.classList.add('menu-open');
+      }
+      function close(){
+        wrapper.removeAttribute('data-open');
+        panel.setAttribute('aria-hidden','true');
+        toggle.setAttribute('aria-expanded','false');
+        body.classList.remove('menu-open');
+      }
+      toggle.addEventListener('click', ()=> isOpen()? close(): open());
     })();
 
-    /* ===== HERO: carrusel con reveal circular + Ken Burns ===== */
+    /* ===== HERO: Carrusel impactante (reveal circular + Ken Burns) ===== */
     (function(){
       const slides = Array.from(document.querySelectorAll('.slide'));
       const kbImgs = slides.map(s=>s.querySelector('.kb'));
-      if(!slides.length) return;
+      if(slides.length === 0) return;
 
       let index = 0;
-      const DURATION = 1.5;   // tiempo entre cambios
-      const REVEAL   = 1.6;   // duración del “círculo”
-      const EASE     = 'power3.out';
+      const DURATION = 1.5;
+      const REVEAL = 1.6;
+      const EASE = 'power3.out';
 
       gsap.set(slides, { opacity:0, clipPath:'circle(0vmax at 50% 50%)', zIndex:1 });
       gsap.set(slides[0], { opacity:1, clipPath:'circle(140vmax at 50% 50%)', zIndex:2 });
@@ -398,8 +267,10 @@
       function randPan(){ return { xPercent: gsap.utils.random(-6,6), yPercent: gsap.utils.random(-6,6) }; }
       function nextIndex(i){ return (i+1) % slides.length; }
 
-      function go(nxt){
+      function go(next){
         const curr = index;
+        const nxt  = next;
+
         gsap.set(slides[nxt], { zIndex:2, opacity:1, clipPath:'circle(0vmax at 50% 50%)' });
         const pan = randPan();
         gsap.set(kbImgs[nxt], { scale:1.18, xPercent:pan.xPercent, yPercent:pan.yPercent });
@@ -420,16 +291,18 @@
       gsap.delayedCall(DURATION, ()=> go(1));
     })();
 
-    /* ===== Galería: loop infinito suave + control táctil ===== */
+    /* ===== GALERÍA: loop infinito suave + control táctil (triple buffer + wrap predictivo) ===== */
     (function(){
       const vp   = document.getElementById('gal');
       const prev = document.getElementById('snapPrev');
       const next = document.getElementById('snapNext');
       if(!vp) return;
 
-      // 1) duplicar para loop
-      const original = Array.from(vp.children);
-      vp.append(...original.map(n => n.cloneNode(true)));
+      // Triplica contenido
+      const originals = Array.from(vp.children);
+      const cloneA = originals.map(n => n.cloneNode(true));
+      const cloneB = originals.map(n => n.cloneNode(true));
+      vp.append(...cloneA, ...cloneB);
 
       function cardWidth(){
         const card = vp.querySelector('.snap-item');
@@ -437,29 +310,42 @@
         const r = card.getBoundingClientRect();
         return r.width + 14;
       }
-      function normalize(){
-        const half = vp.scrollWidth / 2;
-        if (vp.scrollLeft >= half) {
-          const prevBehavior = vp.style.scrollBehavior;
+      function unitWidth(){ return (vp.scrollWidth / 3); }
+
+      function normalizePredictive(){
+        const unit = unitWidth();
+        const mid  = unit * 1.0;
+        const end  = unit * 2.0;
+        const guard = cardWidth() * 2.2;
+
+        if (vp.scrollLeft < (mid - guard)) {
+          const prev = vp.style.scrollBehavior;
           vp.style.scrollBehavior = 'auto';
-          vp.scrollLeft -= half;
-          vp.style.scrollBehavior = prevBehavior || '';
+          vp.scrollLeft += unit;
+          vp.style.scrollBehavior = prev || '';
+          return;
+        }
+        if (vp.scrollLeft > (end - guard)) {
+          const prev = vp.style.scrollBehavior;
+          vp.style.scrollBehavior = 'auto';
+          vp.scrollLeft -= unit;
+          vp.style.scrollBehavior = prev || '';
         }
       }
 
       function move(dir){
-        normalize();
+        normalizePredictive();
         vp.scrollBy({ left: dir * cardWidth(), behavior:'smooth' });
       }
       prev.addEventListener('click', ()=> move(-1));
       next.addEventListener('click', ()=> move( 1));
 
-      // arrastre táctil
+      // Arrastre táctil/ratón
       let isDown=false, startX=0, startLeft=0, userInteracting=false, pointerId=null, userTimer=null;
       function markInteracting(){
         userInteracting = true;
         clearTimeout(userTimer);
-        userTimer = setTimeout(()=> userInteracting=false, 2000);
+        userTimer = setTimeout(()=> userInteracting=false, 1600);
       }
       vp.addEventListener('pointerdown', e=>{
         isDown=true; pointerId=e.pointerId; vp.setPointerCapture(pointerId);
@@ -468,43 +354,129 @@
       vp.addEventListener('pointermove', e=>{
         if(!isDown) return;
         vp.scrollLeft = startLeft - (e.clientX - startX);
-        normalize(); markInteracting();
+        normalizePredictive(); markInteracting();
       }, {passive:true});
       function endPtr(){
         isDown=false;
         if(pointerId!==null){ try{ vp.releasePointerCapture(pointerId);}catch{} pointerId=null; }
-        normalize(); markInteracting();
+        normalizePredictive(); markInteracting();
       }
       vp.addEventListener('pointerup', endPtr, {passive:true});
       vp.addEventListener('pointercancel', endPtr, {passive:true});
-      vp.addEventListener('wheel', ()=>{ normalize(); markInteracting(); }, {passive:true});
+      vp.addEventListener('wheel', ()=>{ normalizePredictive(); markInteracting(); }, {passive:true});
 
-      // auto–avance sin tirones
+      // Auto–scroll (más lento en móvil)
       let raf=null, visible=false, last=performance.now();
-      const SPEED = 28; // px/seg
+      const isMobile = matchMedia('(max-width: 768px)').matches;
+      const SPEED = isMobile ? 20 : 28; // px/seg
       function tick(t){
         const dt = Math.max(0, (t - last) / 1000); last = t;
         if(visible && !userInteracting && !isDown){
           vp.scrollLeft += SPEED * dt;
-          normalize();
+          normalizePredictive();
         }
         raf = requestAnimationFrame(tick);
       }
+
       const io = new IntersectionObserver(entries=>{
         visible = entries.some(e=> e.isIntersecting);
-      }, { root:null, threshold:0.2 });
+      }, { root:null, threshold:0.15 });
       io.observe(vp);
 
       let resizeTO=null;
-      window.addEventListener('resize', ()=>{
-        clearTimeout(resizeTO);
-        resizeTO = setTimeout(()=> normalize(), 120);
-      });
+      window.addEventListener('resize', ()=>{ clearTimeout(resizeTO); resizeTO = setTimeout(()=> normalizePredictive(), 120); });
+
+      window.addEventListener('load', ()=>{
+        const unit = unitWidth();
+        vp.scrollLeft = unit + cardWidth() * 2; // arrancar en el set central
+      }, {once:true});
 
       raf = requestAnimationFrame(tick);
     })();
+  </script>
 
-    /* ===== QA Bot ===== */
+  <!-- ============ ASISTENTE QA (FAB, no auto-abrir) ============ -->
+  <div class="qa-bot" id="qaBot" aria-live="polite" style="position:fixed;bottom:20px;right:20px;z-index:1000;">
+    <button class="qa-fab" id="qaFab" aria-controls="qaPanel" aria-expanded="false" aria-label="Abrir ayuda de preguntas frecuentes"
+            style="position:relative;border:none;cursor:pointer;width:70px;height:70px;border-radius:50%;background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.25);display:grid;place-items:center;">
+      <span class="qa-fab-ring" aria-hidden="true" style="position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 0 rgba(47,70,103,.35);animation:qa-pulse 2.4s ease-out infinite;"></span>
+      <span class="qa-fab-avatar" aria-hidden="true"><img src="logo.svg" alt="Asistente" style="width:55px;height:55px;object-fit:contain;border-radius:50%;"></span>
+    </button>
+
+    <div class="qa-bubbles" id="qaBubbles" aria-hidden="true"
+         style="position:absolute;right:84px;bottom:50%;transform:translateY(50%);display:flex;flex-direction:column;gap:6px;pointer-events:none;transition:opacity .6s ease,transform .6s ease;">
+      <div class="qa-bubble qa-bubble-main" style="background:#2F4667;color:#fff;font-weight:700;padding:10px 14px;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,.2);max-width:240px;animation:qa-popin .6s ease-out both;">¿Dudas? Toca aquí</div>
+      <div class="qa-bubble qa-bubble-typing" id="qaTyping" style="display:inline-flex;align-items:center;gap:6px;height:18px;padding:8px 12px;opacity:0;background:#2F4667;color:#fff;border-radius:16px;">
+        <span class="dot" style="width:6px;height:6px;border-radius:50%;background:#fff;opacity:.5;animation:typing 1.2s infinite;"></span>
+        <span class="dot" style="width:6px;height:6px;border-radius:50%;background:#fff;opacity:.5;animation:typing 1.2s infinite .15s;"></span>
+        <span class="dot" style="width:6px;height:6px;border-radius:50%;background:#fff;opacity:.5;animation:typing 1.2s infinite .3s;"></span>
+      </div>
+    </div>
+
+    <div class="qa-overlay" id="qaOverlay" hidden style="position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:999;"></div>
+
+    <aside class="qa-panel" id="qaPanel" role="dialog" aria-modal="false" aria-labelledby="qaTitle" hidden
+           style="position:fixed;bottom:100px;right:20px;width:min(92vw,480px);max-height:70vh;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.25);display:none;grid-template-rows:auto 1fr auto;z-index:1000;">
+      <header class="qa-header" style="background:linear-gradient(to right,#F2EEE9,#E6DECF);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">
+        <h2 id="qaTitle" style="margin:0;font-size:18px;color:#2F4667;">¿En qué te ayudamos?</h2>
+        <button class="qa-close" id="qaClose" aria-label="Cerrar ayuda" style="border:none;background:transparent;font-size:22px;cursor:pointer;">✕</button>
+      </header>
+      <div class="qa-list" role="list" style="padding:10px 16px;overflow-y:auto;">
+        <article class="qa-item" style="border:1px solid rgba(0,0,0,.08);border-radius:12px;margin-bottom:10px;">
+          <button class="qa-q" aria-controls="qa-a-1" aria-expanded="false" style="width:100%;text-align:left;border:none;background:#fff;padding:14px;font-weight:700;font-size:17px;cursor:pointer;">¿Necesito hospedarme en el Hotel Xcaret?</button>
+          <div class="qa-a" id="qa-a-1" hidden style="padding:10px 14px;border-top:1px dashed rgba(0,0,0,.1);">
+            <p>No es necesario; puedes hospedarte en el hotel de tu preferencia. Lo que más nos importa es tu compañía. Si lo prefieres, contamos con <strong>tarifa preferencial</strong> en <strong>Hotel Xcaret México</strong>.</p>
+            <a class="qa-link" href="hospedaje.html" style="display:inline-block;margin-top:6px;padding:8px 12px;border-radius:999px;background:#C6B28A;color:#3F3A36;font-weight:700;text-decoration:none;">Ver opciones de hospedaje</a>
+          </div>
+        </article>
+        <article class="qa-item" style="border:1px solid rgba(0,0,0,.08);border-radius:12px;margin-bottom:10px;">
+          <button class="qa-q" aria-controls="qa-a-2" aria-expanded="false" style="width:100%;text-align:left;border:none;background:#fff;padding:14px;font-weight:700;font-size:17px;cursor:pointer;">¿Código de vestimenta?</button>
+          <div class="qa-a" id="qa-a-2" hidden style="padding:10px 14px;border-top:1px dashed rgba(0,0,0,.1);">
+            <p>El código más habitual es <strong>“Formal de playa”</strong> (o guayabera formal) o <strong>“Cóctel de playa”</strong>. Evita blancos muy claros para no opacar a la novia.</p>
+          </div>
+        </article>
+        <article class="qa-item" style="border:1px solid rgba(0,0,0,.08);border-radius:12px;margin-bottom:10px;">
+          <button class="qa-q" aria-controls="qa-a-3" aria-expanded="false" style="width:100%;text-align:left;border:none;background:#fff;padding:14px;font-weight:700;font-size:17px;cursor:pointer;">¿A qué hora es?</button>
+          <div class="qa-a" id="qa-a-3" hidden style="padding:10px 14px;border-top:1px dashed rgba(0,0,0,.1);">
+            <p>La ceremonia inicia a las <strong>6:00 p.m.</strong></p>
+            <a class="qa-link" href="fecha-hora.html" style="display:inline-block;margin-top:6px;padding:8px 12px;border-radius:999px;background:#C6B28A;color:#3F3A36;font-weight:700;text-decoration:none;">Ver detalles</a>
+          </div>
+        </article>
+        <article class="qa-item" style="border:1px solid rgba(0,0,0,.08);border-radius:12px;margin-bottom:10px;">
+          <button class="qa-q" aria-controls="qa-a-4" aria-expanded="false" style="width:100%;text-align:left;border:none;background:#fff;padding:14px;font-weight:700;font-size:17px;cursor:pointer;">¿Debo llevar regalo?</button>
+          <div class="qa-a" id="qa-a-4" hidden style="padding:10px 14px;border-top:1px dashed rgba(0,0,0,.1);">
+            <p><strong>No es necesario</strong>; tu <strong>presencia</strong> es lo más importante. Si deseas hacer un detalle, visita:</p>
+            <a class="qa-link" href="regalos.html" style="display:inline-block;margin-top:6px;padding:8px 12px;border-radius:999px;background:#C6B28A;color:#3F3A36;font-weight:700;text-decoration:none;">Mesa de Regalos</a>
+          </div>
+        </article>
+        <article class="qa-item" style="border:1px solid rgba(0,0,0,.08);border-radius:12px;margin-bottom:10px;">
+          <button class="qa-q" aria-controls="qa-a-5" aria-expanded="false" style="width:100%;text-align:left;border:none;background:#fff;padding:14px;font-weight:700;font-size:17px;cursor:pointer;">¿Esta es una invitación?</button>
+          <div class="qa-a" id="qa-a-5" hidden style="padding:10px 14px;border-top:1px dashed rgba(0,0,0,.1);">
+            <p>No, este es nuestro <strong>sitio web informativo</strong>. Las <strong>invitaciones</strong> se entregarán <strong>personalmente</strong>.</p>
+          </div>
+        </article>
+        <article class="qa-item" style="border:1px solid rgba(0,0,0,.08);border-radius:12px;margin-bottom:10px;">
+          <button class="qa-q" aria-controls="qa-a-6" aria-expanded="false" style="width:100%;text-align:left;border:none;background:#fff;padding:14px;font-weight:700;font-size:17px;cursor:pointer;">¿Puedo llevar niños?</button>
+          <div class="qa-a" id="qa-a-6" hidden style="padding:10px 14px;border-top:1px dashed rgba(0,0,0,.1);">
+            <p>No. Por razones de seguridad, las instalaciones <strong>NO</strong> permiten el ingreso de menores de edad.</p>
+          </div>
+        </article>
+      </div>
+      <footer class="qa-footer" style="font-size:14px;padding:10px;text-align:center;color:#6B5F56;background:#faf8f4;">
+        Preguntas frecuentes de la boda · Si tienes otra duda, contáctanos ✨
+      </footer>
+    </aside>
+  </div>
+
+  <style>
+    @keyframes qa-pulse { 0%{box-shadow:0 0 0 0 rgba(47,70,103,.4)} 70%{box-shadow:0 0 0 20px rgba(47,70,103,0)} 100%{box-shadow:0 0 0 0 rgba(47,70,103,0)} }
+    @keyframes qa-popin { from { opacity:0; transform: translate(12px,50%);} to {opacity:1; transform: translate(0,50%);} }
+    @keyframes typing { 0%{transform:translateY(0);opacity:.4} 30%{transform:translateY(-3px);opacity:1} 60%{transform:translateY(0);opacity:.6} 100%{transform:translateY(0);opacity:.4} }
+    .qa-bubbles.hide { opacity:0; transform: translateY(50%) translateX(8px); }
+  </style>
+
+  <script>
+    // Asistente QA (no auto-abrir)
     (function(){
       const root     = document.getElementById('qaBot');
       const fab      = document.getElementById('qaFab');
@@ -518,6 +490,7 @@
         root.classList.toggle('open', open);
         panel.hidden   = !open;
         overlay.hidden = !open;
+        panel.style.display = open ? 'grid' : 'none';
         fab.setAttribute('aria-expanded', String(open));
       }
       setOpen(false);
@@ -540,8 +513,9 @@
           ans.hidden = expanded;
         });
       });
-      window.addEventListener('load', ()=> setOpen(false));
+      window.addEventListener('load', ()=> setOpen(false), {once:true});
     })();
   </script>
+
 </body>
 </html>
