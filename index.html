@@ -4,20 +4,15 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Boda Cynthia y Jose Miguel</title>
-<!-- Favicon moderno (SVG) con PNG de fallback -->
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="alternate icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="alternate icon" type="image/png" sizes="16x16" href="favicon-16.png">
 
-<!-- iOS / iPadOS -->
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-
-<!-- (Opcional) Safari pinned tab -->
-<link rel="mask-icon" href="safari-pinned-tab.svg" color="#2F4667">
-
-<!-- (Opcional) Manifest PWA -->
-<link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#F2EEE9">
+  <!-- Favicon moderno -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="alternate icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#2F4667">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#F2EEE9">
 
   <!-- Fuentes e iconos -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -116,33 +111,26 @@
       position:relative; height:100vh; width:100%; overflow:hidden;
       background:#000;
     }
-    /* capa por si quieres tener una “Portada.jpg” inicial al fondo */
     .hero::before{
       content:""; position:absolute; inset:0;
       background-image:url('Portada.jpg'); background-size:cover; background-position:center;
       opacity:.25; filter:saturate(.9) contrast(1.05);
     }
 
-    .slides{
-      position:absolute; inset:0; isolation:isolate;
-    }
+    .slides{ position:absolute; inset:0; isolation:isolate; }
     .slide{
       position:absolute; inset:0; opacity:0; clip-path:circle(0vmax at 50% 50%);
-      will-change:opacity,clip-path;
-      z-index:1;
+      will-change:opacity,clip-path; z-index:1;
     }
-    .slide.is-under{ z-index:1 }
     .slide.is-top{ z-index:2 }
 
-    /* Imagen interna para Ken Burns (zoom/pan) */
     .slide .kb{
-      position:absolute; inset:-10% -10%; /* margen para que el pan no deje bordes */
+      position:absolute; inset:-10% -10%;
       background-size:cover; background-position:center;
-      transform:scale(1.15); will-change:transform,translate;
+      transform:scale(1.15); will-change:transform;
       filter: saturate(1.05) contrast(1.05);
     }
 
-    /* Texto de portada */
     .hero-title{
       position:absolute; inset:0; display:grid; place-items:center; text-align:center; z-index:3; color:#fff; pointer-events:none;
       text-shadow:0 12px 36px rgba(0,0,0,.55);
@@ -169,21 +157,24 @@
     }
     .ag-item img{ width:100%; height:100%; object-fit:cover; display:block; filter:contrast(1.05) saturate(1.05) }
 
-    @keyframes marquee{
-      from{ transform:translateX(0) }
-      to{ transform:translateX(-50%) }
-    }
+    @keyframes marquee{ from{ transform:translateX(0) } to{ transform:translateX(-50%) } }
 
     .ag-title{
       text-align:center; margin:8px auto 18px; color:#6B5F56; font-weight:600;
       letter-spacing:.6px;
     }
+
+    /* ====== Parche anti-parpadeo móvil ====== */
+    @media (max-width: 900px), (hover: none), (pointer: coarse) {
+      .hero { background-attachment: scroll !important; }
+    }
+    .hero, .slides, .slide, .kb { transform: translateZ(0); backface-visibility: hidden; will-change: transform, opacity; }
   </style>
 </head>
 <body class="home-page">
 
-  <!-- ===== Menú ===== -->
-  <div class="staggered-menu-wrapper" data-open="">
+  <!-- ===== Menú (inicial cerrado) ===== -->
+  <div class="staggered-menu-wrapper">
     <div class="sm-prelayers" aria-hidden="true">
       <div class="sm-prelayer" style="background:#2F4667;"></div>
       <div class="sm-prelayer" style="background:#A3ADA0;"></div>
@@ -197,7 +188,7 @@
 
       <span class="menu-tip"><i class="fa-solid fa-hand-point-right"></i> Aquí está el menú</span>
 
-      <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="true" aria-controls="staggered-menu-panel" type="button">
+      <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
         <span class="sm-icon" aria-hidden="true">
           <span class="sm-icon-line"></span>
           <span class="sm-icon-line"></span>
@@ -206,7 +197,7 @@
       </button>
     </header>
 
-    <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="false">
+    <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
       <div class="sm-panel-inner">
         <ul class="sm-panel-list" role="list">
           <li><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Homepage</span></a></li>
@@ -225,52 +216,20 @@
   <!-- ===== Hero Slideshow ===== -->
   <section class="hero" id="hero">
     <div class="slides" id="slides">
-      <!-- Cada slide tiene un hijo .kb para la animación Ken Burns -->
-      <div class="slide is-top">
-        <div class="kb" style="background-image:url('1.jpg')"></div>
-      </div>
-      <div class="slide">
-        <div class="kb" style="background-image:url('2.jpg')"></div>
-      </div>
-      <div class="slide">
-        <div class="kb" style="background-image:url('3.jpg')"></div>
-      </div>
-      <div class="slide">
-        <div class="kb" style="background-image:url('4.jpg')"></div>
-      </div>
-      <div class="slide">
-        <div class="kb" style="background-image:url('5.jpg')"></div>
-      </div>
-      <div class="slide">
-        <div class="kb" style="background-image:url('6.jpg')"></div>
-      </div>
-      <div class="slide">
-        <div class="kb" style="background-image:url('7.jpg')"></div>
-      </div>
-      <div class="slide">
-        <div class="kb" style="background-image:url('8.jpg')"></div>
-      </div>
-      <div class="slide">
-        <div class="kb" style="background-image:url('9.jpg')"></div>
-      </div>
-      <div class="slide">
-        <div class="kb" style="background-image:url('10.jpg')"></div>
-      </div>
-      <div class="slide">
-        <div class="kb" style="background-image:url('11.jpg')"></div>
-      </div>
-    </div>
-    <div class="slide">
-        <div class="kb" style="background-image:url('12.jpg')"></div>
-      </div>
-    </div>
-    <div class="slide">
-        <div class="kb" style="background-image:url('13.jpg')"></div>
-      </div>
-    </div>
-    <div class="slide">
-        <div class="kb" style="background-image:url('14.jpg')"></div>
-      </div>
+      <div class="slide is-top"><div class="kb" style="background-image:url('1.jpg')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('2.jpg')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('3.jpg')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('4.jpg')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('5.jpg')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('6.jpg')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('7.jpg')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('8.jpg')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('9.jpg')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('10.jpg')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('11.jpg')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('12.jpg')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('13.jpg')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('14.jpg')"></div></div>
     </div>
 
     <div class="hero-title">
@@ -343,8 +302,10 @@
       }
       function isOpen(){ return toggle.getAttribute('aria-expanded') === 'true'; }
 
+      // Toggle manual
       toggle.addEventListener('click', ()=>{ isOpen()? closeMenu(): openMenu(); });
 
+      // Show de bienvenida
       function autoIntro(){
         openMenu();
         setTimeout(closeMenu, 2200);
@@ -361,7 +322,7 @@
       if(slides.length === 0) return;
 
       let index = 0;
-      const DURATION = 1.5;   // tiempo total por slide
+      const DURATION = 1.5;   // tiempo entre cambios programados
       const REVEAL = 1.6;     // duración del reveal
       const EASE = 'power3.out';
 
@@ -369,7 +330,6 @@
       gsap.set(slides, { opacity:0, clipPath:'circle(0vmax at 50% 50%)', zIndex:1 });
       gsap.set(slides[0], { opacity:1, clipPath:'circle(140vmax at 50% 50%)', zIndex:2 });
       gsap.set(kbImgs, { scale:1.15, xPercent:0, yPercent:0 });
-      // Ken Burns inicial corre suave
       gsap.to(kbImgs[0], { scale:1, duration:DURATION, ease:'power1.out' });
 
       function randPan(){
@@ -389,15 +349,12 @@
         const tl = gsap.timeline({
           defaults:{ ease:EASE },
           onComplete(){
-            // relega el anterior
             gsap.set(slides[curr], { zIndex:1, opacity:0, clipPath:'circle(0vmax at 50% 50%)' });
             index = nxt;
-            // siguiente cambio programado
             gsap.delayedCall(DURATION, ()=> go(nextIndex(index)));
           }
         });
 
-        // REVEAL circular del nuevo + ken burns
         tl.to(slides[nxt], { clipPath:'circle(140vmax at 50% 50%)', duration:REVEAL }, 0)
           .to(kbImgs[nxt], { scale:1, xPercent:0, yPercent:0, duration:DURATION, ease:'power1.out' }, 0)
           .to(slides[curr], { opacity:0, duration:0.9, ease:'power2.out' }, 0.4);
@@ -407,191 +364,179 @@
       gsap.delayedCall(DURATION, ()=> go(1));
     })();
   </script>
-  <!-- ============ ASISTENTE QA (NO AUTO-ABRE + CERRABLE) ============ -->
-<div class="qa-bot" id="qaBot" aria-live="polite">
-  <!-- Botón flotante -->
-  <button class="qa-fab" id="qaFab" aria-controls="qaPanel" aria-expanded="false" aria-label="Abrir ayuda de preguntas frecuentes">
-    <span class="qa-fab-ring" aria-hidden="true"></span>
-    <span class="qa-fab-avatar" aria-hidden="true">
-      <img src="logo.svg" alt="Asistente" />
-    </span>
-  </button>
 
-  <!-- Burbujas guía (no abren el panel) -->
-  <div class="qa-bubbles" id="qaBubbles" aria-hidden="true">
-    <div class="qa-bubble qa-bubble-main">¿Dudas? Toca aquí</div>
-    <div class="qa-bubble qa-bubble-typing" id="qaTyping">
-      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+  <!-- ============ ASISTENTE QA (NO AUTO-ABRE + CERRABLE) ============ -->
+  <div class="qa-bot" id="qaBot" aria-live="polite">
+    <!-- Botón flotante -->
+    <button class="qa-fab" id="qaFab" aria-controls="qaPanel" aria-expanded="false" aria-label="Abrir ayuda de preguntas frecuentes">
+      <span class="qa-fab-ring" aria-hidden="true"></span>
+      <span class="qa-fab-avatar" aria-hidden="true">
+        <img src="logo.svg" alt="Asistente" />
+      </span>
+    </button>
+
+    <!-- Burbujas guía (no abren el panel) -->
+    <div class="qa-bubbles" id="qaBubbles" aria-hidden="true">
+      <div class="qa-bubble qa-bubble-main">¿Dudas? Toca aquí</div>
+      <div class="qa-bubble qa-bubble-typing" id="qaTyping">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
     </div>
+
+    <!-- Capa para cerrar al hacer clic fuera -->
+    <div class="qa-overlay" id="qaOverlay" hidden></div>
+
+    <!-- Panel -->
+    <aside class="qa-panel" id="qaPanel" role="dialog" aria-modal="false" aria-labelledby="qaTitle" hidden>
+      <header class="qa-header">
+        <h2 id="qaTitle">¿En qué te ayudamos?</h2>
+        <button class="qa-close" id="qaClose" aria-label="Cerrar ayuda">✕</button>
+      </header>
+
+      <div class="qa-list" role="list">
+        <article class="qa-item">
+          <button class="qa-q" aria-controls="qa-a-1" aria-expanded="false">¿Necesito hospedarme en el Hotel Xcaret?</button>
+          <div class="qa-a" id="qa-a-1" hidden>
+            <p>No es necesario; puedes hospedarte en el hotel de tu preferencia. Lo que más nos importa es tu compañía. Si lo prefieres, contamos con <strong>tarifa preferencial</strong> en <strong>Hotel Xcaret México</strong>.</p>
+            <a class="qa-link" href="hospedaje.html">Ver opciones de hospedaje</a>
+          </div>
+        </article>
+
+        <article class="qa-item">
+          <button class="qa-q" aria-controls="qa-a-2" aria-expanded="false">¿Código de vestimenta?</button>
+          <div class="qa-a" id="qa-a-2" hidden>
+            <p>El código más habitual es <strong>“Formal de playa”</strong> (o guayabera formal) o <strong>“Cóctel de playa”</strong>.</p>
+            <p>Evitar colores claros/blancos</p>
+          </div>
+        </article>
+
+        <article class="qa-item">
+          <button class="qa-q" aria-controls="qa-a-3" aria-expanded="false">¿A qué hora es?</button>
+          <div class="qa-a" id="qa-a-3" hidden>
+            <p>La ceremonia inicia a las <strong>6:00 p.m.</strong></p>
+            <a class="qa-link" href="fecha-hora.html">Ver detalles</a>
+          </div>
+        </article>
+
+        <article class="qa-item">
+          <button class="qa-q" aria-controls="qa-a-4" aria-expanded="false">¿Debo llevar regalo?</button>
+          <div class="qa-a" id="qa-a-4" hidden>
+            <p><strong>No es necesario</strong>; tu <strong>presencia</strong> es lo más importante. Si deseas hacer un detalle, visita:</p>
+            <a class="qa-link" href="regalos.html">Mesa de Regalos</a>
+          </div>
+        </article>
+
+        <article class="qa-item">
+          <button class="qa-q" aria-controls="qa-a-5" aria-expanded="false">¿Esta es una invitación?</button>
+          <div class="qa-a" id="qa-a-5" hidden>
+            <p>No, este es nuestro <strong>sitio web informativo</strong>. Las <strong>invitaciones</strong> se entregarán <strong>personalmente</strong>.</p>
+          </div>
+        </article>
+
+        <article class="qa-item">
+          <button class="qa-q" aria-controls="qa-a-6" aria-expanded="false">¿Puedo llevar niños?</button>
+          <div class="qa-a" id="qa-a-6" hidden>
+            <p>No. Por razones de seguridad, las instalaciones <strong>NO</strong> permiten el ingreso de menores de edad.</p>
+          </div>
+        </article>
+      </div>
+
+      <footer class="qa-footer">
+        <small>Preguntas frecuentes de la boda · Si tienes otra duda, contáctanos ✨</small>
+      </footer>
+    </aside>
   </div>
 
-  <!-- Capa para cerrar al hacer clic fuera -->
-  <div class="qa-overlay" id="qaOverlay" hidden></div>
+  <style>
+    :root { --qa-brand:#2F4667; --qa-accent:#C6B28A; }
+    .qa-bot { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
 
-  <!-- Panel -->
-  <aside class="qa-panel" id="qaPanel" role="dialog" aria-modal="false" aria-labelledby="qaTitle" hidden>
-    <header class="qa-header">
-      <h2 id="qaTitle">¿En qué te ayudamos?</h2>
-      <button class="qa-close" id="qaClose" aria-label="Cerrar ayuda">✕</button>
-    </header>
+    /* FAB */
+    .qa-fab { position: relative; border: none; cursor: pointer; width: 70px; height: 70px; border-radius: 50%; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,.25); display: grid; place-items: center; }
+    .qa-fab-avatar img { width: 55px; height: 55px; object-fit: contain; border-radius: 50%; }
+    .qa-fab-ring { position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 0 rgba(47,70,103,.35); animation: qa-pulse 2.4s ease-out infinite; }
+    @keyframes qa-pulse { 0%{box-shadow:0 0 0 0 rgba(47,70,103,.4)} 70%{box-shadow:0 0 0 20px rgba(47,70,103,0)} 100%{box-shadow:0 0 0 0 rgba(47,70,103,0)} }
 
-    <div class="qa-list" role="list">
-      <article class="qa-item">
-        <button class="qa-q" aria-controls="qa-a-1" aria-expanded="false">¿Necesito hospedarme en el Hotel Xcaret?</button>
-        <div class="qa-a" id="qa-a-1" hidden>
-          <p>No es necesario; puedes hospedarte en el hotel de tu preferencia. Lo que más nos importa es tu compañía. Si lo prefieres, contamos con <strong>tarifa preferencial</strong> en <strong>Hotel Xcaret México</strong>.</p>
-          <a class="qa-link" href="hospedaje.html">Ver opciones de hospedaje</a>
-        </div>
-      </article>
+    /* Burbujas guía */
+    .qa-bubbles { position: absolute; right: 84px; bottom: 50%; transform: translateY(50%); display: flex; flex-direction: column; gap: 6px; pointer-events: none; transition: opacity .6s ease, transform .6s ease; }
+    .qa-bubble { background: var(--qa-brand); color:#fff; font-weight:700; padding: 10px 14px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,.2); max-width: 240px; }
+    .qa-bubble-main { animation: qa-popin .6s ease-out both; }
+    @keyframes qa-popin { from { opacity:0; transform: translate(12px,50%);} to {opacity:1; transform: translate(0,50%);} }
 
-      <article class="qa-item">
-        <button class="qa-q" aria-controls="qa-a-2" aria-expanded="false">¿Código de vestimenta?</button>
-        <div class="qa-a" id="qa-a-2" hidden>
-          <p>El código más habitual es <strong>“Formal de playa”</strong> (o guayabera formal) o <strong>“Cóctel de playa”</strong>.</p>
-          <p>Evitar colores claros/blancos</p>
+    .qa-bubble-typing { display: inline-flex; align-items: center; gap: 6px; height: 18px; padding: 8px 12px; opacity: 0; }
+    .qa-bubble-typing .dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; opacity:.5; animation: typing 1.2s infinite; }
+    .qa-bubble-typing .dot:nth-child(2){ animation-delay:.15s }
+    .qa-bubble-typing .dot:nth-child(3){ animation-delay:.3s }
+    @keyframes typing { 0%{transform:translateY(0);opacity:.4} 30%{transform:translateY(-3px);opacity:1} 60%{transform:translateY(0);opacity:.6} 100%{transform:translateY(0);opacity:.4} }
 
-        </div>
-      </article>
+    .qa-bubbles.hide { opacity: 0; transform: translateY(50%) translateX(8px); }
 
-      <article class="qa-item">
-        <button class="qa-q" aria-controls="qa-a-3" aria-expanded="false">¿A qué hora es?</button>
-        <div class="qa-a" id="qa-a-3" hidden>
-          <p>La ceremonia inicia a las <strong>6:00 p.m.</strong></p>
-          <a class="qa-link" href="fecha-hora.html">Ver detalles</a>
-        </div>
-      </article>
+    /* Overlay para cerrar al hacer clic fuera */
+    .qa-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 999; }
 
-      <article class="qa-item">
-        <button class="qa-q" aria-controls="qa-a-4" aria-expanded="false">¿Debo llevar regalo?</button>
-        <div class="qa-a" id="qa-a-4" hidden>
-          <p><strong>No es necesario</strong>; tu <strong>presencia</strong> es lo más importante. Si deseas hacer un detalle, visita:</p>
-          <a class="qa-link" href="regalos.html">Mesa de Regalos</a>
-        </div>
-      </article>
+    /* Panel */
+    .qa-panel { position: fixed; bottom: 100px; right: 20px; width: min(92vw, 480px); max-height: 70vh; background:#fff; border-radius: 18px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,.25); display: none; grid-template-rows: auto 1fr auto; z-index: 1000; }
+    .qa-bot.open .qa-panel { display: grid; animation: qa-pop .25s ease-out; }
+    .qa-bot.open #qaOverlay { display:block; }
+    @keyframes qa-pop { from { transform: translateY(15px); opacity:0 } to { transform: translateY(0); opacity:1 } }
 
-      <article class="qa-item">
-        <button class="qa-q" aria-controls="qa-a-5" aria-expanded="false">¿Esta es una invitación?</button>
-        <div class="qa-a" id="qa-a-5" hidden>
-          <p>No, este es nuestro <strong>sitio web informativo</strong>. Las <strong>invitaciones</strong> se entregarán <strong>personalmente</strong>.</p>
-        </div>
-      </article>
+    .qa-header { background: linear-gradient(to right, #F2EEE9, #E6DECF); padding: 12px 16px; display:flex; justify-content:space-between; align-items:center; }
+    .qa-header h2 { margin: 0; font-size: 18px; color: var(--qa-brand); }
+    .qa-close { border:none; background:transparent; font-size:22px; cursor:pointer; }
 
-      <article class="qa-item">
-        <button class="qa-q" aria-controls="qa-a-6" aria-expanded="false">¿Puedo llevar niños?</button>
-        <div class="qa-a" id="qa-a-6" hidden>
-          <p>No. Por razones de seguridad, las instalaciones <strong>NO</strong> permiten el ingreso de menores de edad.</p>
-        </div>
-      </article>
-    </div>
+    .qa-list { padding: 10px 16px; overflow-y:auto; }
+    .qa-item { border: 1px solid rgba(0,0,0,.08); border-radius: 12px; margin-bottom: 10px; }
+    .qa-q { width: 100%; text-align: left; border: none; background:#fff; padding: 14px; font-weight: 700; font-size: 17px; cursor: pointer; }
+    .qa-a { padding: 10px 14px; border-top: 1px dashed rgba(0,0,0,.1); }
+    .qa-a p { margin: 8px 0; }
+    .qa-link { display:inline-block; margin-top:6px; padding: 8px 12px; border-radius:999px; background: var(--qa-accent); color:#3F3A36; font-weight:700; text-decoration:none; }
+    .qa-footer { font-size: 14px; padding: 10px; text-align:center; color:#6B5F56; background:#faf8f4; }
+    .qa-chip { display:inline-block; padding:6px 10px; margin:4px 4px 0 0; border-radius:999px; background:var(--c); font-size:13px; font-weight:700; color:#3F3A36; }
+    .qa-chip-dark { color:#fff; }
+  </style>
 
-    <footer class="qa-footer">
-      <small>Preguntas frecuentes de la boda · Si tienes otra duda, contáctanos ✨</small>
-    </footer>
-  </aside>
-</div>
+  <script>
+    (function(){
+      const root     = document.getElementById('qaBot');
+      const fab      = document.getElementById('qaFab');
+      const panel    = document.getElementById('qaPanel');
+      const overlay  = document.getElementById('qaOverlay');
+      const closeBtn = document.getElementById('qaClose');
+      const bubbles  = document.getElementById('qaBubbles');
+      const typing   = document.getElementById('qaTyping');
 
-<style>
-  :root { --qa-brand:#2F4667; --qa-accent:#C6B28A; }
-  .qa-bot { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+      function setOpen(open){
+        root.classList.toggle('open', open);
+        panel.hidden   = !open;
+        overlay.hidden = !open;
+        fab.setAttribute('aria-expanded', String(open));
+      }
+      setOpen(false);
 
-  /* FAB */
-  .qa-fab { position: relative; border: none; cursor: pointer; width: 70px; height: 70px; border-radius: 50%; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,.25); display: grid; place-items: center; }
-  .qa-fab-avatar img { width: 55px; height: 55px; object-fit: contain; border-radius: 50%; }
-  .qa-fab-ring { position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 0 rgba(47,70,103,.35); animation: qa-pulse 2.4s ease-out infinite; }
-  @keyframes qa-pulse { 0%{box-shadow:0 0 0 0 rgba(47,70,103,.4)} 70%{box-shadow:0 0 0 20px rgba(47,70,103,0)} 100%{box-shadow:0 0 0 0 rgba(47,70,103,0)} }
+      // Burbujas guía (sólo visual)
+      setTimeout(()=> typing.style.opacity = '1', 4000);
+      setTimeout(()=> bubbles.classList.add('hide'), 10000);
 
-  /* Burbujas guía */
-  .qa-bubbles { position: absolute; right: 84px; bottom: 50%; transform: translateY(50%); display: flex; flex-direction: column; gap: 6px; pointer-events: none; transition: opacity .6s ease, transform .6s ease; }
-  .qa-bubble { background: var(--qa-brand); color:#fff; font-weight:700; padding: 10px 14px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,.2); max-width: 240px; }
-  .qa-bubble-main { animation: qa-popin .6s ease-out both; }
-  @keyframes qa-popin { from { opacity:0; transform: translate(12px,50%);} to {opacity:1; transform: translate(0,50%);} }
+      // Toggle por botón
+      fab.addEventListener('click', (e)=>{ e.stopPropagation(); setOpen( fab.getAttribute('aria-expanded') !== 'true' ); });
 
-  .qa-bubble-typing { display: inline-flex; align-items: center; gap: 6px; height: 18px; padding: 8px 12px; opacity: 0; }
-  .qa-bubble-typing .dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; opacity:.5; animation: typing 1.2s infinite; }
-  .qa-bubble-typing .dot:nth-child(2){ animation-delay:.15s }
-  .qa-bubble-typing .dot:nth-child(3){ animation-delay:.3s }
-  @keyframes typing { 0%{transform:translateY(0);opacity:.4} 30%{transform:translateY(-3px);opacity:1} 60%{transform:translateY(0);opacity:.6} 100%{transform:translateY(0);opacity:.4} }
+      // Cerrar por botón X
+      closeBtn.addEventListener('click', ()=> setOpen(false));
 
-  .qa-bubbles.hide { opacity: 0; transform: translateY(50%) translateX(8px); }
+      // Cerrar al hacer clic fuera
+      overlay.addEventListener('click', ()=> setOpen(false));
 
-  /* Overlay para cerrar al hacer clic fuera */
-  .qa-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 999; }
+      // Cerrar con ESC
+      document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') setOpen(false); });
 
-  /* Panel */
-  .qa-panel { position: fixed; bottom: 100px; right: 20px; width: min(92vw, 480px); max-height: 70vh; background:#fff; border-radius: 18px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,.25); display: none; grid-template-rows: auto 1fr auto; z-index: 1000; }
-  .qa-bot.open .qa-panel { display: grid; animation: qa-pop .25s ease-out; }
-  .qa-bot.open #qaOverlay { display:block; }
-  @keyframes qa-pop { from { transform: translateY(15px); opacity:0 } to { transform: translateY(0); opacity:1 } }
+      // Evitar propagación interna del panel
+      panel.addEventListener('click', (e)=> e.stopPropagation());
 
-  .qa-header { background: linear-gradient(to right, #F2EEE9, #E6DECF); padding: 12px 16px; display:flex; justify-content:space-between; align-items:center; }
-  .qa-header h2 { margin: 0; font-size: 18px; color: var(--qa-brand); }
-  .qa-close { border:none; background:transparent; font-size:22px; cursor:pointer; }
-
-  .qa-list { padding: 10px 16px; overflow-y:auto; }
-  .qa-item { border: 1px solid rgba(0,0,0,.08); border-radius: 12px; margin-bottom: 10px; }
-  .qa-q { width: 100%; text-align: left; border: none; background:#fff; padding: 14px; font-weight: 700; font-size: 17px; cursor: pointer; }
-  .qa-a { padding: 10px 14px; border-top: 1px dashed rgba(0,0,0,.1); }
-  .qa-a p { margin: 8px 0; }
-  .qa-link { display:inline-block; margin-top:6px; padding: 8px 12px; border-radius:999px; background: var(--qa-accent); color:#3F3A36; font-weight:700; text-decoration:none; }
-  .qa-footer { font-size: 14px; padding: 10px; text-align:center; color:#6B5F56; background:#faf8f4; }
-  .qa-chip { display:inline-block; padding:6px 10px; margin:4px 4px 0 0; border-radius:999px; background:var(--c); font-size:13px; font-weight:700; color:#3F3A36; }
-  .qa-chip-dark { color:#fff; }
-</style>
-
-<script>
-(function(){
-  const root     = document.getElementById('qaBot');
-  const fab      = document.getElementById('qaFab');
-  const panel    = document.getElementById('qaPanel');
-  const overlay  = document.getElementById('qaOverlay');
-  const closeBtn = document.getElementById('qaClose');
-  const bubbles  = document.getElementById('qaBubbles');
-  const typing   = document.getElementById('qaTyping');
-
-  // Estado seguro inicial (no abierto)
-  function setOpen(open){
-    root.classList.toggle('open', open);
-    panel.hidden   = !open;
-    overlay.hidden = !open;
-    fab.setAttribute('aria-expanded', String(open));
-  }
-  setOpen(false);
-
-  // Burbujas guía (solo visual, no abre)
-  setTimeout(()=> typing.style.opacity = '1', 4000);   // aparecen los puntitos
-  setTimeout(()=> bubbles.classList.add('hide'), 10000); // se desvanecen
-
-  // Toggle por botón
-  fab.addEventListener('click', (e)=>{ e.stopPropagation(); setOpen( fab.getAttribute('aria-expanded') !== 'true' ); });
-
-  // Cerrar por botón X
-  closeBtn.addEventListener('click', ()=> setOpen(false));
-
-  // Cerrar al hacer clic fuera
-  overlay.addEventListener('click', ()=> setOpen(false));
-
-  // Cerrar con ESC
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') setOpen(false); });
-
-  // Evitar que los clics dentro del panel propaguen al overlay
-  panel.addEventListener('click', (e)=> e.stopPropagation());
-
-  // Acordeones accesibles
-  document.querySelectorAll('.qa-q').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const id = btn.getAttribute('aria-controls');
-      const ans = document.getElementById(id);
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!expanded));
-      ans.hidden = expanded;
-    });
-  });
-
-  // Defensa extra: si algún script externo lo abre solo, lo cerramos al terminar de cargar
-  window.addEventListener('load', ()=> setOpen(false));
-})();
-</script>
-<!-- ===================== FIN ASISTENTE QA ===================== -->
+      // Defensa extra: asegurar cerrado al terminar de cargar
+      window.addEventListener('load', ()=> setOpen(false));
+    })();
+  </script>
+  <!-- ===================== FIN ASISTENTE QA ===================== -->
 
 </body>
 </html>
