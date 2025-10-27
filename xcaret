@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título de la página actualizado -->
+    <title>Hospedaje - Boda Cynthia y Jose Miguel</title>
+    
+    <!-- Mismos estilos y fuentes de tu plantilla -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Estilos ADICIONALES para esta página (puedes moverlos a style.css si prefieres) -->
+    <style>
+        .contenido-pagina {
+            padding-bottom: 40px; /* Más espacio al final */
+        }
+        .hotel-imagen {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            margin: 24px 0;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+            object-fit: cover;
+            max-height: 450px;
+            background: #eee;
+        }
+
+        .beneficios-grid {
+            display: grid;
+            /* Crea columnas flexibles que se adaptan (mín 280px) */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 28px;
+        }
+
+        .beneficio-item {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 20px 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .beneficio-item h3 {
+            margin-top: 0;
+            color: var(--brand, #2F4667); /* Usa el color --brand de tu CSS */
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .beneficio-item h3 i {
+            color: var(--sm-accent, #C6B28A); /* Usa el color --sm-accent */
+            font-size: 1.1rem;
+        }
+
+        .beneficio-item ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+        .beneficio-item li {
+            position: relative;
+            padding-left: 28px; /* Espacio para el ícono */
+            margin-bottom: 10px;
+            line-height: 1.5;
+            color: #3F3A36;
+        }
+
+        /* Agrega un "check" de Font Awesome antes de cada ítem */
+        .beneficio-item li::before {
+            content: '\f00c'; /* Código del ícono "check" */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--sm-accent, #C6B28A);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 0.9rem;
+        }
+
+        /* Re-usando la clase .direccion-info para el CTA de tarifa */
+        .direccion-info {
+            /* Los estilos ya están en style.css (fondo, padding, etc) */
+            margin-top: 30px;
+        }
+        .direccion-info h3 i {
+            color: var(--brand, #2F4667);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== Menú (Copiado 1:1 de tu plantilla) ===== -->
+    <div class="staggered-menu-wrapper">
+        <div class="sm-prelayers" aria-hidden="true">
+            <div class="sm-prelayer" style="background: #2F4667;"></div>
+            <div class="sm-prelayer" style="background: #A3ADA0;"></div>
+            <div class="sm-prelayer" style="background: #E6DECF;"></div>
+        </div>
+        <header class="staggered-menu-header">
+            <a href="index.html" class="sm-logo" aria-label="Homepage">
+                <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img">
+            </a> 
+            <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
+                <span class="sm-icon" aria-hidden="true">
+                    <span class="sm-icon-line"></span>
+                    <span class="sm-icon-line"></span>
+                    <span class="sm-icon-line"></span>
+                </span>
+                <!-- NOTA: Cambié el texto de "menu-guide" que tenías para que coincida con el de la página principal (si es que existe) -->
+                <!-- <span class="menu-guide">Aquí está el menú 👋</span> -->
+            </button>
+        </header>
+        <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
+            <div class="sm-panel-inner">
+                <ul class="sm-panel-list" role="list">
+                    <!-- Lista de menú idéntica a tu plantilla -->
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina principal</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span class="sm-panel-itemLabel">Agradecimientos</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora de tarifas</span></a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <!-- ===== INICIO DEL CONTENIDO NUEVO ===== -->
+    <div class="contenido-pagina">
+        
+        <!-- 1. Título de la página -->
+        <h1><i class="fa-solid fa-hotel" style="color:var(--sm-accent);"></i> Hospedaje: Hotel Xcaret México</h1>
+
+        <!-- 2. Descripción principal -->
+        <div class="descripcion-lugar">
+            <p>¡Queremos que disfruten al máximo esta celebración! Por eso, hemos elegido el <strong>Hotel Xcaret México</strong> como hotel sede. La boda será dentro del parque, por lo que hospedarse aquí es la opción más cómoda y completa.</p>
+            <p>Este increíble hotel 5 diamantes va más allá del "todo incluido" tradicional con su concepto <strong>All-Fun Inclusive®</strong>, que transforma sus vacaciones en una experiencia inolvidable.</p>
+        </div>
+
+        <!-- 3. Imagen del Hotel (Usando placeholder) -->
+        <img src="https://placehold.co/1200x600/6B5F56/F2EEE9?text=Hotel+Xcaret+México" 
+             alt="Vistas del Hotel Xcaret México" 
+             class="hotel-imagen"
+             onerror="this.src='https://placehold.co/1200x600/6B5F56/F2EEE9?text=Hotel+Xcaret+M%C3%A9xico';">
+
+        <!-- 4. Sección de Beneficios (Grid) -->
+        <div class="beneficios-grid">
+            
+            <!-- Beneficio 1: Parques -->
+            <div class="beneficio-item">
+                <h3><i class="fa-solid fa-ticket"></i> All-Fun Inclusive®</h3>
+                <p>Su estancia incluye <strong>acceso ilimitado a TODOS los parques</strong> de Grupo Xcaret:</p>
+                <ul>
+                    <li>Xcaret (¡Sede de la boda!)</li>
+                    <li>Xel-Há</li>
+                    <li>Xplor (Día)</li>
+                    <li>Xplor Fuego (Noche)</li>
+                    <li>Xoximilco</li>
+                    <li>Xenses</li>
+                    <li>Xavage</li>
+                    <li>Tour Xenotes</li>
+                    <li>Tour Xichén (Chichén Itzá)</li>
+                </ul>
+            </div>
+
+            <!-- Beneficio 2: Transportación -->
+            <div class="beneficio-item">
+                <h3><i class="fa-solid fa-bus-simple"></i> Transportación Total</h3>
+                <p>Olvídate de la logística, el hotel se encarga de todo:</p>
+                <ul>
+                    <li>Transporte redondo <strong>Aeropuerto-Hotel-Aeropuerto</strong> (shuttle de lujo).</li>
+                    <li>Transporte continuo (cada 20-30 min) entre el hotel y todos los parques mencionados.</li>
+                    <li>Ferry a Isla Mujeres (con el parque Xcaret Xailing).</li>
+                </ul>
+            </div>
+
+            <!-- Beneficio 3: Gastronomía -->
+            <div class="beneficio-item">
+                <h3><i class="fa-solid fa-utensils"></i> Gastronomía Premium</h3>
+                <p>Disfruten de una experiencia culinaria de clase mundial:</p>
+                <ul>
+                    <li>Más de 12 restaurantes (buffet y a la carta) incluidos.</li>
+                    <li>Chefs de renombre y cocina de autor.</li>
+                    <li>Bares con mixología de primer nivel.</li>
+                    <li>Servicio a la habitación 24 horas incluido.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- 5. Call to Action (Tarifa Especial) - Re-usando tu clase .direccion-info -->
+        <div class="direccion-info" style="margin-top: 30px; background-image: linear-gradient(135deg, #fff, #F2EEE9);">
+            <h3><i class="fa-solid fa-star" style="color: var(--brand, #2F4667);"></i> ¡Tarifa Especial para Invitados!</h3>
+            <p style="margin-bottom: 20px;">Hemos asegurado una <strong>tarifa preferencial</strong> para que nos acompañen. Esta tarifa ya incluye todos los beneficios del All-Fun Inclusive®.</p>
+            <p>Para ver los costos y cómo reservar, visita nuestra calculadora de tarifas:</p>
+            
+            <a href="calculadora.html" class="boton-como-llegar" style="text-decoration: none;">
+                <i class="fa-solid fa-calculator"></i> Ver Calculadora de Tarifas
+            </a>
+        </div>
+
+
+        <!-- 6. Botón de Volver (Copiado 1:1) -->
+        <div class="navegacion-volver">
+            <a href="index.html" class="boton-volver">← Volver a la Página Principal</a>
+        </div>
+    </div>
+    
+    <!-- ===== Scripts (Copiados 1:1) ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="menu.js"></script>
+
+</body>
+</html>
