@@ -117,9 +117,10 @@
       .sm-logo-img{ height:50px }
     }
 
-    /* ====== HERO SLIDESHOW (Sin cambios) ====== */
+    /* ====== HERO SLIDESHOW (CAMBIO de ruta de imagen a v2) ====== */
     .hero{ position:relative; height:100vh; width:100%; overflow:hidden; background:#000; }
-    .hero::before{ content:""; position:absolute; inset:0; background-image:url('1.webp'); background-size:cover; background-position:center; opacity:.25; filter:saturate(.9) contrast(1.05); }
+    /* ===== CAMBIO: Revertido a 1_hero.webp ===== */
+    .hero::before{ content:""; position:absolute; inset:0; background-image:url('1_hero.webp'); background-size:cover; background-position:center; opacity:.25; filter:saturate(.9) contrast(1.05); }
     .slides{ position:absolute; inset:0; isolation:isolate; }
     .slide{ position:absolute; inset:0; opacity:0; clip-path:circle(0vmax at 50% 50%); will-change:opacity,clip-path; z-index:1; }
     .slide.is-top{ z-index:2 }
@@ -208,37 +209,39 @@
     <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
       <div class="sm-panel-inner">
         <ul class="sm-panel-list" role="list">
-          <li><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina principal</span></a></li>
-            <li><a class="sm-panel-item" href="gracias.html"><span class="sm-panel-itemLabel">Agradecimientos</span></a></li>
-            <li><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
-          <li><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
-          <li><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
-          <li><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
-          <li><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora</span></a></li>
-          <li><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
-          <li><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
+<li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina principal</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span class="sm-panel-itemLabel">Agradecimientos</span></a></li> 
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>                   
+                   <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedaje Xcaret</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora de tarifas</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
+
         </ul>
       </div>
     </aside>
   </div>
 
-  <!-- ===== Hero Slideshow (Sin cambios, pero con .webp) ===== -->
+  <!-- ===== Hero Slideshow (CAMBIO de rutas de imagen a _hero.webp) ===== -->
   <section class="hero" id="hero">
     <div class="slides" id="slides">
-      <div class="slide is-top"><div class="kb" style="background-image:url('1.webp')"></div></div>
-      <div class="slide"><div class="kb" style="background-image:url('2.webp')"></div></div>
-      <div class="slide"><div class="kb" style="background-image:url('3.webp')"></div></div>
-      <div class="slide"><div class="kb" style="background-image:url('4.webp')"></div></div>
-      <div class="slide"><div class="kb" style="background-image:url('5.webp')"></div></div>
-      <div class="slide"><div class="kb" style="background-image:url('6.webp')"></div></div>
-      <div class="slide"><div class="kb" style="background-image:url('7.webp')"></div></div>
-      <div class="slide"><div class="kb" style="background-image:url('8.webp')"></div></div>
-      <div class="slide"><div class="kb" style="background-image:url('9.webp')"></div></div>
-      <div class="slide"><div class="kb" style="background-image:url('10.webp')"></div></div>
-      <div class="slide"><div class="kb" style="background-image:url('11.webp')"></div></div>
-      <div class="slide"><div class="kb" style="background-image:url('12.webp')"></div></div>
-      <div class="slide"><div class="kb" style="background-image:url('13.webp')"></div></div>
-      <div class="slide"><div class="kb" style="background-image:url('14.webp')"></div></div>
+      <div class="slide is-top"><div class="kb" style="background-image:url('1_hero.webp')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('2_hero.webp')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('3_hero.webp')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('4_hero.webp')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('5_hero.webp')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('6_hero.webp')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('7_hero.webp')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('8_hero.webp')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('9_hero.webp')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('10_hero.webp')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('11_hero.webp')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('12_hero.webp')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('13_hero.webp')"></div></div>
+      <div class="slide"><div class="kb" style="background-image:url('14_hero.webp')"></div></div>
     </div>
     <div class="hero-title">
       <div>
@@ -248,29 +251,29 @@
     </div>
   </section>
 
-  <!-- ===== Galería (NUEVA estructura Splide) ===== -->
+  <!-- ===== Galería (CAMBIO de rutas de imagen a _carrusel.webp) ===== -->
   <section class="auto-gallery">
     <div class="ag-title">Momentos que amamos</div>
     
-    <!-- 1. Contenedor principal de Splide -->
+    <!-- 1. Contenerdor principal de Splide -->
     <div class="splide" id="gallery-splide" role="group" aria-label="Momentos que amamos">
       <div class="splide__track">
         <ul class="splide__list">
-          <!-- Splide solo necesita UN set de imágenes, él se encarga del loop -->
-          <li class="splide__slide"><img src="1.webp" alt=""></li>
-          <li class="splide__slide"><img src="2.webp" alt=""></li>
-          <li class="splide__slide"><img src="3.webp" alt=""></li>
-          <li class="splide__slide"><img src="4.webp" alt=""></li>
-          <li class="splide__slide"><img src="5.webp" alt=""></li>
-          <li class="splide__slide"><img src="6.webp" alt=""></li>
-          <li class="splide__slide"><img src="7.webp" alt=""></li>
-          <li class="splide__slide"><img src="8.webp" alt=""></li>
-          <li class="splide__slide"><img src="9.webp" alt=""></li>
-          <li class="splide__slide"><img src="10.webp" alt=""></li>
-          <li class="splide__slide"><img src="11.webp" alt=""></li>
-          <li class="splide__slide"><img src="12.webp" alt=""></li>
-          <li class="splide__slide"><img src="13.webp" alt=""></li>
-          <li class="splide__slide"><img src="14.webp" alt=""></li>
+          <!-- ===== CAMBIO: Se usa data-splide-lazy con las nuevas rutas _carrusel.webp ===== -->
+          <li class="splide__slide"><img data-splide-lazy="1_carrusel.webp" alt=""></li>
+          <li class="splide__slide"><img data-splide-lazy="2_carrusel.webp" alt=""></li>
+          <li class="splide__slide"><img data-splide-lazy="3_carrusel.webp" alt=""></li>
+          <li class="splide__slide"><img data-splide-lazy="4_carrusel.webp" alt=""></li>
+          <li class="splide__slide"><img data-splide-lazy="5_carrusel.webp" alt=""></li>
+          <li class="splide__slide"><img data-splide-lazy="6_carrusel.webp" alt=""></li>
+          <li class="splide__slide"><img data-splide-lazy="7_carrusel.webp" alt=""></li>
+          <li class="splide__slide"><img data-splide-lazy="8_carrusel.webp" alt=""></li>
+          <li class="splide__slide"><img data-splide-lazy="9_carrusel.webp" alt=""></li>
+          <li class="splide__slide"><img data-splide-lazy="10_carrusel.webp" alt=""></li>
+          <li class="splide__slide"><img data-splide-lazy="11_carrusel.webp" alt=""></li>
+          <li class="splide__slide"><img data-splide-lazy="12_carrusel.webp" alt=""></li>
+          <li class="splide__slide"><img data-splide-lazy="13_carrusel.webp" alt=""></li>
+          <li class="splide__slide"><img data-splide-lazy="14_carrusel.webp" alt=""></li>
         </ul>
       </div>
     </div>
@@ -371,9 +374,12 @@
         gap: '14px', // Mismo gap que tenías
         padding: '16px', // Espacio en los lados para que se vea centrado
         
+        // ===== CAMBIO 2: Se activa lazyLoad y se reduce velocidad =====
+        lazyLoad: 'nearby', // Carga imágenes de slides cercanos
+        
         // Auto-scroll
         autoScroll: {
-          speed: 0.5, // Velocidad de auto-scroll (ajusta al gusto)
+          speed: 0.3, // MÁS LENTO: 0.5 era muy rápido
           pauseOnHover: true,
           pauseOnFocus: true,
         },
@@ -387,7 +393,7 @@
           768: {
             perPage: 2,
             gap: '10px',
-            speed: 0.4, // Un poco más lento en móvil
+            speed: 0.4, // Esto es velocidad de transición, no de autoscroll
           },
           640: {
             perPage: 1, // 1 por página en móvil
@@ -414,7 +420,7 @@
     
   </script>
 
-  <!-- ============ ASISTENTE QA (Sin cambios) ============ -->
+  <!-- ============ ASISTENTE QA (RE-AGREGADO) ============ -->
   <div class="qa-bot" id="qaBot" aria-live="polite" style="position:fixed;bottom:20px;right:20px;z-index:1000;">
     <button class="qa-fab" id="qaFab" aria-controls="qaPanel" aria-expanded="false" aria-label="Abrir ayuda de preguntas frecuentes"
             style="position:relative;border:none;cursor:pointer;width:70px;height:70px;border-radius:50%;background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.25);display:grid;place-items:center;">
@@ -423,7 +429,7 @@
     </button>
 
     <div class="qa-bubbles" id="qaBubbles" aria-hidden="true"
-        style="position:absolute;right:84px;bottom:50%;transform:translateY(50%);display:flex;flex-direction:column;gap:6px;pointer-events:none;transition:opacity .6s ease,transform .6s ease;">
+         style="position:absolute;right:84px;bottom:50%;transform:translateY(50%);display:flex;flex-direction:column;gap:6px;pointer-events:none;transition:opacity .6s ease,transform .6s ease;">
       <div class="qa-bubble qa-bubble-main" style="background:#2F4667;color:#fff;font-weight:700;padding:10px 14px;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,.2);max-width:240px;animation:qa-popin .6s ease-out both;">¿Dudas? Toca aquí</div>
       <div class="qa-bubble qa-bubble-typing" id="qaTyping" style="display:inline-flex;align-items:center;gap:6px;height:18px;padding:8px 12px;opacity:0;background:#2F4667;color:#fff;border-radius:16px;">
         <span class="dot" style="width:6px;height:6px;border-radius:50%;background:#fff;opacity:.5;animation:typing 1.2s infinite;"></span>
@@ -435,7 +441,7 @@
     <div class="qa-overlay" id="qaOverlay" hidden style="position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:999;"></div>
 
     <aside class="qa-panel" id="qaPanel" role="dialog" aria-modal="false" aria-labelledby="qaTitle" hidden
-          style="position:fixed;bottom:100px;right:20px;width:min(92vw,480px);max-height:70vh;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.25);display:none;grid-template-rows:auto 1fr auto;z-index:1000;">
+           style="position:fixed;bottom:100px;right:20px;width:min(92vw,480px);max-height:70vh;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.25);display:none;grid-template-rows:auto 1fr auto;z-index:1000;">
       <header class="qa-header" style="background:linear-gradient(to right,#F2EEE9,#E6DECF);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">
         <h2 id="qaTitle" style="margin:0;font-size:18px;color:#2F4667;">¿En qué te ayudamos?</h2>
         <button class="qa-close" id="qaClose" aria-label="Cerrar ayuda" style="border:none;background:transparent;font-size:22px;cursor:pointer;">✕</button>
@@ -503,7 +509,7 @@
       const overlay  = document.getElementById('qaOverlay');
       const closeBtn = document.getElementById('qaClose');
       const bubbles  = document.getElementById('qaBubbles');
-      const typing   = document.getElementById('qaTyping');
+      const typing   = document.getElementById('qaTyping'); // <-- CORREGIDO (era qaTypING)
 
       function setOpen(open){
         root.classList.toggle('open', open);
@@ -514,14 +520,14 @@
       }
       setOpen(false);
 
-      setTimeout(()=> typing.style.opacity = '1', 4000);
-      setTimeout(()=> bubbles.classList.add('hide'), 10000);
+      setTimeout(()=> { if (typing) typing.style.opacity = '1' }, 4000); // Añadido check por si acaso
+      setTimeout(()=> { if (bubbles) bubbles.classList.add('hide') }, 10000);
 
-      fab.addEventListener('click', (e)=>{ e.stopPropagation(); setOpen( fab.getAttribute('aria-expanded') !== 'true' ); });
-      closeBtn.addEventListener('click', ()=> setOpen(false));
-      overlay.addEventListener('click', ()=> setOpen(false));
+      if (fab) fab.addEventListener('click', (e)=>{ e.stopPropagation(); setOpen( fab.getAttribute('aria-expanded') !== 'true' ); });
+      if (closeBtn) closeBtn.addEventListener('click', ()=> setOpen(false));
+      if (overlay) overlay.addEventListener('click', ()=> setOpen(false));
       document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') setOpen(false); });
-      panel.addEventListener('click', (e)=> e.stopPropagation());
+      if (panel) panel.addEventListener('click', (e)=> e.stopPropagation());
 
       document.querySelectorAll('.qa-q').forEach(btn=>{
         btn.addEventListener('click', ()=>{
