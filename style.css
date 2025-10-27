@@ -732,6 +732,7 @@ body {
   outline: 2px solid #C6B28A;      /* accesible con teclado */
   outline-offset: 2px;
 }
+
 /* ===== PARALLAX STRIP GALLERY ===== */
 .parallax-gallery{
   position: relative;
@@ -789,4 +790,23 @@ body {
 /* Responsive tweak si lo necesitas en móviles para reducir altura */
 @media (max-width: 600px){
   .pg-strip{ min-height: 60vh; }
+}
+
+/* ======= FUENTE DE BODA PARA EL MENÚ (override) ======= */
+/* Usa la Dancing Script que ya cargas en el sitio */
+.staggered-menu-panel .sm-panel-item,
+.staggered-menu-panel .sm-panel-itemLabel,
+.staggered-menu-panel .sm-panel-item .sm-panel-itemLabel {
+  font-family: "Dancing Script", cursive !important;
+  font-weight: 700 !important;
+  text-transform: none !important;     /* quita MAYÚSCULAS */
+  letter-spacing: 0.5px !important;     /* más elegante */
+  line-height: 1.05 !important;
+  font-size: clamp(2.2rem, 6vw, 3.4rem) !important; /* un pelín más grande */
+}
+
+/* Opcional: deja la numeración como está (moderno y legible) */
+.staggered-menu-panel .sm-panel-item::after {
+  font-family: "Lato", sans-serif !important;
+  font-weight: 600;
 }
