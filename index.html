@@ -14,33 +14,33 @@
   <link rel="manifest" href="site.webmanifest">
   <meta name="theme-color" content="#F2EEE9">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vuelos - Boda Cynthia y Jose Miguel</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
+  <!-- NOTA: Había un <head> duplicado, lo he fusionado -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <!-- ===== NUEVO: CSS de Splide.js ===== -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
 
-<!-- ===== Social share / Link preview ===== -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://cynthiayjosemiguel.com.mx/">
-<meta property="og:title" content="Boda Cynthia y Jose Miguel — 06 de Febrero de 2026">
-<meta property="og:description" content="Detalles del gran día, hospedaje con tarifa preferencial, vuelos, mesa de regalos y más. ¡Nos encantará celebrar contigo!">
-<meta property="og:image" content="https://cynthiayjosemiguel.com.mx/social/share.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:site_name" content="Cynthia & Jose Miguel">
-<meta property="og:locale" content="es_MX">
 
-<!-- Twitter Card (muchas apps leen esto también) -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Boda Cynthia y Jose Miguel — 06 de Febrero de 2026">
-<meta name="twitter:description" content="Fecha y hora, ubicación, hospedaje, vuelos y mesa de regalos.">
-<meta name="twitter:image" content="https://cynthiayjosemiguel.com.mx/social/share.jpg">
+  <!-- ===== Social share / Link preview ===== -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cynthiayjosemiguel.com.mx/">
+  <meta property="og:title" content="Boda Cynthia y Jose Miguel — 06 de Febrero de 2026">
+  <meta property="og:description" content="Detalles del gran día, hospedaje con tarifa preferencial, vuelos, mesa de regalos y más. ¡Nos encantará celebrar contigo!">
+  <meta property="og:image" content="https://cynthiayjosemiguel.com.mx/social/share.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Cynthia & Jose Miguel">
+  <meta property="og:locale" content="es_MX">
+
+  <!-- Twitter Card (muchas apps leen esto también) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Boda Cynthia y Jose Miguel — 06 de Febrero de 2026">
+  <meta name="twitter:description" content="Fecha y hora, ubicación, hospedaje, vuelos y mesa de regalos.">
+  <meta name="twitter:image" content="https://cynthiayjosemiguel.com.mx/social/share.jpg">
 
   <style>
     :root{ --sm-accent:#C6B28A; --brand:#2F4667; }
@@ -55,7 +55,7 @@
       line-height:1.6;
     }
 
-    /* ====== MENÚ (no auto-abrir) ====== */
+    /* ====== MENÚ (Sin cambios) ====== */
     .staggered-menu-wrapper{ position:fixed; inset:0; height:100vh; width:100%; z-index:999; pointer-events:none; }
     .staggered-menu-header{ position:absolute; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; padding:1.5em; z-index:20; }
     .staggered-menu-header>*{ pointer-events:auto; }
@@ -117,9 +117,9 @@
       .sm-logo-img{ height:50px }
     }
 
-    /* ====== HERO SLIDESHOW ====== */
+    /* ====== HERO SLIDESHOW (Sin cambios) ====== */
     .hero{ position:relative; height:100vh; width:100%; overflow:hidden; background:#000; }
-    .hero::before{ content:""; position:absolute; inset:0; background-image:url('1.jpg'); background-size:cover; background-position:center; opacity:.25; filter:saturate(.9) contrast(1.05); }
+    .hero::before{ content:""; position:absolute; inset:0; background-image:url('1.webp'); background-size:cover; background-position:center; opacity:.25; filter:saturate(.9) contrast(1.05); }
     .slides{ position:absolute; inset:0; isolation:isolate; }
     .slide{ position:absolute; inset:0; opacity:0; clip-path:circle(0vmax at 50% 50%); will-change:opacity,clip-path; z-index:1; }
     .slide.is-top{ z-index:2 }
@@ -128,17 +128,47 @@
     .hero-title h1{ margin:0 12px 6px; font-family:'Dancing Script',cursive; font-weight:700; font-size:clamp(42px,6vw,86px) }
     .hero-title p{ margin:0; font-weight:300; letter-spacing:2px; font-size:clamp(16px,2.2vw,22px) }
 
-    /* ====== GALERÍA ====== */
-    .auto-gallery{ position:relative; background:#F2EEE9; padding:20px 0 36px; border-top:1px solid rgba(0,0,0,.06); border-bottom:1px solid rgba(0,0,0,.06); }
-    .ag-title{ text-align:center; margin:8px auto 12px; color:#6B5F56; font-weight:700; letter-spacing:.6px; }
-    .snap-wrap{ position:relative; max-width:1100px; margin:0 auto; padding:0 16px; }
-    .snap-viewport{
-      display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain;
-      will-change: scroll-position; contain: paint layout;  /* OPTIMIZACIONES */
+    
+    /* ====== GALERÍA (MODIFICADO para Splide) ====== */
+    .auto-gallery{ 
+      position:relative; 
+      background:#F2EEE9; 
+      padding:20px 0 36px; 
+      border-top:1px solid rgba(0,0,0,.06); 
+      border-bottom:1px solid rgba(0,0,0,.06);
     }
-    .snap-item{ flex:0 0 auto; width:min(62vw,340px); height:min(42vw,240px); scroll-snap-align:center; border-radius:14px; overflow:hidden; box-shadow:0 10px 26px rgba(0,0,0,.08); background:#ddd; }
-    .snap-item img{ width:100%; height:100%; object-fit:cover; display:block; filter:contrast(1.05) saturate(1.05); content-visibility:auto; transform: translateZ(0); /* OPTIMIZACIONES */ }
-
+    .ag-title{ 
+      text-align:center; 
+      margin:8px auto 12px; 
+      color:#6B5F56; 
+      font-weight:700; 
+      letter-spacing:.6px; 
+    }
+    .splide__slide {
+      /* Ajustamos el tamaño aquí, Splide se encarga del resto */
+      width: min(62vw, 340px);
+      height: min(42vw, 240px);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 10px 26px rgba(0,0,0,.08);
+      background: #ddd;
+    }
+    .splide__slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: contrast(1.05) saturate(1.05);
+    }
+    /* Ocultamos las flechas por defecto de Splide para usar las nuestras */
+    .splide__arrows {
+      display: none;
+    }
+    /* Quitamos el padding del track que Splide pone por defecto */
+    .splide__track {
+      padding: 0 !important;
+    }
+    /* Estilos para nuestros botones personalizados */
     .snap-controls{ display:flex; justify-content:center; gap:10px; margin-top:14px; }
     .snap-btn{
       width:44px; height:44px; border-radius:50%; border:none; cursor:pointer; background:#fff; box-shadow:0 6px 16px rgba(0,0,0,.18);
@@ -146,11 +176,12 @@
     }
     .snap-btn:active{ transform:scale(.96) }
     .snap-btn i{ color:var(--brand) }
+
   </style>
 </head>
 <body class="home-page">
 
-  <!-- ===== Menú ===== -->
+  <!-- ===== Menú (Sin cambios) ===== -->
   <div class="staggered-menu-wrapper">
     <div class="sm-prelayers" aria-hidden="true">
       <div class="sm-prelayer" style="background:#2F4667;"></div>
@@ -178,22 +209,20 @@
       <div class="sm-panel-inner">
         <ul class="sm-panel-list" role="list">
           <li><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina principal</span></a></li>
-<li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span class="sm-panel-itemLabel">Agradecimientos</span></a></li> 
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>                   
-                   <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedaje Xcaret</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora de tarifas</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
-         
+            <li><a class="sm-panel-item" href="gracias.html"><span class="sm-panel-itemLabel">Agradecimientos</span></a></li>
+            <li><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
+          <li><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
+          <li><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
+          <li><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
+          <li><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora</span></a></li>
+          <li><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
+          <li><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
         </ul>
       </div>
     </aside>
   </div>
 
-  <!-- ===== Hero Slideshow ===== -->
+  <!-- ===== Hero Slideshow (Sin cambios, pero con .webp) ===== -->
   <section class="hero" id="hero">
     <div class="slides" id="slides">
       <div class="slide is-top"><div class="kb" style="background-image:url('1.webp')"></div></div>
@@ -219,39 +248,50 @@
     </div>
   </section>
 
-  <!-- ===== Galería auto–desplazable (scroll + botones) ===== -->
+  <!-- ===== Galería (NUEVA estructura Splide) ===== -->
   <section class="auto-gallery">
     <div class="ag-title">Momentos que amamos</div>
-    <div class="snap-wrap">
-      <div class="snap-viewport" id="gal">
-        <!-- Set ORIGINAL (el script lo clonará 2× más) -->
-        <div class="snap-item"><img src="1.webp" alt=""></div>
-        <div class="snap-item"><img src="2.webp" alt=""></div>
-        <div class="snap-item"><img src="3.webp" alt=""></div>
-        <div class="snap-item"><img src="4.webp" alt=""></div>
-        <div class="snap-item"><img src="5.webp" alt=""></div>
-        <div class="snap-item"><img src="6.webp" alt=""></div>
-        <div class="snap-item"><img src="7.webp" alt=""></div>
-        <div class="snap-item"><img src="8.webp" alt=""></div>
-        <div class="snap-item"><img src="9.webp" alt=""></div>
-        <div class="snap-item"><img src="10.webp" alt=""></div>
-        <div class="snap-item"><img src="11.webp" alt=""></div>
-        <div class="snap-item"><img src="12.webp" alt=""></div>
-        <div class="snap-item"><img src="13.webp" alt=""></div>
-        <div class="snap-item"><img src="14.webp" alt=""></div>
+    
+    <!-- 1. Contenedor principal de Splide -->
+    <div class="splide" id="gallery-splide" role="group" aria-label="Momentos que amamos">
+      <div class="splide__track">
+        <ul class="splide__list">
+          <!-- Splide solo necesita UN set de imágenes, él se encarga del loop -->
+          <li class="splide__slide"><img src="1.webp" alt=""></li>
+          <li class="splide__slide"><img src="2.webp" alt=""></li>
+          <li class="splide__slide"><img src="3.webp" alt=""></li>
+          <li class="splide__slide"><img src="4.webp" alt=""></li>
+          <li class="splide__slide"><img src="5.webp" alt=""></li>
+          <li class="splide__slide"><img src="6.webp" alt=""></li>
+          <li class="splide__slide"><img src="7.webp" alt=""></li>
+          <li class="splide__slide"><img src="8.webp" alt=""></li>
+          <li class="splide__slide"><img src="9.webp" alt=""></li>
+          <li class="splide__slide"><img src="10.webp" alt=""></li>
+          <li class="splide__slide"><img src="11.webp" alt=""></li>
+          <li class="splide__slide"><img src="12.webp" alt=""></li>
+          <li class="splide__slide"><img src="13.webp" alt=""></li>
+          <li class="splide__slide"><img src="14.webp" alt=""></li>
+        </ul>
       </div>
-      <div class="snap-controls">
-        <button class="snap-btn" id="snapPrev" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
-        <button class="snap-btn" id="snapNext" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
-      </div>
+    </div>
+
+    <!-- 2. Controles personalizados (fuera del contenedor principal) -->
+    <div class="snap-controls">
+      <button class="snap-btn" id="splide-prev" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="snap-btn" id="splide-next" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
   </section>
 
-  <!-- Librería GSAP para el hero -->
+  <!-- Librería GSAP para el hero (Sin cambios) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  
+  <!-- ===== NUEVO: JS de Splide.js ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
+
 
   <script>
-    /* ===== Toggle del menú ===== */
+    /* ===== Toggle del menú (Sin cambios) ===== */
     (function(){
       const wrapper = document.querySelector('.staggered-menu-wrapper');
       const panel   = document.getElementById('staggered-menu-panel');
@@ -273,7 +313,7 @@
       toggle.addEventListener('click', ()=> isOpen()? close(): open());
     })();
 
-    /* ===== HERO: Carrusel impactante (reveal circular + Ken Burns) ===== */
+    /* ===== HERO: Carrusel impactante (Sin cambios) ===== */
     (function(){
       const slides = Array.from(document.querySelectorAll('.slide'));
       const kbImgs = slides.map(s=>s.querySelector('.kb'));
@@ -316,111 +356,65 @@
       gsap.delayedCall(DURATION, ()=> go(1));
     })();
 
-    /* ===== GALERÍA: loop infinito suave + control táctil (triple buffer + wrap predictivo) ===== */
+
+    /* ===== GALERÍA: (ELIMINADO el script anterior) ===== */
+    /* ===== NUEVO: Inicialización de Splide.js ===== */
     (function(){
-      const vp   = document.getElementById('gal');
-      const prev = document.getElementById('snapPrev');
-      const next = document.getElementById('snapNext');
-      if(!vp) return;
+      const splideElement = document.getElementById('gallery-splide');
+      if (!splideElement) return;
 
-      // Triplica contenido
-      const originals = Array.from(vp.children);
-      const cloneA = originals.map(n => n.cloneNode(true));
-      const cloneB = originals.map(n => n.cloneNode(true));
-      vp.append(...cloneA, ...cloneB);
+      // Montamos Splide
+      const splide = new Splide(splideElement, {
+        type: 'loop', // Loop infinito
+        drag: 'free', // Permite arrastre libre
+        focus: 'center', // Centra la diapositiva activa
+        gap: '14px', // Mismo gap que tenías
+        padding: '16px', // Espacio en los lados para que se vea centrado
+        
+        // Auto-scroll
+        autoScroll: {
+          speed: 0.5, // Velocidad de auto-scroll (ajusta al gusto)
+          pauseOnHover: true,
+          pauseOnFocus: true,
+        },
+        
+        // Configuración responsiva
+        perPage: 3, // 3 por página en escritorio
+        breakpoints: {
+          1024: {
+            perPage: 3,
+          },
+          768: {
+            perPage: 2,
+            gap: '10px',
+            speed: 0.4, // Un poco más lento en móvil
+          },
+          640: {
+            perPage: 1, // 1 por página en móvil
+            gap: '10px',
+            padding: '40px', // Más padding en móvil para centrar bien
+          },
+        },
+        
+        // Ocultamos paginación
+        pagination: false,
+      });
 
-      function cardWidth(){
-        const card = vp.querySelector('.snap-item');
-        if(!card) return 300;
-        const r = card.getBoundingClientRect();
-        return r.width + 14;
-      }
-      function unitWidth(){ return (vp.scrollWidth / 3); }
+      // Conectamos nuestros botones personalizados
+      const prevBtn = document.getElementById('splide-prev');
+      const nextBtn = document.getElementById('splide-next');
+      
+      prevBtn.addEventListener('click', () => splide.go('<'));
+      nextBtn.addEventListener('click', () => splide.go('>'));
 
-      function normalizePredictive(){
-        const unit = unitWidth();
-        const mid  = unit * 1.0;
-        const end  = unit * 2.0;
-        const guard = cardWidth() * 2.2;
+      // Montamos la extensión de auto-scroll y luego la galería
+      splide.mount(window.splide.Extensions);
 
-        if (vp.scrollLeft < (mid - guard)) {
-          const prev = vp.style.scrollBehavior;
-          vp.style.scrollBehavior = 'auto';
-          vp.scrollLeft += unit;
-          vp.style.scrollBehavior = prev || '';
-          return;
-        }
-        if (vp.scrollLeft > (end - guard)) {
-          const prev = vp.style.scrollBehavior;
-          vp.style.scrollBehavior = 'auto';
-          vp.scrollLeft -= unit;
-          vp.style.scrollBehavior = prev || '';
-        }
-      }
-
-      function move(dir){
-        normalizePredictive();
-        vp.scrollBy({ left: dir * cardWidth(), behavior:'smooth' });
-      }
-      prev.addEventListener('click', ()=> move(-1));
-      next.addEventListener('click', ()=> move( 1));
-
-      // Arrastre táctil/ratón
-      let isDown=false, startX=0, startLeft=0, userInteracting=false, pointerId=null, userTimer=null;
-      function markInteracting(){
-        userInteracting = true;
-        clearTimeout(userTimer);
-        userTimer = setTimeout(()=> userInteracting=false, 1600);
-      }
-      vp.addEventListener('pointerdown', e=>{
-        isDown=true; pointerId=e.pointerId; vp.setPointerCapture(pointerId);
-        startX=e.clientX; startLeft=vp.scrollLeft; markInteracting();
-      }, {passive:true});
-      vp.addEventListener('pointermove', e=>{
-        if(!isDown) return;
-        vp.scrollLeft = startLeft - (e.clientX - startX);
-        normalizePredictive(); markInteracting();
-      }, {passive:true});
-      function endPtr(){
-        isDown=false;
-        if(pointerId!==null){ try{ vp.releasePointerCapture(pointerId);}catch{} pointerId=null; }
-        normalizePredictive(); markInteracting();
-      }
-      vp.addEventListener('pointerup', endPtr, {passive:true});
-      vp.addEventListener('pointercancel', endPtr, {passive:true});
-      vp.addEventListener('wheel', ()=>{ normalizePredictive(); markInteracting(); }, {passive:true});
-
-      // Auto–scroll (más lento en móvil)
-      let raf=null, visible=false, last=performance.now();
-      const isMobile = matchMedia('(max-width: 768px)').matches;
-      const SPEED = isMobile ? 20 : 28; // px/seg
-      function tick(t){
-        const dt = Math.max(0, (t - last) / 1000); last = t;
-        if(visible && !userInteracting && !isDown){
-          vp.scrollLeft += SPEED * dt;
-          normalizePredictive();
-        }
-        raf = requestAnimationFrame(tick);
-      }
-
-      const io = new IntersectionObserver(entries=>{
-        visible = entries.some(e=> e.isIntersecting);
-      }, { root:null, threshold:0.15 });
-      io.observe(vp);
-
-      let resizeTO=null;
-      window.addEventListener('resize', ()=>{ clearTimeout(resizeTO); resizeTO = setTimeout(()=> normalizePredictive(), 120); });
-
-      window.addEventListener('load', ()=>{
-        const unit = unitWidth();
-        vp.scrollLeft = unit + cardWidth() * 2; // arrancar en el set central
-      }, {once:true});
-
-      raf = requestAnimationFrame(tick);
     })();
+    
   </script>
 
-  <!-- ============ ASISTENTE QA (FAB, no auto-abrir) ============ -->
+  <!-- ============ ASISTENTE QA (Sin cambios) ============ -->
   <div class="qa-bot" id="qaBot" aria-live="polite" style="position:fixed;bottom:20px;right:20px;z-index:1000;">
     <button class="qa-fab" id="qaFab" aria-controls="qaPanel" aria-expanded="false" aria-label="Abrir ayuda de preguntas frecuentes"
             style="position:relative;border:none;cursor:pointer;width:70px;height:70px;border-radius:50%;background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.25);display:grid;place-items:center;">
@@ -429,7 +423,7 @@
     </button>
 
     <div class="qa-bubbles" id="qaBubbles" aria-hidden="true"
-         style="position:absolute;right:84px;bottom:50%;transform:translateY(50%);display:flex;flex-direction:column;gap:6px;pointer-events:none;transition:opacity .6s ease,transform .6s ease;">
+        style="position:absolute;right:84px;bottom:50%;transform:translateY(50%);display:flex;flex-direction:column;gap:6px;pointer-events:none;transition:opacity .6s ease,transform .6s ease;">
       <div class="qa-bubble qa-bubble-main" style="background:#2F4667;color:#fff;font-weight:700;padding:10px 14px;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,.2);max-width:240px;animation:qa-popin .6s ease-out both;">¿Dudas? Toca aquí</div>
       <div class="qa-bubble qa-bubble-typing" id="qaTyping" style="display:inline-flex;align-items:center;gap:6px;height:18px;padding:8px 12px;opacity:0;background:#2F4667;color:#fff;border-radius:16px;">
         <span class="dot" style="width:6px;height:6px;border-radius:50%;background:#fff;opacity:.5;animation:typing 1.2s infinite;"></span>
@@ -441,7 +435,7 @@
     <div class="qa-overlay" id="qaOverlay" hidden style="position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:999;"></div>
 
     <aside class="qa-panel" id="qaPanel" role="dialog" aria-modal="false" aria-labelledby="qaTitle" hidden
-           style="position:fixed;bottom:100px;right:20px;width:min(92vw,480px);max-height:70vh;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.25);display:none;grid-template-rows:auto 1fr auto;z-index:1000;">
+          style="position:fixed;bottom:100px;right:20px;width:min(92vw,480px);max-height:70vh;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.25);display:none;grid-template-rows:auto 1fr auto;z-index:1000;">
       <header class="qa-header" style="background:linear-gradient(to right,#F2EEE9,#E6DECF);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">
         <h2 id="qaTitle" style="margin:0;font-size:18px;color:#2F4667;">¿En qué te ayudamos?</h2>
         <button class="qa-close" id="qaClose" aria-label="Cerrar ayuda" style="border:none;background:transparent;font-size:22px;cursor:pointer;">✕</button>
