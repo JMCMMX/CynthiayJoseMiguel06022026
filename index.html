@@ -122,7 +122,8 @@
     /* ===== CAMBIO: Revertido a 1_hero.webp ===== */
     .hero::before{ content:""; position:absolute; inset:0; background-image:url('1_hero.webp'); background-size:cover; background-position:center; opacity:.25; filter:saturate(.9) contrast(1.05); }
     .slides{ position:absolute; inset:0; isolation:isolate; }
-    .slide{ position:absolute; inset:0; opacity:0; clip-path:circle(0vmax at 50% 50%); will-change:opacity,clip-path; z-index:1; }
+    /* ===== CAMBIO: Eliminado clip-path y will-change de clip-path ===== */
+    .slide{ position:absolute; inset:0; opacity:0; will-change:opacity; z-index:1; }
     .slide.is-top{ z-index:2 }
     .slide .kb{ position:absolute; inset:-10% -10%; background-size:cover; background-position:center; transform:scale(1.15); will-change:transform; filter:saturate(1.05) contrast(1.05) }
     .hero-title{ position:absolute; inset:0; display:grid; place-items:center; text-align:center; z-index:3; color:#fff; pointer-events:none; text-shadow:0 12px 36px rgba(0,0,0,.55) }
@@ -209,17 +210,15 @@
     <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
       <div class="sm-panel-inner">
         <ul class="sm-panel-list" role="list">
-<li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina principal</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span class="sm-panel-itemLabel">Agradecimientos</span></a></li> 
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>                   
-                   <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedaje Xcaret</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora de tarifas</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
-
+          <li><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina principal</span></a></li>
+            <li><a class="sm-panel-item" href="gracias.html"><span class="sm-panel-itemLabel">Agradecimientos</span></a></li>
+            <li><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
+          <li><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
+          <li><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
+          <li><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
+          <li><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora</span></a></li>
+          <li><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
+          <li><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
         </ul>
       </div>
     </aside>
@@ -316,7 +315,7 @@
       toggle.addEventListener('click', ()=> isOpen()? close(): open());
     })();
 
-    /* ===== HERO: Carrusel impactante (Sin cambios) ===== */
+    /* ===== HERO: Carrusel impactante (MODIFICADO para mejor rendimiento móvil) ===== */
     (function(){
       const slides = Array.from(document.querySelectorAll('.slide'));
       const kbImgs = slides.map(s=>s.querySelector('.kb'));
@@ -327,33 +326,43 @@
       const REVEAL = 1.6;
       const EASE = 'power3.out';
 
-      gsap.set(slides, { opacity:0, clipPath:'circle(0vmax at 50% 50%)', zIndex:1 });
-      gsap.set(slides[0], { opacity:1, clipPath:'circle(140vmax at 50% 50%)', zIndex:2 });
+      // ===== CAMBIO: Eliminado 'clipPath' de la inicialización =====
+      gsap.set(slides, { opacity:0, zIndex:1 });
+      gsap.set(slides[0], { opacity:1, zIndex:2 });
       gsap.set(kbImgs, { scale:1.15, xPercent:0, yPercent:0 });
       gsap.to(kbImgs[0], { scale:1, duration:DURATION, ease:'power1.out' });
 
       function randPan(){ return { xPercent: gsap.utils.random(-6,6), yPercent: gsap.utils.random(-6,6) }; }
       function nextIndex(i){ return (i+1) % slides.length; }
 
+      // ===== CAMBIO: Modificada la función 'go' para usar 'opacity' en lugar de 'clipPath' =====
       function go(next){
         const curr = index;
         const nxt  = next;
 
-        gsap.set(slides[nxt], { zIndex:2, opacity:1, clipPath:'circle(0vmax at 50% 50%)' });
+        // Inicia la siguiente slide invisible (opacity 0) y por encima (zIndex 2)
+        gsap.set(slides[nxt], { zIndex:2, opacity:0 }); // SIN clipPath
         const pan = randPan();
+        // Configura el efecto Ken Burns (pan/zoom inicial)
         gsap.set(kbImgs[nxt], { scale:1.18, xPercent:pan.xPercent, yPercent:pan.yPercent });
 
         const tl = gsap.timeline({
           defaults:{ ease:EASE },
           onComplete(){
-            gsap.set(slides[curr], { zIndex:1, opacity:0, clipPath:'circle(0vmax at 50% 50%)' });
+            // Al terminar, esconde la slide anterior por completo
+            gsap.set(slides[curr], { zIndex:1, opacity:0 }); // SIN clipPath
             index = nxt;
+            // Llama a la siguiente transición después de DURATION
             gsap.delayedCall(DURATION, ()=> go(nextIndex(index)));
           }
         });
 
-        tl.to(slides[nxt], { clipPath:'circle(140vmax at 50% 50%)', duration:REVEAL }, 0)
+        // Animación de la timeline:
+        // 1. Fade-in de la nueva slide (mucho más ligero que clip-path)
+        tl.to(slides[nxt], { opacity: 1, duration: REVEAL }, 0)
+          // 2. Animación Ken Burns (sin cambios)
           .to(kbImgs[nxt], { scale:1, xPercent:0, yPercent:0, duration:DURATION, ease:'power1.out' }, 0)
+          // 3. Fade-out de la slide anterior (sin cambios)
           .to(slides[curr], { opacity:0, duration:0.9, ease:'power2.out' }, 0.4);
       }
       gsap.delayedCall(DURATION, ()=> go(1));
