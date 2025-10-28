@@ -64,29 +64,65 @@
     .home-page:not(.menu-open) .sm-logo-img{ filter:invert(1) brightness(2) contrast(1); }
     .menu-open .sm-logo-img{ filter:none; }
 
+    /* ===== CAMBIO: Estilos del botón de Menú ===== */
     .sm-toggle{
-      position:relative; display:inline-flex; align-items:center; gap:.6rem;
-      background:rgba(0,0,0,0.25); color:#F2EEE9; border:none; cursor:pointer;
-      padding:.6em .8em; border-radius:14px; backdrop-filter: blur(6px);
+      position:relative; 
+      display:inline-flex; 
+      align-items:center; 
+      justify-content: center;
+      gap:.6rem;
+      background:rgba(0,0,0,0.25); 
+      color:#F2EEE9; 
+      border:none; 
+      cursor:pointer;
+      padding:.8em 1.4em; /* Más padding para un botón */
+      border-radius:999px; /* Botón flotante redondeado */
+      backdrop-filter: blur(6px);
+      font-family: 'Lato', sans-serif; /* Asegurar la fuente */
+      font-weight: 700; /* Más grueso */
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      overflow: hidden; /* Para el cambio de texto */
+      width: 110px; /* Ancho fijo para evitar saltos */
+      transition: background .3s ease, color .3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
-    .staggered-menu-wrapper[data-open] .sm-toggle{ color:#3F3A36; background:rgba(255,255,255,0.8) }
+    .staggered-menu-wrapper[data-open] .sm-toggle{ 
+      color:#3F3A36; 
+      background:rgba(255,255,255,0.8);
+    }
 
-    .sm-icon{ position:relative; width:26px; height:18px; flex:0 0 26px; }
-    .sm-icon-line{ position:absolute; left:0; right:0; height:2px; background:currentColor; border-radius:2px; transition:transform .4s ease,opacity .3s ease; }
-    .sm-icon-line:nth-child(1){ top:0 }
-    .sm-icon-line:nth-child(2){ top:8px }
-    .sm-icon-line:nth-child(3){ top:16px }
-    .staggered-menu-wrapper[data-open] .sm-icon-line:nth-child(1){ transform:translateY(8px) rotate(45deg) }
-    .staggered-menu-wrapper[data-open] .sm-icon-line:nth-child(2){ opacity:0 }
-    .staggered-menu-wrapper[data-open] .sm-icon-line:nth-child(3){ transform:translateY(-8px) rotate(-45deg) }
+    /* Ocultar el icono de hamburguesa y sus líneas (ya no se usan) */
+    .sm-icon, .sm-icon-line { display: none; }
 
+    /* Ocultar el "tip" del menú (ya no se usa) */
     .menu-tip{
-      position:absolute; left:50%; transform:translateX(-50%);
-      top:14px; z-index:22; background:#2F4667; color:#F2EEE9;
-      padding:.55rem .9rem; border-radius:999px; font-size:.95rem;
-      box-shadow:0 10px 28px rgba(0,0,0,.22); display:flex; align-items:center; gap:.5rem;
-      pointer-events:none;
+      display: none;
     }
+    
+    /* Estilos para los textos del botón (MENU / CERRAR) */
+    .sm-toggle-text-open, .sm-toggle-text-close {
+      display: block;
+      transition: transform .4s ease, opacity .4s ease;
+    }
+    .sm-toggle-text-close {
+      position: absolute;
+      opacity: 0;
+      transform: translateY(100%);
+    }
+
+    /* Estado abierto (muestra CERRAR, oculta MENU) */
+    .staggered-menu-wrapper[data-open] .sm-toggle-text-open {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    .staggered-menu-wrapper[data-open] .sm-toggle-text-close {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* ===== FIN CAMBIO Menú ===== */
+
 
     .staggered-menu-panel,.sm-prelayers{ position:absolute; top:0; right:0; width:clamp(300px,38vw,420px); height:100%; }
     .staggered-menu-panel{
@@ -113,7 +149,7 @@
       .staggered-menu-header{ padding:1.1em }
       .staggered-menu-panel,.sm-prelayers{ width:100%; left:0; right:0 }
       .staggered-menu-panel{ padding-left:1.4em; padding-right:1.4em }
-      .menu-tip{ top:12px; font-size:.9rem }
+      /* .menu-tip{ top:12px; font-size:.9rem } */ /* Ya no se usa */
       .sm-logo-img{ height:50px }
     }
 
@@ -204,41 +240,30 @@
         <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img" loading="eager" decoding="async">
       </a>
 
-      <span class="menu-tip"><i class="fa-solid fa-hand-point-right"></i> Aquí está el menú</span>
+      <!-- ===== CAMBIO: Eliminado .menu-tip y reemplazado .sm-toggle ===== -->
+      <!-- <span class="menu-tip"><i class="fa-solid fa-hand-point-right"></i> Aquí está el menú</span> --> <!-- Eliminado -->
 
       <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
-        <span class="sm-icon" aria-hidden="true">
-          <span class="sm-icon-line"></span>
-          <span class="sm-icon-line"></span>
-          <span class="sm-icon-line"></span>
-        </span>
+        <!-- Nuevo contenido de texto para el botón -->
+        <span class="sm-toggle-text-open">MENU</span>
+        <span class="sm-toggle-text-close" aria-hidden="true">CERRAR</span>
       </button>
+      <!-- ===== FIN CAMBIO ===== -->
     </header>
 
     <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
       <div class="sm-panel-inner">
         <ul class="sm-panel-list" role="list">
-              <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina
-                        principal</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span
-                        class="sm-panel-itemLabel">Agradecimientos</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y
-                        Hora</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El
-                        Lugar</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span
-                        class="sm-panel-itemLabel">Hospedaje</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedarte en
-                        Xcaret</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span
-                        class="sm-panel-itemLabel">Vuelos</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="calculadora.html"><span
-                        class="sm-panel-itemLabel">Calculadora de tarifas</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span
-                        class="sm-panel-itemLabel">Regalos</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta
-                        Regresiva</span></a></li>
-                      </ul>
+          <li><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina principal</span></a></li>
+            <li><a class="sm-panel-item" href="gracias.html"><span class="sm-panel-itemLabel">Agradecimientos</span></a></li>
+            <li><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
+          <li><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El Lugar</span></a></li>
+          <li><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
+          <li><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
+          <li><a class="sm-panel-item" href="calculadora.html"><span class="sm-panel-itemLabel">Calculadora</span></a></li>
+          <li><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
+          <li><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
+        </ul>
       </div>
     </aside>
   </div>
