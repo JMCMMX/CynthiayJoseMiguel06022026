@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Invitación | Cynthia & José Miguel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--arena:#E7DCCB;--duna:#CDBDA7;--mar:#5AA7C7;}
+  *{box-sizing:border-box}
+  body{font-family:Lato,system-ui;margin:0;background:var(--arena);color:#2b2b2b}
+  .wrap{min-height:100dvh;display:grid;place-items:center;padding:24px}
+  .card{width:min(780px,92vw);background:#fff;border-radius:20px;padding:28px 24px;box-shadow:0 12px 36px rgba(0,0,0,.08)}
+  header{display:flex;gap:14px;align-items:center;justify-content:space-between;margin-bottom:6px}
+  .brand{font-family:"Dancing Script",cursive;font-size:1.9rem;color:#2b4a57}
+  .sub{font-size:.9rem;opacity:.75}
+  h1{font-family:"Dancing Script",cursive;margin:.4rem 0 1rem;font-size:2.4rem;color:#2b4a57}
+  .chip{display:inline-block;background:var(--duna);padding:.4rem .8rem;border-radius:999px;font-size:.95rem}
+  .msg{margin:1rem 0 0.5rem;font-size:1.05rem;line-height:1.5}
+  .error{color:#7a1111;background:#ffe9e9;border:1px solid #f5c8c8;padding:12px;border-radius:12px}
+  .muted{opacity:.7}
+  .cta{margin-top:1.25rem}
+  .cta a{color:#1f5670;text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card" id="contenido">
+    <header>
+      <div class="brand">Cynthia & José Miguel</div>
+      <div class="sub">Boda — 6 feb 2026 · Playa del Carmen</div>
+    </header>
+    <h1>Invitación</h1>
+    <p class="muted">Cargando tu invitación personalizada…</p>
+  </div>
+</div>
+
+<script>
+/*
+  CONFIG: reemplaza con tu Sheet ID y nombre de hoja.
+  Asegúrate de que tu hoja esté compartida "Cualquier persona con el enlace: Lector".
+*/
+const SHEET_ID   = "13bespYGYN8CjyAofxgoQG75WqNMR_PPiQDAzh4a_OOQ";      // <-- pega aquí tu ID
+const SHEET_NAME = "invitados";     // <-- nombre exacto de la pestaña
+const GVIZ_URL   = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&_=${Date.now()}`;
+// Estructura esperada de columnas: token | nombre | pases | mensaje | activo
+
+const $ = (sel) => document.querySelector(sel);
+const cont = $("#contenido");
+
+function parseGviz(jsonText){
+  // El GViz devuelve "google.visualization.Query.setResponse({...});"
+  const start = jsonText.indexOf("{");
+  const end   = jsonText.lastIndexOf("}");
+  if(start === -1 || end === -1) throw new Error("Respuesta GViz inválida");
+  return JSON.parse(jsonText.slice(start, end+1));
+}
+
+function rowsToObjects(gviz){
+  // Toma los headers de la primera fila usada en la hoja (labels)
+  const cols = gviz.table.cols.map(c => (c.label || "").toLowerCase());
+  // Si por alguna razón los labels vienen vacíos, usa fallback estándar
+  const headers = cols.length && cols.some(h => h) ? cols : ["token","nombre","pases","mensaje","activo"];
+  const out = [];
+  for(const r of gviz.table.rows){
+    if(!r || !r.c) continue;
+    const obj = {};
+    headers.forEach((h, i) => {
+      const cell = r.c[i];
+      obj[h] = cell ? (cell.v ?? "") : "";
+    });
+    out.push(obj);
+  }
+  return out;
+}
+
+function normalizeBoolean(v){
+  if (typeof v === "boolean") return v;
+  const s = String(v).trim().toLowerCase();
+  return s === "true" || s === "1" || s === "si" || s === "sí";
+}
+
+(async () => {
+  const params = new URLSearchParams(location.search);
+  const token  = (params.get("t") || "").trim();
+  if(!token){
+    cont.innerHTML = `
+      <header>
+        <div class="brand">Cynthia & José Miguel</div>
+        <div class="sub">Boda — 6 feb 2026 · Playa del Carmen</div>
+      </header>
+      <h1>Invitación</h1>
+      <p class="error">Falta el código de invitación. Escanea el QR de tu boleto o usa el enlace que te enviamos.</p>
+      <p class="cta muted">Sitio principal: <a href="https://cynthiayjosemiguel.com.mx" target="_blank" rel="noopener">cynthiayjosemiguel.com.mx</a></p>`;
+    return;
+  }
+
+  try {
+    const res  = await fetch(GVIZ_URL, { cache: "no-store" });
+    const text = await res.text();
+    const gviz = parseGviz(text);
+    const rows = rowsToObjects(gviz);
+
+    // Crea un índice por token (en mayúsculas, sin espacios)
+    const index = new Map();
+    for(const r of rows){
+      const t = String(r.token || "").toUpperCase().trim();
+      if(!t) continue;
+      index.set(t, {
+        nombre:  String(r.nombre || "").trim(),
+        pases:   Number(r.pases || 0),
+        mensaje: String(r.mensaje || "").trim(),
+        activo:  normalizeBoolean(r.activo)
+      });
+    }
+
+    const g = index.get(token.toUpperCase());
+    if(!g || !g.activo){
+      cont.innerHTML = `
+        <header>
+          <div class="brand">Cynthia & José Miguel</div>
+          <div class="sub">Boda — 6 feb 2026 · Playa del Carmen</div>
+        </header>
+        <h1>Invitación</h1>
+        <p class="error">Código no reconocido o desactivado. Verifica tu QR o contáctanos.</p>
+        <p class="cta muted">Sitio principal: <a href="https://cynthiayjosemiguel.com.mx" target="_blank" rel="noopener">cynthiayjosemiguel.com.mx</a></p>`;
+      return;
+    }
+
+    cont.innerHTML = `
+      <header>
+        <div class="brand">Cynthia & José Miguel</div>
+        <div class="sub">Boda — 6 feb 2026 · Playa del Carmen</div>
+      </header>
+      <h1>¡Hola, ${g.nombre}!</h1>
+      <p class="chip">Tienes <strong>${g.pases}</strong> ${g.pases===1?'pase':'pases'}.</p>
+      <p class="msg">${g.mensaje || "¡Nos hará mucha ilusión verte!"}</p>
+      <hr style="margin:1.25rem 0;border:none;border-top:1px solid #eee">
+      <p class="muted">Por favor confirma tu asistencia en nuestra web:</p>
+      <p class="cta"><a href="https://cynthiayjosemiguel.com.mx" target="_blank" rel="noopener">cynthiayjosemiguel.com.mx</a></p>
+    `;
+  } catch (err) {
+    cont.innerHTML = `
+      <header>
+        <div class="brand">Cynthia & José Miguel</div>
+        <div class="sub">Boda — 6 feb 2026 · Playa del Carmen</div>
+      </header>
+      <h1>Invitación</h1>
+      <p class="error">No se pudo cargar la invitación. Revisa tu conexión y vuelve a intentar.</p>
+      <p class="muted">Detalle técnico: ${err?.message || err}</p>`;
+  }
+})();
+</script>
+</body>
+</html>
