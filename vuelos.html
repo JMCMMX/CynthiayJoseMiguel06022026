@@ -1,113 +1,296 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vuelos - Boda Cynthia y Jose Miguel</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vuelos - Boda Cynthia y Jose Miguel</title>
+
+  <!-- Tu CSS global (manténlo si ya lo usas) -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- ====== CSS mínimo para botón y panel (auto-contenido) ====== -->
+  <style>
+    /* Paleta rápida (opcional, se integra con tu tema) */
+    :root{
+      --arena: #E7DCCB;
+      --duna:  #CDBDA7;
+      --mar:   #cbb893; /* si ya definiste en style.css, ignora */
+      --tinta: #3F3A36;
+    }
+
+    /* Botón MENU/CERRAR proporcionado y centrado */
+    .sm-toggle{
+      position:relative; display:inline-flex; align-items:center; justify-content:center;
+      height:2.6em; min-width:8ch; padding:0 .9em;
+      background:rgba(0,0,0,.25); color:#F2EEE9; border:none; cursor:pointer;
+      border-radius:999px; backdrop-filter:blur(6px);
+      font:700 .95rem/1 'Lato',sans-serif; letter-spacing:.5px; text-transform:uppercase;
+      overflow:hidden; transition:background .25s ease,color .25s ease,transform .08s ease;
+      -webkit-tap-highlight-color:transparent;
+      box-shadow: 0 6px 18px rgba(0,0,0,.18);
+    }
+    .sm-toggle:hover{ background:rgba(0,0,0,.35) }
+    .sm-toggle:active{ transform:translateY(1px) scale(.99) }
+    .staggered-menu-wrapper[data-open] .sm-toggle{ background:rgba(255,255,255,.85); color:var(--tinta) }
+
+    /* Oculta restos antiguos si existieran */
+    .sm-icon,.sm-icon-line,.menu-tip,.menu-guide{ display:none !important }
+
+    /* Textos MENU/CERRAR con mismo canvas */
+    .sm-toggle-text-open,.sm-toggle-text-close{
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+      width:100%; line-height:1; backface-visibility:hidden;
+      transition:transform .35s ease, opacity .35s ease;
+    }
+    .sm-toggle-text-open{ opacity:1; transform:translateY(0%) }
+    .sm-toggle-text-close{ opacity:0; transform:translateY(100%) }
+    .staggered-menu-wrapper[data-open] .sm-toggle-text-open{ opacity:0; transform:translateY(-100%) }
+    .staggered-menu-wrapper[data-open] .sm-toggle-text-close{ opacity:1; transform:translateY(0%) }
+
+    /* Panel lateral básico */
+    .staggered-menu-wrapper{ position:fixed; inset:0; height:100vh; width:100%; z-index:999; pointer-events:none }
+    .staggered-menu-header{ position:absolute; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; padding:1.5em; z-index:20 }
+    .staggered-menu-header>*{ pointer-events:auto }
+    .sm-logo{ display:inline-flex; align-items:center; gap:.5rem; text-decoration:none }
+    .sm-logo-img{ height:56px; width:auto; display:block; transition:filter .3s ease }
+    .menu-open .sm-logo-img{ filter:none }
+
+    .staggered-menu-panel,.sm-prelayers{ position:absolute; top:0; right:0; width:clamp(300px,38vw,420px); height:100% }
+    .staggered-menu-panel{
+      background:#F2EEE9; display:flex; flex-direction:column; padding:7em 2em 2em;
+      overflow-y:auto; z-index:10; pointer-events:auto; transform:translateX(100%); transition:transform .55s ease;
+    }
+    .staggered-menu-wrapper[data-open] .staggered-menu-panel{ transform:translateX(0) }
+    .sm-prelayers{ pointer-events:none; z-index:5 }
+    .sm-prelayer{ position:absolute; inset:0; transform:translateX(100%); transition:transform .5s ease }
+    .staggered-menu-wrapper[data-open] .sm-prelayer{ transform:translateX(0) }
+
+    .sm-panel-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.6rem; counter-reset:smItem }
+    .sm-panel-item{
+      position:relative; color:var(--tinta); font-weight:700; text-decoration:none;
+      font-size:clamp(2rem,5vw,3rem); text-transform:uppercase; letter-spacing:-2px;
+      padding-right:1.6em; display:inline-block; transition:color .25s ease;
+    }
+    .sm-panel-item:hover{ color:var(--mar) }
+    .sm-panel-item::after{
+      counter-increment:smItem; content:counter(smItem,decimal-leading-zero);
+      position:absolute; top:.1em; right:0; font-size:16px; color:var(--mar); opacity:.9;
+    }
+
+    @media (max-width:640px){
+      .staggered-menu-header{ padding:1.1em }
+      .staggered-menu-panel,.sm-prelayers{ width:100%; left:0; right:0 }
+      .staggered-menu-panel{ padding-left:1.4em; padding-right:1.4em }
+      .sm-logo-img{ height:50px }
+    }
+
+    /* Estilos de contenido de esta página */
+    body{ background: #FAF7F2; color: var(--tinta); }
+    .contenido-pagina{ max-width:1100px; margin:120px auto 64px; padding:0 18px }
+    .hero-card{
+      background: #ffffffCC; border-radius:20px; padding:28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.08), inset 0 0 0 1px rgba(0,0,0,.04);
+      backdrop-filter: blur(4px);
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:.5rem;
+      background: var(--arena); color:#5d5249; border-radius:999px; padding:.35rem .8rem; font-weight:700;
+      text-transform:uppercase; letter-spacing:.5px; font-size:.82rem;
+    }
+    .grid{ display:grid; gap:20px; grid-template-columns: repeat(12, 1fr); }
+    .col-12{ grid-column: span 12; }
+    .col-6{ grid-column: span 6; }
+    .card{
+      background:#fff; border-radius:16px; padding:20px;
+      box-shadow: 0 6px 22px rgba(0,0,0,.07), inset 0 0 0 1px rgba(0,0,0,.04);
+    }
+    h1{ font-family:'Dancing Script',cursive; font-size:3rem; margin:.2em 0 .1em; text-align:center }
+    h2{ font-size:1.25rem; margin:0 0 .6rem; letter-spacing:.2px }
+    p, li{ font-family:'Lato',sans-serif; line-height:1.6 }
+    a.link{ color:#2F4667; text-decoration:none; font-weight:700 }
+    .cta-row{ display:flex; gap:12px; flex-wrap:wrap; margin-top:14px }
+    .btn{
+      display:inline-flex; align-items:center; gap:.5rem; border-radius:999px; padding:.75rem 1rem;
+      font-weight:700; text-decoration:none; background: var(--mar); color:#fff;
+      box-shadow: 0 6px 16px rgba(0,0,0,.12);
+    }
+    .btn.secondary{ background:#2F4667; }
+    .note{ font-size:.92rem; color:#5d5249 }
+    ul.clean{ padding-left:1.1rem; margin: .2rem 0 .6rem; }
+    .divider{ height:1px; background: rgba(0,0,0,.08); margin:18px 0; }
+    .icon{ width:20px; text-align:center }
+    @media (max-width:900px){
+      .col-6{ grid-column: span 12; }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="staggered-menu-wrapper">
-        <div class="sm-prelayers" aria-hidden="true">
-            <div class="sm-prelayer" style="background: #2F4667;"></div>
-            <div class="sm-prelayer" style="background: #A3ADA0;"></div>
-            <div class="sm-prelayer" style="background: #E6DECF;"></div>
-        </div>
-        <header class="staggered-menu-header">
-<a href="index.html" class="sm-logo" aria-label="Homepage">
-        <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img">
+  <!-- ===== Wrapper del menú ===== -->
+  <div class="staggered-menu-wrapper">
+    <div class="sm-prelayers" aria-hidden="true">
+      <div class="sm-prelayer" style="background:#2F4667;"></div>
+      <div class="sm-prelayer" style="background:#A3ADA0;"></div>
+      <div class="sm-prelayer" style="background:#E6DECF;"></div>
+    </div>
+
+    <header class="staggered-menu-header">
+      <a href="index.html" class="sm-logo" aria-label="Homepage">
+        <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img" loading="eager" decoding="async">
       </a>
 
- <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
-  <span class="sm-icon" aria-hidden="true">
-    <span class="sm-icon-line"></span>
-    <span class="sm-icon-line"></span>
-    <span class="sm-icon-line"></span>
-  </span>
-  <span class="menu-guide">Aquí está el menú 👋</span>
-</button>
-        </header>
-        <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
-            <div class="sm-panel-inner">
-                <ul class="sm-panel-list" role="list">
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina
-                        principal</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span
-                        class="sm-panel-itemLabel">Agradecimientos</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y
-                        Hora</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El
-                        Lugar</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span
-                        class="sm-panel-itemLabel">Hospedaje</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedarte en
-                        Xcaret</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span
-                        class="sm-panel-itemLabel">Vuelos</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="calculadora.html"><span
-                        class="sm-panel-itemLabel">Calculadora de tarifas</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span
-                        class="sm-panel-itemLabel">Regalos</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta
-                        Regresiva</span></a></li>
-                 </ul>
-            </div>
-        </aside>
-    </div>
+      <!-- Botón del menú -->
+      <button class="sm-toggle" aria-label="Menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
+        <span class="sm-toggle-text-open">MENU</span>
+        <span class="sm-toggle-text-close">CERRAR</span>
+      </button>
+    </header>
 
-    <div class="contenido-pagina">
-        <h1><i class="fa-solid fa-plane-departure"></i> Búsqueda de Vuelos</h1>
-        <p class="introduccion-vuelos">
-            ¡Esperamos que puedan acompañarnos! Para facilitar la búsqueda de su viaje a Cancún, aquí tienen algunos enlaces directos a buscadores populares.
-            Hemos pre-cargado la ruta <strong>Ciudad de México (MEX) → Cancún (CUN)</strong> para las fechas <strong>5 al 9 de Febrero de 2026</strong>.
-        </p>
-        <div class="nota-importante-vuelos">
-            <p>
-                <strong><i class="fa-solid fa-circle-info"></i> Importante:</strong> Al hacer clic, se abrirá una nueva pestaña en el buscador correspondiente. Los precios y la disponibilidad de vuelos cambian rápidamente. Les recomendamos comparar opciones y finalizar su reserva directamente en el sitio web del buscador o de la aerolínea.
-            </p>
-        </div>
+    <!-- Panel de navegación -->
+    <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true" role="navigation">
+      <ul class="sm-panel-list" role="list">
+        <li><a class="sm-panel-item" href="index.html">Página Principal</a></li>
+        <li><a class="sm-panel-item" href="gracias.html">Agradecimientos</a></li>
+        <li><a class="sm-panel-item" href="fecha-hora.html">Fecha y Hora</a></li>
+        <li><a class="sm-panel-item" href="lugar.html">El Lugar</a></li>
+        <li><a class="sm-panel-item" href="hospedaje.html">Hospedaje</a></li>
+        <li><a class="sm-panel-item" href="xcaret.html">Hospedarte en Xcaret</a></li>
+        <li><a class="sm-panel-item" href="vuelos.html">Vuelos</a></li>
+        <li><a class="sm-panel-item" href="calculadora.html">Calculadora de tarifas</a></li>
+        <li><a class="sm-panel-item" href="regalos.html">Regalos</a></li>
+        <li><a class="sm-panel-item" href="Time.html">Cuenta Regresiva</a></li>
+      </ul>
+    </aside>
+  </div>
 
-        <div class="buscadores-vuelos">
-            <div class="buscador-item google">
-                <i class="fa-brands fa-google buscador-icono"></i>
-                <h2>Google Flights</h2>
-                <p>Una herramienta útil para explorar opciones de vuelo y monitorear precios.</p>
-                <a href="https://www.google.com/flights#flt=MEX.CUN.2026-02-05*CUN.MEX.2026-02-09" target="_blank" class="boton-buscador">
-                    Buscar en Google Flights →
-                </a>
-            </div>
+    <div class="staggered-menu-wrapper">
+        <div class="sm-prelayers" aria-hidden="true">
+            <div class="sm-prelayer" style="background: #2F4667;"></div>
+            <div class="sm-prelayer" style="background: #A3ADA0;"></div>
+            <div class="sm-prelayer" style="background: #E6DECF;"></div>
+        </div>
+        <header class="staggered-menu-header">
+            <a href="index.html" class="sm-logo" aria-label="Homepage">
+                <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img">
+            </a>
 
-            <div class="buscador-item skyscanner">
-                <i class="fa-solid fa-paper-plane buscador-icono"></i>
-                <h2>Skyscanner</h2>
-                <p>Compara precios de vuelos entre cientos de aerolíneas y agencias de viajes.</p>
-                <a href="https://www.skyscanner.com.mx/transport/flights/mexa/cun/260205/260209/" target="_blank" class="boton-buscador">
-                    Buscar en Skyscanner →
-                </a>
-            </div>
 
-            <div class="buscador-item kayak">
-                <i class="fa-solid fa-suitcase-rolling buscador-icono"></i>
-                <h2>Kayak</h2>
-                <p>Otro metabuscador popular para encontrar ofertas de vuelos, hoteles y autos.</p>
-                <a href="https://www.kayak.com.mx/flights/MEX-CUN/2026-02-05/2026-02-09" target="_blank" class="boton-buscador">
-                    Buscar en Kayak →
-                </a>
-            </div>
-        </div>
-        
-        <div class="navegacion-volver">
-            <a href="index.html" class="boton-volver">← Volver a la Página Principal</a>
-        </div>
-    </div>
+        </header>
+        <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
+            <div class="sm-panel-inner">
+                <ul class="sm-panel-list" role="list">
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina
+                            principal</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span
+                            class="sm-panel-itemLabel">Agradecimientos</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y
+                            Hora</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El
+                            Lugar</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span
+                            class="sm-panel-itemLabel">Hospedaje</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedarte en
+                            Xcaret</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span
+                            class="sm-panel-itemLabel">Vuelos</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="calculadora.html"><span
+                            class="sm-panel-itemLabel">Calculadora de tarifas</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span
+                            class="sm-panel-itemLabel">Regalos</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta
+                            Regresiva</span></a></li>
+                 </ul>
+            </div>
+        </aside>
+    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="menu.js"></script>
+    <div class="contenido-pagina">
+        <h1><i class="fa-solid fa-plane-departure"></i> Búsqueda de Vuelos</h1>
+        <p class="introduccion-vuelos">
+            ¡Esperamos que puedan acompañarnos! Para facilitar la búsqueda de su viaje a Cancún, aquí tienen algunos enlaces directos a buscadores populares.
+            Hemos pre-cargado la ruta <strong>Ciudad de México (MEX) → Cancún (CUN)</strong> para las fechas <strong>5 al 9 de Febrero de 2026</strong>.
+        </p>
+        <div class="nota-importante-vuelos">
+            <p>
+                <strong><i class="fa-solid fa-circle-info"></i> Importante:</strong> Al hacer clic, se abrirá una nueva pestaña en el buscador correspondiente. Los precios y la disponibilidad de vuelos cambian rápidamente. Les recomendamos comparar opciones y finalizar su reserva directamente en el sitio web del buscador o de la aerolínea.
+            </p>
+        </div>
 
+        <div class="buscadores-vuelos">
+            <div class="buscador-item google">
+                <i class="fa-brands fa-google buscador-icono"></i>
+                <h2>Google Flights</h2>
+                <p>Una herramienta útil para explorar opciones de vuelo y monitorear precios.</p>
+                <a href="https://www.google.com/flights#flt=MEX.CUN.2026-02-05*CUN.MEX.2026-02-09" target="_blank" class="boton-buscador">
+                    Buscar en Google Flights →
+                </a>
+            </div>
+
+            <div class="buscador-item skyscanner">
+                <i class="fa-solid fa-paper-plane buscador-icono"></i>
+                <h2>Skyscanner</h2>
+                <p>Compara precios de vuelos entre cientos de aerolíneas y agencias de viajes.</p>
+                <a href="https://www.skyscanner.com.mx/transport/flights/mexa/cun/260205/260209/" target="_blank" class="boton-buscador">
+                    Buscar en Skyscanner →
+                </a>
+            </div>
+
+            <div class="buscador-item kayak">
+                <i class="fa-solid fa-suitcase-rolling buscador-icono"></i>
+                <h2>Kayak</h2>
+                <p>Otro metabuscador popular para encontrar ofertas de vuelos, hoteles y autos.</p>
+                <a href="https://www.kayak.com.mx/flights/MEX-CUN/2026-02-05/2026-02-09" target="_blank" class="boton-buscador">
+                    Buscar en Kayak →
+                </a>
+            </div>
+        </div>
+        
+        <div class="navegacion-volver">
+            <a href="index.html" class="boton-volver">← Volver a la Página Principal</a>
+        </div>
+    </div>
+
+<script>
+    (function(){
+      const w = document.querySelector('.staggered-menu-wrapper');
+      const p = document.getElementById('staggered-menu-panel');
+      const b = document.querySelector('.sm-toggle');
+      if(!w || !p || !b) return;
+
+      // Asegura spans internos por si se pierden
+      if(!b.querySelector('.sm-toggle-text-open') || !b.querySelector('.sm-toggle-text-close')){
+        const open = document.createElement('span'); open.className='sm-toggle-text-open'; open.textContent='MENU';
+        const close= document.createElement('span'); close.className='sm-toggle-text-close'; close.textContent='CERRAR';
+        b.textContent=''; b.append(open, close);
+      }
+
+      const isOpen = ()=> b.getAttribute('aria-expanded')==='true';
+      const apply = (o)=>{
+        if(o) w.setAttribute('data-open',''); else w.removeAttribute('data-open');
+        p.setAttribute('aria-hidden', String(!o));
+        b.setAttribute('aria-expanded', String(o));
+        document.body.classList.toggle('menu-open', o);
+      };
+
+      // Toggle con click
+      b.addEventListener('click', ()=> apply(!isOpen()));
+
+      // Cerrar con clic fuera
+      document.addEventListener('click', e=>{
+        if(!isOpen()) return;
+        if(!p.contains(e.target) && !b.contains(e.target)) apply(false);
+      });
+
+      // Cerrar con ESC
+      window.addEventListener('keydown', e=>{
+        if(e.key === 'Escape' && isOpen()) apply(false);
+      });
+
+      // Estado cerrado al cargar
+      requestAnimationFrame(()=>apply(false));
+    })();
+  </script>
 </body>
 </html>

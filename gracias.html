@@ -1,238 +1,196 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gracias - Boda Cynthia y Jose Miguel</title>
-    <link rel="stylesheet" href="style.css"> <!-- Se mantiene, pero debe estar limpio de estilos conflictivos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agradecimientos - Boda Cynthia y Jose Miguel</title>
 
-    <!-- ===== CSS REFINADO PARA EL NUEVO BOTÓN DE MENÚ ===== -->
-    <style>
-      /* ===== Estilos del botón de Menú (Refinados) ===== */
-      .sm-toggle{
-        position:relative; /* Necesario para posicionar 'CERRAR' */
-        display:inline-flex; 
-        align-items:center; 
-        justify-content: center; 
-        background:rgba(0,0,0,0.25); 
-        color:#F2EEE9; 
-        border:none; 
-        cursor:pointer;
-        padding:.8em 1.4em; 
-        border-radius:999px; 
-        backdrop-filter: blur(6px);
-        font-family: 'Lato', sans-serif; 
-        font-weight: 700; 
-        font-size: 0.95rem;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        overflow: hidden; 
-        width: 110px; 
-        min-height: 2.5em; /* Altura mínima para asegurar espacio vertical */
-        transition: background .3s ease, color .3s ease;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        -webkit-tap-highlight-color: transparent; /* Evita flash azul en móviles */
-      }
-      .staggered-menu-wrapper[data-open] .sm-toggle{ 
-        color:#3F3A36; 
-        background:rgba(255,255,255,0.8);
-      }
+  <!-- Tu CSS global (manténlo si ya lo usas) -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-      /* Elementos antiguos que NO deben existir ni tener estilos */
-      .sm-icon, .sm-icon-line, .menu-tip, .menu-guide { display: none !important; } 
-      
-      /* Estilos para los textos del botón (MENU / CERRAR) */
-      .sm-toggle-text-open, .sm-toggle-text-close {
-        display: block;
-        width: 100%; 
-        text-align: center; 
-        transition: transform .4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity .4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Curva suave */
-        /* Estado inicial explícito para 'MENU' */
-        opacity: 1; 
-        transform: translateY(0%); 
-        backface-visibility: hidden; /* Mejora rendimiento de transform */
-      }
-      .sm-toggle-text-close {
-        position: absolute;
-        top: 50%; /* Centrado vertical */
-        left: 0; /* Abarca todo el ancho */
-        transform: translateY(150%); /* Posicionado MUCHO más abajo inicialmente */
-        opacity: 0; 
-      }
+  <!-- ====== CSS mínimo para botón y panel (auto-contenido) ====== -->
+  <style>
+    /* Botón MENU/CERRAR proporcionado y centrado */
+    .sm-toggle{
+      position:relative; display:inline-flex; align-items:center; justify-content:center;
+      height:2.6em; min-width:8ch; padding:0 .9em;
+      background:rgba(0,0,0,.25); color:#F2EEE9; border:none; cursor:pointer;
+      border-radius:999px; backdrop-filter:blur(6px);
+      font:700 .95rem/1 'Lato',sans-serif; letter-spacing:.5px; text-transform:uppercase;
+      overflow:hidden; transition:background .25s ease,color .25s ease,transform .08s ease;
+      -webkit-tap-highlight-color:transparent;
+      box-shadow: 0 6px 18px rgba(0,0,0,.18);
+    }
+    .sm-toggle:hover{ background:rgba(0,0,0,.35) }
+    .sm-toggle:active{ transform:translateY(1px) scale(.99) }
+    .staggered-menu-wrapper[data-open] .sm-toggle{ background:rgba(255,255,255,.85); color:#3F3A36 }
 
-      /* Estado abierto (muestra CERRAR, oculta MENU) */
-      .staggered-menu-wrapper[data-open] .sm-toggle-text-open {
-        opacity: 0;
-        transform: translateY(-150%); /* Mueve 'MENU' MUCHO más arriba */
-      }
-      .staggered-menu-wrapper[data-open] .sm-toggle-text-close {
-        opacity: 1;
-        transform: translateY(-50%); /* Mueve 'CERRAR' a su posición central vertical */
-      }
-      /* ===== FIN CAMBIO Menú ===== */
+    /* Oculta restos antiguos si existieran */
+    .sm-icon,.sm-icon-line,.menu-tip,.menu-guide{ display:none !important }
 
-      /* Estilos del panel de menú (se mantienen) */
-      .staggered-menu-wrapper{ position:fixed; inset:0; height:100vh; width:100%; z-index:999; pointer-events:none; }
-      .staggered-menu-header{ position:absolute; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; padding:1.5em; z-index:20; }
-      .staggered-menu-header>*{ pointer-events:auto; }
-      .sm-logo{ display:inline-flex; align-items:center; gap:.5rem; text-decoration:none; }
-      .sm-logo-img{ height:56px; width:auto; display:block; transition:filter .3s ease }
-      .menu-open .sm-logo-img{ filter:none; }
+    /* Textos MENU/CERRAR con mismo canvas */
+    .sm-toggle-text-open,.sm-toggle-text-close{
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+      width:100%; line-height:1; backface-visibility:hidden;
+      transition:transform .35s ease, opacity .35s ease;
+    }
+    .sm-toggle-text-open{ opacity:1; transform:translateY(0%) }
+    .sm-toggle-text-close{ opacity:0; transform:translateY(100%) }
+    .staggered-menu-wrapper[data-open] .sm-toggle-text-open{ opacity:0; transform:translateY(-100%) }
+    .staggered-menu-wrapper[data-open] .sm-toggle-text-close{ opacity:1; transform:translateY(0%) }
 
-      .staggered-menu-panel,.sm-prelayers{ position:absolute; top:0; right:0; width:clamp(300px,38vw,420px); height:100%; }
-      .staggered-menu-panel{
-        background:#F2EEE9; display:flex; flex-direction:column; padding:7em 2em 2em;
-        overflow-y:auto; z-index:10; pointer-events:auto; transform:translateX(100%); transition:transform .55s ease;
-      }
-      .staggered-menu-wrapper[data-open] .staggered-menu-panel{ transform:translateX(0) }
-      .sm-prelayers{ pointer-events:none; z-index:5 }
-      .sm-prelayer{ position:absolute; inset:0; transform:translateX(100%); transition:transform .5s ease }
-      .staggered-menu-wrapper[data-open] .sm-prelayer{ transform:translateX(0) }
+    /* Panel lateral básico */
+    .staggered-menu-wrapper{ position:fixed; inset:0; height:100vh; width:100%; z-index:999; pointer-events:none }
+    .staggered-menu-header{ position:absolute; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; padding:1.5em; z-index:20 }
+    .staggered-menu-header>*{ pointer-events:auto }
+    .sm-logo{ display:inline-flex; align-items:center; gap:.5rem; text-decoration:none }
+    .sm-logo-img{ height:56px; width:auto; display:block; transition:filter .3s ease }
+    .menu-open .sm-logo-img{ filter:none }
 
-      .sm-panel-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.6rem; counter-reset:smItem }
-      .sm-panel-itemWrap .sm-panel-item {
-        position:relative; color:#3F3A36; font-weight:700; text-decoration:none;
-        font-size:clamp(2rem,5vw,3rem); text-transform:uppercase; letter-spacing:-2px;
-        padding-right:1.6em; display:inline-block; transition:color .25s ease;
-      }
-      .sm-panel-itemWrap .sm-panel-item:hover{ color:var(--sm-accent) }
-      .sm-panel-itemWrap .sm-panel-item::after{
-        counter-increment:smItem; content:counter(smItem,decimal-leading-zero);
-        position:absolute; top:.1em; right:0; font-size:16px; color:var(--sm-accent); opacity:.9;
-      }
-      @media (max-width:640px){
-        .staggered-menu-header{ padding:1.1em }
-        .staggered-menu-panel,.sm-prelayers{ width:100%; left:0; right:0 }
-        .staggered-menu-panel{ padding-left:1.4em; padding-right:1.4em }
-        .sm-logo-img{ height:50px }
-      }
-    </style>
+    .staggered-menu-panel,.sm-prelayers{ position:absolute; top:0; right:0; width:clamp(300px,38vw,420px); height:100% }
+    .staggered-menu-panel{
+      background:#F2EEE9; display:flex; flex-direction:column; padding:7em 2em 2em;
+      overflow-y:auto; z-index:10; pointer-events:auto; transform:translateX(100%); transition:transform .55s ease;
+    }
+    .staggered-menu-wrapper[data-open] .staggered-menu-panel{ transform:translateX(0) }
+    .sm-prelayers{ pointer-events:none; z-index:5 }
+    .sm-prelayer{ position:absolute; inset:0; transform:translateX(100%); transition:transform .5s ease }
+    .staggered-menu-wrapper[data-open] .sm-prelayer{ transform:translateX(0) }
+
+    .sm-panel-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.6rem; counter-reset:smItem }
+    .sm-panel-item{
+      position:relative; color:#3F3A36; font-weight:700; text-decoration:none;
+      font-size:clamp(2rem,5vw,3rem); text-transform:uppercase; letter-spacing:-2px;
+      padding-right:1.6em; display:inline-block; transition:color .25s ease;
+    }
+    .sm-panel-item:hover{ color:var(--sm-accent) }
+    .sm-panel-item::after{
+      counter-increment:smItem; content:counter(smItem,decimal-leading-zero);
+      position:absolute; top:.1em; right:0; font-size:16px; color:var(--sm-accent); opacity:.9;
+    }
+
+    @media (max-width:640px){
+      .staggered-menu-header{ padding:1.1em }
+      .staggered-menu-panel,.sm-prelayers{ width:100%; left:0; right:0 }
+      .staggered-menu-panel{ padding-left:1.4em; padding-right:1.4em }
+      .sm-logo-img{ height:50px }
+    }
+
+    /* Estilos rápidos de contenido */
+    .contenido-pagina{ max-width:1000px; margin:120px auto 60px; padding:0 16px }
+    .boton-volver{ color:#2F4667; text-decoration:none; font-weight:700 }
+  </style>
 </head>
 <body>
 
-    <div class="staggered-menu-wrapper">
-        <div class="sm-prelayers" aria-hidden="true">
-            <div class="sm-prelayer" style="background: #2F4667;"></div>
-            <div class="sm-prelayer" style="background: #A3ADA0;"></div>
-            <div class="sm-prelayer" style="background: #E6DECF;"></div>
-        </div>
-        <header class="staggered-menu-header">
-            <a href="index.html" class="sm-logo" aria-label="Homepage">
-                <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img">
-            </a>
-            
-            <!-- ===== BOTÓN DE MENÚ ACTUALIZADO ===== -->
-            <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
-                <span class="sm-toggle-text-open">MENU</span>
-                <span class="sm-toggle-text-close" aria-hidden="true">CERRAR</span>
-            </button>
-            <!-- ===== FIN DEL CAMBIO ===== -->
-        
-        </header>
+  <!-- ===== Wrapper del menú ===== -->
+  <div class="staggered-menu-wrapper">
+    <div class="sm-prelayers" aria-hidden="true">
+      <div class="sm-prelayer" style="background:#2F4667;"></div>
+      <div class="sm-prelayer" style="background:#A3ADA0;"></div>
+      <div class="sm-prelayer" style="background:#E6DECF;"></div>
+    </div>
 
-        <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
-            <div class="sm-panel-inner">
-                <ul class="sm-panel-list" role="list">
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina
-                            principal</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span
-                            class="sm-panel-itemLabel">Agradecimientos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y
-                            Hora</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="lugar.html"><span class="sm-panel-itemLabel">El
-                            Lugar</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span
-                            class="sm-panel-itemLabel">Hospedaje</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedarte en
-                            Xcaret</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span
-                            class="sm-panel-itemLabel">Vuelos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="calculadora.html"><span
-                            class="sm-panel-itemLabel">Calculadora de tarifas</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span
-                            class="sm-panel-itemLabel">Regalos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta
-                            Regresiva</span></a></li>
-                </ul>
-            </div>
-        </aside>
-    </div>
+    <header class="staggered-menu-header">
+      <a href="index.html" class="sm-logo" aria-label="Homepage">
+        <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img" loading="eager" decoding="async">
+      </a>
 
-    <div class="contenido-pagina">
-        <h1>Agradecimientos</h1>
+      <!-- Botón del menú (con aria-controls apuntando al panel) -->
+      <button class="sm-toggle" aria-label="Menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
+        <span class="sm-toggle-text-open">MENU</span>
+        <span class="sm-toggle-text-close">CERRAR</span>
+      </button>
+    </header>
 
-        <p style="font-size:1.2em; color:#6B5F56; line-height:1.7; max-width:700px; margin:0 auto 40px; text-align:center;">
-            Nada de esto sería posible sin el amor, apoyo y ejemplo de quienes han estado a nuestro lado desde el inicio de nuestra historia.
-        </p>
+    <!-- Panel de navegación -->
+    <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true" role="navigation">
+      <ul class="sm-panel-list" role="list">
+        <li><a class="sm-panel-item" href="index.html">Página Principal</a></li>
+        <li><a class="sm-panel-item" href="gracias.html">Agradecimientos</a></li>
+        <li><a class="sm-panel-item" href="fecha-hora.html">Fecha y Hora</a></li>
+        <li><a class="sm-panel-item" href="lugar.html">El Lugar</a></li>
+        <li><a class="sm-panel-item" href="hospedaje.html">Hospedaje</a></li>
+        <li><a class="sm-panel-item" href="xcaret.html">Hospedarte en Xcaret</a></li>
+        <li><a class="sm-panel-item" href="vuelos.html">Vuelos</a></li>
+        <li><a class="sm-panel-item" href="calculadora.html">Calculadora de tarifas</a></li>
+        <li><a class="sm-panel-item" href="regalos.html">Regalos</a></li>
+        <li><a class="sm-panel-item" href="Time.html">Cuenta Regresiva</a></li>
+      </ul>
+    </aside>
+  </div>
 
-        <div class="nota-importante-hospedaje" style="text-align:center;">
-            
-             <h3>✦ Gracias a Nuestros Padres ✦</h3>
-                <ul class="lista-nombres">
-                    <p>Papás de Cynthia:</p> <p><strong>Carmen Dominguez Rios y Antonio De Jesus De la Luz</p></strong>
-                                     
-                    <p>Papás de José Miguel:</p> <p><strong>Blanca Modesto Rodriguez y Jose Vicente Castrillo Oropeza</strong></p>
-                </ul>
-         <p>"A nuestros padres, gracias por el amor incondicional que nos han dado. Hoy, al iniciar nuestro propio camino, los llevamos en el corazón"</p>
-<h3>✦ Gracias a Nuestros padrinos ✦</h3>
-            <p><strong>Esmeralda Del Valle Hernandez y Gregorio De Jesus De la Luz</strong></p>
-            <p>Queremos expresar nuestro más sincero agradecimiento a nuestros queridos padrinos de anillos por acompañarnos en esta etapa tan especial y por ser parte de nuestra historia desde el inicio. Su amor, apoyo y ejemplo han sido una gran inspiración para nosotros.</p>
-        </div>
+  <!-- ===== Contenido de la página ===== -->
+  <main class="contenido-pagina">
+    <h1 style="font-family:'Dancing Script',cursive; font-size:3rem; text-align:center; margin-bottom:.5em;">
+      Agradecimientos ✨
+    </h1>
 
-        <div class="navegacion-volver">
-            <a href="index.html" class="boton-volver">&larr; Volver a la Página Principal</a>
-        </div>
-    </div>
+    <p style="font-size:1.2em; color:#6B5F56; line-height:1.7; max-width:700px; margin:0 auto 40px; text-align:center;">
+      Nada de esto sería posible sin el amor, apoyo y ejemplo de quienes han estado a nuestro lado desde el inicio de nuestra historia.
+    </p>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <!-- ===== SCRIPT DE MENÚ ACTUALIZADO (reemplaza a menu.js) ===== -->
-    <script>
-      (function () {
-        const wrapper   = document.querySelector('.staggered-menu-wrapper');
-        const panel     = document.querySelector('#staggered-menu-panel');
-        const toggleBtn = document.querySelector('.sm-toggle');
-        const body = document.body;
-        if (!wrapper || !panel || !toggleBtn) return;
+    <section style="text-align:center; max-width:760px; margin:0 auto;">
+      <h3>✦ Gracias a Nuestros Padres ✦</h3>
+      <p><strong>Papás de Cynthia:</strong> Carmen Domínguez Ríos y Antonio De Jesús De la Luz</p>
+      <p><strong>Papás de José Miguel:</strong> Blanca Modesto Rodríguez y José Vicente Castrillo Oropeza</p>
 
-        const isOpenFn = ()=> toggleBtn.getAttribute('aria-expanded') === 'true';
+      <p style="margin-top:1em;">
+        “A nuestros padres, gracias por el amor incondicional que nos han dado. Hoy, al iniciar nuestro propio camino, los llevamos en el corazón.”
+      </p>
 
-        function applyState(open) {
-          // Usa requestAnimationFrame para asegurar que los cambios de clase/atributo ocurran después de que el navegador esté listo para pintar
-          requestAnimationFrame(() => {
-            if (open) wrapper.setAttribute('data-open',''); else wrapper.removeAttribute('data-open');
-            panel.setAttribute('aria-hidden', String(!open));
-            toggleBtn.setAttribute('aria-expanded', String(open));
-            document.body.classList.toggle('menu-open', open);
-          });
-        }
+      <h3 style="margin-top:2em;">✦ Gracias a Nuestros Padrinos ✦</h3>
+      <p><strong>Esmeralda Del Valle Hernández & Gregorio De Jesús De la Luz</strong></p>
+      <p>Gracias por ser parte de nuestra historia desde el inicio y por estar siempre con nosotros en este día tan especial.</p>
+    </section>
 
-        function toggleMenu(){ 
-          const currentlyOpen = isOpenFn();
-          applyState(!currentlyOpen); 
-        }
+    <div class="navegacion-volver" style="margin-top:45px; text-align:center;">
+      <a href="index.html" class="boton-volver">&larr; Volver a la Página Principal</a>
+    </div>
+  </main>
 
-        toggleBtn.addEventListener('click', toggleMenu);
-        
-        // Cerrar al hacer clic fuera
-        document.addEventListener('click', e=>{
-          if(!isOpenFn()) return;
-          // Verifica que el clic no sea DENTRO del botón o del panel
-          if(!panel.contains(e.target) && !toggleBtn.contains(e.target)) {
-            applyState(false);
-          }
-        });
-        
-        // Forzar cierre al cargar la página (asegurando que se ejecute después del renderizado inicial)
-        requestAnimationFrame(() => {
-           applyState(false);
-        });
-      
-      })();
-    </script>
+  <!-- ===== JS mínimo para que el botón funcione (auto-contenido) ===== -->
+  <script>
+    (function(){
+      const w = document.querySelector('.staggered-menu-wrapper');
+      const p = document.getElementById('staggered-menu-panel');
+      const b = document.querySelector('.sm-toggle');
+      if(!w || !p || !b) return;
 
+      // Asegura spans internos por si se pierden
+      if(!b.querySelector('.sm-toggle-text-open') || !b.querySelector('.sm-toggle-text-close')){
+        const open = document.createElement('span'); open.className='sm-toggle-text-open'; open.textContent='MENU';
+        const close= document.createElement('span'); close.className='sm-toggle-text-close'; close.textContent='CERRAR';
+        b.textContent=''; b.append(open, close);
+      }
+
+      const isOpen = ()=> b.getAttribute('aria-expanded')==='true';
+      const apply = (o)=>{
+        if(o) w.setAttribute('data-open',''); else w.removeAttribute('data-open');
+        p.setAttribute('aria-hidden', String(!o));
+        b.setAttribute('aria-expanded', String(o));
+        document.body.classList.toggle('menu-open', o);
+      };
+
+      // Toggle con click
+      b.addEventListener('click', ()=> apply(!isOpen()));
+
+      // Cerrar con clic fuera
+      document.addEventListener('click', e=>{
+        if(!isOpen()) return;
+        if(!p.contains(e.target) && !b.contains(e.target)) apply(false);
+      });
+
+      // Cerrar con ESC
+      window.addEventListener('keydown', e=>{
+        if(e.key === 'Escape' && isOpen()) apply(false);
+      });
+
+      // Estado cerrado al cargar
+      requestAnimationFrame(()=>apply(false));
+    })();
+  </script>
 </body>
 </html>
