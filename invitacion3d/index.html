@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Invitación Boda - Pase de Abordar 3D</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top, #2b3a4a, #050810);
+      color: #f5f5f5;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .wrapper {
+      width: 100%;
+      max-width: 900px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    h1 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-align: center;
+      margin: 8px 0;
+      opacity: 0.9;
+    }
+    .sub {
+      font-size: 0.85rem;
+      text-align: center;
+      opacity: 0.8;
+      max-width: 500px;
+    }
+    #canvas-container {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      max-height: 480px;
+      margin-top: 8px;
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      background: radial-gradient(circle at center, #132032, #050810);
+    }
+    canvas {
+      display: block;
+    }
+    .info-card {
+      margin-top: 8px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(5, 8, 16, 0.85);
+      border: 1px solid rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 100%;
+      max-width: 600px;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+    .label {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.7rem;
+      opacity: 0.7;
+    }
+    .value {
+      font-weight: 600;
+    }
+    .secondary {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      margin-top: 4px;
+    }
+    .hint {
+      font-size: 0.75rem;
+      opacity: 0.7;
+      margin-top: 2px;
+    }
+    .error {
+      margin-top: 16px;
+      color: #ffb3b3;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    #baseTicket {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Pase de abordar &mdash; Boda Cynthia &amp; José Miguel</h1>
+    <p class="sub">
+      Arrastra con el dedo o el mouse para girar tu boleto.  
+      Disfruta tu pase de abordar en 3D ✈️
+    </p>
+
+    <div id="canvas-container"></div>
+
+    <div class="info-card" id="info-card">
+      <div class="info-row">
+        <div>
+          <div class="label">Pasajero</div>
+          <div class="value" id="info-nombre">Invitado especial</div>
+        </div>
+        <div>
+          <div class="label">Ruta</div>
+          <div class="value">
+            <span id="info-desde">Ciudad Origen</span>
+            &nbsp;&rarr;&nbsp;
+            <span id="info-hacia">Playa del Carmen</span>
+          </div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div>
+          <div class="label">Fecha</div>
+          <div class="value">06 febrero 2026 &bull; 18:00 h</div>
+        </div>
+        <div>
+          <div class="label">Destino</div>
+          <div class="value">Playa del Carmen, México</div>
+        </div>
+      </div>
+      <div class="secondary">
+        Presenta este pase digital al llegar &mdash; el QR de tu invitación completa está en la parte frontal del boleto.
+      </div>
+      <div class="hint">
+        Tip: gira el celular en horizontal para verlo más grande.
+      </div>
+    </div>
+
+    <div class="error" id="error-msg" style="display:none;"></div>
+  </div>
+
+  <!-- Imagen base del boleto (la textura) -->
+  <img id="baseTicket" src="boleto-base.png" alt="Boleto base">
+
+  <!-- Three.js desde CDN -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+
+  <script>
+    // 1️⃣ Mapeo de tokens a invitados
+    // EDITA AQUÍ con tus invitados reales:
+    const INVITADOS = {
+      "kUi9nS3x48mp95itzt7pdz": {
+        nombre: "Blanca Modesto Rodríguez",
+        desde: "Toluca",
+        hacia: "Xcaret"
+      },
+      "ejemplo123": {
+        nombre: "Juan Pérez",
+        desde: "CDMX",
+        hacia: "Xcaret"
+      }
+      // Agrega más tokens aquí...
+    };
+
+    function getInvitadoFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get("t");
+      if (token && INVITADOS[token]) {
+        return { token, ...INVITADOS[token] };
+      }
+      return null;
+    }
+
+    // 2️⃣ Cuando carga la página
+    window.addEventListener('load', () => {
+      const invitado = getInvitadoFromURL();
+      const errorMsg = document.getElementById('error-msg');
+      const infoNombre = document.getElementById('info-nombre');
+      const infoDesde = document.getElementById('info-desde');
+      const infoHacia = document.getElementById('info-hacia');
+
+      if (!invitado) {
+        errorMsg.style.display = 'block';
+        errorMsg.textContent = 'No se encontró un invitado para este enlace. Revisa que el enlace sea el correcto.';
+      } else {
+        infoNombre.textContent = invitado.nombre;
+        infoDesde.textContent = invitado.desde;
+        infoHacia.textContent = invitado.hacia;
+      }
+
+      const baseImg = document.getElementById('baseTicket');
+
+      if (!baseImg.complete) {
+        baseImg.onload = () => startThree(invitado, baseImg);
+      } else {
+        startThree(invitado, baseImg);
+      }
+    });
+
+    // 3️⃣ Configuración de Three.js y textura desde canvas
+    function startThree(invitado, baseImg) {
+      const container = document.getElementById('canvas-container');
+
+      const canvasTex = document.createElement('canvas');
+      const ctx = canvasTex.getContext('2d');
+      canvasTex.width = baseImg.naturalWidth;
+      canvasTex.height = baseImg.naturalHeight;
+
+      function dibujarBoleto(data) {
+        ctx.clearRect(0, 0, canvasTex.width, canvasTex.height);
+        ctx.drawImage(baseImg, 0, 0, canvasTex.width, canvasTex.height);
+
+        if (data) {
+          ctx.fillStyle = '#222222';
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+
+          // ⚠️ COORDENADAS APROXIMADAS: AJÚSTALAS HASTA QUE CAIGAN EXACTO EN TU DISEÑO
+
+          // Nombre del pasajero
+          ctx.font = 'bold 42px "Lato", system-ui, sans-serif';
+          ctx.fillText(data.nombre, canvasTex.width * 0.45, canvasTex.height * 0.35);
+
+          // DE:
+          ctx.font = '600 28px "Lato", system-ui, sans-serif';
+          ctx.fillText('De: ' + data.desde, canvasTex.width * 0.45, canvasTex.height * 0.42);
+
+          // A:
+          ctx.fillText('A: ' + data.hacia, canvasTex.width * 0.45, canvasTex.height * 0.48);
+        }
+      }
+
+      dibujarBoleto(invitado);
+
+      const texture = new THREE.CanvasTexture(canvasTex);
+
+      // Escena
+      const scene = new THREE.Scene();
+      scene.background = null;
+
+      const fov = 35;
+      const aspect = container.clientWidth / container.clientHeight;
+      const camera = new THREE.PerspectiveCamera(fov, aspect, 0.1, 100);
+      camera.position.set(0, 0.1, 3.2);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      container.appendChild(renderer.domElement);
+
+      // Luces
+      const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambient);
+
+      const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
+      dirLight.position.set(2, 4, 3);
+      scene.add(dirLight);
+
+      const backLight = new THREE.DirectionalLight(0xffffff, 0.4);
+      backLight.position.set(-2, -3, -2);
+      scene.add(backLight);
+
+      // Geometría del boleto (plano con proporción de la imagen)
+      const imgAspect = canvasTex.width / canvasTex.height;
+      const planeHeight = 1.4;
+      const planeWidth = planeHeight * imgAspect;
+
+      const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight, 1, 1);
+      const material = new THREE.MeshStandardMaterial({
+        map: texture,
+        roughness: 0.35,
+        metalness: 0.05,
+        side: THREE.DoubleSide
+      });
+
+      const plane = new THREE.Mesh(geometry, material);
+      plane.rotation.x = -0.15;
+      plane.rotation.y = 0.4;
+      scene.add(plane);
+
+      let isDragging = false;
+      let previousMousePosition = { x: 0, y: 0 };
+
+      // Rotación automática
+      let autoRotate = true;
+
+      function onPointerDown(e) {
+        isDragging = true;
+        autoRotate = false;
+        previousMousePosition = {
+          x: e.clientX || e.touches?.[0]?.clientX || 0,
+          y: e.clientY || e.touches?.[0]?.clientY || 0
+        };
+      }
+
+      function onPointerMove(e) {
+        if (!isDragging) return;
+        const x = e.clientX || e.touches?.[0]?.clientX || 0;
+        const y = e.clientY || e.touches?.[0]?.clientY || 0;
+
+        const deltaMove = {
+          x: x - previousMousePosition.x,
+          y: y - previousMousePosition.y
+        };
+
+        plane.rotation.y += deltaMove.x * 0.005;
+        plane.rotation.x += deltaMove.y * 0.005;
+
+        previousMousePosition = { x, y };
+      }
+
+      function onPointerUp() {
+        isDragging = false;
+        setTimeout(() => { autoRotate = true; }, 2000);
+      }
+
+      renderer.domElement.addEventListener('mousedown', onPointerDown);
+      renderer.domElement.addEventListener('mousemove', onPointerMove);
+      window.addEventListener('mouseup', onPointerUp);
+
+      renderer.domElement.addEventListener('touchstart', onPointerDown, { passive: true });
+      renderer.domElement.addEventListener('touchmove', onPointerMove, { passive: true });
+      window.addEventListener('touchend', onPointerUp);
+
+      // Responsive
+      window.addEventListener('resize', () => {
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        if (autoRotate) {
+          plane.rotation.y += 0.003;
+        }
+        texture.needsUpdate = true; // por si en algún momento cambias datos
+        renderer.render(scene, camera);
+      }
+      animate();
+    }
+  </script>
+</body>
+</html>
