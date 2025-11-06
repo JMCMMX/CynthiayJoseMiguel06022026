@@ -219,29 +219,35 @@
       canvasTex.width = baseImg.naturalWidth;
       canvasTex.height = baseImg.naturalHeight;
 
-      function dibujarBoleto(data) {
+  function dibujarBoleto(data) {
   ctx.clearRect(0, 0, canvasTex.width, canvasTex.height);
   ctx.drawImage(baseImg, 0, 0, canvasTex.width, canvasTex.height);
 
   if (data) {
-    ctx.fillStyle = '#2B2B2B';
+    ctx.fillStyle = '#222222';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
 
-    // Escala automática si el PNG tiene más o menos de 2000x700
+    // El PNG base es 2000x700; escalamos por si cambias de tamaño.
     const scaleX = canvasTex.width / 2000;
     const scaleY = canvasTex.height / 700;
 
+    // Coordenadas base (calculadas sobre el PNG que me mandaste)
+    const xText   = 420 * scaleX;
+    const yNombre = 565 * scaleY;  // NOMBRE DEL PASAJERO:
+    const yDesde  = 520 * scaleY;  // De:
+    const yHacia  = 480 * scaleY;  // A:
+
     // Nombre del pasajero
-    ctx.font = `${36 * scaleY}px 'Lato', sans-serif`;
-    ctx.fillText(data.nombre, 260 * scaleX, 160 * scaleY);
+    ctx.font = `${34 * scaleY}px "Lato", system-ui, sans-serif`;
+    ctx.fillText(data.nombre || '', xText, yNombre);
 
     // De:
-    ctx.font = `${28 * scaleY}px 'Lato', sans-serif`;
-    ctx.fillText('De: ' + (data.desde || ''), 260 * scaleX, 110 * scaleY);
+    ctx.font = `${26 * scaleY}px "Lato", system-ui, sans-serif`;
+    ctx.fillText('De: ' + (data.desde || ''), xText, yDesde);
 
     // A:
-    ctx.fillText('A: ' + (data.hacia || ''), 260 * scaleX, 70 * scaleY);
+    ctx.fillText('A: ' + (data.hacia || ''), xText, yHacia);
   }
 }
 
