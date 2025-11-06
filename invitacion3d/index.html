@@ -287,48 +287,54 @@
 
         ctxFront.font = `${22 * scaleY}px "Lato", system-ui, sans-serif`;
         ctxFront.fillText(desde, 1605 * scaleX, 290 * scaleY);
-        ctxFront.fillText(hacia, 1800 * scaleX, 290 * scaleY);
+        ctxFront.fillText(hacia, 1850 * scaleX, 290 * scaleY);
 
         frontTexture.needsUpdate = true;
       }
 
       // ================== DIBUJAR REVERSO ==================
       function dibujarReverso(data) {
-        ctxBack.clearRect(0, 0, canvasBack.width, canvasBack.height);
-        ctxBack.drawImage(imgBack, 0, 0, canvasBack.width, canvasBack.height);
+  ctxBack.clearRect(0, 0, canvasBack.width, canvasBack.height);
+  ctxBack.drawImage(imgBack, 0, 0, canvasBack.width, canvasBack.height);
 
-        if (!data || !data.token) {
-          backTexture.needsUpdate = true;
-          return;
-        }
+  if (!data || !data.token) {
+    backTexture.needsUpdate = true;
+    return;
+  }
 
-        const scaleX = canvasBack.width / 2000;
-        const scaleY = canvasBack.height / 700;
+  const scaleX = canvasBack.width / 2000;
+  const scaleY = canvasBack.height / 700;
 
-        const urlDestino =
-          'https://cynthiayjosemiguel.com.mx/invitacion/?t=' +
-          encodeURIComponent(data.token);
-        const qrUrl =
-          'https://chart.googleapis.com/chart?cht=qr&chs=600x600&chl=' +
-          encodeURIComponent(urlDestino);
+  const urlDestino =
+    'https://cynthiayjosemiguel.com.mx/invitacion/?t=' +
+    encodeURIComponent(data.token);
+  const qrUrl =
+    'https://chart.googleapis.com/chart?cht=qr&chs=600x600&chl=' +
+    encodeURIComponent(urlDestino);
 
-        const qrImg = new Image();
-        qrImg.crossOrigin = 'anonymous';
-        qrImg.onload = () => {
-          // Zona aproximada del recuadro de QR en tu diseño de reverso
-          const qrSizeBase = 260; // tamaño en px sobre 2000x700
-          const xBase = 1600;     // esquina sup. izq. del QR
-          const yBase = 180;
+  const qrImg = new Image();
+  // ❌ NO ponemos qrImg.crossOrigin aquí, eso rompía la carga
 
-          const qrSize = qrSizeBase * scaleY;
-          const x = xBase * scaleX;
-          const y = yBase * scaleY;
+  qrImg.onload = () => {
+    // Zona aproximada del recuadro de QR en tu diseño de reverso
+    const qrSizeBase = 260; // tamaño en px sobre 2000x700
+    const xBase = 1600;     // esquina sup. izq. del QR
+    const yBase = 180;
 
-          ctxBack.drawImage(qrImg, x, y, qrSize, qrSize);
-          backTexture.needsUpdate = true;
-        };
-        qrImg.src = qrUrl;
-      }
+    const qrSize = qrSizeBase * scaleY;
+    const x = xBase * scaleX;
+    const y = yBase * scaleY;
+
+    ctxBack.drawImage(qrImg, x, y, qrSize, qrSize);
+    backTexture.needsUpdate = true;
+  };
+
+  qrImg.onerror = (err) => {
+    console.error('No se pudo cargar el QR:', err);
+  };
+
+  qrImg.src = qrUrl;
+}
 
       // Primero dibujamos frente y reverso
       dibujarFrente(invitado);
