@@ -228,28 +228,24 @@
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
 
-    // El PNG base es 2000x700; escalamos por si cambias de tamaño.
+    // Escalado automático según tamaño real del canvas
     const scaleX = canvasTex.width / 2000;
     const scaleY = canvasTex.height / 700;
 
-    // Coordenadas base (calculadas sobre el PNG que me mandaste)
-    const xText   = 420 * scaleX;
-    const yNombre = 135 * scaleY;  // NOMBRE DEL PASAJERO:
-    const yDesde  = 100 * scaleY;  // De:
-    const yHacia  = 180 * scaleY;  // A:
-
+    // ======== COORDENADAS AJUSTADAS ========
     // Nombre del pasajero
     ctx.font = `${34 * scaleY}px "Lato", system-ui, sans-serif`;
-    ctx.fillText(data.nombre || '', xText, yNombre);
+    ctx.fillText(data.nombre || '', 270 * scaleX, 610 * scaleY);
 
-    // De:
+    // DE:
     ctx.font = `${26 * scaleY}px "Lato", system-ui, sans-serif`;
-    ctx.fillText('De: ' + (data.desde || ''), xText, yDesde);
+    ctx.fillText(data.desde || '', 1480 * scaleX, 260 * scaleY);
 
     // A:
-    ctx.fillText('A: ' + (data.hacia || ''), xText, yHacia);
+    ctx.fillText(data.hacia || '', 1720 * scaleX, 260 * scaleY);
   }
 }
+
 
       dibujarBoleto(invitado);
 
