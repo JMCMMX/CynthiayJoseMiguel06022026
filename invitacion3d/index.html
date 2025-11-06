@@ -287,54 +287,64 @@
 
         ctxFront.font = `${22 * scaleY}px "Lato", system-ui, sans-serif`;
         ctxFront.fillText(desde, 1605 * scaleX, 290 * scaleY);
-        ctxFront.fillText(hacia, 1850 * scaleX, 290 * scaleY);
+        ctxFront.fillText(hacia, 1845 * scaleX, 290 * scaleY);
 
         frontTexture.needsUpdate = true;
       }
 
-      // ================== DIBUJAR REVERSO ==================
-      function dibujarReverso(data) {
+ // ================== DIBUJAR REVERSO (NUEVO CON OTRO QR) ==================
+function dibujarReverso(data) {
+  // Fondo: tu imagen de reverso
   ctxBack.clearRect(0, 0, canvasBack.width, canvasBack.height);
   ctxBack.drawImage(imgBack, 0, 0, canvasBack.width, canvasBack.height);
 
+  // Si no hay token, solo mostramos el diseño base
   if (!data || !data.token) {
     backTexture.needsUpdate = true;
     return;
   }
 
-  const scaleX = canvasBack.width / 2000;
-  const scaleY = canvasBack.height / 700;
+  const w = canvasBack.width;
+  const h = canvasBack.height;
 
+  // URL final que queremos codificar en el QR
   const urlDestino =
     'https://cynthiayjosemiguel.com.mx/invitacion/?t=' +
     encodeURIComponent(data.token);
+
+  // NUEVO PROVEEDOR DE QR
+  // Docs: https://goqr.me/api/doc/create-qr-code/
   const qrUrl =
-    'https://chart.googleapis.com/chart?cht=qr&chs=600x600&chl=' +
+    'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' +
     encodeURIComponent(urlDestino);
 
   const qrImg = new Image();
-  // ❌ NO ponemos qrImg.crossOrigin aquí, eso rompía la carga
 
   qrImg.onload = () => {
-    // Zona aproximada del recuadro de QR en tu diseño de reverso
-    const qrSizeBase = 260; // tamaño en px sobre 2000x700
-    const xBase = 1600;     // esquina sup. izq. del QR
-    const yBase = 180;
+    // Tamaño del QR: 40% de la altura del boleto
+    const qrSize = h * 0.4;
 
-    const qrSize = qrSizeBase * scaleY;
-    const x = xBase * scaleX;
-    const y = yBase * scaleY;
+    // Lo colocamos en el panel derecho, centrado verticalmente
+    const marginRight = w * 0.10; // 10% de margen desde la derecha
+    const x = w - qrSize - marginRight;
+    const y = (h - qrSize) / 2;
+
+    // Si quieres ver el cuadro donde cae, descomenta:
+    // ctxBack.strokeStyle = 'rgba(255,0,0,0.4)';
+    // ctxBack.lineWidth = 4;
+    // ctxBack.strokeRect(x, y, qrSize, qrSize);
 
     ctxBack.drawImage(qrImg, x, y, qrSize, qrSize);
     backTexture.needsUpdate = true;
   };
 
   qrImg.onerror = (err) => {
-    console.error('No se pudo cargar el QR:', err);
+    console.error('No se pudo cargar el QR:', err, 'URL:', qrUrl);
   };
 
   qrImg.src = qrUrl;
 }
+
 
       // Primero dibujamos frente y reverso
       dibujarFrente(invitado);
