@@ -75,6 +75,8 @@
       display: flex;
       justify-content: space-between;
       font-size: 0.9rem;
+      flex-wrap: wrap;
+      gap: 8px;
     }
     .label {
       text-transform: uppercase;
@@ -111,7 +113,7 @@
     <h1>Pase de abordar &mdash; Boda Cynthia &amp; José Miguel</h1>
     <p class="sub">
       Arrastra con el dedo o el mouse para girar tu boleto.  
-      Disfruta tu pase de abordar en 3D ✈️
+      Esta invitación es personal y está hecha solo para ti ✈️
     </p>
 
     <div id="canvas-container"></div>
@@ -142,7 +144,7 @@
         </div>
       </div>
       <div class="secondary">
-        Presenta este pase digital al llegar &mdash; el QR de tu invitación completa está en la parte frontal del boleto.
+        Presenta este pase digital al llegar &mdash; tu enlace es único y personal.
       </div>
       <div class="hint">
         Tip: gira el celular en horizontal para verlo más grande.
@@ -159,49 +161,48 @@
   <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 
   <script>
-    // 1️⃣ Mapeo de tokens a invitados
-    // EDITA AQUÍ con tus invitados reales:
-    const INVITADOS = {
-      "kUi9nS3x48mp95itzt7pdz": {
-        nombre: "Blanca Modesto Rodríguez",
-        desde: "Toluca",
-        hacia: "Xcaret"
-      },
-      "ejemplo123": {
-        nombre: "Juan Pérez",
-        desde: "CDMX",
-        hacia: "Xcaret"
-      }
-      // Agrega más tokens aquí...
-    };
+    /***** CONFIG: URL de tu Apps Script *****/
+    // Pega aquí la URL de implementación del web app (termina en /exec)
+    const API_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';
 
-    function getInvitadoFromURL() {
+    function getTokenFromURL() {
       const params = new URLSearchParams(window.location.search);
-      const token = params.get("t");
-      if (token && INVITADOS[token]) {
-        return { token, ...INVITADOS[token] };
-      }
-      return null;
+      return (params.get('t') || params.get('token') || '').trim();
     }
 
-    // 2️⃣ Cuando carga la página
-    window.addEventListener('load', () => {
-      const invitado = getInvitadoFromURL();
+    async function fetchInvitado(token) {
+      if (!token) return null;
+      const url = API_URL + '?token=' + encodeURIComponent(token);
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error('Error HTTP: ' + resp.status);
+      const data = await resp.json();
+      if (!data.ok) throw new Error(data.error || 'Token no encontrado');
+      return data.data; // { token, nombre, desde, hacia }
+    }
+
+    window.addEventListener('load', async () => {
       const errorMsg = document.getElementById('error-msg');
       const infoNombre = document.getElementById('info-nombre');
       const infoDesde = document.getElementById('info-desde');
       const infoHacia = document.getElementById('info-hacia');
+      const baseImg = document.getElementById('baseTicket');
 
-      if (!invitado) {
+      const token = getTokenFromURL();
+      let invitado = null;
+
+      try {
+        invitado = await fetchInvitado(token);
+      } catch (err) {
+        console.error(err);
         errorMsg.style.display = 'block';
-        errorMsg.textContent = 'No se encontró un invitado para este enlace. Revisa que el enlace sea el correcto.';
-      } else {
-        infoNombre.textContent = invitado.nombre;
-        infoDesde.textContent = invitado.desde;
-        infoHacia.textContent = invitado.hacia;
+        errorMsg.textContent = 'No se pudo cargar tu invitación. Verifica el enlace o contacta a los novios. (' + err.message + ')';
       }
 
-      const baseImg = document.getElementById('baseTicket');
+      if (invitado) {
+        infoNombre.textContent = invitado.nombre || 'Invitado especial';
+        infoDesde.textContent = invitado.desde || 'Origen';
+        infoHacia.textContent = invitado.hacia || 'Destino';
+      }
 
       if (!baseImg.complete) {
         baseImg.onload = () => startThree(invitado, baseImg);
@@ -210,7 +211,6 @@
       }
     });
 
-    // 3️⃣ Configuración de Three.js y textura desde canvas
     function startThree(invitado, baseImg) {
       const container = document.getElementById('canvas-container');
 
@@ -228,18 +228,13 @@
           ctx.textAlign = 'left';
           ctx.textBaseline = 'middle';
 
-          // ⚠️ COORDENADAS APROXIMADAS: AJÚSTALAS HASTA QUE CAIGAN EXACTO EN TU DISEÑO
-
-          // Nombre del pasajero
-          ctx.font = 'bold 42px "Lato", system-ui, sans-serif';
+          // ⚠️ Ajusta estas coordenadas a tu diseño real:
+          ctx.font = 'bold 42px system-ui, sans-serif';
           ctx.fillText(data.nombre, canvasTex.width * 0.45, canvasTex.height * 0.35);
 
-          // DE:
-          ctx.font = '600 28px "Lato", system-ui, sans-serif';
-          ctx.fillText('De: ' + data.desde, canvasTex.width * 0.45, canvasTex.height * 0.42);
-
-          // A:
-          ctx.fillText('A: ' + data.hacia, canvasTex.width * 0.45, canvasTex.height * 0.48);
+          ctx.font = '600 28px system-ui, sans-serif';
+          ctx.fillText('De: ' + (data.desde || ''), canvasTex.width * 0.45, canvasTex.height * 0.42);
+          ctx.fillText('A: ' + (data.hacia || ''), canvasTex.width * 0.45, canvasTex.height * 0.48);
         }
       }
 
@@ -247,7 +242,6 @@
 
       const texture = new THREE.CanvasTexture(canvasTex);
 
-      // Escena
       const scene = new THREE.Scene();
       scene.background = null;
 
@@ -261,7 +255,6 @@
       renderer.setSize(container.clientWidth, container.clientHeight);
       container.appendChild(renderer.domElement);
 
-      // Luces
       const ambient = new THREE.AmbientLight(0xffffff, 0.6);
       scene.add(ambient);
 
@@ -273,7 +266,6 @@
       backLight.position.set(-2, -3, -2);
       scene.add(backLight);
 
-      // Geometría del boleto (plano con proporción de la imagen)
       const imgAspect = canvasTex.width / canvasTex.height;
       const planeHeight = 1.4;
       const planeWidth = planeHeight * imgAspect;
@@ -293,23 +285,21 @@
 
       let isDragging = false;
       let previousMousePosition = { x: 0, y: 0 };
-
-      // Rotación automática
       let autoRotate = true;
 
       function onPointerDown(e) {
         isDragging = true;
         autoRotate = false;
         previousMousePosition = {
-          x: e.clientX || e.touches?.[0]?.clientX || 0,
-          y: e.clientY || e.touches?.[0]?.clientY || 0
+          x: e.clientX || (e.touches?.[0]?.clientX || 0),
+          y: e.clientY || (e.touches?.[0]?.clientY || 0)
         };
       }
 
       function onPointerMove(e) {
         if (!isDragging) return;
-        const x = e.clientX || e.touches?.[0]?.clientX || 0;
-        const y = e.clientY || e.touches?.[0]?.clientY || 0;
+        const x = e.clientX || (e.touches?.[0]?.clientX || 0);
+        const y = e.clientY || (e.touches?.[0]?.clientY || 0);
 
         const deltaMove = {
           x: x - previousMousePosition.x,
@@ -335,7 +325,6 @@
       renderer.domElement.addEventListener('touchmove', onPointerMove, { passive: true });
       window.addEventListener('touchend', onPointerUp);
 
-      // Responsive
       window.addEventListener('resize', () => {
         const w = container.clientWidth;
         const h = container.clientHeight;
@@ -349,7 +338,7 @@
         if (autoRotate) {
           plane.rotation.y += 0.003;
         }
-        texture.needsUpdate = true; // por si en algún momento cambias datos
+        texture.needsUpdate = true;
         renderer.render(scene, camera);
       }
       animate();
