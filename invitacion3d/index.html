@@ -223,39 +223,67 @@ function dibujarBoleto(data) {
   ctx.clearRect(0, 0, canvasTex.width, canvasTex.height);
   ctx.drawImage(baseImg, 0, 0, canvasTex.width, canvasTex.height);
 
-  if (data) {
-    ctx.fillStyle = '#222222';
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'middle';
+  if (!data) return;
 
-    // Escalado según tamaño real del canvas
-    const scaleX = canvasTex.width / 2000;
-    const scaleY = canvasTex.height / 700;
+  ctx.fillStyle = '#222222';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
 
-    // ===== COORDENADAS REFINADAS =====
-    // NOMBRE DEL PASAJERO (línea amarilla larga)
-    // Un poco arriba para que no lo corte el borde.
-    const xNombre = 430 * scaleX;
-    const yNombre = 575 * scaleY;   // antes 610, ahora subimos la línea
+  // El PNG original es 2000 x 700
+  const scaleX = canvasTex.width / 2000;
+  const scaleY = canvasTex.height / 700;
 
-    ctx.font = `${34 * scaleY}px "Lato", system-ui, sans-serif`;
-    ctx.fillText(data.nombre || '', xNombre, yNombre);
+  // ===============================
+  // 1) NOMBRE DEL PASAJERO
+  // ===============================
+  // Punto de inicio del nombre (justo después de "NOMBRE DEL PASAJERO:")
+  const xNombreBase = 570;   // px en la imagen 2000x700
+  const yNombreBase = 585;   // ligeramente encima del borde inferior
 
-    // DE: (lado derecho, junto a la palabra "DE:")
-    // Más a la derecha y un poco más abajo que antes
-    const xDesde = 1625 * scaleX;   // antes 1480
-    const yDesde = 295 * scaleY;    // antes 260
+  const xNombre = xNombreBase * scaleX;
+  const yNombre = yNombreBase * scaleY;
 
-    ctx.font = `${26 * scaleY}px "Lato", system-ui, sans-serif`;
-    ctx.fillText(data.desde || '', xDesde, yDesde);
+  const nombre = (data.nombre || '').toUpperCase();
 
-    // A: (lado derecho, junto a la palabra "A:")
-    const xHacia = 1855 * scaleX;   // antes 1720
-    const yHacia = 295 * scaleY;    // alineado con "De"
+  // Ancho máximo disponible para el nombre (hasta casi el borde derecho)
+  const maxNombreWidth = (1900 - xNombreBase) * scaleX;
 
-    ctx.fillText(data.hacia || '', xHacia, yHacia);
+  // Ajuste dinámico del tamaño de fuente para nombres largos
+  let fontSizeNombre = 30 * scaleY; // tamaño base
+  while (true) {
+    ctx.font = `${fontSizeNombre}px "Lato", system-ui, sans-serif`;
+    const widthText = ctx.measureText(nombre).width;
+    if (widthText <= maxNombreWidth || fontSizeNombre <= 16 * scaleY) {
+      break;
+    }
+    fontSizeNombre -= 1 * scaleY;
   }
+  ctx.fillText(nombre, xNombre, yNombre);
+
+  // ===============================
+  // 2) DE y A (panel derecho)
+  // ===============================
+  const desde = (data.desde || '').toUpperCase();
+  const hacia = (data.hacia || '').toUpperCase();
+
+  // Coordenadas para DE: y A: (alineados con tus etiquetas en el PNG)
+  const xDesdeBase = 1605;  // un poco a la derecha de "DE:"
+  const yDesdeBase = 290;   // altura alineada con las etiquetas
+
+  const xHaciaBase = 1870;  // un poco a la derecha de "A:"
+  const yHaciaBase = 290;
+
+  const xDesde = xDesdeBase * scaleX;
+  const yDesde = yDesdeBase * scaleY;
+
+  const xHacia = xHaciaBase * scaleX;
+  const yHacia = yHaciaBase * scaleY;
+
+  ctx.font = `${22 * scaleY}px "Lato", system-ui, sans-serif`;
+  ctx.fillText(desde, xDesde, yDesde);
+  ctx.fillText(hacia, xHacia, yHacia);
 }
+
 
 
       dibujarBoleto(invitado);
