@@ -219,7 +219,7 @@
       canvasTex.width = baseImg.naturalWidth;
       canvasTex.height = baseImg.naturalHeight;
 
-  function dibujarBoleto(data) {
+function dibujarBoleto(data) {
   ctx.clearRect(0, 0, canvasTex.width, canvasTex.height);
   ctx.drawImage(baseImg, 0, 0, canvasTex.width, canvasTex.height);
 
@@ -228,21 +228,32 @@
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
 
-    // Escalado automático según tamaño real del canvas
+    // Escalado según tamaño real del canvas
     const scaleX = canvasTex.width / 2000;
     const scaleY = canvasTex.height / 700;
 
-    // ======== COORDENADAS AJUSTADAS ========
-    // Nombre del pasajero
+    // ===== COORDENADAS REFINADAS =====
+    // NOMBRE DEL PASAJERO (línea amarilla larga)
+    // Un poco arriba para que no lo corte el borde.
+    const xNombre = 430 * scaleX;
+    const yNombre = 575 * scaleY;   // antes 610, ahora subimos la línea
+
     ctx.font = `${34 * scaleY}px "Lato", system-ui, sans-serif`;
-    ctx.fillText(data.nombre || '', 270 * scaleX, 610 * scaleY);
+    ctx.fillText(data.nombre || '', xNombre, yNombre);
 
-    // DE:
+    // DE: (lado derecho, junto a la palabra "DE:")
+    // Más a la derecha y un poco más abajo que antes
+    const xDesde = 1625 * scaleX;   // antes 1480
+    const yDesde = 295 * scaleY;    // antes 260
+
     ctx.font = `${26 * scaleY}px "Lato", system-ui, sans-serif`;
-    ctx.fillText(data.desde || '', 1480 * scaleX, 260 * scaleY);
+    ctx.fillText(data.desde || '', xDesde, yDesde);
 
-    // A:
-    ctx.fillText(data.hacia || '', 1720 * scaleX, 260 * scaleY);
+    // A: (lado derecho, junto a la palabra "A:")
+    const xHacia = 1855 * scaleX;   // antes 1720
+    const yHacia = 295 * scaleY;    // alineado con "De"
+
+    ctx.fillText(data.hacia || '', xHacia, yHacia);
   }
 }
 
