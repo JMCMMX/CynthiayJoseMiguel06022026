@@ -327,7 +327,7 @@
 
         ctxFront.font = `${22 * scaleY}px "Lato", system-ui, sans-serif`;
         ctxFront.fillText(desde, 1605 * scaleX, 290 * scaleY);
-        ctxFront.fillText(hacia, 1870 * scaleX, 290 * scaleY);
+        ctxFront.fillText(hacia, 1858 * scaleX, 290 * scaleY);
 
         frontTexture.needsUpdate = true;
       }
@@ -349,13 +349,13 @@
           'https://cynthiayjosemiguel.com.mx/invitacion/?t=' +
           encodeURIComponent(data.token);
 
-        // Tamaño y posición del QR sobre tu diseño de reverso
-        const qrSize = h * 0.4;          // 40% del alto del boleto
-        const marginRight = w * 0.10;    // margen desde el borde derecho
-        const x = w - qrSize - marginRight;
-        const y = (h - qrSize) / 2;      // centrado vertical
+const qrSize = h * 0.4;          // tamaño igual
+const marginLeft = w * 0.10;     // margen desde el borde izquierdo
+const x = marginLeft;            // ahora a la izquierda
+const y = (h - qrSize) / 2;      // centrado vertical
 
-        drawQRCodeOnCanvas(ctxBack, x, y, qrSize, urlDestino);
+drawQRCodeOnCanvas(ctxBack, x, y, qrSize, urlDestino);
+
         backTexture.needsUpdate = true;
       }
 
