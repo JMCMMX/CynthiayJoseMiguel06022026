@@ -5,7 +5,7 @@
   <title>Invitación Boda - Pase de Abordar 3D</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Tipografía base (puedes cambiarla si quieres) -->
+  <!-- Tipografía base -->
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
   <style>
@@ -160,16 +160,18 @@
 
   <!-- Imágenes base del boleto (frente y reverso) -->
   <img id="baseTicketFront" src="boleto-front.png" alt="Boleto frente" />
-  <img id="baseTicketBack" src="boleto-back.png" alt="Boleto reverso" />
+  <img id="baseTicketBack"  src="boleto-back.png"  alt="Boleto reverso" />
 
-  <!-- Three.js desde CDN -->
+  <!-- Three.js -->
   <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 
-  <script>
-    /***** CONFIG: Pega aquí la URL de tu Apps Script (la que termina en /exec) *****/
-    const API_URL = 'https://script.google.com/macros/s/AKfycbzBtlmIjacWcpdhzd8pnyhvL_mQtj8arptSGXeu5vYosB1PWb788D1lsXaO6FXNTU_B/exec'; // ← CAMBIAR
+  <!-- Librería para generar QR en el canvas (sin imágenes externas) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 
-    // Lee el token de la URL (?t=TOKEN)
+  <script>
+    /***** CONFIG: URL de tu Apps Script (termina en /exec) *****/
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzBtlmIjacWcpdhzd8pnyhvL_mQtj8arptSGXeu5vYosB1PWb788D1lsXaO6FXNTU_B/exec'; // 👈 CAMBIAR
+
     function getTokenFromURL() {
       const params = new URLSearchParams(window.location.search);
       return (params.get('t') || params.get('token') || '').trim();
@@ -220,11 +222,51 @@
       }
 
       const imgFront = document.getElementById('baseTicketFront');
-      const imgBack = document.getElementById('baseTicketBack');
+      const imgBack  = document.getElementById('baseTicketBack');
 
       await Promise.all([waitForImage(imgFront), waitForImage(imgBack)]);
       startThree(invitado, imgFront, imgBack);
     });
+
+    // ------- QR helper (usa qrcode-generator para dibujarlo directamente en el canvas) -------
+    function drawQRCodeOnCanvas(ctx, x, y, size, text) {
+      const typeNumber = 0; // auto
+      const errorCorrection = 'M';
+      const qr = qrcode(typeNumber, errorCorrection);
+      qr.addData(text);
+      qr.make();
+
+      const count = qr.getModuleCount();
+      const cellSize = size / count;
+
+      ctx.save();
+      ctx.translate(x, y);
+
+      // fondo blanco
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, size, size);
+
+      // módulos negros
+      ctx.fillStyle = '#000000';
+      for (let row = 0; row < count; row++) {
+        for (let col = 0; col < count; col++) {
+          if (qr.isDark(row, col)) {
+            const w = Math.ceil((col + 1) * cellSize) - Math.floor(col * cellSize);
+            const h = Math.ceil((row + 1) * cellSize) - Math.floor(row * cellSize);
+            ctx.fillRect(
+              Math.round(col * cellSize),
+              Math.round(row * cellSize),
+              w,
+              h
+            );
+          }
+        }
+      }
+
+      ctx.restore();
+    }
+
+    // -----------------------------------------------------------------------------------
 
     function startThree(invitado, imgFront, imgBack) {
       const container = document.getElementById('canvas-container');
@@ -232,20 +274,19 @@
       // ==== CANVAS FRENTE ====
       const canvasFront = document.createElement('canvas');
       const ctxFront = canvasFront.getContext('2d');
-      canvasFront.width = imgFront.naturalWidth;
+      canvasFront.width  = imgFront.naturalWidth;
       canvasFront.height = imgFront.naturalHeight;
 
       // ==== CANVAS REVERSO ====
       const canvasBack = document.createElement('canvas');
       const ctxBack = canvasBack.getContext('2d');
-      canvasBack.width = imgBack.naturalWidth;
+      canvasBack.width  = imgBack.naturalWidth;
       canvasBack.height = imgBack.naturalHeight;
 
-      // Texturas Three.js
       const frontTexture = new THREE.CanvasTexture(canvasFront);
-      const backTexture = new THREE.CanvasTexture(canvasBack);
+      const backTexture  = new THREE.CanvasTexture(canvasBack);
 
-      // ================== DIBUJAR FRENTE ==================
+      // ================== FRENTE ==================
       function dibujarFrente(data) {
         ctxFront.clearRect(0, 0, canvasFront.width, canvasFront.height);
         ctxFront.drawImage(imgFront, 0, 0, canvasFront.width, canvasFront.height);
@@ -259,12 +300,11 @@
         ctxFront.textAlign = 'left';
         ctxFront.textBaseline = 'middle';
 
-        // PNG original es 2000x700
         const scaleX = canvasFront.width / 2000;
         const scaleY = canvasFront.height / 700;
 
-        // --- NOMBRE DEL PASAJERO ---
-        const xNombreBase = 570;   // px en el PNG original
+        // Nombre del pasajero (junto a "NOMBRE DEL PASAJERO:")
+        const xNombreBase = 570;
         const yNombreBase = 585;
         const xNombre = xNombreBase * scaleX;
         const yNombre = yNombreBase * scaleY;
@@ -281,72 +321,44 @@
         }
         ctxFront.fillText(nombre, xNombre, yNombre);
 
-        // --- DE / A (panel derecho) ---
+        // DE / A panel derecho
         const desde = (data.desde || '').toUpperCase();
         const hacia = (data.hacia || '').toUpperCase();
 
         ctxFront.font = `${22 * scaleY}px "Lato", system-ui, sans-serif`;
         ctxFront.fillText(desde, 1605 * scaleX, 290 * scaleY);
-        ctxFront.fillText(hacia, 1845 * scaleX, 290 * scaleY);
+        ctxFront.fillText(hacia, 1870 * scaleX, 290 * scaleY);
 
         frontTexture.needsUpdate = true;
       }
 
- // ================== DIBUJAR REVERSO (NUEVO CON OTRO QR) ==================
-function dibujarReverso(data) {
-  // Fondo: tu imagen de reverso
-  ctxBack.clearRect(0, 0, canvasBack.width, canvasBack.height);
-  ctxBack.drawImage(imgBack, 0, 0, canvasBack.width, canvasBack.height);
+      // ================== REVERSO ==================
+      function dibujarReverso(data) {
+        ctxBack.clearRect(0, 0, canvasBack.width, canvasBack.height);
+        ctxBack.drawImage(imgBack, 0, 0, canvasBack.width, canvasBack.height);
 
-  // Si no hay token, solo mostramos el diseño base
-  if (!data || !data.token) {
-    backTexture.needsUpdate = true;
-    return;
-  }
+        if (!data || !data.token) {
+          backTexture.needsUpdate = true;
+          return;
+        }
 
-  const w = canvasBack.width;
-  const h = canvasBack.height;
+        const w = canvasBack.width;
+        const h = canvasBack.height;
 
-  // URL final que queremos codificar en el QR
-  const urlDestino =
-    'https://cynthiayjosemiguel.com.mx/invitacion/?t=' +
-    encodeURIComponent(data.token);
+        const urlDestino =
+          'https://cynthiayjosemiguel.com.mx/invitacion/?t=' +
+          encodeURIComponent(data.token);
 
-  // NUEVO PROVEEDOR DE QR
-  // Docs: https://goqr.me/api/doc/create-qr-code/
-  const qrUrl =
-    'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' +
-    encodeURIComponent(urlDestino);
+        // Tamaño y posición del QR sobre tu diseño de reverso
+        const qrSize = h * 0.4;          // 40% del alto del boleto
+        const marginRight = w * 0.10;    // margen desde el borde derecho
+        const x = w - qrSize - marginRight;
+        const y = (h - qrSize) / 2;      // centrado vertical
 
-  const qrImg = new Image();
+        drawQRCodeOnCanvas(ctxBack, x, y, qrSize, urlDestino);
+        backTexture.needsUpdate = true;
+      }
 
-  qrImg.onload = () => {
-    // Tamaño del QR: 40% de la altura del boleto
-    const qrSize = h * 0.4;
-
-    // Lo colocamos en el panel derecho, centrado verticalmente
-    const marginRight = w * 0.10; // 10% de margen desde la derecha
-    const x = w - qrSize - marginRight;
-    const y = (h - qrSize) / 2;
-
-    // Si quieres ver el cuadro donde cae, descomenta:
-    // ctxBack.strokeStyle = 'rgba(255,0,0,0.4)';
-    // ctxBack.lineWidth = 4;
-    // ctxBack.strokeRect(x, y, qrSize, qrSize);
-
-    ctxBack.drawImage(qrImg, x, y, qrSize, qrSize);
-    backTexture.needsUpdate = true;
-  };
-
-  qrImg.onerror = (err) => {
-    console.error('No se pudo cargar el QR:', err, 'URL:', qrUrl);
-  };
-
-  qrImg.src = qrUrl;
-}
-
-
-      // Primero dibujamos frente y reverso
       dibujarFrente(invitado);
       dibujarReverso(invitado);
 
@@ -377,7 +389,7 @@ function dibujarReverso(data) {
 
       const imgAspect = canvasFront.width / canvasFront.height;
       const planeHeight = 1.4;
-      const planeWidth = planeHeight * imgAspect;
+      const planeWidth  = planeHeight * imgAspect;
 
       const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
 
@@ -400,7 +412,7 @@ function dibujarReverso(data) {
 
       const planeBack = new THREE.Mesh(geometry, backMaterial);
       planeBack.rotation.x = -0.15;
-      planeBack.rotation.y = 0.4 + Math.PI; // cara contraria
+      planeBack.rotation.y = 0.4 + Math.PI;
 
       ticketGroup.add(planeFront);
       ticketGroup.add(planeBack);
