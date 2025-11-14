@@ -149,13 +149,12 @@
       </div>
       <div class="secondary">
      ✨ Este diseño tiene formato de boleto aéreo como símbolo del viaje que compartiremos,  No es un boleto de avión ni de acceso, solo tu invitación personalizada para celebrar con nosotros.
-      <div class="hint">
-       <p class="url-personalizada">
-   el Qr tiene un mensaje solo para ti, el cual también puedes leer aquí:<br>
-  <a href="https://cynthiayjosemiguel.com.mx/invitacion/?t=${token}" target="_blank" rel="noopener">
-    https://cynthiayjosemiguel.com.mx/invitacion/?t=${token}
-  </a>
-</p>
+<div class="hint">
+  <p class="url-personalizada" id="url-personal">
+    El QR tiene un mensaje solo para ti, el cual también puedes leer aquí:
+  </p>
+</div>
+
 
       </div>
     </div>
@@ -486,5 +485,22 @@ drawQRCodeOnCanvas(ctxBack, x, y, qrSize, urlDestino);
     }
     
   </script>
+<script>
+  // === Mostrar enlace personalizado según el token en la URL ===
+  (function(){
+    const params = new URLSearchParams(location.search);
+    const token  = (params.get("t") || "").trim();
+    const cont   = document.getElementById("url-personal");
+    if(!cont) return;
+
+    if(!token){
+      cont.innerHTML += `<br><span style="color:#bbb">Falta el código de invitación.</span>`;
+      return;
+    }
+
+    const url = `https://cynthiayjosemiguel.com.mx/invitacion/?t=${encodeURIComponent(token)}`;
+    cont.innerHTML += `<br><a href="${url}" target="_blank" rel="noopener">${url}</a>`;
+  })();
+</script>
 </body>
 </html>
