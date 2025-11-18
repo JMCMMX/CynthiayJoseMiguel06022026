@@ -153,6 +153,24 @@
   <p class="url-personalizada" id="url-personal">
     El QR tiene un mensaje solo para ti, el cual también puedes leer aquí:
   </p>
+  <!-- 🔹 Botón nuevo -->
+  <div style="margin-top:10px; display:flex; justify-content:center;">
+    <button id="btn-rsvp"
+            style="
+              border:none;
+              border-radius:999px;
+              padding:8px 16px;
+              font-size:0.85rem;
+              font-weight:600;
+              letter-spacing:0.12em;
+              text-transform:uppercase;
+              background:linear-gradient(135deg,#5aa7a7,#3c7e7e);
+              color:#fff;
+              cursor:pointer;
+              box-shadow:0 8px 16px rgba(0,0,0,0.25);
+            ">
+      Confirmar asistencia
+    </button>
 </div>
 
 
@@ -175,6 +193,7 @@
   <script>
     /***** CONFIG: URL de tu Apps Script (termina en /exec) *****/
     const API_URL = 'https://script.google.com/macros/s/AKfycbzBtlmIjacWcpdhzd8pnyhvL_mQtj8arptSGXeu5vYosB1PWb788D1lsXaO6FXNTU_B/exec'; // 👈 CAMBIAR
+const RSVP_URL_BASE = 'https://cynthiayjosemiguel.com.mx/confirmacion.html';
 
     function getTokenFromURL() {
       const params = new URLSearchParams(window.location.search);
@@ -207,6 +226,13 @@
 
       const token = getTokenFromURL();
       let invitado = null;
+const btnRsvp = document.getElementById('btn-rsvp');
+if (btnRsvp && token) {
+  btnRsvp.addEventListener('click', () => {
+    const url = RSVP_URL_BASE + '?t=' + encodeURIComponent(token);
+    window.location.href = url;
+  });
+}
 
       try {
         invitado = await fetchInvitado(token);
