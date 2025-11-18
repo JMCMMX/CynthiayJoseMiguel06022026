@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Confirmación de asistencia - Boda Cynthia y José Miguel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Lato", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #e7dccb, #cdbda7);
+    }
+    .container {
+      width: 100%;
+      max-width: 520px;
+      margin: 16px;
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      padding: 24px 20px 20px;
+    }
+    h1 {
+      font-size: 1.3rem;
+      margin: 0 0 4px;
+      text-align: center;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: #4b4b4b;
+    }
+    h2 {
+      font-size: 1.1rem;
+      margin: 4px 0 16px;
+      text-align: center;
+      font-weight: 400;
+      color: #666;
+    }
+    .chip {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #5aa7a7;
+      color: #fff;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 0 auto 14px;
+    }
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin: 14px 0 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #555;
+    }
+    label {
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 4px;
+      color: #666;
+    }
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid #d0c4b5;
+      font-size: 0.9rem;
+      font-family: inherit;
+      resize: vertical;
+    }
+    textarea { min-height: 70px; }
+    .small-hint {
+      font-size: 0.75rem;
+      color: #999;
+      margin-top: 4px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .row > div {
+      flex: 1;
+      min-width: 120px;
+    }
+    .button-row {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.3s ease;
+    }
+    button[type="submit"] {
+      background: linear-gradient(135deg, #5aa7a7, #3c7e7e);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    button[type="button"] {
+      background: #f2ebe1;
+      color: #555;
+      border: 1px solid #d3c4b0;
+    }
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+    .status {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    .status.ok { color: #2e7d32; }
+    .status.error { color: #c62828; }
+    .tagline {
+      font-size: 0.78rem;
+      text-align: center;
+      margin-top: 10px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="chip">RSVP</div>
+    <h1>Confirmación de asistencia</h1>
+    <h2 id="title-nombre">Cargando invitado...</h2>
+
+    <form id="rsvp-form">
+      <div class="section-title">Asistencia</div>
+      <label for="asistencia">
+        ¿Podrás acompañarnos?
+      </label>
+      <select id="asistencia" name="asistencia" required>
+        <option value="">Selecciona una opción</option>
+        <option value="SI">Sí, con mucho gusto</option>
+        <option value="NO">No podré asistir</option>
+        <option value="INDECISO">Aún no estoy seguro</option>
+      </select>
+
+      <div class="section-title">Invitados que te acompañan</div>
+      <label for="invitados">
+        Nombres de las personas que asistirán contigo
+      </label>
+      <textarea id="invitados" name="invitados" placeholder="Ejemplo:&#10;1. Juan Pérez (adulto)&#10;2. María López (niña)">
+      </textarea>
+      <div class="small-hint">
+        Si tu invitación incluye acompañantes, escribe aquí sus nombres completos.
+      </div>
+
+      <div class="section-title">Itinerario de vuelo</div>
+      <label for="vuelo">
+        Cuéntanos cómo y cuándo llegas
+      </label>
+      <textarea id="vuelo" name="vuelo" placeholder="Ejemplo:&#10;Vuelo: AM123 CDMX &rarr; CUN&#10;Fecha llegada: 05 de febrero 2026, 14:30&#10;Hotel: Occidental Xcaret">
+      </textarea>
+      <div class="small-hint">
+        Esto nos ayudará a coordinarnos mejor para cualquier apoyo de transporte o seguimiento.
+      </div>
+
+      <div class="section-title">Comentarios adicionales</div>
+      <label for="comentarios">
+        ¿Algo más que debamos saber?
+      </label>
+      <textarea id="comentarios" name="comentarios" placeholder="Alergias, restricciones alimenticias, necesidades especiales, etc.">
+      </textarea>
+
+      <div class="button-row">
+        <button type="submit" id="btn-enviar">Enviar confirmación</button>
+        <button type="button" id="btn-volver">Ver pase de abordar 3D</button>
+      </div>
+      <div id="status" class="status"></div>
+      <div class="tagline">
+        Gracias por tomarte el tiempo de llenar estos datos 💚
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // === CONFIGURACIÓN ===
+    const API_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec'; // 👈 MISMA URL /exec del Apps Script
+    const URL_3D  = 'https://cynthiayjosemiguel.com.mx/invitacion3d/';    // donde tienes el modelo 3D
+
+    function getTokenFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return (params.get('t') || params.get('token') || '').trim();
+    }
+
+    async function fetchInvitado(token) {
+      if (!token) return null;
+      const url = API_URL + '?token=' + encodeURIComponent(token);
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+      if (!data.ok) throw new Error(data.error || 'Token no encontrado');
+      return data.data; // { token, nombre, desde, hacia }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const token = getTokenFromURL();
+      const titleNombre = document.getElementById('title-nombre');
+      const form        = document.getElementById('rsvp-form');
+      const statusEl    = document.getElementById('status');
+      const btnEnviar   = document.getElementById('btn-enviar');
+      const btnVolver   = document.getElementById('btn-volver');
+
+      if (!token) {
+        titleNombre.textContent = 'Invitación no válida';
+        form.style.display = 'none';
+        return;
+      }
+
+      // Cargar nombre desde Apps Script
+      try {
+        const invitado = await fetchInvitado(token);
+        const nombre = invitado.nombre || 'Invitado especial';
+        titleNombre.textContent = nombre;
+        // Guardamos el nombre en dataset por si lo queremos mandar al RSVP
+        form.dataset.nombreInvitado = nombre;
+      } catch (err) {
+        console.error(err);
+        titleNombre.textContent = 'No pudimos encontrar tu invitación';
+        statusEl.textContent = 'Verifica que el enlace esté completo o contacta a los novios.';
+        statusEl.className = 'status error';
+        form.style.display = 'none';
+        return;
+      }
+
+      // Botón para volver al pase 3D
+      btnVolver.addEventListener('click', () => {
+        const url = URL_3D + '?t=' + encodeURIComponent(token);
+        window.location.href = url;
+      });
+
+      // Envío del formulario
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        statusEl.textContent = '';
+        statusEl.className = 'status';
+
+        btnEnviar.disabled = true;
+        btnEnviar.textContent = 'Enviando...';
+
+        const asistencia = document.getElementById('asistencia').value;
+        const invitados  = document.getElementById('invitados').value.trim();
+        const vuelo      = document.getElementById('vuelo').value.trim();
+        const comentarios= document.getElementById('comentarios').value.trim();
+        const nombreInv  = form.dataset.nombreInvitado || '';
+
+        if (!asistencia) {
+          statusEl.textContent = 'Selecciona si podrás asistir.';
+          statusEl.className = 'status error';
+          btnEnviar.disabled = false;
+          btnEnviar.textContent = 'Enviar confirmación';
+          return;
+        }
+
+        const payload = {
+          mode: 'rsvp',
+          token: token,
+          nombre: nombreInv,
+          invitados: invitados,
+          vuelo: 'Asistencia: ' + asistencia + '\n\n' + vuelo,
+          comentarios: comentarios
+        };
+
+        try {
+          const resp = await fetch(API_URL + '?mode=rsvp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (!resp.ok) {
+            throw new Error('HTTP ' + resp.status);
+          }
+
+          const data = await resp.json();
+          if (!data.ok) {
+            throw new Error(data.error || 'Error al guardar RSVP');
+          }
+
+          statusEl.textContent = '¡Gracias! Hemos registrado tu confirmación 🎉';
+          statusEl.className = 'status ok';
+        } catch (err) {
+          console.error(err);
+          statusEl.textContent = 'Ocurrió un error al guardar tu respuesta. Intenta de nuevo más tarde.';
+          statusEl.className = 'status error';
+        } finally {
+          btnEnviar.disabled = false;
+          btnEnviar.textContent = 'Enviar confirmación';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
