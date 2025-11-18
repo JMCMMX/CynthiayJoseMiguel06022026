@@ -21,6 +21,22 @@
   .muted{opacity:.7}
   .cta{margin-top:1.25rem}
   .cta a{color:#1f5670;text-decoration:underline}
+
+  /* Botón de confirmación */
+  .btn-rsvp{
+    display:inline-block;
+    margin-top:.5rem;
+    padding:8px 16px;
+    border-radius:999px;
+    background:var(--mar);
+    color:#fff !important;
+    text-decoration:none;
+    font-size:.8rem;
+    font-weight:600;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    box-shadow:0 8px 16px rgba(0,0,0,.15);
+  }
 </style>
 </head>
 <body>
@@ -138,7 +154,13 @@ function normalizeBoolean(v){
       <hr style="margin:1.25rem 0;border:none;border-top:1px solid #eee">
       <p class="muted">✨ Este diseño tiene formato de boleto aéreo como símbolo del viaje que compartiremos. No es un boleto de avión ni de acceso, solo tu invitación personalizada para celebrar con nosotros. si tienes dudas visita nuestra web:</p>
       <p class="cta"><a href="https://cynthiayjosemiguel.com.mx" target="_blank" rel="noopener">cynthiayjosemiguel.com.mx</a></p>
-      
+      <p class="cta">
+        <a 
+          class="btn-rsvp" 
+          href="https://cynthiayjosemiguel.com.mx/confirmacion.html?t=${encodeURIComponent(token)}">
+          Confirmar asistencia
+        </a>
+      </p>
     `;
   } catch (err) {
     cont.innerHTML = `
@@ -150,46 +172,8 @@ function normalizeBoolean(v){
       <p class="error">No se pudo cargar la invitación. Revisa tu conexión y vuelve a intentar.</p>
       <p class="muted">Detalle técnico: ${err?.message || err}</p>`;
   }
-
-  const RSVP_URL_BASE = 'https://cynthiayjosemiguel.com.mx/confirmacion.html';
-
-  function getTokenFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    return (params.get('t') || params.get('token') || '').trim();
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const token = getTokenFromURL();
-    const link = document.getElementById('btn-confirmar-invitacion');
-
-    if (link && token) {
-      link.href = RSVP_URL_BASE + '?t=' + encodeURIComponent(token);
-    } else if (link) {
-      // Si no hay token, mejor ocultar el botón
-      link.style.display = 'none';
-    }
-  });
-
-
+  
 })();
 </script>
-<a id="btn-confirmar-invitacion"
-   href="#"
-   style="
-     display:inline-block;
-     margin-top:16px;
-     padding:10px 18px;
-     border-radius:999px;
-     background:#5aa7a7;
-     color:#fff;
-     text-decoration:none;
-     font-size:0.85rem;
-     font-weight:600;
-     letter-spacing:0.12em;
-     text-transform:uppercase;
-   ">
-  Confirmar asistencia
-</a>
-
 </body>
 </html>
