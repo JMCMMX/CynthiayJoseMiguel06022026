@@ -138,6 +138,7 @@ function normalizeBoolean(v){
       <hr style="margin:1.25rem 0;border:none;border-top:1px solid #eee">
       <p class="muted">✨ Este diseño tiene formato de boleto aéreo como símbolo del viaje que compartiremos. No es un boleto de avión ni de acceso, solo tu invitación personalizada para celebrar con nosotros. si tienes dudas visita nuestra web:</p>
       <p class="cta"><a href="https://cynthiayjosemiguel.com.mx" target="_blank" rel="noopener">cynthiayjosemiguel.com.mx</a></p>
+      
     `;
   } catch (err) {
     cont.innerHTML = `
@@ -149,6 +150,27 @@ function normalizeBoolean(v){
       <p class="error">No se pudo cargar la invitación. Revisa tu conexión y vuelve a intentar.</p>
       <p class="muted">Detalle técnico: ${err?.message || err}</p>`;
   }
+
+  const RSVP_URL_BASE = 'https://cynthiayjosemiguel.com.mx/confirmacion.html';
+
+  function getTokenFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    return (params.get('t') || params.get('token') || '').trim();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const token = getTokenFromURL();
+    const link = document.getElementById('btn-confirmar-invitacion');
+
+    if (link && token) {
+      link.href = RSVP_URL_BASE + '?t=' + encodeURIComponent(token);
+    } else if (link) {
+      // Si no hay token, mejor ocultar el botón
+      link.style.display = 'none';
+    }
+  });
+
+
 })();
 </script>
 </body>
