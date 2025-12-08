@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fecha y Hora - Boda Cynthia y Jose Miguel</title>
+    <title>Mapa del evento - Boda Cynthia y Jose Miguel</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,16 +23,16 @@
         color:#F2EEE9; 
         border:none; 
         cursor:pointer;
-        padding:.8em 1.4em; /* Más padding para un botón */
-        border-radius:999px; /* Botón flotante redondeado */
+        padding:.8em 1.4em;
+        border-radius:999px;
         backdrop-filter: blur(6px);
-        font-family: 'Lato', sans-serif; /* Asegurar la fuente */
-        font-weight: 700; /* Más grueso */
+        font-family: 'Lato', sans-serif;
+        font-weight: 700;
         font-size: 0.95rem;
         letter-spacing: 0.5px;
         text-transform: uppercase;
-        overflow: hidden; /* Para el cambio de texto */
-        width: 110px; /* Ancho fijo para evitar saltos */
+        overflow: hidden;
+        width: 110px;
         transition: background .3s ease, color .3s ease;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       }
@@ -41,13 +41,9 @@
         background:rgba(255,255,255,0.8);
       }
   
-      /* Ocultar el icono de hamburguesa y sus líneas (ya no se usan) */
       .sm-icon, .sm-icon-line { display: none; }
-  
-      /* Ocultar el "tip" del menú (ya no se usa) */
       .menu-tip, .menu-guide { display: none; }
       
-      /* Estilos para los textos del botón (MENU / CERRAR) */
       .sm-toggle-text-open, .sm-toggle-text-close {
         display: block;
         transition: transform .4s ease, opacity .4s ease;
@@ -58,7 +54,6 @@
         transform: translateY(100%);
       }
   
-      /* Estado abierto (muestra CERRAR, oculta MENU) */
       .staggered-menu-wrapper[data-open] .sm-toggle-text-open {
         opacity: 0;
         transform: translateY(-100%);
@@ -67,9 +62,8 @@
         opacity: 1;
         transform: translateY(0);
       }
-      /* ===== FIN CAMBIO Menú ===== */
 
-      /* Estilos del panel de menú (copiados de index.html por si no están en style.css) */
+      /* Estilos del panel de menú */
       .staggered-menu-wrapper{ position:fixed; inset:0; height:100vh; width:100%; z-index:999; pointer-events:none; }
       .staggered-menu-header{ position:absolute; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; padding:1.5em; z-index:20; }
       .staggered-menu-header>*{ pointer-events:auto; }
@@ -88,7 +82,6 @@
       .staggered-menu-wrapper[data-open] .sm-prelayer{ transform:translateX(0) }
   
       .sm-panel-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.6rem; counter-reset:smItem }
-      /* Estos estilos son de tu `fecha-hora.html` - los mantengo */
       .sm-panel-itemWrap .sm-panel-item {
         position:relative; color:#3F3A36; font-weight:700; text-decoration:none;
         font-size:clamp(2rem,5vw,3rem); text-transform:uppercase; letter-spacing:-2px;
@@ -104,6 +97,145 @@
         .staggered-menu-panel,.sm-prelayers{ width:100%; left:0; right:0 }
         .staggered-menu-panel{ padding-left:1.4em; padding-right:1.4em }
         .sm-logo-img{ height:50px }
+      }
+    </style>
+
+    <!-- CSS específico de la sección El evento -->
+    <style>
+      .evento-section {
+        padding: 120px 16px 80px; /* extra top por el header fijo */
+        background: #fff;
+      }
+
+      .evento-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .evento-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .evento-kicker {
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.8rem;
+        color: var(--mar, #5AA7C7);
+        margin: 0 0 8px;
+      }
+
+      .evento-header h2 {
+        font-family: "Dancing Script", cursive;
+        font-size: 2.4rem;
+        margin: 0 0 8px;
+        color: #2b2b2b;
+      }
+
+      .evento-subtitle {
+        max-width: 600px;
+        margin: 0 auto;
+        color: #555;
+        font-size: 0.98rem;
+      }
+
+      .evento-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+        gap: 40px;
+        align-items: flex-start;
+      }
+
+      .evento-text h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 1.25rem;
+        color: #2b2b2b;
+      }
+
+      .evento-text p {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: #444;
+        line-height: 1.6;
+      }
+
+      .evento-pasos {
+        padding-left: 20px;
+        margin: 10px 0 24px;
+        color: #444;
+        line-height: 1.6;
+      }
+
+      .evento-pasos li + li {
+        margin-top: 6px;
+      }
+
+      .evento-footwear {
+        margin-top: 20px;
+        padding: 18px 18px 14px;
+        border-radius: 14px;
+        background: rgba(90, 167, 199, 0.06);
+        border: 1px solid rgba(90, 167, 199, 0.25);
+      }
+
+      .evento-footwear h3 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-size: 1.1rem;
+        color: var(--mar, #5AA7C7);
+      }
+
+      .evento-footwear ul {
+        margin: 8px 0 10px;
+        padding-left: 20px;
+      }
+
+      .evento-footwear li + li {
+        margin-top: 4px;
+      }
+
+      .evento-footnote {
+        margin: 4px 0 0;
+        font-size: 0.9rem;
+        color: #666;
+      }
+
+      .evento-map figure {
+        margin: 0;
+      }
+
+      .evento-map img {
+        width: 100%;
+        display: block;
+        border-radius: 18px;
+        box-shadow: 0 16px 38px rgba(0, 0, 0, 0.14);
+      }
+
+      .evento-map figcaption {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: #666;
+        text-align: center;
+      }
+
+      @media (max-width: 900px) {
+        .evento-grid {
+          grid-template-columns: 1fr;
+          gap: 28px;
+        }
+
+        .evento-section {
+          padding: 96px 16px 56px;
+        }
+      }
+
+      footer.site-footer {
+        padding: 24px 16px 32px;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #777;
+        background: #f7f3ec;
       }
     </style>
 </head>
@@ -123,13 +255,11 @@
              </picture>
            </a>
             
-            <!-- ===== BOTÓN DE MENÚ ACTUALIZADO ===== -->
+            <!-- BOTÓN DE MENÚ -->
             <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
               <span class="sm-toggle-text-open">MENU</span>
               <span class="sm-toggle-text-close" aria-hidden="true">CERRAR</span>
             </button>
-            <!-- ===== FIN DEL CAMBIO ===== -->
-
         </header>
         <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
             <div class="sm-panel-inner">
@@ -158,59 +288,92 @@
         </aside>
     </div>
 
-    <div class="contenido-pagina">
-        <h1>Fecha y Hora de la Celebración</h1>
+    <main>
+      <section id="evento" class="evento-section">
+        <div class="evento-inner">
+          <header class="evento-header">
+            <p class="evento-kicker">Boda Cynthia & José Miguel</p>
+            <h2>El mapa del evento</h2>
+            <p class="evento-subtitle">
+              Te compartimos el recorrido dentro del parque xcaret para que llegues sin complicaciones a cada momento especial.
+            </p>
+          </header>
 
-        <div class="detalle-fecha-hora">
-            <p class="fecha-grande">06 FEBRERO 2026</p>
-            <p class="hora-grande">18:00 HORAS</p>
-            <hr style="border-top: 1px solid #eee; margin: 25px 0;">
-            <p class="lugar-ceremonia"><i class="fa-solid fa-location-dot"></i> Ceremonia: Pozas Naturales, Parque Xcaret</p>
-        </div>
+          <div class="evento-grid">
+            <div class="evento-text">
+              <h3>Recorrido señalado en amarillo en la imagen del mapa</h3>
+              <p>
+                En la imagen del mapa encontrarás una <strong>línea amarilla</strong>. Ese será el recorrido que seguiremos durante el evento:
+              </p>
+              <ol class="evento-pasos">
+                <li>
+                  <strong>Entrada por el estacionamiento:</strong> el recorrido inicia desde la zona de estacionamiento del hotel, este será nuestro punto de reunión, aquí un grupo de anfitriones nos guiará por el recorrido.
+                </li>
+                <li>
+                  <strong>Caminata hacia las pozas:</strong> seguirás al grupo hasta las <strong>pozas</strong>, donde se llevará a cabo nuestra
+                  <strong>ceremonia civil</strong>.
+                </li>
+                <li>
+                  <strong>De las pozas al Caracol:</strong> al terminar la ceremonia, continuaremos caminando con el grupo hacia
+                  <strong>El Caracol</strong>, donde seguiremos con la celebración.
+                </li>
+              </ol>
 
-        <div class="detalle-lugar">
-            <h2>Detalles del Lugar</h2>
-            <p>La ceremonia se llevará a cabo en un <strong>maravilloso altar de piedra rodeado por el Mar Caribe</strong>, colocado en el desnivel donde se encuentran las albercas naturales llamadas <strong>Pozas</strong>.</p>
-            <p>Estamos inmensamente emocionados y queremos celebrar este día tan especial con ustedes en el hermoso Parque Xcaret.</p>
-      <p>Para garantizar la seguridad de todos y acatar las políticas del Parque Xcaret, <strong>nuestra boda será una celebración exclusiva para adultos.</strong> Agradecemos de todo corazón su comprensión.
-</div>
-        <div class="agregar-calendario">
-            <h2><i class="fa-regular fa-calendar-plus"></i> ¡Agenda la Fecha!</h2>
-            <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Cynthia+y+Jose+Miguel&dates=20260206T180000/20260206T230000&details=Celebración+de+boda+en+las+Pozas+Naturales,+Parque+Xcaret.&location=Parque+Xcaret,+Quintana+Roo,+México" target="_blank">
-                <button>Reservar en Calendario</button>
-            </a>
-            <p>Guarda los detalles de nuestra boda en tu calendario.</p>
+              <div class="evento-footwear">
+                <h3>Sugerencia de calzado</h3>
+                <p>
+                  Tendremos <strong>caminos de piedra, áreas naturales y trayectos ligeramente irregulares</strong>, por lo que te recomendamos:
+                </p>
+                <ul>
+                  <li><strong>Calzado cómodo</strong>: sandalias formales, alpargatas o zapatos bajos.</li>
+                  <li>Evitar tacones muy delgados o altos que puedan hundirse o ser incómodos al caminar.</li>
+                  <li>Si lo deseas, puedes llevar un par de zapatos extra para cambiarte durante la fiesta.</li>
+                </ul>
+                <p class="evento-footnote">
+                  Queremos que disfrutes cada momento sin preocuparte por tus pies. 💛
+                </p>
+              </div>
+            </div>
+
+            <div class="evento-map">
+              <figure>
+                <img src="mapa_hero.webp" alt="Mapa del recorrido del evento con la ruta marcada en amarillo">
+                <figcaption>
+                  Mapa con la <strong>ruta en amarillo</strong> desde el estacionamiento, pasando por las pozas y llegando al Caracol.
+                </figcaption>
+              </figure>
+            </div>
+          </div>
         </div>
-        
-        <div class="navegacion-volver">
-            <a href="index.html" class="boton-volver">&larr; Volver a la Página Principal</a>
-        </div>
-    </div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    
-    <!-- ===== SCRIPT DE MENÚ ACTUALIZADO (reemplaza a menu.js) ===== -->
+      </section>
+    </main>
+
+    <footer class="site-footer">
+        Boda Cynthia &amp; José Miguel · 6 de febrero de 2026 · Playa del Carmen
+    </footer>
+
+    <!-- JS simple para abrir/cerrar el menú -->
     <script>
-      (function(){
+      document.addEventListener('DOMContentLoaded', function () {
         const wrapper = document.querySelector('.staggered-menu-wrapper');
-        const panel   = document.getElementById('staggered-menu-panel');
         const toggle  = document.querySelector('.sm-toggle');
-        const body    = document.body;
-        const isOpen = ()=> toggle.getAttribute('aria-expanded') === 'true';
-        function open(){
-          wrapper.setAttribute('data-open','');
-          panel.setAttribute('aria-hidden','false');
-          toggle.setAttribute('aria-expanded','true');
-          body.classList.add('menu-open');
-        }
-        function close(){
-          wrapper.removeAttribute('data-open');
-          panel.setAttribute('aria-hidden','true');
-          toggle.setAttribute('aria-expanded','false');
-          body.classList.remove('menu-open');
-        }
-        toggle.addEventListener('click', ()=> isOpen()? close(): open());
-      })();
+        const panel   = document.getElementById('staggered-menu-panel');
+
+        if (!wrapper || !toggle || !panel) return;
+
+        toggle.addEventListener('click', () => {
+          const isOpen = wrapper.hasAttribute('data-open');
+          if (isOpen) {
+            wrapper.removeAttribute('data-open');
+            toggle.setAttribute('aria-expanded', 'false');
+            panel.setAttribute('aria-hidden', 'true');
+          } else {
+            wrapper.setAttribute('data-open', 'true');
+            toggle.setAttribute('aria-expanded', 'true');
+            panel.setAttribute('aria-hidden', 'false');
+          }
+        });
+      });
     </script>
 
 </body>

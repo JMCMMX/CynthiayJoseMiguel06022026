@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ubicación - Boda Cynthia y Jose Miguel</title>
+    <title>Menú - Boda Cynthia y Jose Miguel</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     
-    <!-- ===== CSS AÑADIDO PARA EL NUEVO BOTÓN DE MENÚ ===== -->
+    <!-- ===== CSS DEL HEADER (igual que en tus otras páginas) ===== -->
     <style>
-      /* ===== CAMBIO: Estilos del botón de Menú ===== */
       .sm-toggle{
         position:relative; 
         display:inline-flex; 
@@ -23,16 +22,16 @@
         color:#F2EEE9; 
         border:none; 
         cursor:pointer;
-        padding:.8em 1.4em; /* Más padding para un botón */
-        border-radius:999px; /* Botón flotante redondeado */
+        padding:.8em 1.4em;
+        border-radius:999px;
         backdrop-filter: blur(6px);
-        font-family: 'Lato', sans-serif; /* Asegurar la fuente */
-        font-weight: 700; /* Más grueso */
+        font-family: 'Lato', sans-serif;
+        font-weight: 700;
         font-size: 0.95rem;
         letter-spacing: 0.5px;
         text-transform: uppercase;
-        overflow: hidden; /* Para el cambio de texto */
-        width: 110px; /* Ancho fijo para evitar saltos */
+        overflow: hidden;
+        width: 110px;
         transition: background .3s ease, color .3s ease;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       }
@@ -41,13 +40,9 @@
         background:rgba(255,255,255,0.8);
       }
   
-      /* Ocultar el icono de hamburguesa y sus líneas (ya no se usan) */
       .sm-icon, .sm-icon-line { display: none; }
-  
-      /* Ocultar el "tip" del menú (ya no se usa) */
       .menu-tip, .menu-guide { display: none; }
       
-      /* Estilos para los textos del botón (MENU / CERRAR) */
       .sm-toggle-text-open, .sm-toggle-text-close {
         display: block;
         transition: transform .4s ease, opacity .4s ease;
@@ -57,8 +52,6 @@
         opacity: 0;
         transform: translateY(100%);
       }
-  
-      /* Estado abierto (muestra CERRAR, oculta MENU) */
       .staggered-menu-wrapper[data-open] .sm-toggle-text-open {
         opacity: 0;
         transform: translateY(-100%);
@@ -67,9 +60,7 @@
         opacity: 1;
         transform: translateY(0);
       }
-      /* ===== FIN CAMBIO Menú ===== */
 
-      /* Estilos del panel de menú (copiados de index.html por si no están en style.css) */
       .staggered-menu-wrapper{ position:fixed; inset:0; height:100vh; width:100%; z-index:999; pointer-events:none; }
       .staggered-menu-header{ position:absolute; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; padding:1.5em; z-index:20; }
       .staggered-menu-header>*{ pointer-events:auto; }
@@ -88,7 +79,6 @@
       .staggered-menu-wrapper[data-open] .sm-prelayer{ transform:translateX(0) }
   
       .sm-panel-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.6rem; counter-reset:smItem }
-      /* Estos estilos son de tu `lugar.html` - los mantengo */
       .sm-panel-itemWrap .sm-panel-item {
         position:relative; color:#3F3A36; font-weight:700; text-decoration:none;
         font-size:clamp(2rem,5vw,3rem); text-transform:uppercase; letter-spacing:-2px;
@@ -106,6 +96,113 @@
         .sm-logo-img{ height:50px }
       }
     </style>
+
+    <!-- ===== CSS DE LA SECCIÓN MENÚ ===== -->
+    <style>
+      .menu-section {
+        padding: 120px 16px 80px; /* margen superior extra por el header fijo */
+        background: #fff;
+      }
+
+      .menu-inner {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .menu-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .menu-kicker {
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.8rem;
+        color: var(--mar, #5AA7C7);
+        margin: 0 0 8px;
+      }
+
+      .menu-header h1 {
+        font-family: "Dancing Script", cursive;
+        font-size: 2.6rem;
+        margin: 0 0 8px;
+        color: #2b2b2b;
+      }
+
+      .menu-subtitle {
+        max-width: 600px;
+        margin: 0 auto;
+        color: #555;
+        font-size: 0.98rem;
+      }
+
+      .menu-card {
+        background: #F7F1E7;
+        border-radius: 20px;
+        padding: 24px 22px 26px;
+        box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+        border: 1px solid rgba(0,0,0,0.04);
+      }
+
+      .menu-course {
+        margin-bottom: 22px;
+        padding-bottom: 18px;
+        border-bottom: 1px dashed rgba(0,0,0,0.08);
+      }
+
+      .menu-course:last-of-type {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+
+      .menu-course-label {
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 0.7rem;
+        color: #A28A70;
+        margin-bottom: 4px;
+      }
+
+      .menu-course-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0 0 4px;
+        color: #3A342F;
+      }
+
+      .menu-course-desc {
+        margin: 0;
+        font-size: 0.96rem;
+        line-height: 1.7;
+        color: #4A433D;
+      }
+
+      .menu-course-desc + .menu-course-desc {
+        margin-top: 6px;
+      }
+
+      .menu-note {
+        margin-top: 18px;
+        font-size: 0.85rem;
+        color: #7a7066;
+        text-align: center;
+      }
+
+      footer.site-footer {
+        padding: 24px 16px 32px;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #777;
+        background: #f7f3ec;
+      }
+
+      @media (max-width: 768px) {
+        .menu-section {
+          padding: 100px 16px 64px;
+        }
+      }
+    </style>
 </head>
 <body>
 
@@ -116,23 +213,22 @@
             <div class="sm-prelayer" style="background: #E6DECF;"></div>
         </div>
         <header class="staggered-menu-header">
-            <a href="index.html" class="sm-logo" aria-label="Homepage">
-                <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img">
-            </a>
+           <a href="index.html" class="sm-logo" aria-label="Homepage">
+             <picture>
+               <source srcset="logo.svg" type="image/svg+xml">
+               <img src="logo.png" alt="Logo Cynthia & Jose Miguel" class="sm-logo-img" loading="eager" decoding="async">
+             </picture>
+           </a>
             
-            <!-- ===== BOTÓN DE MENÚ ACTUALIZADO ===== -->
             <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
               <span class="sm-toggle-text-open">MENU</span>
               <span class="sm-toggle-text-close" aria-hidden="true">CERRAR</span>
             </button>
-            <!-- ===== FIN DEL CAMBIO ===== -->
-
         </header>
         <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
             <div class="sm-panel-inner">
-                <!-- He mantenido tu lista de menú de esta página -->
                 <ul class="sm-panel-list" role="list">
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina
+                  <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina
                                 principal</span></a></li>
                     <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span
                                 class="sm-panel-itemLabel">Agradecimientos</span></a></li>
@@ -147,6 +243,9 @@
                                 class="sm-panel-itemLabel">Vuelos</span></a></li>
                     <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="evento.html"><span
                                 class="sm-panel-itemLabel">Mapa del evento</span></a></li>
+                    <!-- NUEVO: página de Menú -->
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="menu.html"><span
+                                class="sm-panel-itemLabel">Menú</span></a></li>
                     <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span
                                 class="sm-panel-itemLabel">Regalos</span></a></li>
                     <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta
@@ -156,72 +255,88 @@
         </aside>
     </div>
 
-    <div class="contenido-pagina">
-        <h1><i class="fa-solid fa-map-location-dot" style="color:var(--sm-accent);"></i> Lugar de la Celebración</h1>
+    <main>
+      <section class="menu-section">
+        <div class="menu-inner">
+          <header class="menu-header">
+            <p class="menu-kicker">Boda Cynthia & José Miguel</p>
+            <h1>Menú de la noche</h1>
+            <p class="menu-subtitle">
+              Hemos elegido cada platillo con mucho cariño para compartir contigo una experiencia que combine los sabores de Xcaret y del Caribe mexicano.
+            </p>
+          </header>
 
-        <div class="descripcion-lugar">
-            <p>¡Nos llena de alegría celebrar nuestra unión en el corazón de la Riviera Maya, dentro del maravilloso <strong>Parque Xcaret</strong>!</p>
-            <p>La ceremonia, como mencionamos en <a href="fecha-hora.html" title="Ver detalles de fecha y hora">Fecha y Hora</a>, será en el encantador espacio de las <strong>Pozas Naturales</strong>. Esperamos compartir con ustedes la magia de este lugar.</p>
-        </div>
+          <article class="menu-card">
+            <!-- Entrada -->
+            <section class="menu-course">
+              <div class="menu-course-label">Entrada</div>
+              <h2 class="menu-course-title">Ensalada Xcaret</h2>
+              <p class="menu-course-desc">
+                Sandía fresca con queso flor de leche, espárragos blancos, lechugas gourmet, flores comestibles,
+                piñones y nueces caramelizadas, acompañada de una reducción de flor de jamaica con piloncillo y vinagre balsámico.
+              </p>
+            </section>
 
-        <div class="mapa-container">
-            <h2><i class="fa-solid fa-map"></i> Mapa de Ubicación</h2>
-            <p style="text-align:center; margin-bottom: 20px; color: #6B5F56;">Utiliza el mapa para explorar la zona o planificar tu ruta.</p>
-            <div class="google-map-iframe-container">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3736.223522292151!2d-87.11893382490516!3d20.53802998101457!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f4e41b34226f96d%3A0x95605051a1a418a4!2sParque%20Xcaret!5e0!3m2!1ses-419!2smx!4v1725740441951!5m2!1ses-419!2smx"
-                    width="100%"
-                    height="450"
-                    style="border:0;"
-                    allowfullscreen=""
-                    loading="lazy"
-                     referrerpolicy="no-referrer-when-downgrade"
-                    title="Mapa de Parque Xcaret">
-                </iframe>
-            </div>
-        </div>
+            <!-- Plato fuerte -->
+            <section class="menu-course">
+              <div class="menu-course-label">Plato fuerte</div>
+              <h2 class="menu-course-title">Mar y tierra langosta</h2>
+              <p class="menu-course-desc">
+                Filete mignon con salsa de tamarindo, acompañado de cola de langosta caribeña con salsa de mejillones
+                negros al azafrán y vainilla.
+              </p>
+              <p class="menu-course-desc">
+                Servido con puré de papa a la mantequilla y espárragos trufados.
+              </p>
+            </section>
 
-        <div class="direccion-info">
-            <h3><i class="fa-solid fa-location-pin"></i> Dirección del Parque Xcaret</h3>
-            <address>
-                Carretera Chetúmal-Puerto Juárez, Kilómetro 282<br>
-                Solidaridad, 77710<br>
-                Playa del Carmen, Quintana Roo, México
-            </address>
-            <a href="https://maps.app.goo.gl/rca23s8yB33i2wV46" target="_blank" class="boton-como-llegar">
-                <i class="fa-solid fa-diamond-turn-right"></i> Cómo llegar
-            </a>
-        </div>
+            <!-- Postres -->
+            <section class="menu-course">
+              <div class="menu-course-label">Postres</div>
+              <h2 class="menu-course-title">Dúo de postres</h2>
+              <p class="menu-course-desc">
+                <strong>Pastel de queso con jamaica:</strong> cremoso de queso cubierto con piel de jamaica sobre galleta de naranja.
+              </p>
+              <p class="menu-course-desc">
+                <strong>Pay de limón con helado de galleta de vainilla:</strong> acompañado de un falso limón relleno de mousse texturizado de cítricos
+                sobre galleta especiada y helado de galleta María.
+              </p>
+            </section>
 
-        <div class="navegacion-volver">
-            <a href="index.html" class="boton-volver">← Volver a la Página Principal</a>
+            <p class="menu-note">
+              Si tienes alguna restricción alimentaria, por favor háznoslo saber con anticipación para poder considerarlo con el equipo de Xcaret.
+            </p>
+          </article>
         </div>
-    </div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    
-    <!-- ===== SCRIPT DE MENÚ ACTUALIZADO (reemplaza a menu.js) ===== -->
+      </section>
+    </main>
+
+    <footer class="site-footer">
+        Boda Cynthia &amp; José Miguel · 6 de febrero de 2026 · Playa del Carmen
+    </footer>
+
+    <!-- JS para abrir/cerrar el menú -->
     <script>
-      (function(){
+      document.addEventListener('DOMContentLoaded', function () {
         const wrapper = document.querySelector('.staggered-menu-wrapper');
-        const panel   = document.getElementById('staggered-menu-panel');
         const toggle  = document.querySelector('.sm-toggle');
-        const body    = document.body;
-        const isOpen = ()=> toggle.getAttribute('aria-expanded') === 'true';
-        function open(){
-          wrapper.setAttribute('data-open','');
-          panel.setAttribute('aria-hidden','false');
-          toggle.setAttribute('aria-expanded','true');
-          body.classList.add('menu-open');
-        }
-        function close(){
-          wrapper.removeAttribute('data-open');
-          panel.setAttribute('aria-hidden','true');
-          toggle.setAttribute('aria-expanded','false');
-          body.classList.remove('menu-open');
-        }
-        toggle.addEventListener('click', ()=> isOpen()? close(): open());
-      })();
+        const panel   = document.getElementById('staggered-menu-panel');
+
+        if (!wrapper || !toggle || !panel) return;
+
+        toggle.addEventListener('click', () => {
+          const isOpen = wrapper.hasAttribute('data-open');
+          if (isOpen) {
+            wrapper.removeAttribute('data-open');
+            toggle.setAttribute('aria-expanded', 'false');
+            panel.setAttribute('aria-hidden', 'true');
+          } else {
+            wrapper.setAttribute('data-open', 'true');
+            toggle.setAttribute('aria-expanded', 'true');
+            panel.setAttribute('aria-hidden', 'false');
+          }
+        });
+      });
     </script>
 
 </body>
