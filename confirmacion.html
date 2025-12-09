@@ -32,11 +32,11 @@
       text-align: center;
       letter-spacing: 0.13em;
       text-transform: uppercase;
-      color: #4b4b4b;
+     	color: #4b4b4b;
     }
     h2 {
       font-size: 1.1rem;
-      margin: 4px 0 16px;
+      margin: 4px 0 8px;
       text-align: center;
       font-weight: 400;
       color: #666;
@@ -50,7 +50,10 @@
       font-size: 0.8rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      margin: 0 auto 14px;
+      margin: 0 auto 10px;
+      text-align: center;
+      display: block;
+      max-width: 120px;
     }
     .section-title {
       font-size: 0.9rem;
@@ -142,13 +145,20 @@
       margin-top: 10px;
       color: #999;
     }
+    .passes-info {
+      font-size: 0.8rem;
+      text-align: center;
+      color: #777;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="chip">RSVP</div>
+    <span class="chip">RSVP</span>
     <h1>Confirmación de asistencia</h1>
     <h2 id="title-nombre">Cargando invitado...</h2>
+    <p id="pases-info" class="passes-info"></p>
 
     <form id="rsvp-form">
       <div class="section-title">Asistencia</div>
@@ -166,17 +176,17 @@
       <label for="invitados">
         Nombres de las personas que asistirán contigo
       </label>
-      <textarea id="invitados" name="invitados" placeholder="Ejemplo:&#10;1. Juan Pérez (adulto)&#10;2. María López (niña)">
+      <textarea id="invitados" name="invitados" placeholder="Ejemplo:&#10;1. Juan Pérez&#10;2. María López">
       </textarea>
-      <div class="small-hint">
-        Si tu invitación incluye acompañantes, escribe aquí sus nombres completos.
+      <div class="small-hint" id="invitados-hint">
+        Si tu invitación incluye acompañantes, escribe aquí sus nombres completos (uno por línea).
       </div>
 
       <div class="section-title">Itinerario de vuelo</div>
       <label for="vuelo">
         Cuéntanos cómo y cuándo llegas
       </label>
-      <textarea id="vuelo" name="vuelo" placeholder="Ejemplo:&#10;Vuelo: AM123 CDMX &rarr; CUN&#10;Fecha llegada: 05 de febrero 2026, 14:30&#10;Hotel: Occidental Xcaret">
+      <textarea id="vuelo" name="vuelo" placeholder="Ejemplo:&#10;Vuelo: AM123 CDMX → CUN&#10;Fecha llegada: 05 de febrero 2026, 14:30&#10;Hotel: Occidental Xcaret">
       </textarea>
       <div class="small-hint">
         Esto nos ayudará a coordinarnos mejor para cualquier apoyo de transporte o seguimiento.
@@ -202,7 +212,7 @@
 
   <script>
     // === CONFIGURACIÓN ===
-    const API_URL = 'https://script.google.com/macros/s/AKfycbzBtlmIjacWcpdhzd8pnyhvL_mQtj8arptSGXeu5vYosB1PWb788D1lsXaO6FXNTU_B/exec'; // 👈 MISMA URL /exec del Apps Script
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzzuYdqWMgo8UJjXqm-rJETAnRyFeklo7m03s7gb7ehEL2ueiearC253nHcfwptNvnw/exec'; // 👈 MISMA URL /exec del Apps Script
     const URL_3D  = 'https://cynthiayjosemiguel.com.mx/invitacion3d/';    // donde tienes el modelo 3D
 
     function getTokenFromURL() {
@@ -217,7 +227,7 @@
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
       const data = await resp.json();
       if (!data.ok) throw new Error(data.error || 'Token no encontrado');
-      return data.data; // { token, nombre, desde, hacia }
+      return data.data; // { token, nombre, desde, hacia, pases }
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
@@ -227,24 +237,44 @@
       const statusEl    = document.getElementById('status');
       const btnEnviar   = document.getElementById('btn-enviar');
       const btnVolver   = document.getElementById('btn-volver');
+      const pasesInfoEl = document.getElementById('pases-info');
+      const invitadosHint = document.getElementById('invitados-hint');
+      const invitadosText = document.getElementById('invitados');
 
       if (!token) {
         titleNombre.textContent = 'Invitación no válida';
         form.style.display = 'none';
+        pasesInfoEl.textContent = '';
         return;
       }
 
-      // Cargar nombre desde Apps Script
+      // Cargar nombre y pases desde Apps Script
+      let pases = 1;
       try {
         const invitado = await fetchInvitado(token);
         const nombre = invitado.nombre || 'Invitado especial';
+        pases = Number(invitado.pases || 1);
+        if (isNaN(pases) || pases < 1) pases = 1;
+
+        const maxAcomp = Math.max(pases - 1, 0);
+
         titleNombre.textContent = nombre;
-        // Guardamos el nombre en dataset por si lo queremos mandar al RSVP
         form.dataset.nombreInvitado = nombre;
+        form.dataset.pases = String(pases);
+
+        if (pases <= 1) {
+          pasesInfoEl.textContent = 'Tu invitación es individual y no incluye acompañantes.';
+          invitadosText.placeholder = 'Tu invitación es individual, no es necesario agregar acompañantes.';
+        } else {
+          pasesInfoEl.textContent =
+            `Tu invitación incluye ${pases} pase${pases===1?'':'s'} en total (tú + hasta ${maxAcomp} acompañante${maxAcomp===1?'':'s'}).`;
+          invitadosHint.textContent =
+            `Puedes registrar hasta ${maxAcomp} acompañante${maxAcomp===1?'':'s'}, uno por línea.`;
+        }
       } catch (err) {
         console.error(err);
         titleNombre.textContent = 'No pudimos encontrar tu invitación';
-        statusEl.textContent = 'Verifica que el enlace esté completo o contacta a los novios.';
+        statusEl.textContent = 'Verifica que el enlace esté completo o contáctanos.';
         statusEl.className = 'status error';
         form.style.display = 'none';
         return;
@@ -256,7 +286,7 @@
         window.location.href = url;
       });
 
-            // Envío del formulario
+      // Envío del formulario
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         statusEl.textContent = '';
@@ -266,10 +296,12 @@
         btnEnviar.textContent = 'Enviando...';
 
         const asistencia = document.getElementById('asistencia').value;
-        const invitados  = document.getElementById('invitados').value.trim();
+        let invitados  = document.getElementById('invitados').value.trim();
         const vuelo      = document.getElementById('vuelo').value.trim();
         const comentarios= document.getElementById('comentarios').value.trim();
         const nombreInv  = form.dataset.nombreInvitado || '';
+        const pasesForm  = Number(form.dataset.pases || '1');
+        const maxAcomp   = Math.max(pasesForm - 1, 0);
 
         if (!asistencia) {
           statusEl.textContent = 'Selecciona si podrás asistir.';
@@ -278,6 +310,33 @@
           btnEnviar.textContent = 'Enviar confirmación';
           return;
         }
+
+        // Procesar lista de acompañantes: uno por línea
+        let lista = invitados
+          .split('\n')
+          .map(l => l.trim())
+          .filter(l => l.length > 0);
+
+        if (pasesForm <= 1 && lista.length > 0) {
+          statusEl.textContent = 'Tu invitación es individual; no puedes registrar acompañantes.';
+          statusEl.className = 'status error';
+          btnEnviar.disabled = false;
+          btnEnviar.textContent = 'Enviar confirmación';
+          return;
+        }
+
+        if (lista.length > maxAcomp) {
+          statusEl.textContent =
+            `Tu invitación permite hasta ${maxAcomp} acompañante${maxAcomp===1?'':'s'}. ` +
+            `Actualmente has escrito ${lista.length}. Ajusta la lista e inténtalo de nuevo.`;
+          statusEl.className = 'status error';
+          btnEnviar.disabled = false;
+          btnEnviar.textContent = 'Enviar confirmación';
+          return;
+        }
+
+        // Normalizamos el texto de invitados (limpio)
+        invitados = lista.join('\n');
 
         // Armamos el texto de vuelo incluyendo la asistencia
         const vueloTexto = 'Asistencia: ' + asistencia + '\n\n' + vuelo;
