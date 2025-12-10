@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 404 - Boda Cynthia y José Miguel</title>
+
+    <!-- Estilos globales de tu sitio -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --arena: #E7DCCB;
+            --duna:  #CDBDA7;
+            --mar:   #5AA7C7;
+            --texto: #2f2f2f;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: radial-gradient(circle at top, #ffffff 0%, var(--arena) 45%, var(--duna) 100%);
+            font-family: "Lato", sans-serif;
+            color: var(--texto);
+        }
+
+        .error-wrapper {
+            max-width: 520px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 18px;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+            padding: 26px 24px 28px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Detalle superior tipo franja suave */
+        .error-wrapper::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(90,167,199,0.22), rgba(205,189,167,0.12));
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .error-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .tagline {
+            font-size: 0.8rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(47,47,47,0.65);
+            margin-bottom: 6px;
+        }
+
+        .names {
+            font-family: "Dancing Script", cursive;
+            font-size: 2.3rem;
+            margin: 0 0 4px;
+            color: var(--mar);
+        }
+
+        .small-date-place {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: rgba(47,47,47,0.7);
+            margin-bottom: 18px;
+        }
+
+        .divider {
+            width: 62px;
+            height: 1px;
+            margin: 0 auto 18px;
+            background: linear-gradient(to right, transparent, var(--mar), transparent);
+            opacity: 0.9;
+        }
+
+        .image-box {
+            margin-bottom: 18px;
+        }
+
+        .image-box img {
+            width: 100%;
+            max-width: 360px;
+            border-radius: 14px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin: 4px 0 8px;
+            font-weight: 600;
+        }
+
+        .message {
+            font-size: 0.98rem;
+            line-height: 1.55;
+            margin: 0 0 10px;
+        }
+
+        .tiny-note {
+            font-size: 0.8rem;
+            color: rgba(47,47,47,0.7);
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-main,
+        .btn-secondary {
+            display: inline-block;
+            padding: 11px 22px;
+            border-radius: 999px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
+            cursor: pointer;
+        }
+
+        .btn-main {
+            background: var(--mar);
+            color: #ffffff;
+            box-shadow: 0 10px 22px rgba(90,167,199,0.35);
+        }
+
+        .btn-main:hover {
+            transform: translateY(-1px);
+            background: #3f83a1;
+            box-shadow: 0 14px 30px rgba(90,167,199,0.45);
+        }
+
+        .btn-secondary {
+            background: rgba(231,220,203,0.7);
+            color: #444;
+            border: 1px solid rgba(205,189,167,0.9);
+        }
+
+        .btn-secondary:hover {
+            background: #fff;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 480px) {
+            .error-wrapper {
+                padding: 20px 16px 22px;
+            }
+
+            .names {
+                font-size: 2rem;
+            }
+
+            h1 {
+                font-size: 1.3rem;
+            }
+
+            .message {
+                font-size: 0.92rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="error-wrapper">
+        <div class="error-content">
+            <div class="tagline">Sitio de la boda</div>
+            <h2 class="names">Cynthia &amp; José Miguel</h2>
+            <div class="small-date-place">06 · febrero · 2026 &nbsp;·&nbsp; Playa del Carmen</div>
+
+            <div class="divider"></div>
+
+            <div class="image-box">
+                <!-- Tu imagen personalizada de error -->
+                <img src="error404.webp" alt="Página no encontrada - Boda Cynthia y José Miguel">
+            </div>
+
+            <h1>Esta página se nos perdió en la arena…</h1>
+            <p class="message">
+                El enlace que abriste ya no existe o fue movido.  
+                Pero la buena noticia es que el sitio de nuestra boda sigue aquí, listo para recibirte.
+            </p>
+            <p class="tiny-note">
+                Haz clic en el botón para volver al inicio y seguir descubriendo todos los detalles del gran día.
+            </p>
+
+            <div class="buttons">
+                <a class="btn-main" href="/">Volver al inicio</a>
+                <a class="btn-secondary" href="/#evento">Ir a “El evento”</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
