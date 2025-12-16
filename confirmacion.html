@@ -1,385 +1,305 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Confirmación de asistencia - Boda Cynthia y José Miguel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin · Confirmaciones RSVP</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+
   <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Lato", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle at top, #e7dccb, #cdbda7);
+    :root{
+      --arena:#E7DCCB; --duna:#CDBDA7; --mar:#5AA7C7;
+      --ok:#6fbf8a; --no:#d97c7c; --wait:#9a9a9a;
+      --text:#2f2f2f; --card:rgba(255,255,255,.94);
+      --shadow:0 18px 45px rgba(0,0,0,.12); --radius:18px;
     }
-    .container {
-      width: 100%;
-      max-width: 520px;
-      margin: 16px;
-      background: #ffffff;
-      border-radius: 18px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-      padding: 24px 20px 20px;
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh; padding:22px;
+      font-family:"Lato",sans-serif; color:var(--text);
+      background:radial-gradient(circle at top,#fff 0%,var(--arena) 48%,var(--duna) 100%);
     }
-    h1 {
-      font-size: 1.3rem;
-      margin: 0 0 4px;
-      text-align: center;
-      letter-spacing: 0.13em;
-      text-transform: uppercase;
-     	color: #4b4b4b;
+    .wrap{max-width:1200px;margin:auto}
+    .top{
+      background:var(--card); box-shadow:var(--shadow); border-radius:var(--radius);
+      padding:22px 20px 18px; text-align:center; position:relative; overflow:hidden;
     }
-    h2 {
-      font-size: 1.1rem;
-      margin: 4px 0 8px;
-      text-align: center;
-      font-weight: 400;
-      color: #666;
+    .top::before{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(90,167,199,.22),rgba(205,189,167,.14));
+      opacity:.7; pointer-events:none;
     }
-    .chip {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: #5aa7a7;
-      color: #fff;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin: 0 auto 10px;
-      text-align: center;
-      display: block;
-      max-width: 120px;
+    .top>*{position:relative;z-index:1}
+    .names{font-family:"Dancing Script",cursive;font-size:2.8rem;margin:0;color:var(--mar)}
+    .subtitle{margin:6px 0 14px;letter-spacing:.18em;text-transform:uppercase;font-size:.85rem;color:rgba(47,47,47,.7)}
+
+    .summary{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:12px;
+      margin-top:10px;
     }
-    .section-title {
-      font-size: 0.9rem;
-      font-weight: 700;
-      margin: 14px 0 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #555;
+    .box{
+      background:#fff; border:1px solid rgba(205,189,167,.9);
+      border-radius:16px; padding:14px 14px 12px;
+      box-shadow:0 10px 22px rgba(0,0,0,.07);
+      text-align:left;
     }
-    label {
-      display: block;
-      font-size: 0.8rem;
-      margin-bottom: 4px;
-      color: #666;
+    .box .label{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(47,47,47,.65)}
+    .box .value{font-size:1.5rem;font-weight:800;margin-top:6px}
+    .muted{color:rgba(47,47,47,.65)}
+    .ok{color:var(--ok)} .no{color:var(--no)} .wait{color:var(--wait)}
+
+    .controls{
+      margin-top:14px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
     }
-    input[type="text"],
-    textarea,
-    select {
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid #d0c4b5;
-      font-size: 0.9rem;
-      font-family: inherit;
-      resize: vertical;
+    input,select{
+      padding:10px 14px; border-radius:12px; border:1px solid rgba(205,189,167,.95);
+      background:#fff; outline:none; min-width:220px; font-size:.95rem;
     }
-    textarea { min-height: 70px; }
-    .small-hint {
-      font-size: 0.75rem;
-      color: #999;
-      margin-top: 4px;
+    .btn{
+      padding:10px 18px; border-radius:999px; border:0;
+      background:var(--mar); color:#fff; font-weight:800; cursor:pointer;
+      box-shadow:0 12px 26px rgba(90,167,199,.35);
     }
-    .row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+    .btn.secondary{
+      background:#fff; color:#444; border:1px solid rgba(205,189,167,.95);
+      box-shadow:0 10px 22px rgba(0,0,0,.07);
     }
-    .row > div {
-      flex: 1;
-      min-width: 120px;
+    .btn:hover{filter:brightness(.97)}
+
+    .grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+      gap:14px;
     }
-    .button-row {
-      margin-top: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+    .card{
+      background:var(--card);
+      border-radius:16px;
+      padding:14px 14px 12px;
+      box-shadow:0 14px 32px rgba(0,0,0,.10);
+      position:relative;
+      border:1px solid rgba(205,189,167,.5);
     }
-    button {
-      border: none;
-      border-radius: 999px;
-      padding: 10px 16px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.3s ease;
+    .status{
+      position:absolute; top:12px; right:12px;
+      padding:6px 12px; border-radius:999px;
+      font-size:.75rem; font-weight:900;
     }
-    button[type="submit"] {
-      background: linear-gradient(135deg, #5aa7a7, #3c7e7e);
-      color: #fff;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    .status.ok{background:rgba(111,191,138,.18);color:var(--ok)}
+    .status.no{background:rgba(217,124,124,.18);color:var(--no)}
+    .status.wait{background:rgba(154,154,154,.18);color:var(--wait)}
+
+    .open-badge{
+      position:absolute; top:12px; left:12px;
+      padding:6px 10px; border-radius:999px;
+      font-size:.72rem; font-weight:900;
+      background:rgba(231,220,203,.65);
+      border:1px solid rgba(205,189,167,.9);
+      color:#444;
     }
-    button[type="button"] {
-      background: #f2ebe1;
-      color: #555;
-      border: 1px solid #d3c4b0;
+
+    .name{font-weight:900;font-size:1.05rem;margin:42px 0 6px; padding-right:90px;}
+    .meta{font-size:.9rem;line-height:1.45;color:rgba(47,47,47,.78)}
+    .small{margin-top:8px;font-size:.8rem;color:rgba(47,47,47,.65)}
+    .empty,.error{
+      margin-top:18px;background:var(--card);
+      border-radius:var(--radius);padding:16px;text-align:center;box-shadow:var(--shadow);
     }
-    button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.18);
-    }
-    button:disabled {
-      opacity: 0.6;
-      cursor: default;
-      box-shadow: none;
-      transform: none;
-    }
-    .status {
-      margin-top: 10px;
-      font-size: 0.85rem;
-      text-align: center;
-    }
-    .status.ok { color: #2e7d32; }
-    .status.error { color: #c62828; }
-    .tagline {
-      font-size: 0.78rem;
-      text-align: center;
-      margin-top: 10px;
-      color: #999;
-    }
-    .passes-info {
-      font-size: 0.8rem;
-      text-align: center;
-      color: #777;
-      margin-bottom: 10px;
+    .error{border:1px solid rgba(217,124,124,.4)}
+    code{background:rgba(231,220,203,.55);padding:2px 6px;border-radius:8px}
+
+    @media(max-width:480px){
+      .names{font-size:2.3rem}
+      .name{margin-top:46px}
     }
   </style>
 </head>
-<body>
-  <div class="container">
-    <span class="chip">RSVP</span>
-    <h1>Confirmación de asistencia</h1>
-    <h2 id="title-nombre">Cargando invitado...</h2>
-    <p id="pases-info" class="passes-info"></p>
 
-    <form id="rsvp-form">
-      <div class="section-title">Asistencia</div>
-      <label for="asistencia">
-        ¿Podrás acompañarnos?
-      </label>
-      <select id="asistencia" name="asistencia" required>
-        <option value="">Selecciona una opción</option>
-        <option value="SI">Sí, con mucho gusto</option>
-        <option value="NO">No podré asistir</option>
-        <option value="INDECISO">Aún no estoy seguro</option>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1 class="names">Cynthia &amp; José Miguel</h1>
+    <div class="subtitle">Panel administrador · RSVP</div>
+
+    <div class="summary">
+      <div class="box">
+        <div class="label">Registros</div>
+        <div class="value"><span id="t_reg">—</span> <span class="muted" style="font-size:1rem;font-weight:700">invitaciones</span></div>
+        <div class="small muted">Total de tokens activos en “invitados”.</div>
+      </div>
+
+      <div class="box">
+        <div class="label">Personas estimadas</div>
+        <div class="value"><span id="t_pases">—</span> <span class="muted" style="font-size:1rem;font-weight:700">pases</span></div>
+        <div class="small muted">Suma de “pases” (tú + acompañantes).</div>
+      </div>
+
+      <div class="box">
+        <div class="label">Personas confirmadas</div>
+        <div class="value ok" id="t_p_ok">—</div>
+        <div class="small muted">Suma de pases con estatus Confirmado.</div>
+      </div>
+
+      <div class="box">
+        <div class="label">Personas no asisten</div>
+        <div class="value no" id="t_p_no">—</div>
+        <div class="small muted">Suma de pases con estatus No asistirá.</div>
+      </div>
+
+      <div class="box">
+        <div class="label">Personas pendientes</div>
+        <div class="value wait" id="t_p_wait">—</div>
+        <div class="small muted">Suma de pases sin respuesta (o indeciso).</div>
+      </div>
+
+      <div class="box">
+        <div class="label">Actividad</div>
+        <div class="value"><span id="t_resp">—</span>/<span id="t_open">—</span></div>
+        <div class="small muted">Respondieron / Abrieron el RSVP.</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <input id="q" type="search" placeholder="Buscar por nombre…">
+      <select id="f">
+        <option value="all">Todos</option>
+        <option value="Pendiente">Pendientes</option>
+        <option value="Confirmado">Confirmados</option>
+        <option value="No asistirá">No asistirán</option>
       </select>
 
-      <div class="section-title">Invitados que te acompañan</div>
-      <label for="invitados">
-        Nombres de las personas que asistirán contigo
-      </label>
-      <textarea id="invitados" name="invitados" placeholder="Ejemplo:&#10;1. Juan Pérez&#10;2. María López">
-      </textarea>
-      <div class="small-hint" id="invitados-hint">
-        Si tu invitación incluye acompañantes, escribe aquí sus nombres completos (uno por línea).
-      </div>
+      <select id="fo">
+        <option value="all">Apertura: Todos</option>
+        <option value="opened">Apertura: Abrieron</option>
+        <option value="not_opened">Apertura: No han abierto</option>
+      </select>
 
-      <div class="section-title">Itinerario de vuelo</div>
-      <label for="vuelo">
-        Cuéntanos cómo y cuándo llegas
-      </label>
-      <textarea id="vuelo" name="vuelo" placeholder="Ejemplo:&#10;Vuelo: AM123 CDMX → CUN&#10;Fecha llegada: 05 de febrero 2026, 14:30&#10;Hotel: Occidental Xcaret">
-      </textarea>
-      <div class="small-hint">
-        Esto nos ayudará a coordinarnos mejor para cualquier apoyo de transporte o seguimiento.
-      </div>
-
-      <div class="section-title">Comentarios adicionales</div>
-      <label for="comentarios">
-        ¿Algo más que debamos saber?
-      </label>
-      <textarea id="comentarios" name="comentarios" placeholder="Alergias, restricciones alimenticias, necesidades especiales, etc.">
-      </textarea>
-
-      <div class="button-row">
-        <button type="submit" id="btn-enviar">Enviar confirmación</button>
-        <button type="button" id="btn-volver">Ver pase de abordar 3D</button>
-      </div>
-      <div id="status" class="status"></div>
-      <div class="tagline">
-        Gracias por tomarte el tiempo de llenar estos datos 💚
-      </div>
-    </form>
+      <button class="btn" id="reload">Actualizar</button>
+      <button class="btn secondary" id="csv">Descargar CSV</button>
+    </div>
   </div>
 
-  <script>
-    // === CONFIGURACIÓN ===
-    const API_URL = 'https://script.google.com/macros/s/AKfycbzzuYdqWMgo8UJjXqm-rJETAnRyFeklo7m03s7gb7ehEL2ueiearC253nHcfwptNvnw/exec'; // 👈 MISMA URL /exec del Apps Script
-    const URL_3D  = 'https://cynthiayjosemiguel.com.mx/invitacion3d/';    // donde tienes el modelo 3D
+  <div id="out"></div>
+</div>
 
-    function getTokenFromURL() {
-      const params = new URLSearchParams(window.location.search);
-      return (params.get('t') || params.get('token') || '').trim();
-    }
+<script>
+  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzzuYdqWMgo8UJjXqm-rJETAnRyFeklo7m03s7gb7ehEL2ueiearC253nHcfwptNvnw/exec"; // <-- pega tu /exec
+  const params = new URLSearchParams(location.search);
+  const admin = params.get('admin') || '';
 
-    async function fetchInvitado(token) {
-      if (!token) return null;
-      const url = API_URL + '?token=' + encodeURIComponent(token);
-      const resp = await fetch(url);
-      if (!resp.ok) throw new Error('HTTP ' + resp.status);
-      const data = await resp.json();
-      if (!data.ok) throw new Error(data.error || 'Token no encontrado');
-      return data.data; // { token, nombre, desde, hacia, pases }
-    }
+  const $ = id => document.getElementById(id);
+  let state = { items:[], counts:{}, totals:{} };
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      const token = getTokenFromURL();
-      const titleNombre = document.getElementById('title-nombre');
-      const form        = document.getElementById('rsvp-form');
-      const statusEl    = document.getElementById('status');
-      const btnEnviar   = document.getElementById('btn-enviar');
-      const btnVolver   = document.getElementById('btn-volver');
-      const pasesInfoEl = document.getElementById('pases-info');
-      const invitadosHint = document.getElementById('invitados-hint');
-      const invitadosText = document.getElementById('invitados');
+  function escapeHtml(s){
+    return (s??'').toString()
+      .replaceAll('&','&amp;').replaceAll('<','&lt;')
+      .replaceAll('>','&gt;').replaceAll('"','&quot;')
+      .replaceAll("'","&#039;");
+  }
 
-      if (!token) {
-        titleNombre.textContent = 'Invitación no válida';
-        form.style.display = 'none';
-        pasesInfoEl.textContent = '';
-        return;
-      }
+  function statusClass(s){
+    if (s === 'Confirmado') return 'ok';
+    if (s === 'No asistirá') return 'no';
+    return 'wait';
+  }
 
-      // Cargar nombre y pases desde Apps Script
-      let pases = 1;
-      try {
-        const invitado = await fetchInvitado(token);
-        const nombre = invitado.nombre || 'Invitado especial';
-        pases = Number(invitado.pases || 1);
-        if (isNaN(pases) || pases < 1) pases = 1;
+  function render(){
+    const t = state.totals || {};
+    $('t_reg').textContent = t.totalRegistros ?? 0;
+    $('t_pases').textContent = t.totalPases ?? 0;
+    $('t_p_ok').textContent = t.personasConfirmadas ?? 0;
+    $('t_p_no').textContent = t.personasNo ?? 0;
+    $('t_p_wait').textContent = t.personasPendientes ?? 0;
+    $('t_resp').textContent = t.respondedCount ?? 0;
+    $('t_open').textContent = t.openedCount ?? 0;
 
-        const maxAcomp = Math.max(pases - 1, 0);
+    const q = ($('q').value || '').toLowerCase().trim();
+    const f = $('f').value;
+    const fo = $('fo').value;
 
-        titleNombre.textContent = nombre;
-        form.dataset.nombreInvitado = nombre;
-        form.dataset.pases = String(pases);
-
-        if (pases <= 1) {
-          pasesInfoEl.textContent = 'Tu invitación es individual y no incluye acompañantes.';
-          invitadosText.placeholder = 'Tu invitación es individual, no es necesario agregar acompañantes.';
-        } else {
-          pasesInfoEl.textContent =
-            `Tu invitación incluye ${pases} pase${pases===1?'':'s'} en total (tú + hasta ${maxAcomp} acompañante${maxAcomp===1?'':'s'}).`;
-          invitadosHint.textContent =
-            `Puedes registrar hasta ${maxAcomp} acompañante${maxAcomp===1?'':'s'}, uno por línea.`;
-        }
-      } catch (err) {
-        console.error(err);
-        titleNombre.textContent = 'No pudimos encontrar tu invitación';
-        statusEl.textContent = 'Verifica que el enlace esté completo o contáctanos.';
-        statusEl.className = 'status error';
-        form.style.display = 'none';
-        return;
-      }
-
-      // Botón para volver al pase 3D
-      btnVolver.addEventListener('click', () => {
-        const url = URL_3D + '?t=' + encodeURIComponent(token);
-        window.location.href = url;
-      });
-
-      // Envío del formulario
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        statusEl.textContent = '';
-        statusEl.className = 'status';
-
-        btnEnviar.disabled = true;
-        btnEnviar.textContent = 'Enviando...';
-
-        const asistencia = document.getElementById('asistencia').value;
-        let invitados  = document.getElementById('invitados').value.trim();
-        const vuelo      = document.getElementById('vuelo').value.trim();
-        const comentarios= document.getElementById('comentarios').value.trim();
-        const nombreInv  = form.dataset.nombreInvitado || '';
-        const pasesForm  = Number(form.dataset.pases || '1');
-        const maxAcomp   = Math.max(pasesForm - 1, 0);
-
-        if (!asistencia) {
-          statusEl.textContent = 'Selecciona si podrás asistir.';
-          statusEl.className = 'status error';
-          btnEnviar.disabled = false;
-          btnEnviar.textContent = 'Enviar confirmación';
-          return;
-        }
-
-        // Procesar lista de acompañantes: uno por línea
-        let lista = invitados
-          .split('\n')
-          .map(l => l.trim())
-          .filter(l => l.length > 0);
-
-        if (pasesForm <= 1 && lista.length > 0) {
-          statusEl.textContent = 'Tu invitación es individual; no puedes registrar acompañantes.';
-          statusEl.className = 'status error';
-          btnEnviar.disabled = false;
-          btnEnviar.textContent = 'Enviar confirmación';
-          return;
-        }
-
-        if (lista.length > maxAcomp) {
-          statusEl.textContent =
-            `Tu invitación permite hasta ${maxAcomp} acompañante${maxAcomp===1?'':'s'}. ` +
-            `Actualmente has escrito ${lista.length}. Ajusta la lista e inténtalo de nuevo.`;
-          statusEl.className = 'status error';
-          btnEnviar.disabled = false;
-          btnEnviar.textContent = 'Enviar confirmación';
-          return;
-        }
-
-        // Normalizamos el texto de invitados (limpio)
-        invitados = lista.join('\n');
-
-        // Armamos el texto de vuelo incluyendo la asistencia
-        const vueloTexto = 'Asistencia: ' + asistencia + '\n\n' + vuelo;
-
-        // Enviamos como formulario clásico (x-www-form-urlencoded)
-        const formData = new URLSearchParams();
-        formData.append('mode', 'rsvp');
-        formData.append('token', token);
-        formData.append('nombre', nombreInv);
-        formData.append('invitados', invitados);
-        formData.append('vuelo', vueloTexto);
-        formData.append('comentarios', comentarios);
-
-        try {
-          const resp = await fetch(API_URL, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: formData.toString()
-          });
-
-          if (!resp.ok) {
-            throw new Error('HTTP ' + resp.status);
-          }
-
-          const data = await resp.json();
-          if (!data.ok) {
-            throw new Error(data.error || 'Error al guardar RSVP');
-          }
-
-          statusEl.textContent = '¡Gracias! Hemos registrado tu confirmación 🎉';
-          statusEl.className = 'status ok';
-        } catch (err) {
-          console.error(err);
-          statusEl.textContent = 'Ocurrió un error al guardar tu respuesta. Intenta de nuevo más tarde.';
-          statusEl.className = 'status error';
-        } finally {
-          btnEnviar.disabled = false;
-          btnEnviar.textContent = 'Enviar confirmación';
-        }
-      });
+    const filtered = (state.items || []).filter(it => {
+      const okName = (it.nombre || '').toLowerCase().includes(q);
+      const okStatus = (f === 'all') ? true : (it.status === f);
+      const okOpen =
+        fo === 'all' ? true :
+        fo === 'opened' ? !!it.opened :
+        fo === 'not_opened' ? !it.opened : true;
+      return okName && okStatus && okOpen;
     });
-  </script>
+
+    if (!admin){
+      $('out').innerHTML = `<div class="error"><b>Acceso restringido.</b><br>Abre con <code>?admin=TU_TOKEN</code></div>`;
+      return;
+    }
+
+    if (!filtered.length){
+      $('out').innerHTML = `<div class="empty">No hay resultados con ese filtro.</div>`;
+      return;
+    }
+
+    $('out').innerHTML = `
+      <div class="grid">
+        ${filtered.map(it => `
+          <div class="card">
+            <div class="status ${statusClass(it.status)}">${escapeHtml(it.status)}</div>
+            <div class="open-badge">${it.opened ? 'Abrió RSVP' : 'No ha abierto'}</div>
+
+            <div class="name">${escapeHtml(it.nombre || '')}</div>
+            <div class="meta">
+              🎟️ <b>${escapeHtml(String(it.pases ?? ''))}</b> pases<br>
+              👥 Acompañantes: ${escapeHtml(it.invitados || '—')}
+            </div>
+            <div class="small">Última actualización: ${escapeHtml(it.updated || '—')}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  async function load(){
+    if(!WEBAPP_URL.includes('http')){
+      $('out').innerHTML = `<div class="error">Configura <b>WEBAPP_URL</b> en este archivo.</div>`;
+      return;
+    }
+    if(!admin){
+      render();
+      return;
+    }
+
+    $('out').innerHTML = `<div class="empty">Cargando…</div>`;
+    try{
+      const url = `${WEBAPP_URL}?action=adminDashboard&admin=${encodeURIComponent(admin)}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if(!data.ok){
+        $('out').innerHTML = `<div class="error">${escapeHtml(data.error || 'Error')}</div>`;
+        return;
+      }
+      state = data;
+      render();
+    }catch(e){
+      $('out').innerHTML = `<div class="error">Error de conexión.</div>`;
+    }
+  }
+
+  function downloadCsv(){
+    if(!admin) return;
+    const url = `${WEBAPP_URL}?action=exportCsv&admin=${encodeURIComponent(admin)}`;
+    window.open(url, '_blank');
+  }
+
+  $('q').addEventListener('input', render);
+  $('f').addEventListener('change', render);
+  $('fo').addEventListener('change', render);
+  $('reload').addEventListener('click', load);
+  $('csv').addEventListener('click', downloadCsv);
+
+  load();
+</script>
 </body>
 </html>
