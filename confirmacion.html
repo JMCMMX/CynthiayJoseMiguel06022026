@@ -151,6 +151,65 @@
       color: #777;
       margin-bottom: 10px;
     }
+
+    /* ====== NUEVO: Badge animado de pases (solo visual) ====== */
+    .passes-badge-wrap{
+      display:flex;
+      justify-content:center;
+      margin: 6px 0 10px;
+    }
+    .passes-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 14px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(90,167,167,0.18), rgba(60,126,126,0.10));
+      border: 1px solid rgba(90,167,167,0.35);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+      transform: translateY(-6px) scale(0.98);
+      opacity: 0;
+      animation: badgeIn 650ms cubic-bezier(.2,.9,.2,1) forwards;
+    }
+    .passes-dot{
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      background: #5aa7a7;
+      box-shadow: 0 0 0 0 rgba(90,167,167,0.55);
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    .passes-text{
+      line-height: 1.05;
+      text-align:left;
+    }
+    .passes-text .top{
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color:#3c7e7e;
+      font-weight:700;
+    }
+    .passes-text .big{
+      font-size: 0.98rem;
+      color:#4b4b4b;
+      font-weight:700;
+      margin-top:2px;
+    }
+    .passes-text .sub{
+      font-size: 0.78rem;
+      color:#666;
+      margin-top:2px;
+    }
+    @keyframes badgeIn{
+      0%{ transform: translateY(-10px) scale(0.96); opacity:0; }
+      100%{ transform: translateY(0) scale(1); opacity:1; }
+    }
+    @keyframes pulse{
+      0%{ box-shadow: 0 0 0 0 rgba(90,167,167,0.55); }
+      70%{ box-shadow: 0 0 0 10px rgba(90,167,167,0); }
+      100%{ box-shadow: 0 0 0 0 rgba(90,167,167,0); }
+    }
+    /* ====== FIN NUEVO ====== */
   </style>
 </head>
 <body>
@@ -158,6 +217,20 @@
     <span class="chip">RSVP</span>
     <h1>Confirmación de asistencia</h1>
     <h2 id="title-nombre">Cargando invitado...</h2>
+
+    <!-- ====== NUEVO: indicador animado de pases ====== -->
+    <div class="passes-badge-wrap" aria-live="polite">
+      <div class="passes-badge" id="passes-badge" style="display:none;">
+        <span class="passes-dot" aria-hidden="true"></span>
+        <div class="passes-text">
+          <div class="top">Pases en tu invitación</div>
+          <div class="big" id="passes-badge-big">—</div>
+          <div class="sub" id="passes-badge-sub">—</div>
+        </div>
+      </div>
+    </div>
+    <!-- ====== FIN NUEVO ====== -->
+
     <p id="pases-info" class="passes-info"></p>
 
     <form id="rsvp-form">
@@ -241,6 +314,12 @@
       const invitadosHint = document.getElementById('invitados-hint');
       const invitadosText = document.getElementById('invitados');
 
+      // ====== NUEVO: refs del badge de pases ======
+      const passesBadge = document.getElementById('passes-badge');
+      const passesBadgeBig = document.getElementById('passes-badge-big');
+      const passesBadgeSub = document.getElementById('passes-badge-sub');
+      // ====== FIN NUEVO ======
+
       if (!token) {
         titleNombre.textContent = 'Invitación no válida';
         form.style.display = 'none';
@@ -262,6 +341,16 @@
         form.dataset.nombreInvitado = nombre;
         form.dataset.pases = String(pases);
 
+        // ====== NUEVO: mostrar badge animado de pases ======
+        passesBadge.style.display = 'inline-flex';
+        const totalTxt = `${pases} pase${pases===1?'':'s'}`;
+        const subTxt = (pases <= 1)
+          ? 'Invitación individual (solo tú).'
+          : `Incluye: tú + hasta ${maxAcomp} acompañante${maxAcomp===1?'':'s'}.`;
+        passesBadgeBig.textContent = totalTxt;
+        passesBadgeSub.textContent = subTxt;
+        // ====== FIN NUEVO ======
+
         if (pases <= 1) {
           pasesInfoEl.textContent = 'Tu invitación es individual y no incluye acompañantes.';
           invitadosText.placeholder = 'Tu invitación es individual, no es necesario agregar acompañantes.';
@@ -279,6 +368,29 @@
         form.style.display = 'none';
         return;
       }
+
+      // ====== NUEVO: confirmación de nombres (ID) al capturar ======
+      function confirmacionNombresID_() {
+        const raw = (invitadosText.value || '').trim();
+        if (!raw) return true; // si está vacío, no molestamos
+
+        return window.confirm(
+          'Importante: ¿Seguro que el/los nombre(s) está(n) escrito(s) EXACTAMENTE igual que en su identificación oficial?\n\n' +
+          'Esto debe coincidir, ya que se validará en Xcaret.'
+        );
+      }
+
+      // Cuando el usuario salga del campo (blur) y haya escrito algo, mostramos aviso
+      invitadosText.addEventListener('blur', () => {
+        const raw = (invitadosText.value || '').trim();
+        if (!raw) return;
+        // si cancela, regresamos foco para que corrija
+        const ok = confirmacionNombresID_();
+        if (!ok) {
+          setTimeout(() => invitadosText.focus(), 0);
+        }
+      });
+      // ====== FIN NUEVO ======
 
       // Botón para volver al pase 3D
       btnVolver.addEventListener('click', () => {
@@ -334,6 +446,19 @@
           btnEnviar.textContent = 'Enviar confirmación';
           return;
         }
+
+        // ====== NUEVO: confirmación antes de enviar si hay nombres ======
+        if (lista.length > 0) {
+          const ok = confirmacionNombresID_();
+          if (!ok) {
+            statusEl.textContent = 'Revisa los nombres y asegúrate de que coincidan con la identificación.';
+            statusEl.className = 'status error';
+            btnEnviar.disabled = false;
+            btnEnviar.textContent = 'Enviar confirmación';
+            return;
+          }
+        }
+        // ====== FIN NUEVO ======
 
         // Normalizamos el texto de invitados (limpio)
         invitados = lista.join('\n');
