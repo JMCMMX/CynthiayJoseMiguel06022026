@@ -152,7 +152,7 @@
       margin-bottom: 10px;
     }
 
-    /* ====== NUEVO: Badge animado de pases (solo visual) ====== */
+    /* ====== Badge animado de pases ====== */
     .passes-badge-wrap{
       display:flex;
       justify-content:center;
@@ -209,6 +209,24 @@
       70%{ box-shadow: 0 0 0 10px rgba(90,167,167,0); }
       100%{ box-shadow: 0 0 0 0 rgba(90,167,167,0); }
     }
+    /* ====== FIN Badge ====== */
+
+    /* ====== NUEVO: mensaje cuando no hay acompañantes ====== */
+    .no-acomp-msg{
+      display: none;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #f2ebe1;
+      border: 1px solid #d3c4b0;
+      color: #555;
+      font-size: 0.85rem;
+      text-align: center;
+      line-height: 1.35;
+    }
+    .no-acomp-msg strong{
+      color:#3c7e7e;
+    }
     /* ====== FIN NUEVO ====== */
   </style>
 </head>
@@ -218,7 +236,6 @@
     <h1>Confirmación de asistencia</h1>
     <h2 id="title-nombre">Cargando invitado...</h2>
 
-    <!-- ====== NUEVO: indicador animado de pases ====== -->
     <div class="passes-badge-wrap" aria-live="polite">
       <div class="passes-badge" id="passes-badge" style="display:none;">
         <span class="passes-dot" aria-hidden="true"></span>
@@ -229,7 +246,6 @@
         </div>
       </div>
     </div>
-    <!-- ====== FIN NUEVO ====== -->
 
     <p id="pases-info" class="passes-info"></p>
 
@@ -246,20 +262,31 @@
       </select>
 
       <div class="section-title">Invitados que te acompañan</div>
-      <label for="invitados">
-        Nombre completo (igual que en su identificación) de quienes asistirán contigo 
-      </label>
-     <textarea id="invitados" name="invitados" placeholder="Ejemplo:&#10;1. Juan Pérez&#10;2. María López"></textarea>
-      <div class="small-hint" id="invitados-hint">
-        Si tu invitación incluye acompañantes, escribe aquí sus nombres completos (uno por línea), si no incluye acompañantes deja en blanco este campo.
+
+      <!-- ====== NUEVO: mensaje alternativo cuando NO hay acompañantes ====== -->
+      <div id="no-acomp-msg" class="no-acomp-msg">
+        <strong>Tu invitación no incluye acompañantes.</strong><br>
+        No es necesario registrar nombres adicionales.
       </div>
+      <!-- ====== FIN NUEVO ====== -->
+
+      <!-- ====== ENVOLTURA para poder ocultar todo el bloque ====== -->
+      <div id="acomp-block">
+        <label for="invitados">
+          Nombre completo (igual que en su identificación) de quienes asistirán contigo 
+        </label>
+        <textarea id="invitados" name="invitados" placeholder="Ejemplo:&#10;1. Juan Pérez&#10;2. María López"></textarea>
+        <div class="small-hint" id="invitados-hint">
+          Si tu invitación incluye acompañantes, escribe aquí sus nombres completos (uno por línea), si no incluye acompañantes deja en blanco este campo.
+        </div>
+      </div>
+      <!-- ====== FIN ENVOLTURA ====== -->
 
       <div class="section-title">Itinerario de vuelo (Opcional) </div>
       <label for="vuelo">
         Cuéntanos cómo y cuándo llegas
       </label>
-      <textarea id="vuelo" name="vuelo" placeholder="Ejemplo:&#10;Vuelo: AM123 CDMX → CUN&#10;Fecha llegada: 05 de febrero 2026, 14:30&#10;Hotel: Occidental Xcaret">
-      </textarea>
+      <textarea id="vuelo" name="vuelo" placeholder="Ejemplo:&#10;Vuelo: AM123 CDMX → CUN&#10;Fecha llegada: 05 de febrero 2026, 14:30&#10;Hotel: Occidental Xcaret"></textarea>
       <div class="small-hint">
         Esto nos ayudará a coordinarnos mejor para cualquier apoyo de transporte o seguimiento.
       </div>
@@ -268,8 +295,7 @@
       <label for="comentarios">
         ¿Algo más que debamos saber?
       </label>
-      <textarea id="comentarios" name="comentarios" placeholder="Alergias, restricciones alimenticias, necesidades especiales, etc.">
-      </textarea>
+      <textarea id="comentarios" name="comentarios" placeholder="Alergias, restricciones alimenticias, necesidades especiales, etc."></textarea>
 
       <div class="button-row">
         <button type="submit" id="btn-enviar">Enviar confirmación</button>
@@ -313,10 +339,13 @@
       const invitadosHint = document.getElementById('invitados-hint');
       const invitadosText = document.getElementById('invitados');
 
-      // ====== NUEVO: refs del badge de pases ======
       const passesBadge = document.getElementById('passes-badge');
       const passesBadgeBig = document.getElementById('passes-badge-big');
       const passesBadgeSub = document.getElementById('passes-badge-sub');
+
+      // ====== NUEVO: refs para ocultar/mostrar acompañantes ======
+      const acompBlock = document.getElementById('acomp-block');
+      const noAcompMsg = document.getElementById('no-acomp-msg');
       // ====== FIN NUEVO ======
 
       if (!token) {
@@ -325,6 +354,26 @@
         pasesInfoEl.textContent = '';
         return;
       }
+
+      // Confirmación de nombres vs identificación
+      function confirmacionNombresID_() {
+        const raw = (invitadosText.value || '').trim();
+        if (!raw) return true;
+        return window.confirm(
+          'Importante: ¿Seguro que el/los nombre(s) está(n) escrito(s) EXACTAMENTE igual que en su identificación oficial?\n\n' +
+          'Esto debe coincidir, ya que se validará en Xcaret.'
+        );
+      }
+
+      // Al salir del campo, si escribió algo
+      invitadosText.addEventListener('blur', () => {
+        const raw = (invitadosText.value || '').trim();
+        if (!raw) return;
+        const ok = confirmacionNombresID_();
+        if (!ok) {
+          setTimeout(() => invitadosText.focus(), 0);
+        }
+      });
 
       // Cargar nombre y pases desde Apps Script
       let pases = 1;
@@ -340,7 +389,7 @@
         form.dataset.nombreInvitado = nombre;
         form.dataset.pases = String(pases);
 
-        // ====== NUEVO: mostrar badge animado de pases ======
+        // Mostrar badge
         passesBadge.style.display = 'inline-flex';
         const totalTxt = `${pases} pase${pases===1?'':'s'}`;
         const subTxt = (pases <= 1)
@@ -348,17 +397,24 @@
           : `Incluye: tú + hasta ${maxAcomp} acompañante${maxAcomp===1?'':'s'}.`;
         passesBadgeBig.textContent = totalTxt;
         passesBadgeSub.textContent = subTxt;
-        // ====== FIN NUEVO ======
 
+        // ====== NUEVO: ocultar bloque de acompañantes si no aplica ======
         if (pases <= 1) {
           pasesInfoEl.textContent = 'Tu invitación es individual y no incluye acompañantes.';
-          invitadosText.placeholder = 'Tu invitación es individual, no es necesario agregar acompañantes.';
+          // Ocultamos inputs de acompañantes y mostramos mensaje alterno
+          acompBlock.style.display = 'none';
+          noAcompMsg.style.display = 'block';
+          // Limpiamos por seguridad
+          invitadosText.value = '';
         } else {
           pasesInfoEl.textContent =
             `Tu invitación incluye ${pases} pase${pases===1?'':'s'} en total (tú + hasta ${maxAcomp} acompañante${maxAcomp===1?'':'s'}).`;
           invitadosHint.textContent =
             `Puedes registrar hasta ${maxAcomp} acompañante${maxAcomp===1?'':'s'}, uno por línea.`;
+          acompBlock.style.display = 'block';
+          noAcompMsg.style.display = 'none';
         }
+        // ====== FIN NUEVO ======
       } catch (err) {
         console.error(err);
         titleNombre.textContent = 'No pudimos encontrar tu invitación';
@@ -367,29 +423,6 @@
         form.style.display = 'none';
         return;
       }
-
-      // ====== NUEVO: confirmación de nombres (ID) al capturar ======
-      function confirmacionNombresID_() {
-        const raw = (invitadosText.value || '').trim();
-        if (!raw) return true; // si está vacío, no molestamos
-
-        return window.confirm(
-          'Importante: ¿Seguro que el/los nombre(s) está(n) escrito(s) EXACTAMENTE igual que en su identificación oficial?\n\n' +
-          'Esto debe coincidir, ya que se validará en Xcaret.'
-        );
-      }
-
-      // Cuando el usuario salga del campo (blur) y haya escrito algo, mostramos aviso
-      invitadosText.addEventListener('blur', () => {
-        const raw = (invitadosText.value || '').trim();
-        if (!raw) return;
-        // si cancela, regresamos foco para que corrija
-        const ok = confirmacionNombresID_();
-        if (!ok) {
-          setTimeout(() => invitadosText.focus(), 0);
-        }
-      });
-      // ====== FIN NUEVO ======
 
       // Botón para volver al pase 3D
       btnVolver.addEventListener('click', () => {
@@ -439,14 +472,15 @@
         if (lista.length > maxAcomp) {
           statusEl.textContent =
             `Tu invitación permite hasta ${maxAcomp} acompañante${maxAcomp===1?'':'s'}. ` +
-            `Actualmente has escrito ${lista.length}. Ajusta la lista e inténtalo de nuevo.`;
+            `Actualmente has escrito ${lista.length}.\n\n` +
+            `Por favor respeta los pases otorgados: esto es muy importante para el control de accesos y logística del evento en Xcaret.`;
           statusEl.className = 'status error';
           btnEnviar.disabled = false;
           btnEnviar.textContent = 'Enviar confirmación';
           return;
         }
 
-        // ====== NUEVO: confirmación antes de enviar si hay nombres ======
+        // Confirmación antes de enviar si hay nombres
         if (lista.length > 0) {
           const ok = confirmacionNombresID_();
           if (!ok) {
@@ -457,7 +491,6 @@
             return;
           }
         }
-        // ====== FIN NUEVO ======
 
         // Normalizamos el texto de invitados (limpio)
         invitados = lista.join('\n');
