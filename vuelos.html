@@ -5,22 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vuelos - Boda Cynthia y Jose Miguel</title>
 
-  <!-- Tu CSS global (manténlo si ya lo usas) -->
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <!-- ====== CSS mínimo para botón y panel (auto-contenido) ====== -->
   <style>
-    /* Paleta rápida (opcional, se integra con tu tema) */
     :root{
       --arena: #E7DCCB;
       --duna:  #CDBDA7;
-      --mar:   #cbb893; /* si ya definiste en style.css, ignora */
+      --mar:   #cbb893;
       --tinta: #3F3A36;
     }
 
-    /* Botón MENU/CERRAR proporcionado y centrado */
     .sm-toggle{
       position:relative; display:inline-flex; align-items:center; justify-content:center;
       height:2.6em; min-width:8ch; padding:0 .9em;
@@ -35,10 +31,8 @@
     .sm-toggle:active{ transform:translateY(1px) scale(.99) }
     .staggered-menu-wrapper[data-open] .sm-toggle{ background:rgba(255,255,255,.85); color:var(--tinta) }
 
-    /* Oculta restos antiguos si existieran */
     .sm-icon,.sm-icon-line,.menu-tip,.menu-guide{ display:none !important }
 
-    /* Textos MENU/CERRAR con mismo canvas */
     .sm-toggle-text-open,.sm-toggle-text-close{
       position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
       width:100%; line-height:1; backface-visibility:hidden;
@@ -49,7 +43,6 @@
     .staggered-menu-wrapper[data-open] .sm-toggle-text-open{ opacity:0; transform:translateY(-100%) }
     .staggered-menu-wrapper[data-open] .sm-toggle-text-close{ opacity:1; transform:translateY(0%) }
 
-    /* Panel lateral básico */
     .staggered-menu-wrapper{ position:fixed; inset:0; height:100vh; width:100%; z-index:999; pointer-events:none }
     .staggered-menu-header{ position:absolute; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; padding:1.5em; z-index:20 }
     .staggered-menu-header>*{ pointer-events:auto }
@@ -86,49 +79,62 @@
       .sm-logo-img{ height:50px }
     }
 
-    /* Estilos de contenido de esta página */
     body{ background: #FAF7F2; color: var(--tinta); }
     .contenido-pagina{ max-width:1100px; margin:120px auto 64px; padding:0 18px }
-    .hero-card{
-      background: #ffffffCC; border-radius:20px; padding:28px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.08), inset 0 0 0 1px rgba(0,0,0,.04);
-      backdrop-filter: blur(4px);
-    }
-    .badge{
-      display:inline-flex; align-items:center; gap:.5rem;
-      background: var(--arena); color:#5d5249; border-radius:999px; padding:.35rem .8rem; font-weight:700;
-      text-transform:uppercase; letter-spacing:.5px; font-size:.82rem;
-    }
-    .grid{ display:grid; gap:20px; grid-template-columns: repeat(12, 1fr); }
-    .col-12{ grid-column: span 12; }
-    .col-6{ grid-column: span 6; }
+    h1{ font-family:'Dancing Script',cursive; font-size:3rem; margin:.2em 0 .1em; text-align:center }
+    h2{ font-size:1.25rem; margin:0 0 .6rem; letter-spacing:.2px }
+    p, li{ font-family:'Lato',sans-serif; line-height:1.6 }
+    .note{ font-size:.92rem; color:#5d5249 }
+    .divider{ height:1px; background: rgba(0,0,0,.08); margin:18px 0; }
+
     .card{
       background:#fff; border-radius:16px; padding:20px;
       box-shadow: 0 6px 22px rgba(0,0,0,.07), inset 0 0 0 1px rgba(0,0,0,.04);
     }
-    h1{ font-family:'Dancing Script',cursive; font-size:3rem; margin:.2em 0 .1em; text-align:center }
-    h2{ font-size:1.25rem; margin:0 0 .6rem; letter-spacing:.2px }
-    p, li{ font-family:'Lato',sans-serif; line-height:1.6 }
-    a.link{ color:#2F4667; text-decoration:none; font-weight:700 }
+
+    /* ===== Formulario Google Flights ===== */
+    .flight-form{ display:flex; flex-direction:column; gap:14px; }
+    .flight-row{
+      display:grid; grid-template-columns: repeat(4, 1fr);
+      gap:12px;
+    }
+    .flight-row label{
+      display:flex; flex-direction:column; gap:6px;
+      font-family:'Lato',sans-serif;
+      font-size:.95rem;
+    }
+    .flight-row input, .flight-row select{
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(0,0,0,.15);
+      background:#fff;
+      font-family: inherit;
+    }
     .cta-row{ display:flex; gap:12px; flex-wrap:wrap; margin-top:14px }
     .btn{
       display:inline-flex; align-items:center; gap:.5rem; border-radius:999px; padding:.75rem 1rem;
       font-weight:700; text-decoration:none; background: var(--mar); color:#fff;
       box-shadow: 0 6px 16px rgba(0,0,0,.12);
+      border:none; cursor:pointer;
+      font-family:'Lato',sans-serif;
     }
     .btn.secondary{ background:#2F4667; }
-    .note{ font-size:.92rem; color:#5d5249 }
-    ul.clean{ padding-left:1.1rem; margin: .2rem 0 .6rem; }
-    .divider{ height:1px; background: rgba(0,0,0,.08); margin:18px 0; }
-    .icon{ width:20px; text-align:center }
+    .flight-error{
+      display:none;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(200,0,0,.2);
+      background: rgba(255,0,0,.06);
+      color:#7a1a1a;
+      font-family:'Lato',sans-serif;
+    }
     @media (max-width:900px){
-      .col-6{ grid-column: span 12; }
+      .flight-row{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ===== Wrapper del menú ===== -->
   <div class="staggered-menu-wrapper">
     <div class="sm-prelayers" aria-hidden="true">
       <div class="sm-prelayer" style="background:#2F4667;"></div>
@@ -141,14 +147,12 @@
         <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img" loading="eager" decoding="async">
       </a>
 
-      <!-- Botón del menú -->
       <button class="sm-toggle" aria-label="Menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
         <span class="sm-toggle-text-open">MENU</span>
         <span class="sm-toggle-text-close">CERRAR</span>
       </button>
     </header>
 
-    <!-- Panel de navegación -->
     <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true" role="navigation">
       <ul class="sm-panel-list" role="list">
         <li><a class="sm-panel-item" href="index.html">Página Principal</a></li>
@@ -158,74 +162,84 @@
         <li><a class="sm-panel-item" href="hospedaje.html">Hospedaje</a></li>
         <li><a class="sm-panel-item" href="xcaret.html">Hospedarte en Xcaret</a></li>
         <li><a class="sm-panel-item" href="vuelos.html">Vuelos</a></li>
-               <li><a class="sm-panel-item" href="evento.html">Mapa del evento</a></li>
+        <li><a class="sm-panel-item" href="evento.html">Mapa del evento</a></li>
         <li><a class="sm-panel-item" href="regalos.html">Regalos</a></li>
         <li><a class="sm-panel-item" href="Time.html">Cuenta Regresiva</a></li>
       </ul>
     </aside>
   </div>
 
+  <div class="contenido-pagina">
+    <h1><i class="fa-solid fa-plane-departure"></i> Búsqueda de Vuelos</h1>
 
+    <p class="introduccion-vuelos">
+      Selecciona tu aeropuerto de salida y las fechas. Te llevamos directo a <strong>Google Flights</strong> con la búsqueda prellenada.
+      Destino fijo: <strong>Cancún (CUN)</strong>.
+    </p>
 
-    <div class="contenido-pagina">
-        <h1><i class="fa-solid fa-plane-departure"></i> Búsqueda de Vuelos</h1>
-        <p class="introduccion-vuelos">
-            ¡Esperamos que puedan acompañarnos! Para facilitar la búsqueda de su viaje a Cancún, aquí tienen algunos enlaces directos a buscadores populares.
-            Hemos pre-cargado la ruta <strong>Ciudad de México (MEX) → Cancún (CUN)</strong> para las fechas <strong>5 al 9 de Febrero de 2026</strong>.
-        </p>
-        <div class="nota-importante-vuelos">
-            <p>
-                <strong><i class="fa-solid fa-circle-info"></i> Importante:</strong> Al hacer clic, se abrirá una nueva pestaña en el buscador correspondiente. Los precios y la disponibilidad de vuelos cambian rápidamente. Les recomendamos comparar opciones y finalizar su reserva directamente en el sitio web del buscador o de la aerolínea.
-            </p>
-        </div>
+    <div class="card">
+      <h2><i class="fa-brands fa-google"></i> Buscar en Google Flights</h2>
+      <p class="note">Abre una nueva pestaña con tu búsqueda lista para comparar precios.</p>
 
-        <div class="buscadores-vuelos">
-            <div class="buscador-item google">
-                <i class="fa-brands fa-google buscador-icono"></i>
-                <h2>Google Flights</h2>
-                <p>Una herramienta útil para explorar opciones de vuelo y monitorear precios.</p>
-                <a href="https://www.google.com/flights#flt=MEX.CUN.2026-02-05*CUN.MEX.2026-02-09" target="_blank" class="boton-buscador">
-                    Buscar en Google Flights →
-                </a>
-            </div>
+      <div id="flightError" class="flight-error"></div>
 
-            <div class="buscador-item skyscanner">
-                <i class="fa-solid fa-paper-plane buscador-icono"></i>
-                <h2>Skyscanner</h2>
-                <p>Compara precios de vuelos entre cientos de aerolíneas y agencias de viajes.</p>
-                <a href="https://www.skyscanner.com.mx/transport/flights/mexa/cun/260205/260209/" target="_blank" class="boton-buscador">
-                    Buscar en Skyscanner →
-                </a>
-            </div>
+      <form id="flightForm" class="flight-form" autocomplete="off">
+        <div class="flight-row">
+          <label for="flightFrom">
+            Origen
+            <select id="flightFrom" required>
+              <option value="MEX" selected>CDMX (MEX) – AICM</option>
+              <option value="NLU">AIFA (NLU) – Felipe Ángeles</option>
+              <option value="TLC">Toluca (TLC) – AIT</option>
+              <option value="PBC">Puebla (PBC) – Hermanos Serdán</option>
+            </select>
+          </label>
 
-            <div class="buscador-item kayak">
-                <i class="fa-solid fa-suitcase-rolling buscador-icono"></i>
-                <h2>Kayak</h2>
-                <p>Otro metabuscador popular para encontrar ofertas de vuelos, hoteles y autos.</p>
-                <a href="https://www.kayak.com.mx/flights/MEX-CUN/2026-02-05/2026-02-09" target="_blank" class="boton-buscador">
-                    Buscar en Kayak →
-                </a>
-            </div>
-        </div>
-        
-        <div class="navegacion-volver">
-            <a href="index.html" class="boton-volver">← Volver a la Página Principal</a>
-        </div>
-    </div>
+          <label for="flightTo">
+            Destino
+            <input id="flightTo" type="text" value="Cancún (CUN)" disabled />
+          </label>
 
-<script>
+          <label for="flightDepart">
+            Salida
+            <input type="date" id="flightDepart" required />
+          </label>
+
+          <label for="flightReturn">
+            Regreso
+            <input type="date" id="flightReturn" required />
+          </label>
+        </div>
+
+        <div class="cta-row">
+          <button type="button" class="btn secondary" id="flightPresetBtn">
+            Fechas sugeridas (05–08 Feb 2026)
+          </button>
+
+          <button type="submit" class="btn">
+            <i class="fa-solid fa-magnifying-glass"></i> Buscar en Google Flights →
+          </button>
+        </div>
+
+        <p class="note" style="margin-top:10px">
+          Si cambias la salida, el regreso se ajusta automáticamente (mínimo 1 día después).
+        </p>
+      </form>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="navegacion-volver">
+      <a href="index.html" class="boton-volver">← Volver a la Página Principal</a>
+    </div>
+  </div>
+
+  <script>
     (function(){
       const w = document.querySelector('.staggered-menu-wrapper');
       const p = document.getElementById('staggered-menu-panel');
       const b = document.querySelector('.sm-toggle');
       if(!w || !p || !b) return;
-
-      // Asegura spans internos por si se pierden
-      if(!b.querySelector('.sm-toggle-text-open') || !b.querySelector('.sm-toggle-text-close')){
-        const open = document.createElement('span'); open.className='sm-toggle-text-open'; open.textContent='MENU';
-        const close= document.createElement('span'); close.className='sm-toggle-text-close'; close.textContent='CERRAR';
-        b.textContent=''; b.append(open, close);
-      }
 
       const isOpen = ()=> b.getAttribute('aria-expanded')==='true';
       const apply = (o)=>{
@@ -235,23 +249,114 @@
         document.body.classList.toggle('menu-open', o);
       };
 
-      // Toggle con click
       b.addEventListener('click', ()=> apply(!isOpen()));
 
-      // Cerrar con clic fuera
       document.addEventListener('click', e=>{
         if(!isOpen()) return;
         if(!p.contains(e.target) && !b.contains(e.target)) apply(false);
       });
 
-      // Cerrar con ESC
       window.addEventListener('keydown', e=>{
         if(e.key === 'Escape' && isOpen()) apply(false);
       });
 
-      // Estado cerrado al cargar
       requestAnimationFrame(()=>apply(false));
     })();
   </script>
+
+  <script>
+    (function initFlights(){
+      const DEFAULT_DEPART = '2026-02-05';
+      const DEFAULT_RETURN = '2026-02-08';
+      const DEST_IATA = 'CUN';
+
+      const fromEl   = document.getElementById('flightFrom');
+      const depEl    = document.getElementById('flightDepart');
+      const retEl    = document.getElementById('flightReturn');
+      const presetEl = document.getElementById('flightPresetBtn');
+      const errEl    = document.getElementById('flightError');
+      const formEl   = document.getElementById('flightForm');
+
+      if(!fromEl || !depEl || !retEl || !formEl) return;
+
+      function toISODate(d){
+        const y = d.getFullYear();
+        const m = String(d.getMonth()+1).padStart(2,'0');
+        const day = String(d.getDate()).padStart(2,'0');
+        return `${y}-${m}-${day}`;
+      }
+      function addDays(iso, days){
+        const [y,m,d] = iso.split('-').map(Number);
+        const date = new Date(y, m-1, d);
+        date.setDate(date.getDate() + days);
+        return toISODate(date);
+      }
+
+      function showError(msg){
+        if(!errEl) return alert(msg);
+        errEl.textContent = msg;
+        errEl.style.display = 'block';
+      }
+      function clearError(){
+        if(!errEl) return;
+        errEl.textContent = '';
+        errEl.style.display = 'none';
+      }
+
+      const todayISO = toISODate(new Date());
+      depEl.min = todayISO;
+      retEl.min = todayISO;
+
+      if(!depEl.value) depEl.value = DEFAULT_DEPART;
+      if(!retEl.value) retEl.value = DEFAULT_RETURN;
+
+      function autoFixReturn(){
+        const d = (depEl.value || '').trim();
+        if(!d) return;
+        retEl.min = addDays(d, 1);
+        if(!retEl.value || retEl.value <= d){
+          retEl.value = addDays(d, 3);
+          if(retEl.value <= d) retEl.value = addDays(d, 1);
+        }
+        if(retEl.value <= d) retEl.value = addDays(d, 1);
+      }
+
+      depEl.addEventListener('change', ()=>{
+        autoFixReturn();
+        clearError();
+      });
+
+      presetEl?.addEventListener('click', ()=>{
+        depEl.value = DEFAULT_DEPART;
+        retEl.value = DEFAULT_RETURN;
+        autoFixReturn();
+        clearError();
+      });
+
+      autoFixReturn();
+
+      formEl.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        clearError();
+
+        const from = (fromEl.value || '').trim(); // MEX, NLU, TLC, PBC
+        const dep  = (depEl.value || '').trim();  // YYYY-MM-DD
+        const ret  = (retEl.value || '').trim();  // YYYY-MM-DD
+
+        if(!from) return showError('Selecciona un aeropuerto de origen.');
+        if(!dep || !ret) return showError('Selecciona fechas de salida y regreso.');
+        if(ret <= dep) return showError('La fecha de regreso debe ser posterior a la salida.');
+        if(dep < todayISO) return showError('La fecha de salida no puede ser anterior a hoy.');
+
+        // ✅ URL confiable usando q= (evita tfs codificado)
+        // Ejemplo: https://www.google.com/travel/flights?q=Flights%20to%20CUN%20from%20MEX%20on%202026-02-05%20through%202026-02-08
+        const query = `Flights to ${DEST_IATA} from ${from} on ${dep} through ${ret}`;
+        const url = `https://www.google.com/travel/flights?q=${encodeURIComponent(query)}`;
+
+        window.open(url, '_blank', 'noopener,noreferrer');
+      });
+    })();
+  </script>
+
 </body>
 </html>
