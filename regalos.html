@@ -785,7 +785,7 @@
               <span class="ref">Ref: <strong id="tRef">THAI</strong></span>
               <button class="btn" id="tOpen" type="button">
                 <i class="fa-solid fa-qrcode" aria-hidden="true"></i>
-                Ver QR y datos (opcional)
+                Ver datos para transferir
               </button>
             </div>
           </div>
@@ -1098,7 +1098,7 @@ const stages = [
       document.body.style.overflow = 'hidden';
 
       // Genera QR SOLO al abrir
-      qrS.src = buildQR('Banco: Santander\\nBeneficiario: Cynthia De Jesus\\nCLABE: 014420606315026655');
+      qrS.src = buildQR('014420606315026655');
       qrP.src = buildQR(ppLink.href);
 
       setTab('spei');
