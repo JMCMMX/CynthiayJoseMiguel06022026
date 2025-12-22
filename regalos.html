@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mesa de Regalos - Boda Cynthia y Jose Miguel</title>
+  <title>Cynthia & José Miguel</title>
 
   <!-- Tu CSS global -->
   <link rel="stylesheet" href="style.css"/>
@@ -14,17 +14,38 @@
   <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
 
-  <!-- Shim mínimo + fixes de menú -->
   <style>
+    /* =========================
+       PALETA “ARENA Y MAR”
+       ========================= */
     :root{
-      --sm-accent: var(--brand, #cbb893);
-      --container-max: 1100px;
-      --container-x: 16px;
+      --arena:#E7DCCB;
+      --duna:#CDBDA7;
+      --mar:#5AA7C7;
+
+      --tinta:#3F3A36;      /* texto principal */
+      --tinta2:#1f3b4d;     /* acento oscuro */
+      --blanco:#ffffff;
+
+      --soft:rgba(0,0,0,.10);
+      --soft2:rgba(0,0,0,.14);
+
+      --shadow:0 14px 40px rgba(0,0,0,.10);
+      --shadow2:0 24px 60px rgba(0,0,0,.30);
+
+      --r:18px;
+      --max:1100px;
+      --pad:16px;
+
+      /* Para tu site.css si ya usa --brand */
+      --brand: var(--duna);
+      --brand-strong: var(--tinta2);
+      --text: var(--tinta);
     }
 
-    /* ===== FIX: que el texto del panel sea visible al abrir ===== */
+    /* ===== FIX: que el texto del panel sea visible al abrir (tu fix original) ===== */
     .staggered-menu-wrapper[data-open] .sm-panel-list,
     .staggered-menu-wrapper[data-open] .sm-panel-itemWrap,
     .staggered-menu-wrapper[data-open] .sm-panel-item,
@@ -36,12 +57,12 @@
       overflow: visible !important;
     }
     .staggered-menu-panel{ background:#F2EEE9; z-index:10; }
-    .sm-panel-item{ color:#3F3A36; }
-    .sm-panel-item:hover{ color:#C6B28A; }
+    .sm-panel-item{ color: var(--tinta); }
+    .sm-panel-item:hover{ color: var(--duna); }
 
-    /* Logo como imagen (grande) */
+    /* Logo como imagen (grande) - tu diseño original */
     .sm-logo-img{
-      height: 92px;   /* ajusta a gusto (80–110px) */
+      height: 92px;
       width: auto;
       display: block;
       transition: filter .3s ease, transform .3s ease;
@@ -49,83 +70,634 @@
     @media (max-width: 768px){
       .sm-logo-img{ height: 72px; }
     }
-
-    /* En portada claro; aquí no usamos .home-page, así que colores oscuros por defecto */
-    .sm-logo-text, .sm-toggle{ color:#3F3A36; }
-
-    /* Botón: asegura ancho del texto “Menu” */
+    .sm-logo-text, .sm-toggle{ color: var(--tinta); }
     .sm-toggle-textWrap{ min-width:56px; }
 
-    /* Contenido */
+    /* ===== Layout general ===== */
+    body{
+      margin:0;
+      font-family: "Lato", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--tinta);
+      background:
+        radial-gradient(1200px 520px at 20% -10%, rgba(90,167,199,.16), transparent 60%),
+        radial-gradient(1200px 520px at 110% 0%, rgba(203,184,167,.28), transparent 55%),
+        linear-gradient(180deg, #fff, #fbf7f1);
+    }
     .sm-content{ position: relative; z-index: 1; }
-    .sm-container{ max-width: var(--container-max); margin: 0 auto; padding-inline: var(--container-x); }
-    .page-title i{ color: var(--sm-accent); }
+    .sm-container{ max-width: var(--max); margin: 0 auto; padding: 22px var(--pad) 40px; }
 
-    /* Utilidades suaves */
-    .muted{ opacity:.8 }
-    .center{ text-align:center }
-    .strong{ font-weight:600 }
-    .grid{ display:grid; gap:16px }
-    .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
-    .card{ border-radius:12px; padding:16px; margin-bottom:16px; background:#fff; border:1px solid rgba(0,0,0,.08); box-shadow:0 6px 24px rgba(0,0,0,.06); }
-    .list{ margin:8px 0 12px 0; padding-left:18px }
-    .btn-pill{ border-radius:999px; padding:10px 14px; cursor:pointer }
-    .qr-actions{ grid-template-columns: 1fr auto; align-items:center }
-    .qr-box img{ width:168px; height:168px; border-radius:12px; border:1px solid #eee; background:#fff }
-    .exp-grid{ grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); }
-    .exp-card{ display:flex; gap:12px; padding:14px; border-radius:14px; background:#fff; border:1px solid rgba(0,0,0,.08); box-shadow:0 8px 24px rgba(0,0,0,.06); }
-    .exp-icon{ font-size:36px; width:64px; height:64px; display:grid; place-items:center; border-radius:14px; background:#f7fbfd; border:1px solid #e8f0f3 }
-    .gift-section{ padding: clamp(24px,4vw,48px) 0 }
-    .hero-experiencias{ border-radius:16px; padding:24px 20px; margin-bottom:16px; background:#fafafa }
+    /* ===== Encabezado “Un detalle simbólico” ===== */
+    .symbolic{
+      border-radius: var(--r);
+      border: 1px solid var(--soft);
+      background:
+        radial-gradient(900px 240px at 10% 0%, rgba(203,184,167,.26), transparent 55%),
+        radial-gradient(900px 240px at 90% 20%, rgba(90,167,199,.18), transparent 55%),
+        linear-gradient(180deg, #ffffff, rgba(231,220,203,.35));
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 3vw, 26px);
+      margin: 18px 0 14px;
+      position: relative;
+      overflow:hidden;
+      isolation: isolate;
+    }
+    .symbolic::after{
+      content:"";
+      position:absolute;
+      inset:-40% -60%;
+      background: linear-gradient(100deg, transparent 40%, rgba(255,255,255,.22) 50%, transparent 60%);
+      transform: translateX(-50%) rotate(10deg);
+      animation: sheen 7.5s linear infinite;
+      mix-blend-mode: soft-light;
+      pointer-events:none;
+      opacity:.9;
+    }
+    @keyframes sheen{
+      0%{ transform: translateX(-65%) rotate(10deg); opacity:.25; }
+      50%{ opacity:.70; }
+      100%{ transform: translateX(65%) rotate(10deg); opacity:.25; }
+    }
+
+    .symbolic h2{
+      font-family: "Dancing Script", cursive;
+      font-size: clamp(30px, 3.4vw, 44px);
+      margin: 0 0 8px 0;
+      color: var(--tinta2);
+      letter-spacing: .2px;
+    }
+    .symbolic p{
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.55;
+      opacity: .92;
+      max-width: 72ch;
+    }
+    .symbolic .hint{
+      margin-top: 10px;
+      font-size: 13px;
+      opacity: .80;
+    }
+
+    /* =========================
+       TICKET BAR / SIMULADOR
+       ========================= */
+    .ticketBar{
+      margin: 14px 0 0;
+      border-radius: var(--r);
+      border: 1px solid var(--soft);
+      background:
+        radial-gradient(900px 280px at 15% -10%, rgba(90,167,199,.22), transparent 60%),
+        radial-gradient(900px 280px at 110% 20%, rgba(203,184,167,.30), transparent 55%),
+        linear-gradient(180deg, #fff 0%, rgba(231,220,203,.32) 100%);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position: relative;
+      isolation: isolate;
+    }
+    .ticketBar::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: linear-gradient(90deg,
+        transparent 0 10%,
+        rgba(203,184,167,.22) 10% 12%,
+        transparent 12% 22%,
+        rgba(90,167,199,.16) 22% 24%,
+        transparent 24% 100%);
+      opacity:.38;
+      pointer-events:none;
+      transform: rotate(-1.2deg);
+    }
+    .ticketBar::after{
+      content:"";
+      position:absolute;
+      inset:-40% -60%;
+      background: linear-gradient(100deg, transparent 40%, rgba(255,255,255,.20) 50%, transparent 60%);
+      transform: translateX(-40%) rotate(10deg);
+      animation: sheen 7.5s linear infinite;
+      mix-blend-mode: soft-light;
+      pointer-events:none;
+      opacity:.9;
+    }
+
+    .ticketInner{
+      position: relative;
+      z-index: 2;
+      display:grid;
+      grid-template-columns: 1.35fr 2.1fr 1fr;
+      gap: 14px;
+      padding: 14px;
+      align-items: center;
+    }
+    @media (max-width: 980px){
+      .ticketInner{ grid-template-columns: 1fr; }
+    }
+
+    /* perforado visual */
+    .ticketInner::before{
+      content:"";
+      position:absolute;
+      top:12px; bottom:12px;
+      left: 35%;
+      width: 2px;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(63,58,54,.22) 0 6px,
+        transparent 6px 12px
+      );
+      opacity:.30;
+      border-radius: 2px;
+    }
+    .ticketInner::after{
+      content:"";
+      position:absolute;
+      top: 12px;
+      left: 35%;
+      width: 18px; height: 18px;
+      border-radius: 999px;
+      transform: translateX(-50%);
+      background: rgba(231,220,203,.55);
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,.08);
+    }
+    .notchBottom{
+      position:absolute;
+      bottom: 12px;
+      left: 35%;
+      width: 18px; height: 18px;
+      border-radius: 999px;
+      transform: translateX(-50%);
+      background: rgba(231,220,203,.55);
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,.08);
+      z-index: 2;
+      pointer-events:none;
+    }
+
+    /* Left */
+    .tL{ display:flex; gap:12px; align-items:center; }
+    .tEmoji{
+      width: 52px; height: 52px;
+      display:grid; place-items:center;
+      border-radius: 16px;
+      background: rgba(90,167,199,.14);
+      border: 1px solid rgba(90,167,199,.28);
+      box-shadow: 0 14px 26px rgba(0,0,0,.10);
+      font-size: 28px;
+      transition: transform .18s ease, filter .18s ease;
+    }
+    .tEmoji.bump{ transform: rotate(-8deg) scale(1.08); filter: saturate(1.08); }
+
+    .tTitle{
+      margin:0;
+      font-weight: 950;
+      letter-spacing: .35px;
+      color: var(--tinta);
+      font-size: 14px;
+      text-transform: uppercase;
+      opacity: .92;
+    }
+    .tSub{
+      margin: 4px 0 0 0;
+      font-size: 13px;
+      opacity:.86;
+    }
+
+    .metaRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .metaPill{
+      border-radius: 14px;
+      padding: 9px 10px;
+      background:#fff;
+      border: 1px solid var(--soft2);
+      box-shadow: 0 10px 18px rgba(0,0,0,.08);
+      min-width: 120px;
+    }
+    .metaLabel{
+      display:block;
+      font-size: 11px;
+      letter-spacing: 1.2px;
+      font-weight: 950;
+      opacity:.72;
+    }
+    .metaValue{
+      display:block;
+      margin-top: 3px;
+      font-weight: 950;
+      letter-spacing: .5px;
+      color: var(--tinta2);
+    }
+
+    /* Mid */
+    .tM{ display:grid; gap:10px; }
+    .topRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .money{
+      font-weight: 950;
+      font-size: 22px;
+      color: var(--tinta2);
+      letter-spacing: .2px;
+    }
+
+    .stampWrap{ position:relative; display:flex; align-items:center; gap:10px; }
+    .stamp{
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 950;
+      letter-spacing: .9px;
+      text-transform: uppercase;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,.95), rgba(255,255,255,.72)),
+        linear-gradient(180deg, rgba(203,184,167,.55), rgba(90,167,199,.22));
+      border: 1px solid rgba(31,59,77,.22);
+      box-shadow: 0 14px 24px rgba(0,0,0,.10);
+      transform: rotate(6deg);
+      user-select:none;
+      position: relative;
+      color: var(--tinta2);
+    }
+    .stamp.impact{ animation: impact .38s cubic-bezier(.2,.8,.2,1); }
+    @keyframes impact{
+      0%{ transform: rotate(6deg) translateY(-10px) scale(1.06); filter: saturate(1.05); }
+      55%{ transform: rotate(6deg) translateY(2px) scale(0.98); }
+      100%{ transform: rotate(6deg) translateY(0) scale(1); }
+    }
+
+    .inkSplat{
+      position:absolute;
+      inset:-30px -30px auto auto;
+      width: 160px;
+      height: 110px;
+      pointer-events:none;
+      opacity:0;
+      transform: rotate(14deg) scale(.92);
+      mix-blend-mode: multiply;
+    }
+    .inkSplat.show{ animation: inkPop .55s ease; }
+    @keyframes inkPop{
+      0%{ opacity:0; transform: rotate(14deg) scale(.84); }
+      25%{ opacity:.50; transform: rotate(14deg) scale(1.03); }
+      100%{ opacity:0; transform: rotate(14deg) scale(.95); }
+    }
+
+    .range{ width: 100%; accent-color: var(--duna); }
+
+    .bottomRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .chips{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .chip{
+      border-radius: 999px;
+      padding: 7px 10px;
+      background:#fff;
+      border: 1px solid var(--soft2);
+      font-weight: 950;
+      box-shadow: 0 10px 18px rgba(0,0,0,.08);
+      transition: transform .18s ease, box-shadow .18s ease;
+      color: var(--tinta);
+    }
+    .chip.shift{ transform: translateY(-1px); box-shadow: 0 16px 28px rgba(0,0,0,.12); }
+    .sep{ opacity:.7; font-weight:900; }
+    .miles{ font-size: 13px; opacity:.86; }
+
+    .track{
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(63,58,54,.12);
+      overflow:hidden;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,.10);
+      position: relative;
+    }
+    .fill{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background: linear-gradient(90deg, rgba(203,184,167,1), rgba(90,167,199,1));
+      transition: width .2s ease;
+      position: relative;
+    }
+    .fill::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.38), transparent);
+      transform: translateX(-60%);
+      animation: shine 1.6s linear infinite;
+      opacity:.8;
+    }
+    @keyframes shine{
+      0%{ transform: translateX(-60%) }
+      100%{ transform: translateX(160%) }
+    }
+
+    .scanline{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:0;
+      background: linear-gradient(180deg, transparent, rgba(255,255,255,.55), transparent);
+      transform: translateY(-120%);
+    }
+    .scanline.run{ animation: scan .45s ease; }
+    @keyframes scan{
+      0%{ opacity:0; transform: translateY(-120%); }
+      30%{ opacity:.55; }
+      100%{ opacity:0; transform: translateY(120%); }
+    }
+
+    .actions{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+    .ref{ font-size: 13px; opacity:.86; }
+    .btn{
+      border-radius: 999px;
+      padding: 10px 12px;
+      border: 1px solid var(--soft2);
+      background: linear-gradient(180deg, #fff, rgba(231,220,203,.28));
+      font-weight: 950;
+      cursor:pointer;
+      box-shadow: 0 12px 22px rgba(0,0,0,.10);
+      transition: transform .15s ease, box-shadow .15s ease;
+      color: var(--tinta2);
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(0,0,0,.14);
+    }
+
+    /* Right */
+    .tR{ display:flex; align-items:center; justify-content:flex-end; gap: 12px; }
+    .code{
+      display:grid; gap: 4px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background:#fff;
+      border: 1px solid var(--soft2);
+      box-shadow: 0 12px 24px rgba(0,0,0,.10);
+      min-width: 160px;
+    }
+    .codeLabel{
+      font-size: 11px;
+      letter-spacing: 1.2px;
+      font-weight: 950;
+      opacity:.75;
+    }
+    .codeValue{
+      font-weight: 950;
+      letter-spacing: .8px;
+      color: var(--tinta2);
+    }
+
+    .barcode{
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      border: 1px solid var(--soft2);
+      background:
+        linear-gradient(90deg, rgba(63,58,54,.08) 0 12%, transparent 12% 18%, rgba(63,58,54,.08) 18% 24%, transparent 24% 30%, rgba(63,58,54,.08) 30% 36%, transparent 36% 100%),
+        radial-gradient(circle at 30% 20%, rgba(90,167,199,.18), transparent 55%),
+        #fff;
+      box-shadow: 0 12px 24px rgba(0,0,0,.10);
+      position: relative;
+      overflow:hidden;
+    }
+    .barcode::after{
+      content:"";
+      position:absolute;
+      top:-60%;
+      left:-40%;
+      width: 60%;
+      height: 220%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.38), transparent);
+      transform: rotate(20deg);
+      animation: barSweep 2.0s linear infinite;
+    }
+    @keyframes barSweep{
+      0%{ transform: translateX(-80%) rotate(20deg) }
+      100%{ transform: translateX(220%) rotate(20deg) }
+    }
+
+    /* ===== Modal ===== */
+    .backdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.52);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 9999;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .backdrop[data-open="true"]{ display:flex; }
+
+    .modal{
+      width: min(980px, 100%);
+      border-radius: var(--r);
+      background:
+        radial-gradient(900px 260px at 10% 0%, rgba(203,184,167,.26), transparent 55%),
+        radial-gradient(900px 260px at 90% 20%, rgba(90,167,199,.18), transparent 55%),
+        #ffffff;
+      border: 1px solid rgba(255,255,255,.25);
+      box-shadow: var(--shadow2);
+      overflow: hidden;
+      transform: scale(.98);
+      animation: pop .18s ease forwards;
+    }
+    @keyframes pop{ to{ transform: scale(1) } }
+
+    .mHeader{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 14px 14px 10px 14px;
+      border-bottom: 1px solid rgba(0,0,0,.10);
+    }
+    .mTitle{ margin:0; font-weight: 950; color: var(--tinta2); }
+    .mSub{ margin:6px 0 0 0; font-size: 13px; opacity:.85; }
+    .mClose{
+      border: 1px solid var(--soft2);
+      background:#fff;
+      border-radius: 999px;
+      padding: 8px 10px;
+      cursor:pointer;
+      font-weight: 900;
+      color: var(--tinta);
+    }
+
+    .tabs{
+      display:flex;
+      gap: 8px;
+      flex-wrap:wrap;
+      padding: 12px 14px 0 14px;
+    }
+    .tab{
+      border-radius: 999px;
+      padding: 8px 12px;
+      border: 1px solid var(--soft2);
+      background:#fff;
+      cursor:pointer;
+      font-weight: 950;
+      color: var(--tinta);
+    }
+    .tab[aria-selected="true"]{
+      background: linear-gradient(180deg, rgba(231,220,203,.55), rgba(90,167,199,.14));
+      border-color: rgba(0,0,0,.10);
+      color: var(--tinta2);
+    }
+
+    .mBody{
+      padding: 14px;
+      display:grid;
+      gap: 14px;
+    }
+    .panel{
+      border-radius: 16px;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.10);
+      box-shadow: 0 12px 26px rgba(0,0,0,.10);
+      padding: 12px;
+      display:none;
+    }
+    .panel[data-show="true"]{ display:block; }
+
+    .pGrid{
+      display:grid;
+      grid-template-columns: 200px 1fr;
+      gap: 12px;
+      align-items:center;
+    }
+    @media (max-width: 520px){
+      .pGrid{ grid-template-columns: 1fr; }
+    }
+    .qr{
+      width: 190px;
+      height: 190px;
+      border-radius: 16px;
+      border: 1px solid var(--soft2);
+      background:#fff;
+      box-shadow: 0 12px 20px rgba(0,0,0,.10);
+    }
+    .kv{ margin:0; padding-left: 18px; }
+    .kv li{ margin: 6px 0; }
+    .mActions{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .btnLite{
+      border-radius: 999px;
+      padding: 10px 12px;
+      border: 1px solid var(--soft2);
+      background:#fff;
+      font-weight: 900;
+      cursor:pointer;
+      color: var(--tinta);
+    }
+
+    /* ===== Footer legal (tu estilo, adaptado a paleta) ===== */
+    .footer-legal{
+      margin-top: 26px;
+      padding: 22px var(--pad);
+      border-top: 1px solid rgba(0,0,0,.10);
+      background:
+        radial-gradient(900px 240px at 10% 0%, rgba(203,184,167,.20), transparent 55%),
+        radial-gradient(900px 240px at 90% 20%, rgba(90,167,199,.14), transparent 55%),
+        #fff;
+    }
+    .footer-legal__inner{
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+    .footer-legal__title{
+      margin:0 0 8px 0;
+      font-weight: 950;
+      color: var(--tinta2);
+    }
+    .footer-legal__text{
+      margin: 0 0 10px 0;
+      opacity: .88;
+      line-height: 1.55;
+      font-size: 14px;
+      color: var(--tinta);
+    }
+    .footer-legal__small{
+      margin: 8px 0 0 0;
+      opacity: .72;
+      font-size: 13px;
+      color: var(--tinta);
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .symbolic::after,
+      .ticketBar::after,
+      .fill::after,
+      .barcode::after{ animation:none !important; }
+      .stamp{ transform: rotate(0deg); }
+      .stamp.impact{ animation:none !important; }
+      .inkSplat.show{ animation:none !important; }
+      .scanline.run{ animation:none !important; }
+    }
   </style>
 </head>
+
 <body>
   <!-- ====== NAV / MENÚ (igual en TODAS las páginas) ====== -->
   <div class="staggered-menu-wrapper">
     <div class="sm-prelayers" aria-hidden="true">
-      <div class="sm-prelayer" style="background:#2F4667;"></div>
-      <div class="sm-prelayer" style="background:#A3ADA0;"></div>
-      <div class="sm-prelayer" style="background:#E6DECF;"></div>
+      <!-- Ajustado a tu paleta -->
+      <div class="sm-prelayer" style="background:#1f3b4d;"></div>
+      <div class="sm-prelayer" style="background:#5AA7C7;"></div>
+      <div class="sm-prelayer" style="background:#E7DCCB;"></div>
     </div>
 
     <header class="staggered-menu-header">
-      <!-- Logo como imagen -->
       <a href="index.html" class="sm-logo" aria-label="Homepage">
         <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img">
       </a>
 
-     <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
-  <span class="sm-icon" aria-hidden="true">
-    <span class="sm-icon-line"></span>
-    <span class="sm-icon-line"></span>
-    <span class="sm-icon-line"></span>
-  </span>
-</button>
-
+      <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
+        <span class="sm-icon" aria-hidden="true">
+          <span class="sm-icon-line"></span>
+          <span class="sm-icon-line"></span>
+          <span class="sm-icon-line"></span>
+        </span>
+      </button>
     </header>
 
     <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
       <div class="sm-panel-inner">
         <ul class="sm-panel-list" role="list">
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina
-                        principal</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span
-                        class="sm-panel-itemLabel">Agradecimientos</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y
-                        Hora</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="menu.html"><span class="sm-panel-itemLabel">Menú</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span
-                        class="sm-panel-itemLabel">Hospedaje</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedarte en
-                        Xcaret</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span
-                        class="sm-panel-itemLabel">Vuelos</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="evento.html"><span
-                        class="sm-panel-itemLabel">Mapa del evento</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span
-                        class="sm-panel-itemLabel">Regalos</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta
-                        Regresiva</span></a></li>  </ul>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina principal</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span class="sm-panel-itemLabel">Agradecimientos</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="menu.html"><span class="sm-panel-itemLabel">Menú</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedarte en Xcaret</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="evento.html"><span class="sm-panel-itemLabel">Mapa del evento</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
+        </ul>
       </div>
     </aside>
   </div>
@@ -133,302 +705,449 @@
   <!-- ====== CONTENIDO ====== -->
   <main class="sm-content">
     <div class="sm-container">
-      <h1 class="page-title">
-        <i class="fa-solid fa-gifts"></i> Mesa de Regalos
-      </h1>
 
-      <!-- ====== REGALOS & EXPERIENCIAS ====== -->
-      <section id="regalos" class="gift-section">
-        <div class="container">
-          <header class="hero-experiencias">
-            <div class="hero-inner">
-              <h2>Tu regalo más especial 💌</h2>
-              <p>Tu presencia es nuestro mejor obsequio. Si deseas apoyarnos, puedes contribuir a nuestro <strong>fondo de experiencias</strong> o realizar una transferencia / PayPal.</p>
-            </div>
-          </header>
+      <!-- Encabezado -->
+      <section class="symbolic" aria-label="Un detalle simbólico">
+        <h2>Un detalle simbólico 💌</h2>
+        <p>
+          Tu presencia es nuestro mejor obsequio. Si deseas dejarnos un mensaje bonito o apoyar nuestro fondo de experiencias,
+          lo recibimos con muchísimo cariño <strong>(siempre opcional)</strong>.
+        </p>
+        <p class="hint">Abajo encontrarás un simulador interactivo: no es una “lista”, es una forma divertida de imaginar el viaje ✨</p>
+      </section>
 
-          <!-- Selector MX / Internacional -->
-          <div class="audience-switch row" role="group" aria-label="Región del invitado">
-            <button id="btn-mx" class="btn-pill" data-target="mx" aria-pressed="false">Soy de México</button>
-            <button id="btn-intl" class="btn-pill" data-target="intl" aria-pressed="false">Soy del extranjero</button>
-            <small class="muted">Detectamos automáticamente tu región, pero puedes cambiarla.</small>
-          </div>
+      <!-- Ticket / simulador -->
+      <section class="ticketBar" aria-label="Simulador interactivo (ticket)">
+        <div class="ticketInner">
+          <div class="notchBottom" aria-hidden="true"></div>
 
-          <!-- 🇲🇽 CLABE -->
-          <div id="card-mx" class="card" hidden>
-            <h3>Transferencia bancaria (SPEI) 🇲🇽</h3>
-            <ul class="list">
-              <li><strong>Banco:</strong> <span id="banco-text">BBVA</span></li>
-              <li><strong>Beneficiario:</strong> <span id="titular-text">José Miguel Castrillo</span></li>
-              <li><strong>CLABE:</strong> <span id="clabe-text">012650015650301375</span>
-                <button class="btn-pill" data-copy="#clabe-text">Copiar</button>
-              </li>
-            </ul>
-
-            <div class="grid qr-actions">
-              <div class="qr-box">
-                <img id="qr-mx" alt="QR SPEI" />
-                <small class="muted">Escanéalo para ver los datos de transferencia.</small>
-              </div>
-              <div class="actions" style="display:flex;flex-direction:column;gap:10px;">
-                <button id="btn-gen-qr-mx" class="btn-pill">Generar QR</button>
-                <button id="btn-download-mx" class="btn-pill">Descargar tarjeta SPEI (PNG)</button>
+          <!-- LEFT -->
+          <div>
+            <div class="tL">
+              <div class="tEmoji" id="tEmoji" aria-hidden="true">✈️</div>
+              <div>
+                <p class="tTitle" id="tTitle">BOARDING PASS · SOLO POR DIVERSIÓN</p>
+                <p class="tSub" id="tSub">Mueve la barra para “sellar” el avance.</p>
               </div>
             </div>
 
-            <p class="muted">Sugerencia de <em>Referencia</em> si apoyas una experiencia: <code>THAI</code>, <code>CHINA</code> o <code>SUR</code>.</p>
-          </div>
-
-          <!-- 🌎 PayPal -->
-          <div id="card-intl" class="card" hidden>
-            <h3>PayPal (invitados internacionales) 🌎</h3>
-            <p>Si estás fuera de México o prefieres PayPal:</p>
-            <p class="row">
-              <a id="paypal-link" class="btn-pill" target="_blank" rel="noopener" href="https://www.paypal.me/jmcastrillo">Enviar con PayPal</a>
-              <button class="btn-pill" data-copy="#paypal-link" data-attr="href">Copiar enlace</button>
-            </p>
-
-            <div class="grid qr-actions">
-              <div class="qr-box">
-                <img id="qr-intl" alt="QR PayPal" />
-                <small class="muted">Escanéalo para ir directo a nuestro PayPal.</small>
+            <div class="metaRow" aria-label="Detalles del ticket">
+              <div class="metaPill">
+                <span class="metaLabel">DATE</span>
+                <span class="metaValue" id="tDate">06 FEB 2026</span>
               </div>
-              <div class="actions" style="display:flex;flex-direction:column;gap:10px;">
-                <button id="btn-gen-qr-intl" class="btn-pill">Generar QR</button>
-                <button id="btn-download-intl" class="btn-pill">Descargar tarjeta PayPal (PNG)</button>
+              <div class="metaPill">
+                <span class="metaLabel">GATE</span>
+                <span class="metaValue" id="tGate">C06</span>
+              </div>
+              <div class="metaPill">
+                <span class="metaLabel">SEAT</span>
+                <span class="metaValue" id="tSeat">14A</span>
               </div>
             </div>
           </div>
 
-          <!-- 🎯 Fondo de Experiencias -->
-          <section class="experiencias">
-            <h3>Fondo de experiencias ✨</h3>
-            <p class="muted">Nos encantaría vivir alguna de estas aventuras como parte de nuestra luna de miel. Si te inspira alguna, puedes apoyarla directamente.</p>
+          <!-- MID -->
+          <div class="tM">
+            <div class="topRow">
+              <div class="money" id="tMoney">$3,000 MXN</div>
 
-            <div class="grid exp-grid">
-              <article class="exp-card" data-key="THAI">
-                <div class="exp-icon" aria-hidden="true">🐘</div>
-                <div class="exp-body">
-                  <h4>Tailandia</h4>
-                  <p>Templos, elefantes y playas cristalinas. ¡Nuestro sueño tropical! 🌴</p>
-                  <div class="exp-actions row">
-                    <button class="btn-pill" data-paypal-note="Experiencia THAI">Aportar vía PayPal</button>
-                    <button class="btn-pill" data-copy-ref="THAI">Referencia SPEI: THAI</button>
-                  </div>
-                </div>
-              </article>
-
-              <article class="exp-card" data-key="CHINA">
-                <div class="exp-icon" aria-hidden="true">🐉</div>
-                <div class="exp-body">
-                  <h4>China</h4>
-                  <p>Historia milenaria, la Gran Muralla y gastronomía increíble. Un viaje cultural inolvidable.</p>
-                  <div class="exp-actions row">
-                    <button class="btn-pill" data-paypal-note="Experiencia CHINA">Aportar vía PayPal</button>
-                    <button class="btn-pill" data-copy-ref="CHINA">Referencia SPEI: CHINA</button>
-                  </div>
-                </div>
-              </article>
-
-              <article class="exp-card" data-key="SUR">
-                <div class="exp-icon" aria-hidden="true">🗺️</div>
-                <div class="exp-body">
-                  <h4>Viaje por Sudamérica</h4>
-                  <p>Patagonia, Andes y costas del Pacífico. Ruta de naturaleza, cultura y aventura.</p>
-                  <div class="exp-actions row">
-                    <button class="btn-pill" data-paypal-note="Experiencia SUR">Aportar vía PayPal</button>
-                    <button class="btn-pill" data-copy-ref="SUR">Referencia SPEI: SUR</button>
-                  </div>
-                </div>
-              </article>
+              <div class="stampWrap">
+                <div class="stamp" id="tStamp">BOARDING</div>
+                <svg class="inkSplat" id="tInk" viewBox="0 0 220 160" aria-hidden="true">
+                  <path fill="rgba(63,58,54,.35)" d="M39 74c14-33 43-54 76-55 33-1 66 22 75 56 8 33-8 63-39 77-31 13-72 15-93-6-22-22-31-39-19-72Z"/>
+                  <path fill="rgba(63,58,54,.22)" d="M121 32c13-10 30-10 43 1 13 10 19 28 14 44-5 16-18 25-34 26-16 1-33-8-39-22-6-14 3-39 16-49Z"/>
+                  <circle cx="44" cy="116" r="12" fill="rgba(63,58,54,.24)"/>
+                  <circle cx="185" cy="104" r="10" fill="rgba(63,58,54,.20)"/>
+                </svg>
+              </div>
             </div>
 
-            <details class="details">
-              <summary>¿Cómo se usa tu apoyo?</summary>
-              <p>Todo aporte se destina a experiencias (vuelos, hospedaje, tours) y lo registramos con la <em>referencia</em> que elijas (THAI, CHINA o SUR) para agradecerte personalmente.</p>
-            </details>
-          </section>
+            <input id="tRange" class="range" type="range" min="0" max="30000" step="250" value="3000" aria-label="Cantidad en MXN"/>
 
-          <p class="center strong">¡Gracias por ser parte de este momento tan especial! 💖</p>
+            <div class="bottomRow">
+              <div class="chips" aria-label="Ruta simulada">
+                <span class="chip" id="tFrom">CDMX</span>
+                <span class="sep" aria-hidden="true">→</span>
+                <span class="chip" id="tVia">Escala</span>
+                <span class="sep" aria-hidden="true">→</span>
+                <span class="chip" id="tTo">Bangkok</span>
+              </div>
+              <div class="miles">≈ <span style="font-weight:950" id="tMiles">1,800</span> millas</div>
+            </div>
+
+            <div class="track" aria-hidden="true">
+              <div class="fill" id="tFill"></div>
+              <div class="scanline" id="tScan"></div>
+            </div>
+
+            <div class="actions">
+              <span class="ref">Ref: <strong id="tRef">THAI</strong></span>
+              <button class="btn" id="tOpen" type="button">
+                <i class="fa-solid fa-qrcode" aria-hidden="true"></i>
+                Ver QR y datos (opcional)
+              </button>
+            </div>
+          </div>
+
+          <!-- RIGHT -->
+          <div class="tR">
+            <div class="code">
+              <span class="codeLabel">FLIGHT</span>
+              <span class="codeValue" id="tFlight">CYJM-0602</span>
+            </div>
+            <div class="barcode" aria-hidden="true"></div>
+          </div>
         </div>
       </section>
 
-      <div class="navegacion-volver" style="margin:24px 0">
-        <a href="index.html" class="boton-volver">&larr; Volver a la Página Principal</a>
-      </div>
     </div>
   </main>
+
+  <!-- ===== Modal oculto (QR + Datos) ===== -->
+  <div class="backdrop" id="mBack" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <div class="mHeader">
+        <div>
+          <h3 class="mTitle" id="mTitle">QR y datos (opcional)</h3>
+          <p class="mSub">Tip: usa la referencia <strong id="mRef">THAI</strong>.</p>
+        </div>
+        <button class="mClose" id="mClose" type="button" aria-label="Cerrar">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Método">
+        <button class="tab" id="tabS" role="tab" aria-selected="true" type="button">SPEI (México)</button>
+        <button class="tab" id="tabP" role="tab" aria-selected="false" type="button">PayPal</button>
+      </div>
+
+      <div class="mBody">
+        <section class="panel" id="pS" data-show="true" role="tabpanel">
+          <div class="pGrid">
+            <img class="qr" id="qrS" alt="QR SPEI"/>
+            <div>
+              <p style="margin:0 0 8px 0; font-weight:950; color:var(--tinta2);">Transferencia SPEI 🇲🇽</p>
+              <ul class="kv">
+                <li><strong>Banco:</strong> Santander</li>
+                <li><strong>Beneficiario:</strong> Cynthia de Jesus </li>
+                <li><strong>CLABE:</strong> <span id="clabe">014420606315026655</span></li>
+                <li><strong>Referencia:</strong> <span id="refS">THAI</span></li>
+              </ul>
+              <div class="mActions">
+                <button class="btnLite" id="copyClabe" type="button">Copiar CLABE</button>
+                <button class="btnLite" id="copyRef" type="button">Copiar referencia</button>
+              </div>
+              <p style="margin:10px 0 0 0; opacity:.85;">Totalmente opcional. Lo importante es tu presencia 💛</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="pP" data-show="false" role="tabpanel">
+          <div class="pGrid">
+            <img class="qr" id="qrP" alt="QR PayPal"/>
+            <div>
+              <p style="margin:0 0 8px 0; font-weight:950; color:var(--tinta2);">PayPal 🌎</p>
+              <ul class="kv">
+                <li><strong>Link:</strong> <a id="ppLink" href="https://www.paypal.me/jmcastrillo" target="_blank" rel="noopener">paypal.me/jmcastrillo</a></li>
+                <li><strong>Nota sugerida:</strong> <span id="ppNote">Experiencia THAI</span></li>
+              </ul>
+              <div class="mActions">
+                <button class="btnLite" id="copyPP" type="button">Copiar enlace</button>
+                <button class="btnLite" id="openPP" type="button">Abrir PayPal</button>
+              </div>
+              <p style="margin:10px 0 0 0; opacity:.85;">En PayPal, escribe la nota para identificar la experiencia ✨</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Footer (adaptado a tu paleta) ===== -->
+  <footer class="footer-legal">
+    <div class="footer-legal__inner">
+      <p class="footer-legal__title">Cynthia &amp; José Miguel · 6 de febrero de 2026</p>
+
+      <p class="footer-legal__text">
+        Este sitio web es de <strong>carácter informativo y personal</strong>, creado con motivo de nuestra celebración.
+        No está afiliado, patrocinado ni administrado por Hoteles Xcaret, Google, aerolíneas u otras marcas mencionadas.
+      </p>
+
+      <p class="footer-legal__text">
+        Las búsquedas de vuelos, hospedaje y reservaciones se realizan en <strong>sitios externos</strong>.
+        Cynthia y José Miguel no gestionan pagos, cambios, cancelaciones ni disponibilidad.
+        Al continuar, aplican los términos y políticas de privacidad de cada proveedor.
+      </p>
+
+      <p class="footer-legal__small">© 2026 Cynthia &amp; José Miguel · Todos los derechos reservados</p>
+    </div>
+  </footer>
 
   <!-- Librerías del menú -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="menu.js"></script>
 
-  <!-- Fallback mínimo: asegura texto del botón + visibilidad en caso de que menu.js no lo ponga -->
-  <script>
-    (function(){
-      const textInner = document.querySelector('.sm-toggle-textInner');
-      if (textInner && !textInner.textContent.trim()) {
-        textInner.innerHTML = '<span class="sm-toggle-line">Menu</span>';
-      }
-    })();
-  </script>
-
-  <!-- Lógica de la sección -->
+  <!-- ===== Lógica Ticket + Modal ===== -->
   <script>
   (function(){
-    const cardMX=document.getElementById('card-mx');
-    const cardINTL=document.getElementById('card-intl');
-    const btnMX=document.getElementById('btn-mx');
-    const btnINTL=document.getElementById('btn-intl');
-    const imgQRMX=document.getElementById('qr-mx');
-    const imgQRIntl=document.getElementById('qr-intl');
-    const elPayPal=document.getElementById('paypal-link');
+    const buildQR = (data) => `https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=${encodeURIComponent(data)}`;
 
-    function show(target){
-      const isMX = target === 'mx';
-      cardMX.hidden = !isMX;
-      cardINTL.hidden = isMX;
-      btnMX.setAttribute('aria-pressed', isMX);
-      btnINTL.setAttribute('aria-pressed', !isMX);
-    }
-    function isLikelyMexico(){
+    // Ticket
+    const range = document.getElementById('tRange');
+    const elMoney = document.getElementById('tMoney');
+    const elMiles = document.getElementById('tMiles');
+    const elFill  = document.getElementById('tFill');
+    const elScan  = document.getElementById('tScan');
+
+    const elEmoji = document.getElementById('tEmoji');
+    const elStamp = document.getElementById('tStamp');
+    const elInk   = document.getElementById('tInk');
+
+    const elTitle = document.getElementById('tTitle');
+    const elSub   = document.getElementById('tSub');
+
+    const elFrom  = document.getElementById('tFrom');
+    const elVia   = document.getElementById('tVia');
+    const elTo    = document.getElementById('tTo');
+
+    const elRef   = document.getElementById('tRef');
+    const elFlight= document.getElementById('tFlight');
+
+    const elGate  = document.getElementById('tGate');
+    const elSeat  = document.getElementById('tSeat');
+    const elDate  = document.getElementById('tDate');
+
+    // Modal
+    const back = document.getElementById('mBack');
+    const btnOpen = document.getElementById('tOpen');
+    const btnClose= document.getElementById('mClose');
+
+    const tabS = document.getElementById('tabS');
+    const tabP = document.getElementById('tabP');
+    const pS = document.getElementById('pS');
+    const pP = document.getElementById('pP');
+
+    const qrS = document.getElementById('qrS');
+    const qrP = document.getElementById('qrP');
+
+    const mRef  = document.getElementById('mRef');
+    const refS  = document.getElementById('refS');
+    const ppNote= document.getElementById('ppNote');
+    const ppLink= document.getElementById('ppLink');
+
+    const clabe = document.getElementById('clabe');
+    const copyClabe = document.getElementById('copyClabe');
+    const copyRef   = document.getElementById('copyRef');
+    const copyPP    = document.getElementById('copyPP');
+    const openPP    = document.getElementById('openPP');
+
+    const MILES_PER_MXN = 0.6;
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ✅ Reemplaza SOLO este bloque: const stages = [...]
+const stages = [
+  // Salimos de México
+  { min:0, max:1500, ref:'SUR', emoji:'✈️', stamp:'MX', flight:'MEX-CYJM', gate:'MEX', seat:'14A', date:'06 FEB 2026',
+    title:'BOARDING PASS · SOLO POR DIVERSIÓN', sub:'Mueve la barra para “sellar” el avance.', from:'México', via:'Escala', to:'Caribe' },
+
+  // Tier medio: Sudamérica (menos caro que Asia, pero ya “viaje grande”)
+  { min:1500, max:8000, ref:'SUR', emoji:'🗺️', stamp:'SUDAMERICA', flight:'MEX-SUR1', gate:'MEX', seat:'06C', date:'06 FEB 2026',
+    title:'SUDAMÉRICA · ETAPA 1', sub:'Naturaleza, cultura y aventura.', from:'México', via:'Bogotá', to:'Patagonia' },
+
+  // Tier medio-alto: Tailandia
+  { min:8000, max:18000, ref:'THAI', emoji:'🐘', stamp:'TAILANDIA', flight:'MEX-THAI', gate:'MEX', seat:'21F', date:'06 FEB 2026',
+    title:'TAILANDIA · ETAPA 2', sub:'Playas, templos y una vibra increíble.', from:'México', via:'Tokyo', to:'Bangkok' },
+
+  // Tier alto: “Camino a China”
+  { min:18000, max:24000, ref:'CHINA', emoji:'🏮', stamp:'ASIA', flight:'MEX-ASIA', gate:'MEX', seat:'10B', date:'06 FEB 2026',
+    title:'ASIA · ETAPA 3', sub:'Más lejos, más épico.', from:'México', via:'Seúl', to:'Beijing' },
+
+  // ✅ Tier más caro: China (máximo)
+  { min:24000, max:30000, ref:'CHINA', emoji:'🐉', stamp:'CULTURA', flight:'MEX-CHINA', gate:'VIP', seat:'01A', date:'06 FEB 2026',
+    title:'CHINA · ETAPA FINAL', sub:'Gran Muralla, historia y sabores — el “top tier”.', from:'México', via:'Shanghái', to:'China' }
+];
+
+    const getStage = (v) => stages.find(s => v >= s.min && v < s.max) || stages[stages.length-1];
+
+    const formatMXN = (n) => {
+      try { return n.toLocaleString('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}); }
+      catch(e){ return '$'+n; }
+    };
+    const formatInt = (n) => {
+      try { return Math.round(n).toLocaleString('es-MX'); }
+      catch(e){ return String(Math.round(n)); }
+    };
+
+    // micro audio stamp (sutil)
+    let audioCtx = null;
+    function stampSound(){
+      if(reduceMotion) return;
       try{
-        const lang=(navigator.language||'').toLowerCase();
-        if(lang.includes('es-mx')) return true;
-        const tz=(Intl.DateTimeFormat().resolvedOptions().timeZone||'').toLowerCase();
-        if(tz.includes('mexico')||tz.includes('cancun')||tz.includes('mazatlan')||tz.includes('tijuana')||tz.includes('hermosillo')) return true;
+        if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const t0 = audioCtx.currentTime;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(180, t0);
+        osc.frequency.exponentialRampToValueAtTime(90, t0 + 0.06);
+
+        gain.gain.setValueAtTime(0.0001, t0);
+        gain.gain.exponentialRampToValueAtTime(0.08, t0 + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.10);
+
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start(t0);
+        osc.stop(t0 + 0.12);
       }catch(e){}
-      return false;
     }
 
-    function buildQR(data){ return `https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=${encodeURIComponent(data)}`; }
-    function refreshQRMX(){
-      imgQRMX.src = buildQR('Banco: BBVA\\nBeneficiario: José Miguel Castrillo\\nCLABE: 012650015650301375');
-      imgQRMX.alt = 'QR SPEI';
+    function bump(el){
+      el.classList.remove('bump');
+      void el.offsetWidth;
+      el.classList.add('bump');
+      setTimeout(()=>el.classList.remove('bump'), 220);
     }
-    function refreshQRIntl(){
-      imgQRIntl.src = buildQR('https://www.paypal.me/jmcastrillo');
-      imgQRIntl.alt = 'QR PayPal';
+    function chipShift(){
+      if(reduceMotion) return;
+      [elFrom, elVia, elTo].forEach(ch=>{
+        ch.classList.remove('shift');
+        void ch.offsetWidth;
+        ch.classList.add('shift');
+        setTimeout(()=>ch.classList.remove('shift'), 220);
+      });
+    }
+    function impact(){
+      if(reduceMotion) return;
+
+      elStamp.classList.remove('impact');
+      void elStamp.offsetWidth;
+      elStamp.classList.add('impact');
+
+      elInk.classList.remove('show');
+      void elInk.offsetWidth;
+      elInk.classList.add('show');
+
+      elScan.classList.remove('run');
+      void elScan.offsetWidth;
+      elScan.classList.add('run');
+
+      stampSound();
     }
 
-    show(isLikelyMexico() ? 'mx' : 'intl');
-    refreshQRMX(); refreshQRIntl();
-    btnMX.addEventListener('click',()=>show('mx'));
-    btnINTL.addEventListener('click',()=>show('intl'));
+    function syncModal(ref){
+      mRef.textContent = ref;
+      refS.textContent = ref;
+      ppNote.textContent = 'Experiencia ' + ref;
+    }
 
-    document.querySelectorAll('[data-copy], [data-copy-ref]').forEach(btn=>{
-      const ref = btn.getAttribute('data-copy-ref');
-      if(ref){
-        btn.addEventListener('click', async ()=>{
-          const text = `Referencia SPEI: ${ref}`;
-          try{ await navigator.clipboard.writeText(text); btn.textContent='Referencia copiada ✓'; setTimeout(()=>btn.textContent=`Referencia SPEI: ${ref}`,1600);}catch(e){ alert(text); }
-        });
-      }else{
-        btn.addEventListener('click', async ()=>{
-          const sel = btn.getAttribute('data-copy');
-          const attr = btn.getAttribute('data-attr');
-          const el = document.querySelector(sel);
-          if(!el) return;
-          const val = (attr ? el.getAttribute(attr) : el.textContent).trim();
-          try{ await navigator.clipboard.writeText(val); const prev=btn.textContent; btn.textContent='Copiado ✓'; setTimeout(()=>btn.textContent=prev||'Copiar',1600);}catch(e){ alert(val); }
-        });
+    function setValue(v){
+      const min = Number(range.min), max = Number(range.max);
+      v = Math.max(min, Math.min(max, Number(v)||0));
+      range.value = String(v);
+
+      elMoney.textContent = formatMXN(v) + ' MXN';
+      elMiles.textContent = formatInt(v * MILES_PER_MXN);
+
+      const pct = ((v - min)/(max - min))*100;
+      elFill.style.width = pct + '%';
+
+      const st = getStage(v);
+      const stageChanged =
+        elRef.textContent !== st.ref ||
+        elStamp.textContent !== st.stamp ||
+        elFlight.textContent !== st.flight;
+
+      elEmoji.textContent = st.emoji;
+      elStamp.textContent = st.stamp;
+      elTitle.textContent = st.title;
+      elSub.textContent   = st.sub;
+
+      elFrom.textContent = st.from;
+      elVia.textContent  = st.via;
+      elTo.textContent   = st.to;
+
+      elRef.textContent  = st.ref;
+      elFlight.textContent = st.flight;
+
+      elGate.textContent = st.gate;
+      elSeat.textContent = st.seat;
+      elDate.textContent = st.date;
+
+      syncModal(st.ref);
+
+      if(stageChanged){
+        bump(elEmoji);
+        chipShift();
+        impact();
       }
+    }
+
+    // Modal
+    function setTab(which){
+      const isS = which === 'spei';
+      tabS.setAttribute('aria-selected', isS);
+      tabP.setAttribute('aria-selected', !isS);
+      pS.setAttribute('data-show', isS);
+      pP.setAttribute('data-show', !isS);
+    }
+    function openModal(){
+      back.setAttribute('data-open','true');
+      back.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+
+      // Genera QR SOLO al abrir
+      qrS.src = buildQR('Banco: Santander\\nBeneficiario: Cynthia De Jesus\\nCLABE: 014420606315026655');
+      qrP.src = buildQR(ppLink.href);
+
+      setTab('spei');
+      setTimeout(()=>btnClose.focus(), 30);
+    }
+    function closeModal(){
+      back.removeAttribute('data-open');
+      back.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+
+    btnOpen.addEventListener('click', openModal);
+    btnClose.addEventListener('click', closeModal);
+    back.addEventListener('click', (e)=>{ if(e.target === back) closeModal(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && back.getAttribute('data-open')==='true') closeModal(); });
+
+    tabS.addEventListener('click', ()=>setTab('spei'));
+    tabP.addEventListener('click', ()=>setTab('pp'));
+
+    async function copyText(t){
+      try{ await navigator.clipboard.writeText(t); return true; }catch(e){ return false; }
+    }
+    copyClabe.addEventListener('click', async ()=>{
+      const t = clabe.textContent.trim();
+      const ok = await copyText(t);
+      if(!ok) alert(t);
+    });
+    copyRef.addEventListener('click', async ()=>{
+      const ref = mRef.textContent.trim();
+      const t = 'Referencia SPEI: ' + ref;
+      const ok = await copyText(t);
+      if(!ok) alert(t);
+    });
+    copyPP.addEventListener('click', async ()=>{
+      const url = ppLink.href;
+      const ok = await copyText(url);
+      if(!ok) alert(url);
+    });
+    openPP.addEventListener('click', ()=>{
+      window.open(ppLink.href, '_blank');
+      setTimeout(()=>alert('Sugerencia: agrega la nota "'+ppNote.textContent+'" en PayPal 💖'), 200);
     });
 
-    document.getElementById('btn-gen-qr-mx').addEventListener('click', refreshQRMX);
-    document.getElementById('btn-gen-qr-intl').addEventListener('click', refreshQRIntl);
+    range.addEventListener('input', (e)=> setValue(e.target.value));
+    setValue(range.value);
 
-    document.getElementById('btn-download-mx').addEventListener('click', ()=>downloadCard('mx'));
-    document.getElementById('btn-download-intl').addEventListener('click', ()=>downloadCard('intl'));
-
-    async function downloadCard(type){
-      const w=1080,h=600;
-      const canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h;
-      const ctx=canvas.getContext('2d');
-
-      const g=ctx.createLinearGradient(0,0,0,h);
-      g.addColorStop(0,getComputedStyle(document.documentElement).getPropertyValue('--card-accent-start')||'#f4f1ea');
-      g.addColorStop(1,getComputedStyle(document.documentElement).getPropertyValue('--card-accent-end')||'#ffffff');
-      ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
-
-      ctx.fillStyle='#ffffff';
-      roundRect(ctx,40,40,w-80,h-80,28,true,false);
-      ctx.strokeStyle='rgba(0,0,0,.08)'; ctx.lineWidth=2;
-      roundRect(ctx,40,40,w-80,h-80,28,false,true);
-
-      ctx.fillStyle=getCSS('--brand-strong','#1f3b4d');
-      ctx.font='700 42px system-ui, -apple-system, Segoe UI, Roboto, Arial';
-      ctx.fillText(type==='mx'?'Tarjeta de Aporte — SPEI':'Tarjeta de Aporte — PayPal',64,110);
-
-      ctx.fillStyle=getCSS('--text','#2b2b2b');
-      ctx.font='400 26px system-ui, -apple-system, Segoe UI, Roboto, Arial';
-      if(type==='mx'){
-        drawLines(ctx,['Banco: BBVA','Beneficiario: José Miguel Castrillo','CLABE: 012650015650301375'],64,160,36);
-        const qr=new Image(); qr.crossOrigin='anonymous'; qr.src=document.getElementById('qr-mx').src; await qr.decode();
-        ctx.drawImage(qr,w-360,200,280,280);
-      }else{
-        drawLines(ctx,['Gracias por tu apoyo 💖','Escanea o visita:','paypal.me/jmcastrillo'],64,160,36);
-        const qr=new Image(); qr.crossOrigin='anonymous'; qr.src=document.getElementById('qr-intl').src; await qr.decode();
-        ctx.drawImage(qr,w-360,200,280,280);
-      }
-      ctx.fillStyle=getCSS('--brand','#5aa7c1');
-      ctx.fillRect(40,h-120,w-80,80);
-      ctx.fillStyle='#fff'; ctx.font='700 28px system-ui, -apple-system, Segoe UI, Roboto, Arial';
-      ctx.fillText('¡Gracias por ser parte de nuestra historia! ✨',64,h-70);
-
-      const a=document.createElement('a');
-      a.download= type==='mx' ? 'Tarjeta_SPEI.png' : 'Tarjeta_PayPal.png';
-      a.href=canvas.toDataURL('image/png'); a.click();
-
-      function getCSS(varName,fallback){ const v=getComputedStyle(document.documentElement).getPropertyValue(varName).trim(); return v||fallback; }
-      function roundRect(ctx,x,y,w,h,r,fill,stroke){
-        if(typeof r==='number'){r={tl:r,tr:r,br:r,bl:r}}
-        ctx.beginPath();
-        ctx.moveTo(x+r.tl,y);ctx.lineTo(x+w-r.tr,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r.tr);
-        ctx.lineTo(x+w,y+h-r.br);ctx.quadraticCurveTo(x+w,y+h,x+w-r.br,y+h);
-        ctx.lineTo(x+r.bl,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r.bl);
-        ctx.lineTo(x,y+r.tl);ctx.quadraticCurveTo(x,y,x+r.tl,y);ctx.closePath();
-        if(fill)ctx.fill(); if(stroke)ctx.stroke();
-      }
-      function drawLines(ctx,arr,x,y,lh){arr.forEach((t,i)=>ctx.fillText(t,x,y+i*lh));}
-    }
-
-    // Experiencias: acción de PayPal + sugerencia de nota
-    document.querySelectorAll('.exp-card .btn-pill').forEach(btn=>{
-      if(btn.hasAttribute('data-paypal-note')){
-        btn.addEventListener('click', ()=>{
-          const note = btn.getAttribute('data-paypal-note') || 'Experiencia';
-          window.open('https://www.paypal.me/jmcastrillo', '_blank');
-          setTimeout(()=>alert('Sugerencia: agrega la nota "'+note+'" en PayPal para que podamos agradecerte correctamente 💖'), 200);
-        });
-      }
-    });
+    // desbloquea audio en primer toque
+    document.addEventListener('pointerdown', ()=>{ try{ if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); }catch(e){} }, { once:true });
   })();
   </script>
-  <footer class="footer-legal">
-  <div class="footer-legal__inner">
-
-    <p class="footer-legal__title">
-      Cynthia &amp; José Miguel · 6 de febrero de 2026
-    </p>
-
-    <p class="footer-legal__text">
-      Este sitio web es de <strong>carácter informativo y personal</strong>, creado con motivo de nuestra celebración.
-      No está afiliado, patrocinado ni administrado por Hoteles Xcaret, Google, aerolíneas u otras marcas mencionadas.
-    </p>
-
-    <p class="footer-legal__text">
-      Las búsquedas de vuelos, hospedaje y reservaciones se realizan en <strong>sitios externos</strong>.
-      Cynthia y José Miguel no gestionan pagos, cambios, cancelaciones ni disponibilidad.
-      Al continuar, aplican los términos y políticas de privacidad de cada proveedor.
-    </p>
-
-    <p class="footer-legal__small">
-      © 2026 Cynthia &amp; José Miguel · Todos los derechos reservados
-    </p>
-
-  </div>
-</footer>
-
 </body>
 </html>
