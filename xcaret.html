@@ -3,21 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Título de la página actualizado -->
     <title>Hospedaje - Boda Cynthia y Jose Miguel</title>
     
-    <!-- Mismos estilos y fuentes de tu plantilla -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
 
-    <!-- Estilos ADICIONALES para esta página (puedes moverlos a style.css si prefieres) -->
     <style>
-        .contenido-pagina {
-            padding-bottom: 40px; /* Más espacio al final */
-        }
+        .contenido-pagina { padding-bottom: 40px; }
+
         .hotel-imagen {
             width: 100%;
             height: auto;
@@ -31,7 +27,6 @@
 
         .beneficios-grid {
             display: grid;
-            /* Crea columnas flexibles que se adaptan (mín 280px) */
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 24px;
             margin-top: 28px;
@@ -47,7 +42,7 @@
 
         .beneficio-item h3 {
             margin-top: 0;
-            color: var(--brand, #2F4667); /* Usa el color --brand de tu CSS */
+            color: var(--brand, #2F4667);
             font-size: 1.3rem;
             display: flex;
             align-items: center;
@@ -55,7 +50,7 @@
         }
 
         .beneficio-item h3 i {
-            color: var(--sm-accent, #C6B28A); /* Usa el color --sm-accent */
+            color: var(--sm-accent, #C6B28A);
             font-size: 1.1rem;
         }
 
@@ -67,15 +62,14 @@
 
         .beneficio-item li {
             position: relative;
-            padding-left: 28px; /* Espacio para el ícono */
+            padding-left: 28px;
             margin-bottom: 10px;
             line-height: 1.5;
             color: #3F3A36;
         }
 
-        /* Agrega un "check" de Font Awesome antes de cada ítem */
         .beneficio-item li::before {
-            content: '\f00c'; /* Código del ícono "check" */
+            content: '\f00c';
             font-family: 'Font Awesome 6 Free';
             font-weight: 900;
             color: var(--sm-accent, #C6B28A);
@@ -85,19 +79,122 @@
             font-size: 0.9rem;
         }
 
-        /* Re-usando la clase .direccion-info para el CTA de tarifa */
-        .direccion-info {
-            /* Los estilos ya están en style.css (fondo, padding, etc) */
-            margin-top: 30px;
+        .direccion-info { margin-top: 30px; }
+
+        /* ====== Cotizador neutral (sitio oficial) ====== */
+        .xcaret-quote { margin-top: 28px; }
+        .xcaret-quote h2{
+            margin: 0 0 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .direccion-info h3 i {
-            color: var(--brand, #2F4667);
+        .xcaret-quote h2 i{ color: var(--sm-accent, #C6B28A); }
+
+        .xcaret-quote__form{
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 12px;
+        }
+
+        .xcaret-quote__row{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .xcaret-quote label{
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.95rem;
+            color: #3F3A36;
+        }
+
+        .xcaret-quote input,
+        .xcaret-quote select{
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.15);
+            background: #fff;
+            font-family: inherit;
+        }
+
+        .xcaret-quote__btnRow{
+            display:flex;
+            gap:10px;
+            flex-wrap: wrap;
+            align-items:center;
+        }
+
+        .xcaret-quote__btn{
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            background: var(--brand, #2F4667);
+            color: #fff;
+            box-shadow: 0 10px 22px rgba(47,70,103,0.22);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+        }
+        .xcaret-quote__btn:hover{
+            transform: translateY(-1px);
+            box-shadow: 0 14px 28px rgba(47,70,103,0.28);
+        }
+
+        .xcaret-quote__btnSecondary{
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(0,0,0,0.12);
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            background: rgba(231,220,203,0.35);
+            color: #3F3A36;
+        }
+
+        .xcaret-quote__note{
+            display: block;
+            opacity: 0.85;
+            line-height: 1.4;
+        }
+        .xcaret-quote__helper{
+            display:block;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: -6px;
+        }
+        .xcaret-quote__error{
+            display:none;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(200,0,0,0.20);
+            background: rgba(255, 0, 0, 0.06);
+            color: #7a1a1a;
+        }
+
+        .disclaimer-reserva{
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: rgba(231,220,203,0.25);
+            color: #3F3A36;
+            line-height: 1.45;
+        }
+        .disclaimer-reserva strong{ color: var(--brand, #2F4667); }
+
+        @media (max-width: 780px){
+            .xcaret-quote__row{ grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== Menú (Copiado 1:1 de tu plantilla) ===== -->
+    <!-- ===== Menú ===== -->
     <div class="staggered-menu-wrapper">
         <div class="sm-prelayers" aria-hidden="true">
             <div class="sm-prelayer" style="background: #2F4667;"></div>
@@ -114,108 +211,261 @@
                     <span class="sm-icon-line"></span>
                     <span class="sm-icon-line"></span>
                 </span>
-                <!-- NOTA: Cambié el texto de "menu-guide" que tenías para que coincida con el de la página principal (si es que existe) -->
-                <!-- <span class="menu-guide">Aquí está el menú 👋</span> -->
             </button>
         </header>
         <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
             <div class="sm-panel-inner">
                 <ul class="sm-panel-list" role="list">
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina
-                        principal</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span
-                        class="sm-panel-itemLabel">Agradecimientos</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y
-                        Hora</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="menu.html"><span class="sm-panel-itemLabel">Menú</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span
-                        class="sm-panel-itemLabel">Hospedaje</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedarte en
-                        Xcaret</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span
-                        class="sm-panel-itemLabel">Vuelos</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="evento.html"><span
-                        class="sm-panel-itemLabel">Mapa del evento</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span
-                        class="sm-panel-itemLabel">Regalos</span></a></li>
-            <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta
-                        Regresiva</span></a></li>  </ul>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina principal</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span class="sm-panel-itemLabel">Agradecimientos</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="menu.html"><span class="sm-panel-itemLabel">Menú</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedarte en Xcaret</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="evento.html"><span class="sm-panel-itemLabel">Mapa del evento</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
+                </ul>
             </div>
         </aside>
     </div>
 
-    <!-- ===== INICIO DEL CONTENIDO NUEVO ===== -->
     <div class="contenido-pagina">
-        
-        <!-- 1. Título de la página -->
         <h1><i class="fa-solid fa-hotel" style="color:var(--sm-accent);"></i> Hospedaje: Hotel Xcaret México</h1>
 
-        <!-- 2. Descripción principal -->
         <div class="descripcion-lugar">
-            <p>¡Queremos que disfruten al máximo esta celebración! Por eso, hemos elegido el <strong>Hotel Xcaret México</strong> como hotel sede. La boda será dentro del parque, por lo que hospedarse aquí es la opción más cómoda y completa.</p>
-            <p>Este increíble hotel 5 diamantes va más allá del "todo incluido" tradicional con su concepto <strong>All-Fun Inclusive®</strong>, que transforma sus vacaciones en una experiencia inolvidable.</p>
+            <p>Para su comodidad, aquí pueden cotizar directamente en el <strong>sitio oficial</strong> de Hotel Xcaret México.</p>
         </div>
 
-        <!-- 3. Imagen del Hotel (Usando placeholder) -->
         <img src="https://placehold.co/1200x600/6B5F56/F2EEE9?text=Hotel+Xcaret+México" 
              alt="Vistas del Hotel Xcaret México" 
              class="hotel-imagen"
              onerror="this.src='https://placehold.co/1200x600/6B5F56/F2EEE9?text=Hotel+Xcaret+M%C3%A9xico';">
 
-        <!-- 4. Sección de Beneficios (Grid) -->
+        <!-- ===== Cotizador neutral ===== -->
+        <div class="direccion-info xcaret-quote" id="cotizar">
+            <h2><i class="fa-solid fa-calendar-check"></i> Cotizar hospedaje (sitio oficial)</h2>
+            <p>Selecciona fechas y número de personas. Abriremos el listado de habitaciones con sus precios.</p>
+
+            <div class="disclaimer-reserva">
+                <strong>Importante:</strong> Estas reservaciones son <strong>independientes del evento</strong>.
+                Cynthia y José Miguel no gestionan pagos, cambios ni cancelaciones. La disponibilidad y tarifas pueden variar.
+            </div>
+
+            <div class="xcaret-quote__error" id="xqError"></div>
+
+            <form id="xcaretQuoteForm" class="xcaret-quote__form" autocomplete="off">
+                <div class="xcaret-quote__row">
+                    <label for="xqArrive">
+                        Llegada
+                        <input type="date" id="xqArrive" required />
+                        <small class="xcaret-quote__helper">Puedes cambiar las fechas si lo necesitas.</small>
+                    </label>
+
+                    <label for="xqDepart">
+                        Salida
+                        <input type="date" id="xqDepart" required />
+                        <small class="xcaret-quote__helper">Salida debe ser posterior a la llegada.</small>
+                    </label>
+
+                    <!-- Como el sitio NO filtra por tipo, lo dejamos informativo -->
+                    <label for="xqRoomPref">
+                        Preferencia de suite (opcional)
+                        <select id="xqRoomPref">
+                            <option value="" selected>Cualquiera</option>
+                            <option value="Garden">Garden</option>
+                            <option value="River">River</option>
+                            <option value="Ocean">Ocean</option>
+                            <option value="Master">Master</option>
+                        </select>
+                        <small class="xcaret-quote__helper">No filtra el resultado; es solo referencia.</small>
+                    </label>
+                </div>
+
+                <div class="xcaret-quote__row">
+                    <label for="xqAdults">
+                        Adultos
+                        <select id="xqAdults">
+                            <option value="1">1</option>
+                            <option value="2" selected>2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </label>
+
+                    <label for="xqChild">
+                        Niños
+                        <select id="xqChild">
+                            <option value="0" selected>0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Habitaciones
+                        <input type="text" value="Se eligen en el sitio oficial" disabled />
+                        <small class="xcaret-quote__helper">El sitio muestra opciones y precios.</small>
+                    </label>
+                </div>
+
+                <div class="xcaret-quote__btnRow">
+                    <button type="button" class="xcaret-quote__btnSecondary" id="xqPresetBtn">
+                        Fechas sugeridas (05–08 Feb 2026)
+                    </button>
+
+                    <button type="submit" class="xcaret-quote__btn">
+                        Ver habitaciones y precios
+                    </button>
+                </div>
+
+                <small class="xcaret-quote__note">
+                    Serás redirigido al buscador oficial con el listado de habitaciones.
+                </small>
+            </form>
+        </div>
+
         <div class="beneficios-grid">
-            
-            <!-- Beneficio 1: Parques -->
             <div class="beneficio-item">
                 <h3><i class="fa-solid fa-ticket"></i> All-Fun Inclusive®</h3>
-                <p>Su estancia incluye <strong>acceso ilimitado a TODOS los parques</strong> de Grupo Xcaret:</p>
+                <p>La estancia puede incluir acceso a parques y beneficios (según condiciones del hotel).</p>
                 <ul>
-                    <li>Xcaret (¡Sede de la boda!)</li>
-                    <li>Xel-Há</li>
-                    <li>Xplor (Día)</li>
-                    <li>Xplor Fuego (Noche)</li>
-                    <li>Xoximilco</li>
-                    <li>Xenses</li>
-                    <li>Xavage</li>
-                    <li>Tour Xenotes</li>
-                    <li>Tour Xichén (Chichén Itzá)</li>
+                    <li>Parques y tours de Grupo Xcaret (según condiciones)</li>
+                    <li>Alimentos y bebidas (según plan)</li>
                 </ul>
             </div>
 
-            <!-- Beneficio 2: Transportación -->
             <div class="beneficio-item">
-                <h3><i class="fa-solid fa-bus-simple"></i> Transportación Total</h3>
-                <p>Olvídate de la logística, el hotel se encarga de todo:</p>
+                <h3><i class="fa-solid fa-bus-simple"></i> Transportación</h3>
+                <p>Servicios disponibles según paquete y hotel.</p>
                 <ul>
-                    <li>Transporte redondo <strong>Aeropuerto-Hotel-Aeropuerto</strong> (shuttle de lujo).</li>
-                    <li>Transporte continuo (cada 20-30 min) entre el hotel y todos los parques mencionados.</li>
-                    <li>Ferry a Isla Mujeres (con el parque Xcaret Xailing).</li>
+                    <li>Aeropuerto ↔ Hotel (según condiciones)</li>
+                    <li>Traslados a parques (según condiciones)</li>
                 </ul>
             </div>
 
-            <!-- Beneficio 3: Gastronomía -->
             <div class="beneficio-item">
-                <h3><i class="fa-solid fa-utensils"></i> Gastronomía Premium</h3>
-                <p>Disfruten de una experiencia culinaria de clase mundial:</p>
+                <h3><i class="fa-solid fa-utensils"></i> Gastronomía</h3>
+                <p>Restaurantes y bares incluidos según plan contratado.</p>
                 <ul>
-                    <li>Más de 12 restaurantes (buffet y a la carta) incluidos.</li>
-                    <li>Chefs de renombre y cocina de autor.</li>
-                    <li>Bares con mixología de primer nivel.</li>
-                    <li>Servicio a la habitación 24 horas incluido.</li>
+                    <li>Restaurantes a la carta</li>
+                    <li>Bares</li>
                 </ul>
             </div>
         </div>
-        
 
-        <!-- 6. Botón de Volver (Copiado 1:1) -->
         <div class="navegacion-volver">
             <a href="index.html" class="boton-volver">← Volver a la Página Principal</a>
         </div>
     </div>
-    
-    <!-- ===== Scripts (Copiados 1:1) ===== -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="menu.js"></script>
+
+    <script>
+        (function initXcaretQuote(){
+            const arriveEl = document.getElementById('xqArrive');
+            const departEl = document.getElementById('xqDepart');
+            const presetBtn = document.getElementById('xqPresetBtn');
+            const errorEl  = document.getElementById('xqError');
+
+            const DEFAULT_ARRIVE = '2026-02-05';
+            const DEFAULT_DEPART = '2026-02-08';
+
+            function toISODate(d){
+                const y = d.getFullYear();
+                const m = String(d.getMonth()+1).padStart(2,'0');
+                const day = String(d.getDate()).padStart(2,'0');
+                return `${y}-${m}-${day}`;
+            }
+            function addDays(iso, days){
+                const [y,m,d] = iso.split('-').map(Number);
+                const date = new Date(y, m-1, d);
+                date.setDate(date.getDate() + days);
+                return toISODate(date);
+            }
+
+            function showError(msg){
+                if (!errorEl) return alert(msg);
+                errorEl.textContent = msg;
+                errorEl.style.display = 'block';
+            }
+            function clearError(){
+                if (!errorEl) return;
+                errorEl.textContent = '';
+                errorEl.style.display = 'none';
+            }
+
+            const todayISO = toISODate(new Date());
+            if (arriveEl) arriveEl.min = todayISO;
+            if (departEl) departEl.min = todayISO;
+
+            if (arriveEl && !arriveEl.value) arriveEl.value = DEFAULT_ARRIVE;
+            if (departEl && !departEl.value) departEl.value = DEFAULT_DEPART;
+
+            function autoFixDepart(){
+                if (!arriveEl || !departEl) return;
+                const a = arriveEl.value;
+                const d = departEl.value;
+                if (!a) return;
+
+                departEl.min = addDays(a, 1);
+                if (!d || d <= a) {
+                    departEl.value = addDays(a, 3);
+                    if (departEl.value <= a) departEl.value = addDays(a, 1);
+                }
+                if (departEl.value <= a) departEl.value = addDays(a, 1);
+            }
+
+            arriveEl?.addEventListener('change', autoFixDepart);
+
+            presetBtn?.addEventListener('click', function(){
+                if (arriveEl) arriveEl.value = DEFAULT_ARRIVE;
+                if (departEl) departEl.value = DEFAULT_DEPART;
+                autoFixDepart();
+                clearError();
+            });
+
+            autoFixDepart();
+
+            const form = document.getElementById('xcaretQuoteForm');
+            if (!form) return;
+
+            form.addEventListener('submit', function(e){
+                e.preventDefault();
+                clearError();
+
+                const arrive = (arriveEl?.value || '').trim();
+                const depart = (departEl?.value || '').trim();
+                const adults = (document.getElementById('xqAdults')?.value || '2').trim();
+                const child  = (document.getElementById('xqChild')?.value || '0').trim();
+
+                if (!arrive || !depart) return showError('Por favor selecciona fecha de llegada y salida.');
+                if (depart <= arrive) return showError('La fecha de salida debe ser posterior a la llegada.');
+                if (arrive < todayISO) return showError('La fecha de llegada no puede ser anterior a hoy.');
+
+                // ===== URL EXACTA (como tu ejemplo) =====
+                const base = 'https://www.hotelxcaret.com/es/busqueda/';
+                const params = new URLSearchParams({
+                    hotelcode: 'HXM',
+                    checkin: arrive,
+                    checkout: depart,
+                    hotel: 'hxm'
+                });
+
+                // guests[0][adults] y guests[0][children]
+                params.set('guests[0][adults]', adults);
+                params.set('guests[0][children]', child);
+
+                // Este parámetro lo traes fijo en tu URL (lo dejamos igual)
+                params.set('74213', '74213');
+
+                const url = base + '?' + params.toString();
+                window.open(url, '_blank', 'noopener,noreferrer');
+            });
+        })();
+    </script>
 
 </body>
 </html>
