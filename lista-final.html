@@ -173,7 +173,7 @@
   function downloadCsv(){
     if(!admin) return;
     // CSV en UTF-8 con BOM para acentos (Excel friendly)
-    const url = `${WEBAPP_URL}?action=exportFinalCsv&admin=${encodeURIComponent(admin)}`;
+    const url = `${WEBAPP_URL}?action=exportFinalCsv&admin=Xul@peluch3${encodeURIComponent(admin)}`;
     window.open(url, '_blank');
   }
 
