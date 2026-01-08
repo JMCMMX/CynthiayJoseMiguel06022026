@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin · Mesas</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --arena:#E7DCCB; --duna:#CDBDA7; --mar:#5AA7C7;
+      --ok:#6fbf8a; --no:#d97c7c; --wait:#9a9a9a;
+      --text:#2f2f2f; --card:rgba(255,255,255,.94);
+      --shadow:0 18px 45px rgba(0,0,0,.12); --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh; padding:22px;
+      font-family:"Lato",sans-serif; color:var(--text);
+      background:radial-gradient(circle at top,#fff 0%,var(--arena) 48%,var(--duna) 100%);
+    }
+    .wrap{max-width:1300px;margin:auto}
+    .top{
+      background:var(--card); box-shadow:var(--shadow); border-radius:var(--radius);
+      padding:18px 18px 14px; text-align:center; position:relative; overflow:hidden;
+    }
+    .top::before{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(90,167,199,.22),rgba(205,189,167,.14));
+      opacity:.7; pointer-events:none;
+    }
+    .top>*{position:relative;z-index:1}
+    h1{font-family:"Dancing Script",cursive; font-size:2.6rem; margin:0; color:var(--mar)}
+    .sub{margin:6px 0 12px; letter-spacing:.18em; text-transform:uppercase; font-size:.85rem; color:rgba(47,47,47,.7)}
+
+    .controls{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:10px}
+    input,select{
+      padding:10px 14px; border-radius:12px; border:1px solid rgba(205,189,167,.95);
+      background:#fff; outline:none; min-width:240px; font-size:.95rem;
+    }
+    button{
+      padding:10px 18px; border-radius:999px; border:0;
+      background:var(--mar); color:#fff; font-weight:900; cursor:pointer;
+      box-shadow:0 12px 26px rgba(90,167,199,.35);
+    }
+    button.secondary{
+      background:#fff; color:#444; border:1px solid rgba(205,189,167,.95);
+      box-shadow:0 10px 22px rgba(0,0,0,.07);
+    }
+
+    .grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+      align-items:start;
+    }
+    @media(max-width:980px){ .grid{grid-template-columns:1fr} }
+
+    .panel{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      border:1px solid rgba(205,189,167,.5);
+      overflow:hidden;
+    }
+    .panelHeader{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(205,189,167,.35);
+      font-weight:900;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-size:.85rem;
+      color:rgba(47,47,47,.75);
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    }
+    .pill{
+      padding:6px 10px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid rgba(205,189,167,.9);
+      font-weight:900;
+      font-size:.78rem;
+      color:#555;
+    }
+
+    .listRow{
+      padding:12px 14px;
+      border-top:1px solid rgba(205,189,167,.25);
+      display:grid;
+      grid-template-columns: 1fr 160px;
+      gap:10px;
+      align-items:center;
+    }
+    .listRow:first-child{border-top:0}
+    .name{font-weight:900}
+    .meta{font-size:.82rem; color:rgba(47,47,47,.7); margin-top:2px}
+    .small{font-size:.78rem; color:rgba(47,47,47,.6); margin-top:4px}
+
+    .mesaSelect{
+      width:100%;
+      min-width:0;
+      padding:10px 10px;
+      border-radius:12px;
+      border:1px solid rgba(205,189,167,.95);
+      background:#fff;
+      font-weight:800;
+    }
+
+    details{border-top:1px solid rgba(205,189,167,.25)}
+    summary{
+      cursor:pointer;
+      padding:12px 14px;
+      list-style:none;
+      font-weight:900;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    summary::-webkit-details-marker{display:none}
+    .mesaBlock{padding:0 14px 12px}
+    .mesaItem{
+      padding:8px 0;
+      border-top:1px dashed rgba(205,189,167,.35);
+      font-weight:800;
+    }
+    .mesaItem:first-child{border-top:0}
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      background:#fff;
+      border:1px solid rgba(205,189,167,.9);
+      box-shadow:0 14px 32px rgba(0,0,0,.12);
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:900;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .2s ease, transform .2s ease;
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(-4px)}
+    code{background:rgba(231,220,203,.55);padding:2px 6px;border-radius:8px}
+    .error{margin-top:14px;background:var(--card);border-radius:var(--radius);padding:16px;text-align:center;box-shadow:var(--shadow);border:1px solid rgba(217,124,124,.4)}
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>Mesas</h1>
+    <div class="sub">Asignación · 10 mesas · Solo confirmados</div>
+
+    <div class="controls">
+      <input id="q" type="search" placeholder="Buscar por nombre…">
+      <select id="filterMesa">
+        <option value="all">Todas las mesas</option>
+        <option value="">Sin asignar</option>
+        <option value="1">Mesa 1</option><option value="2">Mesa 2</option><option value="3">Mesa 3</option><option value="4">Mesa 4</option><option value="5">Mesa 5</option>
+        <option value="6">Mesa 6</option><option value="7">Mesa 7</option><option value="8">Mesa 8</option><option value="9">Mesa 9</option><option value="10">Mesa 10</option>
+      </select>
+      <button id="reload">Actualizar</button>
+      <button class="secondary" id="csv">Exportar CSV</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <div class="panelHeader">
+        <div>Lista de confirmados</div>
+        <div class="pill">Total: <span id="total">—</span></div>
+      </div>
+      <div id="list"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panelHeader">
+        <div>Dashboard por mesa</div>
+        <div class="pill">Sin asignar: <span id="ua">—</span></div>
+      </div>
+      <div id="dash"></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast">Guardado ✅</div>
+
+<script>
+  const WEBAPP_URL = "PEGA_AQUI_TU_WEBAPP_URL"; // <-- tu /exec
+  const params = new URLSearchParams(location.search);
+  const admin = params.get('admin') || '';
+
+  const $ = (id)=>document.getElementById(id);
+
+  let items = [];
+  let dash = null;
+
+  function escapeHtml(s){
+    return (s??'').toString()
+      .replaceAll('&','&amp;').replaceAll('<','&lt;')
+      .replaceAll('>','&gt;').replaceAll('"','&quot;')
+      .replaceAll("'","&#039;");
+  }
+
+  function toast(msg){
+    const el = $('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    setTimeout(()=>el.classList.remove('show'), 1000);
+  }
+
+  function renderList(){
+    const q = ($('q').value||'').toLowerCase().trim();
+    const fm = $('filterMesa').value;
+
+    const filtered = items.filter(it=>{
+      const okName = (it.nombre||'').toLowerCase().includes(q);
+      const okMesa = (fm==='all') ? true : (String(it.mesa||'') === fm);
+      return okName && okMesa;
+    });
+
+    $('total').textContent = filtered.length;
+
+    if(!admin){
+      $('list').innerHTML = `<div class="error"><b>Acceso restringido.</b><br>Abre con <code>?admin=TU_TOKEN</code></div>`;
+      return;
+    }
+
+    $('list').innerHTML = filtered.map(it=>`
+      <div class="listRow">
+        <div>
+          <div class="name">${escapeHtml(it.nombre)}</div>
+          <div class="meta">${escapeHtml(it.id)} · Token: ${escapeHtml(it.token)}</div>
+          <div class="small">Última asignación: ${escapeHtml(it.updated || '—')}</div>
+        </div>
+        <div>
+          <select class="mesaSelect" data-id="${escapeHtml(it.id)}" data-token="${escapeHtml(it.token)}" data-nombre="${escapeHtml(it.nombre)}">
+            <option value="">Sin asignar</option>
+            ${Array.from({length:10},(_,i)=>String(i+1)).map(m=>`
+              <option value="${m}" ${String(it.mesa||'')===m?'selected':''}>Mesa ${m}</option>
+            `).join('')}
+          </select>
+        </div>
+      </div>
+    `).join('');
+
+    // listeners
+    document.querySelectorAll('.mesaSelect').forEach(sel=>{
+      sel.addEventListener('change', async (e)=>{
+        const s = e.target;
+        const id = s.getAttribute('data-id');
+        const token = s.getAttribute('data-token');
+        const nombre = s.getAttribute('data-nombre');
+        const mesa = s.value;
+
+        // optimista: actualiza en memoria
+        const idx = items.findIndex(x=>x.id===id);
+        if (idx>=0) items[idx].mesa = mesa;
+
+        const ok = await saveMesa(id, token, nombre, mesa);
+        if(ok){
+          toast('Guardado ✅');
+          await loadDashboard(); // refresca tablero
+          renderList(); // refresca timestamps/estado
+        }else{
+          toast('Error al guardar');
+        }
+      });
+    });
+  }
+
+  function renderDashboard(){
+    if(!dash){
+      $('dash').innerHTML = `<div style="padding:14px">Cargando…</div>`;
+      return;
+    }
+    $('ua').textContent = dash.unassignedCount ?? 0;
+
+    const blocks = [];
+    for(let m=1; m<=10; m++){
+      const key = String(m);
+      const arr = dash.mesas[key] || [];
+      blocks.push(`
+        <details ${m===1?'open':''}>
+          <summary>
+            <span>Mesa ${m}</span>
+            <span class="pill">${arr.length}</span>
+          </summary>
+          <div class="mesaBlock">
+            ${arr.length ? arr.map(p=>`<div class="mesaItem">${escapeHtml(p.nombre)}</div>`).join('') : `<div style="padding:6px 0;color:rgba(47,47,47,.65)">—</div>`}
+          </div>
+        </details>
+      `);
+    }
+
+    // Sin asignar
+    const ua = dash.unassigned || [];
+    blocks.push(`
+      <details>
+        <summary>
+          <span>Sin asignar</span>
+          <span class="pill">${ua.length}</span>
+        </summary>
+        <div class="mesaBlock">
+          ${ua.length ? ua.map(p=>`<div class="mesaItem">${escapeHtml(p.nombre)}</div>`).join('') : `<div style="padding:6px 0;color:rgba(47,47,47,.65)">—</div>`}
+        </div>
+      </details>
+    `);
+
+    $('dash').innerHTML = blocks.join('');
+  }
+
+  async function loadData(){
+    if(!WEBAPP_URL.includes('http')){
+      $('list').innerHTML = `<div class="error">Configura <b>WEBAPP_URL</b> en este archivo.</div>`;
+      return;
+    }
+    if(!admin){
+      renderList();
+      return;
+    }
+
+    $('list').innerHTML = `<div style="padding:14px">Cargando…</div>`;
+    try{
+      const res = await fetch(`${WEBAPP_URL}?action=mesasData&admin=${encodeURIComponent(admin)}`);
+      const data = await res.json();
+      if(!data.ok){
+        $('list').innerHTML = `<div class="error">${escapeHtml(data.error||'Error')}</div>`;
+        return;
+      }
+      items = data.items || [];
+      renderList();
+    }catch(e){
+      $('list').innerHTML = `<div class="error">Error de conexión.</div>`;
+    }
+  }
+
+  async function loadDashboard(){
+    if(!admin) return;
+    try{
+      const res = await fetch(`${WEBAPP_URL}?action=mesasDashboard&admin=${encodeURIComponent(admin)}`);
+      const data = await res.json();
+      if(data.ok){
+        dash = data;
+        renderDashboard();
+      }
+    }catch(e){}
+  }
+
+  async function saveMesa(id, token, nombre, mesa){
+    try{
+      const form = new URLSearchParams();
+      form.append('mode','setMesa');
+      form.append('admin', admin);
+      form.append('id', id);
+      form.append('token', token);
+      form.append('nombre', nombre);
+      form.append('mesa', mesa);
+
+      const resp = await fetch(WEBAPP_URL, {
+        method:'POST',
+        headers:{ 'Content-Type':'application/x-www-form-urlencoded' },
+        body: form.toString()
+      });
+      const data = await resp.json();
+      return !!data.ok;
+    }catch(e){
+      return false;
+    }
+  }
+
+  function downloadCsv(){
+    if(!admin) return;
+    window.open(`${WEBAPP_URL}?action=exportMesasCsv&admin=${encodeURIComponent(admin)}`, '_blank');
+  }
+
+  $('q').addEventListener('input', renderList);
+  $('filterMesa').addEventListener('change', renderList);
+  $('reload').addEventListener('click', async ()=>{
+    await loadData();
+    await loadDashboard();
+  });
+  $('csv').addEventListener('click', downloadCsv);
+
+  (async ()=>{
+    await loadData();
+    await loadDashboard();
+  })();
+</script>
+</body>
+</html>
