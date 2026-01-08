@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lista final · Confirmados</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --arena:#E7DCCB; --duna:#CDBDA7; --mar:#5AA7C7;
+      --text:#2f2f2f; --card:rgba(255,255,255,.94);
+      --shadow:0 18px 45px rgba(0,0,0,.12); --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh; padding:22px;
+      font-family:"Lato",sans-serif; color:var(--text);
+      background:radial-gradient(circle at top,#fff 0%,var(--arena) 48%,var(--duna) 100%);
+    }
+    .wrap{max-width:900px;margin:auto}
+    .top{
+      background:var(--card); box-shadow:var(--shadow); border-radius:var(--radius);
+      padding:22px 20px 16px; text-align:center; position:relative; overflow:hidden;
+    }
+    .top::before{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(90,167,199,.22),rgba(205,189,167,.14));
+      opacity:.7; pointer-events:none;
+    }
+    .top>*{position:relative;z-index:1}
+    h1{font-family:"Dancing Script",cursive; font-size:2.7rem; margin:0; color:var(--mar)}
+    .sub{margin:6px 0 14px; letter-spacing:.18em; text-transform:uppercase; font-size:.85rem; color:rgba(47,47,47,.7)}
+    .controls{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:10px}
+    input{
+      padding:10px 14px; border-radius:12px; border:1px solid rgba(205,189,167,.95);
+      background:#fff; outline:none; min-width:240px; font-size:.95rem;
+    }
+    button{
+      padding:10px 18px; border-radius:999px; border:0;
+      background:var(--mar); color:#fff; font-weight:800; cursor:pointer;
+      box-shadow:0 12px 26px rgba(90,167,199,.35);
+    }
+    button.secondary{
+      background:#fff; color:#444; border:1px solid rgba(205,189,167,.95);
+      box-shadow:0 10px 22px rgba(0,0,0,.07);
+    }
+    .meta{margin-top:10px; font-size:.95rem; color:rgba(47,47,47,.75)}
+    .list{
+      margin-top:14px;
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      border:1px solid rgba(205,189,167,.5);
+    }
+    .row{
+      padding:12px 16px;
+      border-top:1px solid rgba(205,189,167,.35);
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .row:first-child{border-top:0}
+    .idx{
+      width:34px; height:34px; border-radius:10px;
+      background:rgba(231,220,203,.65);
+      border:1px solid rgba(205,189,167,.9);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:900; color:#444;
+      flex:0 0 auto;
+    }
+    .name{font-weight:800}
+    .empty,.error{
+      margin-top:14px;background:var(--card);
+      border-radius:var(--radius);padding:16px;text-align:center;box-shadow:var(--shadow);
+    }
+    .error{border:1px solid rgba(217,124,124,.4)}
+    code{background:rgba(231,220,203,.55);padding:2px 6px;border-radius:8px}
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>Lista final</h1>
+    <div class="sub">Solo confirmados · 1 por 1</div>
+
+    <div class="controls">
+      <input id="q" type="search" placeholder="Buscar por nombre…">
+      <button id="reload">Actualizar</button>
+      <button class="secondary" id="csv">Exportar CSV</button>
+    </div>
+
+    <div class="meta">
+      Total: <b id="total">—</b> nombres
+    </div>
+  </div>
+
+  <div id="out"></div>
+</div>
+
+<script>
+  const WEBAPP_URL = "PEGA_AQUI_TU_WEBAPP_URL"; // <-- tu /exec
+  const params = new URLSearchParams(location.search);
+  const admin = params.get('admin') || '';
+
+  const $ = (id)=>document.getElementById(id);
+  let names = [];
+
+  function escapeHtml(s){
+    return (s??'').toString()
+      .replaceAll('&','&amp;').replaceAll('<','&lt;')
+      .replaceAll('>','&gt;').replaceAll('"','&quot;')
+      .replaceAll("'","&#039;");
+  }
+
+  function render(){
+    const q = ($('q').value || '').toLowerCase().trim();
+    const filtered = names.filter(n => n.toLowerCase().includes(q));
+
+    $('total').textContent = filtered.length;
+
+    if(!admin){
+      $('out').innerHTML = `<div class="error"><b>Acceso restringido.</b><br>Abre con <code>?admin=TU_TOKEN</code></div>`;
+      return;
+    }
+
+    if(!filtered.length){
+      $('out').innerHTML = `<div class="empty">No hay resultados.</div>`;
+      return;
+    }
+
+    $('out').innerHTML = `
+      <div class="list">
+        ${filtered.map((n,i)=>`
+          <div class="row">
+            <div class="idx">${i+1}</div>
+            <div class="name">${escapeHtml(n)}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  async function load(){
+    if(!WEBAPP_URL.includes('http')){
+      $('out').innerHTML = `<div class="error">Configura <b>WEBAPP_URL</b> en este archivo.</div>`;
+      return;
+    }
+    if(!admin){ render(); return; }
+
+    $('out').innerHTML = `<div class="empty">Cargando…</div>`;
+
+    try{
+      const url = `${WEBAPP_URL}?action=finalList&admin=${encodeURIComponent(admin)}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if(!data.ok){
+        $('out').innerHTML = `<div class="error">${escapeHtml(data.error || 'Error')}</div>`;
+        return;
+      }
+      names = data.names || [];
+      render();
+    }catch(e){
+      $('out').innerHTML = `<div class="error">Error de conexión.</div>`;
+    }
+  }
+
+  function downloadCsv(){
+    if(!admin) return;
+    // CSV en UTF-8 con BOM para acentos (Excel friendly)
+    const url = `${WEBAPP_URL}?action=exportFinalCsv&admin=${encodeURIComponent(admin)}`;
+    window.open(url, '_blank');
+  }
+
+  $('q').addEventListener('input', render);
+  $('reload').addEventListener('click', load);
+  $('csv').addEventListener('click', downloadCsv);
+
+  load();
+</script>
+</body>
+</html>
