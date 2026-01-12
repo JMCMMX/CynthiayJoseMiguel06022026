@@ -10,28 +10,42 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --arena:#E7DCCB; --duna:#CDBDA7; --mar:#5AA7C7;
-      --card:rgba(255,255,255,.92); --text:#2f2f2f;
-      --shadow:0 18px 45px rgba(0,0,0,.14); --radius:18px;
+  :root{
+  --arena:#E7DCCB; 
+  --duna:#CDBDA7; 
+  --mar:#5AA7C7;
+  --card:rgba(255,255,255,.92); 
+  --text:#2f2f2f;
+  --shadow:0 18px 45px rgba(0,0,0,.14); 
+  --radius:18px;
 
-      /* ====== AJUSTA AQUÍ LA POSICIÓN DE CADA MESA (en %) ======
-         top/left en porcentaje dentro del plano (0–100).
-         Tip: abre en el navegador y ajusta hasta que coincida con tu foto. */
-      --t1-top: 42%; --t1-left: 28%;
-      --t2-top: 24%; --t2-left: 62%;
-      --t3-top: 60%; --t3-left: 18%;
-      --t4-top: 26%; --t4-left: 80%;
-      --t5-top: 82%; --t5-left: 35%;
-      --t6-top: 62%; --t6-left: 86%;
-      --t7-top: 84%; --t7-left: 84%;
-      --t8-top: 84%; --t8-left: 55%;
-      --t9-top: 88%; --t9-left: 8%;
-      --t10-top: 34%; --t10-left: 92%;
+  /* ===== POSICIONES EXACTAS SEGÚN TU LAYOUT ===== */
 
-      /* Tamaño de mesas (ajustable) */
-      --table-size: 150px; /* escritorio */
-    }
+  /* Tamaño mesas */
+  --table-size: 140px;
+
+  /* Mesa de novios */
+  --novios-top: 6%;
+  --novios-left: 50%;
+
+  /* Mesas superiores */
+  --t9-top: 20%;  --t9-left: 18%;
+  --t1-top: 20%;  --t1-left: 32%;
+  --t2-top: 20%;  --t2-left: 68%;
+  --t10-top:20%;  --t10-left:82%;
+
+  /* Mesas medias */
+  --t3-top: 38%;  --t3-left: 28%;
+  --t4-top: 38%;  --t4-left: 72%;
+
+  /* Mesas inferiores */
+  --t5-top: 58%;  --t5-left: 28%;
+  --t6-top: 58%;  --t6-left: 72%;
+
+  /* Mesas fondo */
+  --t7-top: 76%;  --t7-left: 42%;
+  --t8-top: 76%;  --t8-left: 58%;
+}
 
     *{box-sizing:border-box}
     body{
@@ -143,7 +157,21 @@
       width:100%;
       aspect-ratio: 16 / 9;
       min-height:520px;
+      
     }
+.mesa-novios{
+  top:var(--novios-top);
+  left:var(--novios-left);
+  transform:translate(-50%,-50%);
+  width:220px;
+  height:64px;
+  border-radius:14px;
+  text-align:center;
+}
+.mesa-novios .mesaHeader{
+  justify-content:center;
+  font-size:.9rem;
+}
 
     /* PISTA */
     .pista{
@@ -315,6 +343,12 @@
     <div class="plan">
       <div class="planInner" id="planInner">
         <div class="pista">
+            <div class="mesa mesa-novios">
+  <div class="mesaHeader">
+    <div class="mesaNum">Mesa de Novios</div>
+  </div>
+</div>
+
           PISTA
           <small>Centro</small>
         </div>
