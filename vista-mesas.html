@@ -27,10 +27,12 @@
       --pista-top: 50%;
       --pista-left: 50%;
 
-      --t9-top: 24%;  --t9-left: 7%;
+      /* 🔧 Ajuste: 9 y 10 MÁS AFUERA para separarlas de 3 y 4 */
+      --t9-top: 22%;  --t9-left: 4%;
+      --t10-top:22%; --t10-left:96%;
+
       --t1-top: 20%;  --t1-left: 26%;
       --t2-top: 20%;  --t2-left: 74%;
-      --t10-top:24%;  --t10-left:93%;
 
       --t3-top: 38%;  --t3-left: 16%;
       --t4-top: 38%;  --t4-left: 84%;
@@ -98,6 +100,8 @@
       border-radius:12px;
       border:1px solid rgba(205,189,167,.95);
       min-width:240px;
+      outline:none;
+      background:#fff;
     }
 
     button{
@@ -108,12 +112,14 @@
       color:#fff;
       font-weight:900;
       cursor:pointer;
+      box-shadow:0 12px 26px rgba(90,167,199,.25);
     }
 
     button.secondary{
       background:#fff;
       color:#444;
       border:1px solid rgba(205,189,167,.95);
+      box-shadow:0 10px 22px rgba(0,0,0,.07);
     }
 
     /* ===== PLANO ===== */
@@ -123,14 +129,16 @@
       border-radius:var(--radius);
       box-shadow:var(--shadow);
       border:1px solid rgba(205,189,167,.55);
-      overflow:auto;
+      overflow:auto; /* scroll en móviles */
+      -webkit-overflow-scrolling: touch;
+      position:relative;
     }
 
     .planInner{
       position:relative;
       aspect-ratio:16/9;
       min-height:540px;
-      min-width:1150px; /* scroll en móviles */
+      min-width:1150px; /* scroll horizontal en móviles, evita encimados */
       --s:1;
       --ts:1;
     }
@@ -145,6 +153,7 @@
       height:34%;
       border-radius:12px;
       background:linear-gradient(135deg, rgba(205,189,167,.40), rgba(231,220,203,.55));
+      border:1px solid rgba(205,189,167,.75);
       display:flex;
       align-items:center;
       justify-content:center;
@@ -152,12 +161,15 @@
       font-weight:1000;
       letter-spacing:.18em;
       text-transform:uppercase;
+      color:rgba(47,47,47,.70);
     }
 
     .pista small{
       font-size:.8rem;
       margin-top:6px;
       opacity:.7;
+      letter-spacing:.08em;
+      text-transform:none;
     }
 
     /* ===== MESAS ===== */
@@ -178,18 +190,34 @@
     .mesaHeader{
       padding:6px 10px;
       background:linear-gradient(135deg, rgba(90,167,199,.22), rgba(231,220,203,.30));
+      border-bottom:1px solid rgba(205,189,167,.45);
       display:flex;
       justify-content:space-between;
+      align-items:center;
       font-weight:900;
       font-size:.75rem;
       letter-spacing:.14em;
       text-transform:uppercase;
+      color:rgba(47,47,47,.75);
+    }
+
+    .mesaHeader .count{
+      font-weight:1000;
+      letter-spacing:.08em;
+      font-size:.72rem;
+      padding:4px 8px;
+      border-radius:999px;
+      background:rgba(231,220,203,.55);
+      border:1px solid rgba(205,189,167,.7);
+      color:rgba(47,47,47,.75);
+      white-space:nowrap;
     }
 
     .mesaBody{
       padding:8px 10px;
       font-size:.78rem;
       overflow:auto;
+      scrollbar-width: thin;
     }
 
     .name{
@@ -209,12 +237,16 @@
       height:calc(var(--base-novios-h)*1px*var(--s));
       border-radius:14px;
       background:#fff;
+      border:1px solid rgba(205,189,167,.85);
+      box-shadow:0 12px 26px rgba(0,0,0,.10);
       display:flex;
       align-items:center;
       justify-content:center;
       font-weight:900;
       letter-spacing:.16em;
       text-transform:uppercase;
+      color:rgba(47,47,47,.75);
+      white-space:nowrap;
     }
 
     /* Posiciones */
@@ -228,6 +260,17 @@
     .m8{top:var(--t8-top);left:var(--t8-left)}
     .m9{top:var(--t9-top);left:var(--t9-left)}
     .m10{top:var(--t10-top);left:var(--t10-left)}
+
+    .status{
+      margin-top:10px;
+      text-align:center;
+      font-size:.9rem;
+      color:rgba(47,47,47,.70);
+    }
+    .status.ok{ color:#2e7d32; }
+    .status.err{ color:#c62828; }
+
+    .hidden{ display:none; }
   </style>
 </head>
 
@@ -241,6 +284,7 @@
       <button id="reload">Actualizar</button>
       <button id="csv" class="secondary">Exportar CSV</button>
     </div>
+    <div id="status" class="status"></div>
   </div>
 
   <div class="plan">
@@ -249,41 +293,205 @@
       <div class="mesa-novios">Mesa de Novios</div>
 
       <div class="pista">
-        Pista
+        PISTA
         <small>Centro</small>
       </div>
 
       <!-- Mesas -->
-      <div class="mesa m1"><div class="mesaHeader">Mesa 1 <span id="c1"></span></div><div class="mesaBody" id="m1"></div></div>
-      <div class="mesa m2"><div class="mesaHeader">Mesa 2 <span id="c2"></span></div><div class="mesaBody" id="m2"></div></div>
-      <div class="mesa m3"><div class="mesaHeader">Mesa 3 <span id="c3"></span></div><div class="mesaBody" id="m3"></div></div>
-      <div class="mesa m4"><div class="mesaHeader">Mesa 4 <span id="c4"></span></div><div class="mesaBody" id="m4"></div></div>
-      <div class="mesa m5"><div class="mesaHeader">Mesa 5 <span id="c5"></span></div><div class="mesaBody" id="m5"></div></div>
-      <div class="mesa m6"><div class="mesaHeader">Mesa 6 <span id="c6"></span></div><div class="mesaBody" id="m6"></div></div>
-      <div class="mesa m7"><div class="mesaHeader">Mesa 7 <span id="c7"></span></div><div class="mesaBody" id="m7"></div></div>
-      <div class="mesa m8"><div class="mesaHeader">Mesa 8 <span id="c8"></span></div><div class="mesaBody" id="m8"></div></div>
-      <div class="mesa m9"><div class="mesaHeader">Mesa 9 <span id="c9"></span></div><div class="mesaBody" id="m9"></div></div>
-      <div class="mesa m10"><div class="mesaHeader">Mesa 10 <span id="c10"></span></div><div class="mesaBody" id="m10"></div></div>
+      <div class="mesa m1"><div class="mesaHeader">Mesa 1 <span class="count" id="c1">—</span></div><div class="mesaBody" id="m1"></div></div>
+      <div class="mesa m2"><div class="mesaHeader">Mesa 2 <span class="count" id="c2">—</span></div><div class="mesaBody" id="m2"></div></div>
+      <div class="mesa m3"><div class="mesaHeader">Mesa 3 <span class="count" id="c3">—</span></div><div class="mesaBody" id="m3"></div></div>
+      <div class="mesa m4"><div class="mesaHeader">Mesa 4 <span class="count" id="c4">—</span></div><div class="mesaBody" id="m4"></div></div>
+      <div class="mesa m5"><div class="mesaHeader">Mesa 5 <span class="count" id="c5">—</span></div><div class="mesaBody" id="m5"></div></div>
+      <div class="mesa m6"><div class="mesaHeader">Mesa 6 <span class="count" id="c6">—</span></div><div class="mesaBody" id="m6"></div></div>
+      <div class="mesa m7"><div class="mesaHeader">Mesa 7 <span class="count" id="c7">—</span></div><div class="mesaBody" id="m7"></div></div>
+      <div class="mesa m8"><div class="mesaHeader">Mesa 8 <span class="count" id="c8">—</span></div><div class="mesaBody" id="m8"></div></div>
+      <div class="mesa m9"><div class="mesaHeader">Mesa 9 <span class="count" id="c9">—</span></div><div class="mesaBody" id="m9"></div></div>
+      <div class="mesa m10"><div class="mesaHeader">Mesa 10 <span class="count" id="c10">—</span></div><div class="mesaBody" id="m10"></div></div>
 
     </div>
   </div>
 </div>
 
 <script>
-  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzzuYdqWMgo8UJjXqm-rJETAnRyFeklo7m03s7gb7ehEL2ueiearC253nHcfwptNvnw/exec";
+  // =========================
+  // CONFIG
+  // =========================
+  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzzuYdqWMgo8UJjXqm-rJETAnRyFeklo7m03s7gb7ehEL2ueiearC253nHcfwptNvnw/exec"; // <-- tu /exec
   const admin = new URLSearchParams(location.search).get('admin') || '';
 
-  const $ = id => document.getElementById(id);
+  const $ = (id) => document.getElementById(id);
 
-  function applyScale(){
-    const inner = $('planInner');
-    const w = inner.clientWidth;
-    inner.style.setProperty('--s', Math.max(0.95, Math.min(1.05, w/1200)));
-    inner.style.setProperty('--ts', Math.max(0.85, Math.min(1, w/1250)));
+  function escapeHtml(s){
+    return (s ?? '').toString()
+      .replaceAll('&','&amp;')
+      .replaceAll('<','&lt;')
+      .replaceAll('>','&gt;')
+      .replaceAll('"','&quot;')
+      .replaceAll("'","&#039;");
   }
 
-  new ResizeObserver(applyScale).observe($('planInner'));
-  applyScale();
+  function normalize(s){
+    return (s ?? '')
+      .toString()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g,''); // sin acentos
+  }
+
+  function setStatus(msg, type){
+    const el = $('status');
+    if(!msg){
+      el.textContent = '';
+      el.className = 'status';
+      return;
+    }
+    el.textContent = msg;
+    el.className = 'status ' + (type || '');
+  }
+
+  // =========================
+  // ESCALA (evita encimados, scroll móvil)
+  // =========================
+  function applyScale(){
+    const inner = $('planInner');
+    if(!inner) return;
+
+    const w = inner.clientWidth;
+
+    // s: tipografía/feel general
+    const s = Math.max(0.95, Math.min(1.06, w / 1200));
+
+    // ts: tamaño de mesas (compacta un poco si el contenedor es angosto)
+    const ts = Math.max(0.86, Math.min(1.00, w / 1250));
+
+    inner.style.setProperty('--s', s.toFixed(3));
+    inner.style.setProperty('--ts', ts.toFixed(3));
+  }
+
+  // =========================
+  // CARGA + RENDER
+  // =========================
+  function renderMesa(n, arr){
+    const body = $('m' + n);
+    const count = $('c' + n);
+
+    const names = (arr || [])
+      .map(x => (x && x.nombre) ? String(x.nombre).trim() : '')
+      .filter(Boolean);
+
+    count.textContent = `${names.length}/10`;
+
+    body.innerHTML = names.length
+      ? names.map(name => `<div class="name">${escapeHtml(name)}</div>`).join('')
+      : `<div style="opacity:.55;font-weight:800">—</div>`;
+  }
+
+  function clearAll(){
+    for(let i=1;i<=10;i++){
+      $('c'+i).textContent = '—';
+      $('m'+i).innerHTML = `<div style="opacity:.55;font-weight:800">—</div>`;
+    }
+  }
+
+  async function load(){
+    setStatus('', '');
+    clearAll();
+
+    if(!WEBAPP_URL.includes('http')){
+      setStatus('Configura WEBAPP_URL en el archivo.', 'err');
+      return;
+    }
+    if(!admin){
+      setStatus('Acceso restringido. Abre con ?admin=TU_TOKEN', 'err');
+      return;
+    }
+
+    try{
+      setStatus('Cargando mesas…', '');
+      const url = `${WEBAPP_URL}?action=mesasDashboard&admin=${encodeURIComponent(admin)}`;
+      const res = await fetch(url, { cache: 'no-store' });
+      const data = await res.json();
+
+      if(!data || !data.ok){
+        setStatus((data && data.error) ? data.error : 'No se pudo cargar el dashboard.', 'err');
+        return;
+      }
+
+      const mesas = data.mesas || {};
+      for(let i=1;i<=10;i++){
+        renderMesa(i, mesas[String(i)] || []);
+      }
+
+      setStatus('Listo ✅', 'ok');
+      applySearch(); // respeta búsqueda si estaba escrita
+    }catch(e){
+      console.error(e);
+      setStatus('Error de conexión al cargar mesas.', 'err');
+    }
+  }
+
+  // =========================
+  // BÚSQUEDA (resalta mesas con coincidencias)
+  // =========================
+  function applySearch(){
+    const q = normalize(($('q').value || '').trim());
+
+    // reset
+    document.querySelectorAll('.mesa').forEach(el=>{
+      el.style.opacity = '';
+      el.style.filter = '';
+    });
+
+    if(!q) return;
+
+    // fade all
+    document.querySelectorAll('.mesa').forEach(el=>{
+      el.style.opacity = '0.35';
+      el.style.filter = 'grayscale(0.1)';
+    });
+
+    // highlight mesas con match
+    for(let m=1; m<=10; m++){
+      const box = document.querySelector('.mesa.m'+m);
+      if(!box) continue;
+      const names = Array.from(box.querySelectorAll('.name')).map(n => normalize(n.textContent));
+      const match = names.some(n => n.includes(q));
+      if(match){
+        box.style.opacity = '1';
+        box.style.filter = 'none';
+      }
+    }
+  }
+
+  // =========================
+  // CSV
+  // =========================
+  function exportCsv(){
+    if(!admin) return;
+    // Si tu Apps Script expone esto, perfecto:
+    window.open(`${WEBAPP_URL}?action=exportMesasCsv&admin=Xul@peluch3${encodeURIComponent(admin)}`, '_blank');
+  }
+
+  // =========================
+  // INIT
+  // =========================
+  document.addEventListener('DOMContentLoaded', () => {
+    // escala responsive
+    const inner = $('planInner');
+    if(inner){
+      new ResizeObserver(applyScale).observe(inner);
+    }
+    applyScale();
+
+    // eventos
+    $('q').addEventListener('input', applySearch);
+    $('reload').addEventListener('click', load);
+    $('csv').addEventListener('click', exportCsv);
+
+    // carga inicial
+    load();
+  });
 </script>
 </body>
 </html>
