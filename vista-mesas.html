@@ -10,57 +10,67 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
   <style>
-  :root{
-  --arena:#E7DCCB; 
-  --duna:#CDBDA7; 
-  --mar:#5AA7C7;
-  --card:rgba(255,255,255,.92); 
-  --text:#2f2f2f;
-  --shadow:0 18px 45px rgba(0,0,0,.14); 
-  --radius:18px;
+    :root{
+      --arena:#E7DCCB;
+      --duna:#CDBDA7;
+      --mar:#5AA7C7;
 
-  /* ===== POSICIONES EXACTAS SEGÚN TU LAYOUT ===== */
+      --card:rgba(255,255,255,.92);
+      --text:#2f2f2f;
+      --shadow:0 18px 45px rgba(0,0,0,.14);
+      --radius:18px;
 
-  /* Tamaño mesas */
-  --table-size: 140px;
+      /* === Layout exacto del mock (en %) === */
+      --novios-top: 10%;
+      --novios-left: 50%;
 
-  /* Mesa de novios */
-  --novios-top: 6%;
-  --novios-left: 50%;
+      --pista-top: 48%;
+      --pista-left: 50%;
 
-  /* Mesas superiores */
-  --t9-top: 20%;  --t9-left: 18%;
-  --t1-top: 20%;  --t1-left: 32%;
-  --t2-top: 20%;  --t2-left: 68%;
-  --t10-top:20%;  --t10-left:82%;
+      --t1-top: 22%; --t1-left: 28%;
+      --t2-top: 22%; --t2-left: 72%;
+      --t3-top: 36%; --t3-left: 18%;
+      --t4-top: 36%; --t4-left: 82%;
+      --t5-top: 58%; --t5-left: 18%;
+      --t6-top: 58%; --t6-left: 82%;
+      --t7-top: 78%; --t7-left: 40%;
+      --t8-top: 78%; --t8-left: 60%;
+      --t9-top: 24%; --t9-left: 8%;
+      --t10-top:24%; --t10-left:92%;
 
-  /* Mesas medias */
-  --t3-top: 38%;  --t3-left: 28%;
-  --t4-top: 38%;  --t4-left: 72%;
+      /* Capacidad */
+      --max: 10;
 
-  /* Mesas inferiores */
-  --t5-top: 58%;  --t5-left: 28%;
-  --t6-top: 58%;  --t6-left: 72%;
-
-  /* Mesas fondo */
-  --t7-top: 76%;  --t7-left: 42%;
-  --t8-top: 76%;  --t8-left: 58%;
-}
+      /* Tamaños base (se escalan con --s) */
+      --base-table: 150; /* px cuando --s=1 */
+      --base-novios-w: 260; /* px */
+      --base-novios-h: 64;  /* px */
+    }
 
     *{box-sizing:border-box}
+
+    /* Full width */
     body{
-      margin:0; min-height:100vh; padding:18px;
+      margin:0;
+      min-height:100vh;
       font-family:"Lato",system-ui,-apple-system,"Segoe UI",sans-serif;
       color:var(--text);
       background:radial-gradient(circle at top,#fff 0%, var(--arena) 48%, var(--duna) 100%);
     }
 
-    .wrap{max-width:1400px;margin:auto}
+    .wrap{
+      width:100%;
+      max-width:none;              /* <-- full width */
+      margin:0;
+      padding:14px;                /* margen general */
+    }
+
     .top{
+      width:100%;
       background:var(--card);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
-      padding:16px 16px 12px;
+      padding:16px 14px 12px;
       text-align:center;
       position:relative;
       overflow:hidden;
@@ -74,7 +84,12 @@
       pointer-events:none;
     }
     .top>*{position:relative;z-index:1}
-    h1{font-family:"Dancing Script",cursive;margin:0;font-size:2.4rem;color:var(--mar)}
+    h1{
+      font-family:"Dancing Script",cursive;
+      margin:0;
+      font-size:2.4rem;
+      color:var(--mar);
+    }
     .sub{
       margin:6px 0 10px;
       letter-spacing:.18em;
@@ -84,7 +99,10 @@
     }
 
     .controls{
-      display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
       margin-top:10px;
     }
     input{
@@ -113,34 +131,31 @@
       box-shadow:0 10px 22px rgba(0,0,0,.07);
     }
 
+    /* Layout: en desktop plan + sidebar; en móvil se apila */
     .layoutWrap{
       margin-top:14px;
       display:grid;
-      grid-template-columns: 1fr 340px;
+      grid-template-columns: 1fr 360px;
       gap:14px;
       align-items:start;
+      width:100%;
     }
     @media(max-width:1100px){
-      .layoutWrap{grid-template-columns:1fr}
-      :root{ --table-size: 140px; }
-    }
-    @media(max-width:520px){
-      :root{ --table-size: 128px; }
+      .layoutWrap{ grid-template-columns: 1fr; }
     }
 
-    /* ====== PLANO ====== */
+    /* PLAN: full width + scrollable en móviles */
     .plan{
+      width:100%;
       background:var(--card);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
       border:1px solid rgba(205,189,167,.55);
-      overflow:hidden;
       position:relative;
+      overflow:auto; /* <-- scroll */
+      -webkit-overflow-scrolling: touch;
     }
 
-    /* (Opcional) imagen de fondo guía:
-       Si quieres, pon aquí una imagen (por ejemplo la misma de referencia) y ajusta opacity.
-       .plan::before { background-image:url('ruta.jpg'); } */
     .plan::before{
       content:"";
       position:absolute; inset:0;
@@ -151,91 +166,146 @@
       pointer-events:none;
     }
 
-    /* ===== Escala responsiva (base diseño 1000px) ===== */
-.planInner{
-  position:relative;
-  width:100%;
-  aspect-ratio: 16 / 9;
-  min-height:520px;
-  --s: 1; /* se setea por JS según ancho real */
-}
+    .planInner{
+      position:relative;
+      width:100%;
+      aspect-ratio: 16 / 9;
+      min-height:540px;
 
-/* Tamaños escalados */
-:root{
-  --base-table: 150;   /* tamaño mesa base en px (cuando --s=1) */
-  --base-pista-w: 42;  /* % ancho pista (se queda en %) */
-  --base-pista-h: 34;  /* % alto pista (se queda en %) */
-}
+      /* IMPORTANT: esto fuerza scroll horizontal en móviles */
+      min-width: 980px;  /* <-- ajusta si quieres más/menos zoom base */
+      --s: 1;            /* se setea por JS */
+    }
 
-/* Mesa circular */
-.mesa{
-  width: calc(var(--base-table) * 1px * var(--s));
-  height: calc(var(--base-table) * 1px * var(--s));
-  border-radius:999px;
-}
+    /* PISTA */
+    .pista{
+      position:absolute;
+      left:var(--pista-left);
+      top:var(--pista-top);
+      transform:translate(-50%,-50%);
+      width: 38%;
+      height: 34%;
+      border-radius:12px;
+      background:linear-gradient(135deg, rgba(205,189,167,.40), rgba(231,220,203,.55));
+      border:1px solid rgba(205,189,167,.85);
+      box-shadow:0 16px 30px rgba(0,0,0,.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      font-weight:1000;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:rgba(47,47,47,.70);
+      font-size: calc(.95rem * var(--s));
+    }
+    .pista small{
+      display:block;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:none;
+      margin-top:6px;
+      color:rgba(47,47,47,.60);
+      font-size: calc(.78rem * var(--s));
+    }
 
-/* Header dentro mesa (escala tipografía) */
-.mesaHeader{
-  padding: calc(8px * var(--s)) calc(10px * var(--s));
-}
-.mesaNum{
-  font-size: calc(.78rem * var(--s));
-}
-.mesaCount{
-  font-size: calc(.75rem * var(--s));
-  padding: calc(4px * var(--s)) calc(8px * var(--s));
-}
+    /* Mesa (círculo) */
+    .mesa{
+      position:absolute;
+      width: calc(var(--base-table) * 1px * var(--s));
+      height: calc(var(--base-table) * 1px * var(--s));
+      transform:translate(-50%,-50%);
+      border-radius:999px;
+      background:#fff;
+      border:1px solid rgba(205,189,167,.85);
+      box-shadow:0 12px 26px rgba(0,0,0,.12);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
 
-/* Cuerpo nombres: escala y mejora scroll */
-.mesaBody{
-  padding: calc(8px * var(--s)) calc(10px * var(--s));
-  font-size: calc(.78rem * var(--s));
-  line-height: 1.25;
-  overflow:auto;
+    .mesaHeader{
+      padding: calc(8px * var(--s)) calc(10px * var(--s));
+      background:linear-gradient(135deg, rgba(90,167,199,.22), rgba(231,220,203,.30));
+      border-bottom:1px solid rgba(205,189,167,.55);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .mesaNum{
+      font-weight:1000;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-size: calc(.78rem * var(--s));
+      color:rgba(47,47,47,.78);
+      white-space:nowrap;
+    }
+    .mesaCount{
+      font-weight:1000;
+      font-size: calc(.75rem * var(--s));
+      padding: calc(4px * var(--s)) calc(8px * var(--s));
+      border-radius:999px;
+      background:rgba(231,220,203,.55);
+      border:1px solid rgba(205,189,167,.75);
+      color:rgba(47,47,47,.75);
+      white-space:nowrap;
+    }
 
-  /* scrollbar discreto */
-  scrollbar-width: thin;
-}
-
-/* Nombre dentro mesa */
-.name{
-  padding: calc(3px * var(--s)) 0;
-  font-weight: 800;
-}
-
-/* PISTA: se mantiene centrada pero escala “sensación” */
-.pista{
-  width: calc(var(--base-pista-w) * 1%);
-  height: calc(var(--base-pista-h) * 1%);
-  font-size: calc(.95rem * var(--s));
-}
-.pista small{
-  font-size: calc(.78rem * var(--s));
-}
-
-/* Mesa de novios escalada */
-.mesa-novios{
-  width: calc(240px * var(--s));
-  height: calc(70px * var(--s));
-  border-radius: calc(14px * var(--s));
-}
-.mesa-novios .mesaNum{
-  font-size: calc(.9rem * var(--s));
-}
-
-/* Mobile: si el plano se vuelve angosto, reduce aún más el tamaño base */
-@media (max-width: 520px){
-  .planInner{ min-height: 420px; }
-}
-.name{
-      padding:3px 0;
+    .mesaBody{
+      padding: calc(8px * var(--s)) calc(10px * var(--s));
+      font-size: calc(.78rem * var(--s));
+      line-height:1.25;
+      overflow:auto;
+      scrollbar-width: thin;
+    }
+    .name{
+      padding: calc(3px * var(--s)) 0;
       border-bottom:1px dashed rgba(205,189,167,.35);
       font-weight:800;
     }
     .name:last-child{border-bottom:0}
 
-    /* ====== SIDEBAR ====== */
+    /* Mesa de novios (rectangular redondeada) */
+    .mesa-novios{
+      position:absolute;
+      top:var(--novios-top);
+      left:var(--novios-left);
+      transform:translate(-50%,-50%);
+      width: calc(var(--base-novios-w) * 1px * var(--s));
+      height: calc(var(--base-novios-h) * 1px * var(--s));
+      border-radius: calc(14px * var(--s));
+      background:#fff;
+      border:1px solid rgba(205,189,167,.85);
+      box-shadow:0 12px 26px rgba(0,0,0,.12);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+    .mesa-novios span{
+      font-weight:1000;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-size: calc(.82rem * var(--s));
+      color:rgba(47,47,47,.78);
+    }
+
+    /* Posiciones */
+    .mesa.m1  { top:var(--t1-top);  left:var(--t1-left); }
+    .mesa.m2  { top:var(--t2-top);  left:var(--t2-left); }
+    .mesa.m3  { top:var(--t3-top);  left:var(--t3-left); }
+    .mesa.m4  { top:var(--t4-top);  left:var(--t4-left); }
+    .mesa.m5  { top:var(--t5-top);  left:var(--t5-left); }
+    .mesa.m6  { top:var(--t6-top);  left:var(--t6-left); }
+    .mesa.m7  { top:var(--t7-top);  left:var(--t7-left); }
+    .mesa.m8  { top:var(--t8-top);  left:var(--t8-left); }
+    .mesa.m9  { top:var(--t9-top);  left:var(--t9-left); }
+    .mesa.m10 { top:var(--t10-top); left:var(--t10-left); }
+
+    /* Sidebar */
     .side{
+      width:100%;
       background:var(--card);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
@@ -290,18 +360,6 @@
       text-align:center;
     }
     code{background:rgba(231,220,203,.55);padding:2px 6px;border-radius:8px}
-
-    /* ====== Posiciones (como el dibujo de tu imagen) ====== */
-    .mesa.m1 { top:var(--t1-top); left:var(--t1-left); }
-    .mesa.m2 { top:var(--t2-top); left:var(--t2-left); }
-    .mesa.m3 { top:var(--t3-top); left:var(--t3-left); }
-    .mesa.m4 { top:var(--t4-top); left:var(--t4-left); }
-    .mesa.m5 { top:var(--t5-top); left:var(--t5-left); }
-    .mesa.m6 { top:var(--t6-top); left:var(--t6-left); }
-    .mesa.m7 { top:var(--t7-top); left:var(--t7-left); }
-    .mesa.m8 { top:var(--t8-top); left:var(--t8-left); }
-    .mesa.m9 { top:var(--t9-top); left:var(--t9-left); }
-    .mesa.m10{ top:var(--t10-top); left:var(--t10-left); }
   </style>
 </head>
 
@@ -309,7 +367,7 @@
 <div class="wrap">
   <div class="top">
     <h1>Vista por mesas</h1>
-    <div class="sub">Solo lectura · Layout tipo Pozas</div>
+    <div class="sub">Solo lectura · Scroll en móviles · Full width</div>
 
     <div class="controls">
       <input id="q" type="search" placeholder="Buscar nombre en todo el plano…">
@@ -321,13 +379,12 @@
   <div class="layoutWrap">
     <div class="plan">
       <div class="planInner" id="planInner">
-        <div class="pista">
-            <div class="mesa mesa-novios">
-  <div class="mesaHeader">
-    <div class="mesaNum">Mesa de Novios</div>
-  </div>
-</div>
 
+        <div class="mesa-novios">
+          <span>Mesa de Novios</span>
+        </div>
+
+        <div class="pista">
           PISTA
           <small>Centro</small>
         </div>
@@ -353,7 +410,7 @@
         <span class="pill">Total: <span id="uaCount">—</span></span>
       </div>
       <div class="sideBody">
-        <p class="hint">Aquí aparecen confirmados sin mesa asignada (solo lectura).</p>
+        <p class="hint">Confirmados sin mesa asignada (solo lectura).</p>
         <div class="uaList" id="uaList"></div>
       </div>
     </div>
@@ -370,8 +427,7 @@
 
   const $ = (id)=>document.getElementById(id);
 
-  let rawDash = null; // respuesta completa
-  let allNamesIndex = []; // para búsqueda global
+  let rawDash = null;
 
   function escapeHtml(s){
     return (s ?? '').toString()
@@ -382,10 +438,8 @@
       .replaceAll("'","&#039;");
   }
 
-  function showError(msg){
-    $('err').innerHTML = msg
-      ? `<div class="error">${msg}</div>`
-      : '';
+  function showError(msgHtml){
+    $('err').innerHTML = msgHtml ? `<div class="error">${msgHtml}</div>` : '';
   }
 
   function normalize(s){
@@ -393,59 +447,55 @@
       .toString()
       .toLowerCase()
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g,''); // quita acentos para búsqueda
+      .replace(/[\u0300-\u036f]/g,'');
   }
 
   function render(dash){
     rawDash = dash;
 
-    // Limpia index de búsqueda
-    allNamesIndex = [];
-
     // Mesas 1..10
     for(let m=1; m<=10; m++){
       const key = String(m);
       const arr = (dash.mesas && dash.mesas[key]) ? dash.mesas[key] : [];
-      $('c'+m).textContent = `${arr.length}/10`;
 
-      // Render "1 por 1"
+      // contador X/10
+      $('c'+m).textContent = `${arr.length}/${getComputedStyle(document.documentElement).getPropertyValue('--max').trim() || '10'}`;
+
+      // lista
       $('m'+m).innerHTML = arr.length
-        ? arr.map(p => {
-            const name = (p.nombre || '').toString().trim();
-            allNamesIndex.push({ mesa:key, nombre:name });
-            return `<div class="name">${escapeHtml(name)}</div>`;
-          }).join('')
+        ? arr.map(p => `<div class="name">${escapeHtml((p.nombre||'').toString().trim())}</div>`).join('')
         : `<div style="color:rgba(47,47,47,.55);font-weight:800">—</div>`;
     }
 
-    // Unassigned
+    // Sin asignar
     const ua = dash.unassigned || [];
     $('uaCount').textContent = ua.length;
     $('uaList').innerHTML = ua.length
-      ? ua.map(p=>{
-          const name = (p.nombre || '').toString().trim();
-          allNamesIndex.push({ mesa:'', nombre:name });
-          return `<div class="uaItem">${escapeHtml(name)}</div>`;
-        }).join('')
+      ? ua.map(p => `<div class="uaItem">${escapeHtml((p.nombre||'').toString().trim())}</div>`).join('')
       : `<div style="color:rgba(47,47,47,.55);font-weight:850">—</div>`;
   }
 
   function applySearch(){
     const q = normalize(($('q').value || '').trim());
-    // Si vacío, quita resaltados
-    document.querySelectorAll('.mesa, .uaItem, .name').forEach(el=>{
+
+    // reset styles
+    document.querySelectorAll('.mesa').forEach(el=>{
       el.style.opacity = '';
       el.style.filter = '';
     });
+    document.querySelectorAll('.uaItem').forEach(el=>{
+      el.style.opacity = '';
+    });
+
     if(!q) return;
 
-    // Estrategia: baja opacidad de todo y resalta coincidencias
+    // Fade everything
     document.querySelectorAll('.mesa').forEach(el=>{
       el.style.opacity = '0.35';
       el.style.filter = 'grayscale(0.1)';
     });
 
-    // Mesas: resalta si algún nombre coincide
+    // Highlight mesas with match
     for(let m=1; m<=10; m++){
       const box = document.querySelector('.mesa.m'+m);
       if(!box) continue;
@@ -457,23 +507,16 @@
       }
     }
 
-    // Unassigned: resalta items
+    // Highlight unassigned items
     document.querySelectorAll('.uaItem').forEach(el=>{
       const match = normalize(el.textContent).includes(q);
       el.style.opacity = match ? '1' : '0.35';
     });
-
-    // Si coincide en sin asignar, resalta panel
-    const uaMatch = (rawDash?.unassigned || []).some(p => normalize(p.nombre || '').includes(q));
-    if(uaMatch){
-      document.querySelector('.side').style.boxShadow = '0 22px 55px rgba(90,167,199,.25)';
-    }else{
-      document.querySelector('.side').style.boxShadow = '';
-    }
   }
 
   async function load(){
     showError('');
+
     if(!WEBAPP_URL.includes('http')){
       showError('Configura <b>WEBAPP_URL</b> en este archivo.');
       return;
@@ -500,41 +543,35 @@
 
   function exportCsv(){
     if(!admin) return;
-    // usa el export ya existente (si lo tienes). Si tu script no lo tiene, quita este botón.
     window.open(`${WEBAPP_URL}?action=exportMesasCsv&admin=${encodeURIComponent(admin)}`, '_blank');
   }
 
-  $('reload').addEventListener('click', load);
-  $('csv').addEventListener('click', exportCsv);
-  $('q').addEventListener('input', applySearch);
+  // === Escala responsiva del plano ===
+  function applyPlanScale(){
+    const inner = document.getElementById('planInner');
+    if(!inner) return;
 
-  load();
-// === Escala responsiva del plano (evita encimados) ===
-function applyPlanScale(){
-  const inner = document.getElementById('planInner');
-  if(!inner) return;
+    // Nota: como en móvil usamos min-width y scroll,
+    // la escala se mantiene agradable y "exacta".
+    const w = inner.clientWidth;
+    const reference = 1100; // ajusta si quieres un poco más grande/pequeño
+    const s = Math.max(0.85, Math.min(1.10, w / reference));
+    inner.style.setProperty('--s', s.toFixed(3));
+  }
 
-  // Ancho real disponible del plano
-  const w = inner.clientWidth;
+  const ro = new ResizeObserver(() => applyPlanScale());
 
-  // Referencia: el layout se diseñó “cómodo” alrededor de 1000px de ancho
-  // Ajusta si quieres que en pantallas grandes se vea más grande:
-  const reference = 1000;
+  document.addEventListener('DOMContentLoaded', () => {
+    const inner = document.getElementById('planInner');
+    if(inner) ro.observe(inner);
 
-  // Escala acotada para que no se haga gigante ni minúsculo
-  // 0.68 a 1.15 suele funcionar excelente
-  const s = Math.max(0.68, Math.min(1.15, w / reference));
+    applyPlanScale();
+    load();
 
-  inner.style.setProperty('--s', s.toFixed(3));
-}
-
-// Observa cambios de tamaño (responsive real)
-const ro = new ResizeObserver(() => applyPlanScale());
-document.addEventListener('DOMContentLoaded', () => {
-  const inner = document.getElementById('planInner');
-  if(inner) ro.observe(inner);
-  applyPlanScale();
-});
+    $('q').addEventListener('input', applySearch);
+    $('reload').addEventListener('click', load);
+    $('csv').addEventListener('click', exportCsv);
+  });
 </script>
 </body>
 </html>
