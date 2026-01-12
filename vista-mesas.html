@@ -151,104 +151,83 @@
       pointer-events:none;
     }
 
-    /* Fijamos proporción parecida a tu foto */
-    .planInner{
-      position:relative;
-      width:100%;
-      aspect-ratio: 16 / 9;
-      min-height:520px;
-      
-    }
+    /* ===== Escala responsiva (base diseño 1000px) ===== */
+.planInner{
+  position:relative;
+  width:100%;
+  aspect-ratio: 16 / 9;
+  min-height:520px;
+  --s: 1; /* se setea por JS según ancho real */
+}
+
+/* Tamaños escalados */
+:root{
+  --base-table: 150;   /* tamaño mesa base en px (cuando --s=1) */
+  --base-pista-w: 42;  /* % ancho pista (se queda en %) */
+  --base-pista-h: 34;  /* % alto pista (se queda en %) */
+}
+
+/* Mesa circular */
+.mesa{
+  width: calc(var(--base-table) * 1px * var(--s));
+  height: calc(var(--base-table) * 1px * var(--s));
+  border-radius:999px;
+}
+
+/* Header dentro mesa (escala tipografía) */
+.mesaHeader{
+  padding: calc(8px * var(--s)) calc(10px * var(--s));
+}
+.mesaNum{
+  font-size: calc(.78rem * var(--s));
+}
+.mesaCount{
+  font-size: calc(.75rem * var(--s));
+  padding: calc(4px * var(--s)) calc(8px * var(--s));
+}
+
+/* Cuerpo nombres: escala y mejora scroll */
+.mesaBody{
+  padding: calc(8px * var(--s)) calc(10px * var(--s));
+  font-size: calc(.78rem * var(--s));
+  line-height: 1.25;
+  overflow:auto;
+
+  /* scrollbar discreto */
+  scrollbar-width: thin;
+}
+
+/* Nombre dentro mesa */
+.name{
+  padding: calc(3px * var(--s)) 0;
+  font-weight: 800;
+}
+
+/* PISTA: se mantiene centrada pero escala “sensación” */
+.pista{
+  width: calc(var(--base-pista-w) * 1%);
+  height: calc(var(--base-pista-h) * 1%);
+  font-size: calc(.95rem * var(--s));
+}
+.pista small{
+  font-size: calc(.78rem * var(--s));
+}
+
+/* Mesa de novios escalada */
 .mesa-novios{
-  top:var(--novios-top);
-  left:var(--novios-left);
-  transform:translate(-50%,-50%);
-  width:220px;
-  height:64px;
-  border-radius:14px;
-  text-align:center;
+  width: calc(240px * var(--s));
+  height: calc(70px * var(--s));
+  border-radius: calc(14px * var(--s));
 }
-.mesa-novios .mesaHeader{
-  justify-content:center;
-  font-size:.9rem;
+.mesa-novios .mesaNum{
+  font-size: calc(.9rem * var(--s));
 }
 
-    /* PISTA */
-    .pista{
-      position:absolute;
-      left:50%;
-      top:50%;
-      transform:translate(-50%,-50%);
-      width: 42%;
-      height: 34%;
-      border-radius:12px;
-      background:linear-gradient(135deg, rgba(205,189,167,.40), rgba(231,220,203,.55));
-      border:1px solid rgba(205,189,167,.85);
-      box-shadow:0 16px 30px rgba(0,0,0,.10);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:1000;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:rgba(47,47,47,.70);
-    }
-    .pista small{
-      display:block;
-      font-weight:700;
-      letter-spacing:.08em;
-      text-transform:none;
-      margin-top:6px;
-      color:rgba(47,47,47,.60);
-    }
-
-    /* MESA (círculo) */
-    .mesa{
-      position:absolute;
-      width:var(--table-size);
-      height:var(--table-size);
-      transform:translate(-50%,-50%);
-      border-radius:999px;
-      background:#fff;
-      border:1px solid rgba(205,189,167,.85);
-      box-shadow:0 12px 26px rgba(0,0,0,.12);
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-    }
-    .mesaHeader{
-      padding:8px 10px 7px;
-      background:linear-gradient(135deg, rgba(90,167,199,.28), rgba(231,220,203,.35));
-      border-bottom:1px solid rgba(205,189,167,.55);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-    }
-    .mesaNum{
-      font-weight:1000;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      font-size:.78rem;
-      color:rgba(47,47,47,.78);
-    }
-    .mesaCount{
-      font-weight:1000;
-      font-size:.75rem;
-      padding:4px 8px;
-      border-radius:999px;
-      background:rgba(231,220,203,.55);
-      border:1px solid rgba(205,189,167,.75);
-      color:rgba(47,47,47,.75);
-      white-space:nowrap;
-    }
-    .mesaBody{
-      padding:8px 10px;
-      font-size:.78rem;
-      line-height:1.25;
-      overflow:auto;
-    }
-    .name{
+/* Mobile: si el plano se vuelve angosto, reduce aún más el tamaño base */
+@media (max-width: 520px){
+  .planInner{ min-height: 420px; }
+}
+.name{
       padding:3px 0;
       border-bottom:1px dashed rgba(205,189,167,.35);
       font-weight:800;
@@ -530,6 +509,32 @@
   $('q').addEventListener('input', applySearch);
 
   load();
+// === Escala responsiva del plano (evita encimados) ===
+function applyPlanScale(){
+  const inner = document.getElementById('planInner');
+  if(!inner) return;
+
+  // Ancho real disponible del plano
+  const w = inner.clientWidth;
+
+  // Referencia: el layout se diseñó “cómodo” alrededor de 1000px de ancho
+  // Ajusta si quieres que en pantallas grandes se vea más grande:
+  const reference = 1000;
+
+  // Escala acotada para que no se haga gigante ni minúsculo
+  // 0.68 a 1.15 suele funcionar excelente
+  const s = Math.max(0.68, Math.min(1.15, w / reference));
+
+  inner.style.setProperty('--s', s.toFixed(3));
+}
+
+// Observa cambios de tamaño (responsive real)
+const ro = new ResizeObserver(() => applyPlanScale());
+document.addEventListener('DOMContentLoaded', () => {
+  const inner = document.getElementById('planInner');
+  if(inner) ro.observe(inner);
+  applyPlanScale();
+});
 </script>
 </body>
 </html>
