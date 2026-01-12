@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vista por mesas · Solo lectura</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --arena:#E7DCCB; --duna:#CDBDA7; --mar:#5AA7C7;
+      --card:rgba(255,255,255,.92); --text:#2f2f2f;
+      --shadow:0 18px 45px rgba(0,0,0,.14); --radius:18px;
+
+      /* ====== AJUSTA AQUÍ LA POSICIÓN DE CADA MESA (en %) ======
+         top/left en porcentaje dentro del plano (0–100).
+         Tip: abre en el navegador y ajusta hasta que coincida con tu foto. */
+      --t1-top: 42%; --t1-left: 28%;
+      --t2-top: 24%; --t2-left: 62%;
+      --t3-top: 60%; --t3-left: 18%;
+      --t4-top: 26%; --t4-left: 80%;
+      --t5-top: 82%; --t5-left: 35%;
+      --t6-top: 62%; --t6-left: 86%;
+      --t7-top: 84%; --t7-left: 84%;
+      --t8-top: 84%; --t8-left: 55%;
+      --t9-top: 88%; --t9-left: 8%;
+      --t10-top: 34%; --t10-left: 92%;
+
+      /* Tamaño de mesas (ajustable) */
+      --table-size: 150px; /* escritorio */
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh; padding:18px;
+      font-family:"Lato",system-ui,-apple-system,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:radial-gradient(circle at top,#fff 0%, var(--arena) 48%, var(--duna) 100%);
+    }
+
+    .wrap{max-width:1400px;margin:auto}
+    .top{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px 16px 12px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(205,189,167,.55);
+    }
+    .top::before{
+      content:"";
+      position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(90,167,199,.20),rgba(205,189,167,.12));
+      opacity:.85;
+      pointer-events:none;
+    }
+    .top>*{position:relative;z-index:1}
+    h1{font-family:"Dancing Script",cursive;margin:0;font-size:2.4rem;color:var(--mar)}
+    .sub{
+      margin:6px 0 10px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-size:.82rem;
+      color:rgba(47,47,47,.72);
+    }
+
+    .controls{
+      display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+      margin-top:10px;
+    }
+    input{
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid rgba(205,189,167,.95);
+      background:#fff;
+      outline:none;
+      min-width:240px;
+      font-size:.95rem;
+    }
+    button{
+      padding:10px 18px;
+      border-radius:999px;
+      border:0;
+      background:var(--mar);
+      color:#fff;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 12px 26px rgba(90,167,199,.35);
+    }
+    button.secondary{
+      background:#fff;
+      color:#444;
+      border:1px solid rgba(205,189,167,.95);
+      box-shadow:0 10px 22px rgba(0,0,0,.07);
+    }
+
+    .layoutWrap{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: 1fr 340px;
+      gap:14px;
+      align-items:start;
+    }
+    @media(max-width:1100px){
+      .layoutWrap{grid-template-columns:1fr}
+      :root{ --table-size: 140px; }
+    }
+    @media(max-width:520px){
+      :root{ --table-size: 128px; }
+    }
+
+    /* ====== PLANO ====== */
+    .plan{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      border:1px solid rgba(205,189,167,.55);
+      overflow:hidden;
+      position:relative;
+    }
+
+    /* (Opcional) imagen de fondo guía:
+       Si quieres, pon aquí una imagen (por ejemplo la misma de referencia) y ajusta opacity.
+       .plan::before { background-image:url('ruta.jpg'); } */
+    .plan::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(90,167,199,.12), transparent 55%),
+        radial-gradient(circle at 70% 80%, rgba(205,189,167,.20), transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+    }
+
+    /* Fijamos proporción parecida a tu foto */
+    .planInner{
+      position:relative;
+      width:100%;
+      aspect-ratio: 16 / 9;
+      min-height:520px;
+    }
+
+    /* PISTA */
+    .pista{
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      width: 42%;
+      height: 34%;
+      border-radius:12px;
+      background:linear-gradient(135deg, rgba(205,189,167,.40), rgba(231,220,203,.55));
+      border:1px solid rgba(205,189,167,.85);
+      box-shadow:0 16px 30px rgba(0,0,0,.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:1000;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:rgba(47,47,47,.70);
+    }
+    .pista small{
+      display:block;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:none;
+      margin-top:6px;
+      color:rgba(47,47,47,.60);
+    }
+
+    /* MESA (círculo) */
+    .mesa{
+      position:absolute;
+      width:var(--table-size);
+      height:var(--table-size);
+      transform:translate(-50%,-50%);
+      border-radius:999px;
+      background:#fff;
+      border:1px solid rgba(205,189,167,.85);
+      box-shadow:0 12px 26px rgba(0,0,0,.12);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .mesaHeader{
+      padding:8px 10px 7px;
+      background:linear-gradient(135deg, rgba(90,167,199,.28), rgba(231,220,203,.35));
+      border-bottom:1px solid rgba(205,189,167,.55);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .mesaNum{
+      font-weight:1000;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-size:.78rem;
+      color:rgba(47,47,47,.78);
+    }
+    .mesaCount{
+      font-weight:1000;
+      font-size:.75rem;
+      padding:4px 8px;
+      border-radius:999px;
+      background:rgba(231,220,203,.55);
+      border:1px solid rgba(205,189,167,.75);
+      color:rgba(47,47,47,.75);
+      white-space:nowrap;
+    }
+    .mesaBody{
+      padding:8px 10px;
+      font-size:.78rem;
+      line-height:1.25;
+      overflow:auto;
+    }
+    .name{
+      padding:3px 0;
+      border-bottom:1px dashed rgba(205,189,167,.35);
+      font-weight:800;
+    }
+    .name:last-child{border-bottom:0}
+
+    /* ====== SIDEBAR ====== */
+    .side{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      border:1px solid rgba(205,189,167,.55);
+      overflow:hidden;
+    }
+    .sideHeader{
+      padding:12px 14px;
+      border-bottom:1px solid rgba(205,189,167,.35);
+      font-weight:1000;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-size:.82rem;
+      color:rgba(47,47,47,.70);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .pill{
+      padding:6px 10px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid rgba(205,189,167,.9);
+      font-weight:900;
+      font-size:.78rem;
+      color:#555;
+    }
+    .sideBody{padding:12px 14px}
+    .hint{color:rgba(47,47,47,.65);font-size:.9rem;margin:0 0 10px}
+    .uaList{
+      max-height:520px;
+      overflow:auto;
+      border-top:1px dashed rgba(205,189,167,.45);
+      padding-top:10px;
+    }
+    .uaItem{
+      padding:7px 0;
+      border-bottom:1px dashed rgba(205,189,167,.35);
+      font-weight:850;
+      font-size:.92rem;
+    }
+    .uaItem:last-child{border-bottom:0}
+
+    .error{
+      margin-top:14px;
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      border:1px solid rgba(217,124,124,.45);
+      padding:14px;
+      text-align:center;
+    }
+    code{background:rgba(231,220,203,.55);padding:2px 6px;border-radius:8px}
+
+    /* ====== Posiciones (como el dibujo de tu imagen) ====== */
+    .mesa.m1 { top:var(--t1-top); left:var(--t1-left); }
+    .mesa.m2 { top:var(--t2-top); left:var(--t2-left); }
+    .mesa.m3 { top:var(--t3-top); left:var(--t3-left); }
+    .mesa.m4 { top:var(--t4-top); left:var(--t4-left); }
+    .mesa.m5 { top:var(--t5-top); left:var(--t5-left); }
+    .mesa.m6 { top:var(--t6-top); left:var(--t6-left); }
+    .mesa.m7 { top:var(--t7-top); left:var(--t7-left); }
+    .mesa.m8 { top:var(--t8-top); left:var(--t8-left); }
+    .mesa.m9 { top:var(--t9-top); left:var(--t9-left); }
+    .mesa.m10{ top:var(--t10-top); left:var(--t10-left); }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>Vista por mesas</h1>
+    <div class="sub">Solo lectura · Layout tipo Pozas</div>
+
+    <div class="controls">
+      <input id="q" type="search" placeholder="Buscar nombre en todo el plano…">
+      <button id="reload">Actualizar</button>
+      <button id="csv" class="secondary">Exportar CSV</button>
+    </div>
+  </div>
+
+  <div class="layoutWrap">
+    <div class="plan">
+      <div class="planInner" id="planInner">
+        <div class="pista">
+          PISTA
+          <small>Centro</small>
+        </div>
+
+        <!-- Mesas 1..10 -->
+        <div class="mesa m1"  data-mesa="1"><div class="mesaHeader"><div class="mesaNum">Mesa 1</div><div class="mesaCount" id="c1">—</div></div><div class="mesaBody" id="m1"></div></div>
+        <div class="mesa m2"  data-mesa="2"><div class="mesaHeader"><div class="mesaNum">Mesa 2</div><div class="mesaCount" id="c2">—</div></div><div class="mesaBody" id="m2"></div></div>
+        <div class="mesa m3"  data-mesa="3"><div class="mesaHeader"><div class="mesaNum">Mesa 3</div><div class="mesaCount" id="c3">—</div></div><div class="mesaBody" id="m3"></div></div>
+        <div class="mesa m4"  data-mesa="4"><div class="mesaHeader"><div class="mesaNum">Mesa 4</div><div class="mesaCount" id="c4">—</div></div><div class="mesaBody" id="m4"></div></div>
+        <div class="mesa m5"  data-mesa="5"><div class="mesaHeader"><div class="mesaNum">Mesa 5</div><div class="mesaCount" id="c5">—</div></div><div class="mesaBody" id="m5"></div></div>
+        <div class="mesa m6"  data-mesa="6"><div class="mesaHeader"><div class="mesaNum">Mesa 6</div><div class="mesaCount" id="c6">—</div></div><div class="mesaBody" id="m6"></div></div>
+        <div class="mesa m7"  data-mesa="7"><div class="mesaHeader"><div class="mesaNum">Mesa 7</div><div class="mesaCount" id="c7">—</div></div><div class="mesaBody" id="m7"></div></div>
+        <div class="mesa m8"  data-mesa="8"><div class="mesaHeader"><div class="mesaNum">Mesa 8</div><div class="mesaCount" id="c8">—</div></div><div class="mesaBody" id="m8"></div></div>
+        <div class="mesa m9"  data-mesa="9"><div class="mesaHeader"><div class="mesaNum">Mesa 9</div><div class="mesaCount" id="c9">—</div></div><div class="mesaBody" id="m9"></div></div>
+        <div class="mesa m10" data-mesa="10"><div class="mesaHeader"><div class="mesaNum">Mesa 10</div><div class="mesaCount" id="c10">—</div></div><div class="mesaBody" id="m10"></div></div>
+
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="sideHeader">
+        <span>Sin asignar</span>
+        <span class="pill">Total: <span id="uaCount">—</span></span>
+      </div>
+      <div class="sideBody">
+        <p class="hint">Aquí aparecen confirmados sin mesa asignada (solo lectura).</p>
+        <div class="uaList" id="uaList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="err"></div>
+</div>
+
+<script>
+  // === CONFIG ===
+  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzzuYdqWMgo8UJjXqm-rJETAnRyFeklo7m03s7gb7ehEL2ueiearC253nHcfwptNvnw/exec"; // <-- tu /exec
+  const params = new URLSearchParams(location.search);
+  const admin = params.get('admin') || '';
+
+  const $ = (id)=>document.getElementById(id);
+
+  let rawDash = null; // respuesta completa
+  let allNamesIndex = []; // para búsqueda global
+
+  function escapeHtml(s){
+    return (s ?? '').toString()
+      .replaceAll('&','&amp;')
+      .replaceAll('<','&lt;')
+      .replaceAll('>','&gt;')
+      .replaceAll('"','&quot;')
+      .replaceAll("'","&#039;");
+  }
+
+  function showError(msg){
+    $('err').innerHTML = msg
+      ? `<div class="error">${msg}</div>`
+      : '';
+  }
+
+  function normalize(s){
+    return (s ?? '')
+      .toString()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g,''); // quita acentos para búsqueda
+  }
+
+  function render(dash){
+    rawDash = dash;
+
+    // Limpia index de búsqueda
+    allNamesIndex = [];
+
+    // Mesas 1..10
+    for(let m=1; m<=10; m++){
+      const key = String(m);
+      const arr = (dash.mesas && dash.mesas[key]) ? dash.mesas[key] : [];
+      $('c'+m).textContent = `${arr.length}/10`;
+
+      // Render "1 por 1"
+      $('m'+m).innerHTML = arr.length
+        ? arr.map(p => {
+            const name = (p.nombre || '').toString().trim();
+            allNamesIndex.push({ mesa:key, nombre:name });
+            return `<div class="name">${escapeHtml(name)}</div>`;
+          }).join('')
+        : `<div style="color:rgba(47,47,47,.55);font-weight:800">—</div>`;
+    }
+
+    // Unassigned
+    const ua = dash.unassigned || [];
+    $('uaCount').textContent = ua.length;
+    $('uaList').innerHTML = ua.length
+      ? ua.map(p=>{
+          const name = (p.nombre || '').toString().trim();
+          allNamesIndex.push({ mesa:'', nombre:name });
+          return `<div class="uaItem">${escapeHtml(name)}</div>`;
+        }).join('')
+      : `<div style="color:rgba(47,47,47,.55);font-weight:850">—</div>`;
+  }
+
+  function applySearch(){
+    const q = normalize(($('q').value || '').trim());
+    // Si vacío, quita resaltados
+    document.querySelectorAll('.mesa, .uaItem, .name').forEach(el=>{
+      el.style.opacity = '';
+      el.style.filter = '';
+    });
+    if(!q) return;
+
+    // Estrategia: baja opacidad de todo y resalta coincidencias
+    document.querySelectorAll('.mesa').forEach(el=>{
+      el.style.opacity = '0.35';
+      el.style.filter = 'grayscale(0.1)';
+    });
+
+    // Mesas: resalta si algún nombre coincide
+    for(let m=1; m<=10; m++){
+      const box = document.querySelector('.mesa.m'+m);
+      if(!box) continue;
+      const names = Array.from(box.querySelectorAll('.name')).map(n=>normalize(n.textContent));
+      const match = names.some(n=>n.includes(q));
+      if(match){
+        box.style.opacity = '1';
+        box.style.filter = 'none';
+      }
+    }
+
+    // Unassigned: resalta items
+    document.querySelectorAll('.uaItem').forEach(el=>{
+      const match = normalize(el.textContent).includes(q);
+      el.style.opacity = match ? '1' : '0.35';
+    });
+
+    // Si coincide en sin asignar, resalta panel
+    const uaMatch = (rawDash?.unassigned || []).some(p => normalize(p.nombre || '').includes(q));
+    if(uaMatch){
+      document.querySelector('.side').style.boxShadow = '0 22px 55px rgba(90,167,199,.25)';
+    }else{
+      document.querySelector('.side').style.boxShadow = '';
+    }
+  }
+
+  async function load(){
+    showError('');
+    if(!WEBAPP_URL.includes('http')){
+      showError('Configura <b>WEBAPP_URL</b> en este archivo.');
+      return;
+    }
+    if(!admin){
+      showError(`Acceso restringido. Abre con <code>?admin=TU_TOKEN</code>`);
+      return;
+    }
+
+    try{
+      const url = `${WEBAPP_URL}?action=mesasDashboard&admin=${encodeURIComponent(admin)}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if(!data.ok){
+        showError(escapeHtml(data.error || 'Error'));
+        return;
+      }
+      render(data);
+      applySearch();
+    }catch(e){
+      showError('Error de conexión.');
+    }
+  }
+
+  function exportCsv(){
+    if(!admin) return;
+    // usa el export ya existente (si lo tienes). Si tu script no lo tiene, quita este botón.
+    window.open(`${WEBAPP_URL}?action=exportMesasCsv&admin=${encodeURIComponent(admin)}`, '_blank');
+  }
+
+  $('reload').addEventListener('click', load);
+  $('csv').addEventListener('click', exportCsv);
+  $('q').addEventListener('input', applySearch);
+
+  load();
+</script>
+</body>
+</html>
