@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tips Check-in - Hotel Xcaret México</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    .contenido-pagina { padding-bottom: 40px; }
+
+    .hero-card{
+      background: linear-gradient(180deg, rgba(231,220,203,0.55), rgba(231,220,203,0.18));
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 18px;
+      padding: 18px 18px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+      margin: 18px 0 22px;
+    }
+    .hero-card h2{
+      margin: 0 0 10px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color: var(--brand, #2F4667);
+      font-size: 1.25rem;
+    }
+    .hero-card p{ margin: 10px 0 0; color:#3F3A36; line-height:1.6; }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 12px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(0,0,0,0.08);
+      color:#3F3A36;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .chip i{ color: var(--sm-accent, #C6B28A); }
+
+    .tips-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .tip-card{
+      background:#fff;
+      border-radius: 16px;
+      padding: 18px 18px;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+    }
+
+    .tip-card h3{
+      margin: 0 0 10px;
+      color: var(--brand, #2F4667);
+      font-size: 1.15rem;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+    .tip-card h3 i{ color: var(--sm-accent, #C6B28A); }
+
+    .tip-card ul{
+      list-style:none;
+      padding-left: 0;
+      margin: 0;
+    }
+    .tip-card li{
+      position: relative;
+      padding-left: 28px;
+      margin: 10px 0;
+      line-height: 1.55;
+      color:#3F3A36;
+    }
+    .tip-card li::before{
+      content:'\f00c';
+      font-family:'Font Awesome 6 Free';
+      font-weight:900;
+      color: var(--sm-accent, #C6B28A);
+      position:absolute;
+      left:0;
+      top:2px;
+      font-size: 0.95rem;
+    }
+
+    .note{
+      margin-top: 18px;
+      padding: 14px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(231,220,203,0.25);
+      color:#3F3A36;
+      line-height: 1.55;
+    }
+    .note strong{ color: var(--brand, #2F4667); }
+
+    .cta-row{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .cta-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: none;
+      cursor:pointer;
+      text-decoration:none;
+      font-family: inherit;
+      font-weight: 700;
+      background: var(--brand, #2F4667);
+      color: #fff;
+      box-shadow: 0 12px 26px rgba(47,70,103,0.20);
+      transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+    }
+    .cta-btn:hover{ transform: translateY(-1px); box-shadow: 0 16px 30px rgba(47,70,103,0.26); }
+    .cta-btn.secondary{
+      background: rgba(255,255,255,0.75);
+      color:#3F3A36;
+      border: 1px solid rgba(0,0,0,0.10);
+    }
+    .cta-btn.secondary i{ color: var(--sm-accent, #C6B28A); }
+
+    .mini{
+      font-size: 0.9rem;
+      opacity: 0.85;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Menú ===== -->
+  <div class="staggered-menu-wrapper">
+    <div class="sm-prelayers" aria-hidden="true">
+      <div class="sm-prelayer" style="background: #2F4667;"></div>
+      <div class="sm-prelayer" style="background: #A3ADA0;"></div>
+      <div class="sm-prelayer" style="background: #E6DECF;"></div>
+    </div>
+    <header class="staggered-menu-header">
+      <a href="index.html" class="sm-logo" aria-label="Homepage">
+        <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img">
+      </a>
+      <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
+        <span class="sm-icon" aria-hidden="true">
+          <span class="sm-icon-line"></span>
+          <span class="sm-icon-line"></span>
+          <span class="sm-icon-line"></span>
+        </span>
+      </button>
+    </header>
+    <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
+      <div class="sm-panel-inner">
+        <ul class="sm-panel-list" role="list">
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina principal</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span class="sm-panel-itemLabel">Agradecimientos</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="menu.html"><span class="sm-panel-itemLabel">Menú</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedarte en Xcaret</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="evento.html"><span class="sm-panel-itemLabel">Mapa del evento</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <div class="contenido-pagina">
+    <h1><i class="fa-solid fa-circle-info" style="color:var(--sm-accent);"></i> Consejos y recomendaciones (Hotel Xcaret México)</h1>
+
+    <div class="hero-card">
+      <h2><i class="fa-solid fa-clock"></i> Si tu check-in es a las 3:00 pm, puedes llegar al mediodía o antes</h2>
+      <p>
+        Normalmente puedes llegar antes, hacer <strong>pre-check-in</strong>, dejar tus maletas en resguardo y
+        <strong>empezar a usar las instalaciones</strong> (albercas, ríos, restaurantes y áreas comunes) aunque todavía
+        no te entreguen la habitación.
+      </p>
+
+      <div class="chips">
+        <span class="chip"><i class="fa-solid fa-id-card"></i> Pre-check-in</span>
+        <span class="chip"><i class="fa-solid fa-suitcase-rolling"></i> Resguardo de equipaje</span>
+        <span class="chip"><i class="fa-solid fa-person-swimming"></i> Albercas / ríos</span>
+        <span class="chip"><i class="fa-solid fa-martini-glass-citrus"></i> Comida y bebidas</span>
+      </div>
+
+      <p class="mini">
+        <strong>Tip:</strong> si tu habitación está lista antes, a veces te la entregan temprano (no es garantía; depende de disponibilidad).
+      </p>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip-card">
+        <h3><i class="fa-solid fa-door-open"></i> Qué sí puedes hacer al llegar temprano</h3>
+        <ul>
+          <li>Entrar al hotel y registrarte (pre-check-in).</li>
+          <li>Usar albercas, ríos, áreas comunes y beach/solarium (según zona).</li>
+          <li>Comer y beber desde que te coloquen el brazalete.</li>
+          <li>Agendar parques, restaurantes y actividades con concierge.</li>
+          <li>Dejar tus maletas en resguardo.</li>
+          <li>Cambiarte en baños/vestidores si vienes de viaje.</li>
+        </ul>
+      </div>
+
+      <div class="tip-card">
+        <h3><i class="fa-solid fa-bed"></i> Sobre la habitación</h3>
+        <ul>
+          <li>La entrega normalmente es <strong>a partir de las 3:00 pm</strong>.</li>
+          <li>Puede haber <strong>entrega anticipada</strong> si ya está lista y hay disponibilidad.</li>
+          <li>Pide que te avisen en cuanto esté lista (recepción / WhatsApp).</li>
+        </ul>
+      </div>
+
+      <div class="tip-card">
+        <h3><i class="fa-solid fa-utensils"></i> Restaurantes y bebidas</h3>
+        <ul>
+          <li>Buffets y bares suelen ser lo más fácil para el día de llegada.</li>
+          <li>Restaurantes de especialidad dependen de <strong>disponibilidad y horario</strong>.</li>
+          <li>Hack: usa el día 1 para <strong>hacer reservaciones</strong> del resto del viaje.</li>
+        </ul>
+      </div>
+
+      <div class="tip-card">
+        <h3><i class="fa-solid fa-bus-simple"></i> Transporte y parques (día de llegada)</h3>
+        <ul>
+          <li>El traslado aeropuerto → hotel entra aunque llegues antes.</li>
+          <li>Ir a parques el mismo día es posible, pero suele rendir poco si llegas al mediodía.</li>
+          <li>Mejor: aprovecha el hotel, descansa y deja parques grandes para días completos.</li>
+        </ul>
+      </div>
+
+      <div class="tip-card">
+        <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Hacks rápidos (para aprovechar el mediodía)</h3>
+        <ul>
+          <li>Llega con <strong>traje de baño</strong> puesto o a la mano.</li>
+          <li>Lleva <strong>bloqueador biodegradable</strong>.</li>
+          <li>Ten a mano tu reserva y confirma dónde te colocan el <strong>brazalete</strong>.</li>
+          <li>Haz tu “día 1” ligero: hotel + cena bonita + planeación.</li>
+        </ul>
+      </div>
+    </div>
+<!-- =======================
+     Equipaje para parques (Xcaret Adventure)
+     ======================= -->
+<section id="equipaje-parques" style="margin-top: 20px;">
+  <div class="hero-card">
+    <h2><i class="fa-solid fa-suitcase"></i> ¿Qué llevar a los parques de aventura?</h2>
+    <p>
+      Para parques tipo <strong>Xplor, Xplor Fuego, Xenotes</strong> y actividades de aventura, lo ideal es ir
+      <strong>ligero</strong>. No se recomienda llevar mochilas grandes ni equipaje. Todo lo necesario cabe en un
+      <strong>locker</strong> (incluido en el parque).
+    </p>
+
+    <div class="chips">
+      <span class="chip"><i class="fa-solid fa-lock"></i> Lockers incluidos</span>
+      <span class="chip"><i class="fa-solid fa-person-swimming"></i> Traje de baño</span>
+      <span class="chip"><i class="fa-solid fa-shoe-prints"></i> Tenis cerrados</span>
+      <span class="chip"><i class="fa-solid fa-sun"></i> Bloqueador biodegradable</span>
+    </div>
+
+    <p class="mini">
+      <strong>Tip:</strong> El transporte del hotel a parques está pensado para ir con mochila pequeña, no con maletas.
+    </p>
+  </div>
+
+  <div class="tips-grid">
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-check-double"></i> Lo indispensable</h3>
+      <ul>
+        <li>Traje de baño (ideal: salir del hotel ya con él puesto).</li>
+        <li>Ropa cómoda y ligera + ropa interior.</li>
+        <li><strong>Tenis cerrados</strong> o zapatos acuáticos con suela (para aventura).</li>
+        <li>Bloqueador solar <strong>biodegradable</strong>.</li>
+        <li>Toalla (opcional: muchos prefieren llevar la suya).</li>
+        <li>Medicamentos personales.</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-ban"></i> Mejor no llevar</h3>
+      <ul>
+        <li>Mochilas grandes o equipaje.</li>
+        <li>Joyas y objetos de valor innecesarios.</li>
+        <li>Drones / equipo voluminoso.</li>
+        <li>Sandalias o calzado abierto en parques de aventura.</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-lightbulb"></i> Hacks PRO</h3>
+      <ul>
+        <li>Lleva una mochila compacta o bolsa impermeable pequeña.</li>
+        <li>Una muda seca para el regreso (playera + short).</li>
+        <li>Lentes con sujetador (si los usas).</li>
+        <li>Deja documentos/joyas en la habitación.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- =======================
+       Bloques por parque
+       ======================= -->
+  <h2 style="margin: 18px 0 10px; display:flex; align-items:center; gap:10px; color: var(--brand, #2F4667);">
+    <i class="fa-solid fa-map-location-dot" style="color: var(--sm-accent, #C6B28A);"></i>
+    Checklist por parque
+  </h2>
+
+  <div class="tips-grid">
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-mountain-sun"></i> Xplor</h3>
+      <ul>
+        <li>Tenis cerrados (recomendado/clave para comodidad).</li>
+        <li>Traje de baño + ropa ligera encima.</li>
+        <li>Toalla y muda seca.</li>
+        <li>Bloqueador biodegradable.</li>
+        <li>Celular: solo si lo guardas en bolsa impermeable (opcional).</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-moon"></i> Xplor Fuego</h3>
+      <ul>
+        <li>Tenis cerrados.</li>
+        <li>Repelente biodegradable (opcional).</li>
+        <li>Muda seca para el regreso (de noche se agradece).</li>
+        <li>Bolsa impermeable pequeña.</li>
+        <li>Bloqueador biodegradable (si aún hay sol al inicio).</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-water"></i> Xenotes</h3>
+      <ul>
+        <li>Tenis acuáticos o tenis que se puedan mojar.</li>
+        <li>Traje de baño.</li>
+        <li>Toalla.</li>
+        <li>Bloqueador biodegradable (muy importante).</li>
+        <li>Bolsa impermeable para celular (si lo llevas).</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Xenses</h3>
+      <ul>
+        <li>Ropa cómoda + tenis (no necesitas tanto equipo).</li>
+        <li>Traje de baño (para áreas con agua, según ruta).</li>
+        <li>Toalla (opcional).</li>
+        <li>Bolsa pequeña / locker.</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-feather-pointed"></i> Xcaret</h3>
+      <ul>
+        <li>Ropa cómoda y fresca.</li>
+        <li>Traje de baño (si harás río/playa).</li>
+        <li>Sandalias + tenis (según tu plan del día).</li>
+        <li>Sombrero/gorra y bloqueador biodegradable.</li>
+        <li>Si planeas show nocturno: una capa ligera o cambio seco.</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-fish-fins"></i> Xel-Há</h3>
+      <ul>
+        <li>Traje de baño.</li>
+        <li>Zapatos acuáticos (súper recomendados).</li>
+        <li>Bloqueador biodegradable.</li>
+        <li>Toalla y muda seca.</li>
+        <li>Bolsa impermeable / funda para celular.</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-music"></i> Xoximilco</h3>
+      <ul>
+        <li>Ropa cómoda (es de noche y social).</li>
+        <li>Repelente biodegradable (opcional).</li>
+        <li>Suéter ligero (por si refresca).</li>
+        <li>Evita llevar cosas de valor innecesarias.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top: 16px;">
+    <strong>Regla de oro:</strong> todo debe caber en un locker y/o mochila pequeña.
+    Si dudas, mejor deja lo extra en la habitación.
+  </div>
+</section>
+
+<!-- =======================
+     Restaurantes nuevos (Fase 2)
+     ======================= -->
+<section id="restaurantes-fase2" style="margin-top: 22px;">
+
+  <div class="hero-card">
+    <h2><i class="fa-solid fa-utensils"></i> Restaurantes nuevos (Fase 2)</h2>
+    <p>
+      La expansión (Fase 2) trajo nuevos restaurantes y conceptos dentro del resort. </strong> algunos suelen requerir
+      <strong>reservación</strong> para cena.
+    </p>
+
+    <div class="chips">
+      <span class="chip"><i class="fa-solid fa-star"></i> Cocina de autor</span>
+      <span class="chip"><i class="fa-solid fa-calendar-check"></i> Reservas recomendadas</span>
+      <span class="chip"><i class="fa-solid fa-person"></i> Algunos “solo adultos”</span>
+      <span class="chip"><i class="fa-solid fa-circle-info"></i> Sujeto a horarios</span>
+    </div>
+
+    <p class="mini">
+      <strong>Hack:</strong> al llegar, pide a Guest Service/Concierge que te agenden las cenas “top” del viaje
+      (sobre todo fines de semana o temporadas altas).
+    </p>
+  </div>
+
+  <h2 style="margin: 18px 0 10px; display:flex; align-items:center; gap:10px; color: var(--brand, #2F4667);">
+    <i class="fa-solid fa-sparkles" style="color: var(--sm-accent, #C6B28A);"></i>
+    Nuevos imperdibles
+  </h2>
+
+  <div class="tips-grid">
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-crown"></i> HA’ (cocina de autor)</h3>
+      <ul>
+        <li><strong>Requiere reservación con prepago</strong>.</li>
+        <li><strong>Costo adicional</strong> (no entra en All-Fun Inclusive®).</li>
+        <li>Solo adultos.</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-water"></i> Arriba Baja (Nuevo)</h3>
+      <ul>
+        <li><strong>Requiere reservación</strong>.</li>
+        <li>Desayuno / comida / cena.</li>
+        <li>Solo adultos (Casa Eclipse).</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-store"></i> La Xentral (Nuevo)</h3>
+      <ul>
+        <li>Buffet mexicano e internacional tipo mercado.</li>
+        <li>Ideal para comidas “sin complicaciones”.</li>
+        <li>Tip: buen spot cuando van saliendo a parques.</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-film"></i> Xinema (Nuevo)</h3>
+      <ul>
+        <li>Comida urbana mexicana (antojitos / botanas).</li>
+        <li>Ambiente muy “relajado” y diferente.</li>
+        <li>Perfecto para algo casual (o para “la madrugada”).</li>
+        <li>Disponible 24 hrs.</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-chess-queen"></i> Azul Nogada (Nuevo)</h3>
+      <ul>
+        <li>Homenaje a cocina poblana (buffet o a la carta).</li>
+        <li>Decoración con talavera + terraza.</li>
+        <li>Gran opción para cena temática mexicana.</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-leaf"></i> Chi (Nuevo)</h3>
+      <ul>
+        <li>Cena con enfoque Yucatán.</li>
+        <li>Experiencia con happenings en vivo.</li>
+        <li>Tip: recomendable agendar si van en grupo.</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-guitar"></i> Monarca (Nuevo)</h3>
+      <ul>
+        <li>Especialidades michoacanas.</li>
+        <li>Cenas con happenings en vivo.</li>
+        <li>Buena opción “noche mexicana” con ambiente.</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-steak"></i> La Silla (Nuevo)</h3>
+      <ul>
+        <li>Lo representativo de Nuevo León (cortes).</li>
+        <li>Ideal para antojo de carne / cena poderosa.</li>
+        <li>Tip: cenas temprano = menos fila.</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-shrimp"></i> Costero (Nuevo)</h3>
+      <ul>
+        <li>Escaparate a cocina veracruzana (mariscos / antojitos).</li>
+        <li>Terraza + happenings en vivo.</li>
+        <li>Perfecto para “cena de mar” sin complicarte.</li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h3><i class="fa-solid fa-bowl-rice"></i> Tama-Mon (Nuevo)</h3>
+      <ul>
+        <li>Cocina asiática con varias estaciones (sushi/teppanyaki/dim sum/ramen).</li>
+        <li>Abierto para desayuno y cena.</li>
+        <li>Tip: si quieres teppanyaki, pregunta por cupo/horarios.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="note" style="margin-top: 16px;">
+    <strong>Reservaciones (lo más importante):</strong>
+    En el sitio oficial, <strong>HA’</strong> indica reservación con prepago (y costo adicional) y
+    <strong>Arriba Baja</strong> también indica <strong>“requiere reservación”</strong>.
+    Para el resto, puede variar por temporada/aforo: lo más práctico es pedir a <strong>Guest Service/Concierge</strong>
+    que te agende las cenas favoritas al llegar.
+  </div>
+
+</section>
+
+
+    <div class="note">
+      <strong>Idea recomendada para el día 1:</strong> úsalo como día de llegada (hotel/ríos/alberca + cena + reservas).
+      Así no empiezas corriendo y el resto del viaje lo aprovechas al máximo.
+    </div>
+
+    <div class="cta-row">
+      <a class="cta-btn" href="hospedaje.html"><i class="fa-solid fa-hotel"></i> Ver hospedaje</a>
+      <a class="cta-btn secondary" href="xcaret.html"><i class="fa-solid fa-ticket"></i> Ver tips Xcaret</a>
+    </div>
+
+    <div class="navegacion-volver" style="margin-top:18px;">
+      <a href="index.html" class="boton-volver">← Volver a la Página Principal</a>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="menu.js"></script>
+
+  <footer class="footer-legal">
+    <div class="footer-legal__inner">
+
+      <p class="footer-legal__title">
+        Cynthia &amp; José Miguel · 6 de febrero de 2026
+      </p>
+
+      <p class="footer-legal__text">
+        Este sitio web es de <strong>carácter informativo y personal</strong>, creado con motivo de nuestra celebración.
+        No está afiliado, patrocinado ni administrado por Hoteles Xcaret, Google, aerolíneas u otras marcas mencionadas.
+      </p>
+
+      <p class="footer-legal__text">
+        Las búsquedas de vuelos, hospedaje y reservaciones se realizan en <strong>sitios externos</strong>.
+        Cynthia y José Miguel no gestionan pagos, cambios, cancelaciones ni disponibilidad.
+        Al continuar, aplican los términos y políticas de privacidad de cada proveedor.
+      </p>
+
+      <p class="footer-legal__small">
+        © 2026 Cynthia &amp; José Miguel · Todos los derechos reservados
+      </p>
+
+    </div>
+  </footer>
+
+</body>
+</html>
