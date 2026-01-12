@@ -20,76 +20,63 @@
       --shadow:0 18px 45px rgba(0,0,0,.14);
       --radius:18px;
 
-      /* === Layout exacto del mock (en %) === */
+      /* ===== POSICIONES (SEPARADAS) ===== */
       --novios-top: 10%;
       --novios-left: 50%;
 
-      --pista-top: 48%;
+      --pista-top: 50%;
       --pista-left: 50%;
 
-      --t1-top: 22%; --t1-left: 28%;
-      --t2-top: 22%; --t2-left: 72%;
-      --t3-top: 36%; --t3-left: 18%;
-      --t4-top: 36%; --t4-left: 82%;
-      --t5-top: 58%; --t5-left: 18%;
-      --t6-top: 58%; --t6-left: 82%;
-      --t7-top: 78%; --t7-left: 40%;
-      --t8-top: 78%; --t8-left: 60%;
-      --t9-top: 24%; --t9-left: 8%;
-      --t10-top:24%; --t10-left:92%;
+      --t9-top: 24%;  --t9-left: 7%;
+      --t1-top: 20%;  --t1-left: 26%;
+      --t2-top: 20%;  --t2-left: 74%;
+      --t10-top:24%;  --t10-left:93%;
 
-      /* Capacidad */
-      --max: 10;
+      --t3-top: 38%;  --t3-left: 16%;
+      --t4-top: 38%;  --t4-left: 84%;
 
-      /* Tamaños base (se escalan con --s) */
-      --base-table: 150; /* px cuando --s=1 */
-      --base-novios-w: 260; /* px */
-      --base-novios-h: 64;  /* px */
+      --t5-top: 62%;  --t5-left: 16%;
+      --t6-top: 62%;  --t6-left: 84%;
+
+      --t7-top: 82%;  --t7-left: 38%;
+      --t8-top: 82%;  --t8-left: 62%;
+
+      --base-table: 150;
+      --base-novios-w: 260;
+      --base-novios-h: 64;
     }
 
     *{box-sizing:border-box}
 
-    /* Full width */
     body{
       margin:0;
       min-height:100vh;
       font-family:"Lato",system-ui,-apple-system,"Segoe UI",sans-serif;
-      color:var(--text);
       background:radial-gradient(circle at top,#fff 0%, var(--arena) 48%, var(--duna) 100%);
+      color:var(--text);
     }
 
     .wrap{
       width:100%;
-      max-width:none;              /* <-- full width */
-      margin:0;
-      padding:14px;                /* margen general */
+      padding:14px;
     }
 
     .top{
-      width:100%;
       background:var(--card);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
       padding:16px 14px 12px;
       text-align:center;
-      position:relative;
-      overflow:hidden;
       border:1px solid rgba(205,189,167,.55);
     }
-    .top::before{
-      content:"";
-      position:absolute; inset:0;
-      background:linear-gradient(135deg,rgba(90,167,199,.20),rgba(205,189,167,.12));
-      opacity:.85;
-      pointer-events:none;
-    }
-    .top>*{position:relative;z-index:1}
+
     h1{
       font-family:"Dancing Script",cursive;
       margin:0;
       font-size:2.4rem;
       color:var(--mar);
     }
+
     .sub{
       margin:6px 0 10px;
       letter-spacing:.18em;
@@ -105,15 +92,14 @@
       flex-wrap:wrap;
       margin-top:10px;
     }
+
     input{
       padding:10px 14px;
       border-radius:12px;
       border:1px solid rgba(205,189,167,.95);
-      background:#fff;
-      outline:none;
       min-width:240px;
-      font-size:.95rem;
     }
+
     button{
       padding:10px 18px;
       border-radius:999px;
@@ -122,73 +108,43 @@
       color:#fff;
       font-weight:900;
       cursor:pointer;
-      box-shadow:0 12px 26px rgba(90,167,199,.35);
     }
+
     button.secondary{
       background:#fff;
       color:#444;
       border:1px solid rgba(205,189,167,.95);
-      box-shadow:0 10px 22px rgba(0,0,0,.07);
     }
 
-    /* Layout: en desktop plan + sidebar; en móvil se apila */
-    .layoutWrap{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: 1fr 360px;
-      gap:14px;
-      align-items:start;
-      width:100%;
-    }
-    @media(max-width:1100px){
-      .layoutWrap{ grid-template-columns: 1fr; }
-    }
-
-    /* PLAN: full width + scrollable en móviles */
+    /* ===== PLANO ===== */
     .plan{
-      width:100%;
+      margin-top:14px;
       background:var(--card);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
       border:1px solid rgba(205,189,167,.55);
-      position:relative;
-      overflow:auto; /* <-- scroll */
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .plan::before{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        radial-gradient(circle at 30% 20%, rgba(90,167,199,.12), transparent 55%),
-        radial-gradient(circle at 70% 80%, rgba(205,189,167,.20), transparent 60%);
-      opacity:.9;
-      pointer-events:none;
+      overflow:auto;
     }
 
     .planInner{
       position:relative;
-      width:100%;
-      aspect-ratio: 16 / 9;
+      aspect-ratio:16/9;
       min-height:540px;
-
-      /* IMPORTANT: esto fuerza scroll horizontal en móviles */
-      min-width: 980px;  /* <-- ajusta si quieres más/menos zoom base */
-      --s: 1;            /* se setea por JS */
+      min-width:1150px; /* scroll en móviles */
+      --s:1;
+      --ts:1;
     }
 
-    /* PISTA */
+    /* ===== PISTA ===== */
     .pista{
       position:absolute;
-      left:var(--pista-left);
       top:var(--pista-top);
+      left:var(--pista-left);
       transform:translate(-50%,-50%);
-      width: 38%;
-      height: 34%;
+      width:38%;
+      height:34%;
       border-radius:12px;
       background:linear-gradient(135deg, rgba(205,189,167,.40), rgba(231,220,203,.55));
-      border:1px solid rgba(205,189,167,.85);
-      box-shadow:0 16px 30px rgba(0,0,0,.10);
       display:flex;
       align-items:center;
       justify-content:center;
@@ -196,170 +152,82 @@
       font-weight:1000;
       letter-spacing:.18em;
       text-transform:uppercase;
-      color:rgba(47,47,47,.70);
-      font-size: calc(.95rem * var(--s));
-    }
-    .pista small{
-      display:block;
-      font-weight:700;
-      letter-spacing:.08em;
-      text-transform:none;
-      margin-top:6px;
-      color:rgba(47,47,47,.60);
-      font-size: calc(.78rem * var(--s));
     }
 
-    /* Mesa (círculo) */
+    .pista small{
+      font-size:.8rem;
+      margin-top:6px;
+      opacity:.7;
+    }
+
+    /* ===== MESAS ===== */
     .mesa{
       position:absolute;
-      width: calc(var(--base-table) * 1px * var(--s));
-      height: calc(var(--base-table) * 1px * var(--s));
+      width:calc(var(--base-table)*1px*var(--s)*var(--ts));
+      height:calc(var(--base-table)*1px*var(--s)*var(--ts));
       transform:translate(-50%,-50%);
       border-radius:999px;
       background:#fff;
       border:1px solid rgba(205,189,167,.85);
       box-shadow:0 12px 26px rgba(0,0,0,.12);
-      overflow:hidden;
       display:flex;
       flex-direction:column;
+      overflow:hidden;
     }
 
     .mesaHeader{
-      padding: calc(8px * var(--s)) calc(10px * var(--s));
+      padding:6px 10px;
       background:linear-gradient(135deg, rgba(90,167,199,.22), rgba(231,220,203,.30));
-      border-bottom:1px solid rgba(205,189,167,.55);
       display:flex;
-      align-items:center;
       justify-content:space-between;
-      gap:8px;
-    }
-    .mesaNum{
-      font-weight:1000;
-      letter-spacing:.16em;
+      font-weight:900;
+      font-size:.75rem;
+      letter-spacing:.14em;
       text-transform:uppercase;
-      font-size: calc(.78rem * var(--s));
-      color:rgba(47,47,47,.78);
-      white-space:nowrap;
-    }
-    .mesaCount{
-      font-weight:1000;
-      font-size: calc(.75rem * var(--s));
-      padding: calc(4px * var(--s)) calc(8px * var(--s));
-      border-radius:999px;
-      background:rgba(231,220,203,.55);
-      border:1px solid rgba(205,189,167,.75);
-      color:rgba(47,47,47,.75);
-      white-space:nowrap;
     }
 
     .mesaBody{
-      padding: calc(8px * var(--s)) calc(10px * var(--s));
-      font-size: calc(.78rem * var(--s));
-      line-height:1.25;
+      padding:8px 10px;
+      font-size:.78rem;
       overflow:auto;
-      scrollbar-width: thin;
     }
+
     .name{
-      padding: calc(3px * var(--s)) 0;
+      padding:3px 0;
       border-bottom:1px dashed rgba(205,189,167,.35);
       font-weight:800;
     }
     .name:last-child{border-bottom:0}
 
-    /* Mesa de novios (rectangular redondeada) */
+    /* Mesa de novios */
     .mesa-novios{
       position:absolute;
       top:var(--novios-top);
       left:var(--novios-left);
       transform:translate(-50%,-50%);
-      width: calc(var(--base-novios-w) * 1px * var(--s));
-      height: calc(var(--base-novios-h) * 1px * var(--s));
-      border-radius: calc(14px * var(--s));
+      width:calc(var(--base-novios-w)*1px*var(--s));
+      height:calc(var(--base-novios-h)*1px*var(--s));
+      border-radius:14px;
       background:#fff;
-      border:1px solid rgba(205,189,167,.85);
-      box-shadow:0 12px 26px rgba(0,0,0,.12);
       display:flex;
       align-items:center;
       justify-content:center;
-      overflow:hidden;
-    }
-    .mesa-novios span{
-      font-weight:1000;
+      font-weight:900;
       letter-spacing:.16em;
       text-transform:uppercase;
-      font-size: calc(.82rem * var(--s));
-      color:rgba(47,47,47,.78);
     }
 
     /* Posiciones */
-    .mesa.m1  { top:var(--t1-top);  left:var(--t1-left); }
-    .mesa.m2  { top:var(--t2-top);  left:var(--t2-left); }
-    .mesa.m3  { top:var(--t3-top);  left:var(--t3-left); }
-    .mesa.m4  { top:var(--t4-top);  left:var(--t4-left); }
-    .mesa.m5  { top:var(--t5-top);  left:var(--t5-left); }
-    .mesa.m6  { top:var(--t6-top);  left:var(--t6-left); }
-    .mesa.m7  { top:var(--t7-top);  left:var(--t7-left); }
-    .mesa.m8  { top:var(--t8-top);  left:var(--t8-left); }
-    .mesa.m9  { top:var(--t9-top);  left:var(--t9-left); }
-    .mesa.m10 { top:var(--t10-top); left:var(--t10-left); }
-
-    /* Sidebar */
-    .side{
-      width:100%;
-      background:var(--card);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      border:1px solid rgba(205,189,167,.55);
-      overflow:hidden;
-    }
-    .sideHeader{
-      padding:12px 14px;
-      border-bottom:1px solid rgba(205,189,167,.35);
-      font-weight:1000;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      font-size:.82rem;
-      color:rgba(47,47,47,.70);
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .pill{
-      padding:6px 10px;
-      border-radius:999px;
-      background:#fff;
-      border:1px solid rgba(205,189,167,.9);
-      font-weight:900;
-      font-size:.78rem;
-      color:#555;
-    }
-    .sideBody{padding:12px 14px}
-    .hint{color:rgba(47,47,47,.65);font-size:.9rem;margin:0 0 10px}
-    .uaList{
-      max-height:520px;
-      overflow:auto;
-      border-top:1px dashed rgba(205,189,167,.45);
-      padding-top:10px;
-    }
-    .uaItem{
-      padding:7px 0;
-      border-bottom:1px dashed rgba(205,189,167,.35);
-      font-weight:850;
-      font-size:.92rem;
-    }
-    .uaItem:last-child{border-bottom:0}
-
-    .error{
-      margin-top:14px;
-      background:var(--card);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      border:1px solid rgba(217,124,124,.45);
-      padding:14px;
-      text-align:center;
-    }
-    code{background:rgba(231,220,203,.55);padding:2px 6px;border-radius:8px}
+    .m1{top:var(--t1-top);left:var(--t1-left)}
+    .m2{top:var(--t2-top);left:var(--t2-left)}
+    .m3{top:var(--t3-top);left:var(--t3-left)}
+    .m4{top:var(--t4-top);left:var(--t4-left)}
+    .m5{top:var(--t5-top);left:var(--t5-left)}
+    .m6{top:var(--t6-top);left:var(--t6-left)}
+    .m7{top:var(--t7-top);left:var(--t7-left)}
+    .m8{top:var(--t8-top);left:var(--t8-left)}
+    .m9{top:var(--t9-top);left:var(--t9-left)}
+    .m10{top:var(--t10-top);left:var(--t10-left)}
   </style>
 </head>
 
@@ -367,211 +235,55 @@
 <div class="wrap">
   <div class="top">
     <h1>Vista por mesas</h1>
-    <div class="sub">Solo lectura · Scroll en móviles · Full width</div>
-
+    <div class="sub">Plano general · Solo lectura</div>
     <div class="controls">
-      <input id="q" type="search" placeholder="Buscar nombre en todo el plano…">
+      <input id="q" placeholder="Buscar nombre…">
       <button id="reload">Actualizar</button>
       <button id="csv" class="secondary">Exportar CSV</button>
     </div>
   </div>
 
-  <div class="layoutWrap">
-    <div class="plan">
-      <div class="planInner" id="planInner">
+  <div class="plan">
+    <div class="planInner" id="planInner">
 
-        <div class="mesa-novios">
-          <span>Mesa de Novios</span>
-        </div>
+      <div class="mesa-novios">Mesa de Novios</div>
 
-        <div class="pista">
-          PISTA
-          <small>Centro</small>
-        </div>
-
-        <!-- Mesas 1..10 -->
-        <div class="mesa m1"  data-mesa="1"><div class="mesaHeader"><div class="mesaNum">Mesa 1</div><div class="mesaCount" id="c1">—</div></div><div class="mesaBody" id="m1"></div></div>
-        <div class="mesa m2"  data-mesa="2"><div class="mesaHeader"><div class="mesaNum">Mesa 2</div><div class="mesaCount" id="c2">—</div></div><div class="mesaBody" id="m2"></div></div>
-        <div class="mesa m3"  data-mesa="3"><div class="mesaHeader"><div class="mesaNum">Mesa 3</div><div class="mesaCount" id="c3">—</div></div><div class="mesaBody" id="m3"></div></div>
-        <div class="mesa m4"  data-mesa="4"><div class="mesaHeader"><div class="mesaNum">Mesa 4</div><div class="mesaCount" id="c4">—</div></div><div class="mesaBody" id="m4"></div></div>
-        <div class="mesa m5"  data-mesa="5"><div class="mesaHeader"><div class="mesaNum">Mesa 5</div><div class="mesaCount" id="c5">—</div></div><div class="mesaBody" id="m5"></div></div>
-        <div class="mesa m6"  data-mesa="6"><div class="mesaHeader"><div class="mesaNum">Mesa 6</div><div class="mesaCount" id="c6">—</div></div><div class="mesaBody" id="m6"></div></div>
-        <div class="mesa m7"  data-mesa="7"><div class="mesaHeader"><div class="mesaNum">Mesa 7</div><div class="mesaCount" id="c7">—</div></div><div class="mesaBody" id="m7"></div></div>
-        <div class="mesa m8"  data-mesa="8"><div class="mesaHeader"><div class="mesaNum">Mesa 8</div><div class="mesaCount" id="c8">—</div></div><div class="mesaBody" id="m8"></div></div>
-        <div class="mesa m9"  data-mesa="9"><div class="mesaHeader"><div class="mesaNum">Mesa 9</div><div class="mesaCount" id="c9">—</div></div><div class="mesaBody" id="m9"></div></div>
-        <div class="mesa m10" data-mesa="10"><div class="mesaHeader"><div class="mesaNum">Mesa 10</div><div class="mesaCount" id="c10">—</div></div><div class="mesaBody" id="m10"></div></div>
-
+      <div class="pista">
+        Pista
+        <small>Centro</small>
       </div>
-    </div>
 
-    <div class="side">
-      <div class="sideHeader">
-        <span>Sin asignar</span>
-        <span class="pill">Total: <span id="uaCount">—</span></span>
-      </div>
-      <div class="sideBody">
-        <p class="hint">Confirmados sin mesa asignada (solo lectura).</p>
-        <div class="uaList" id="uaList"></div>
-      </div>
+      <!-- Mesas -->
+      <div class="mesa m1"><div class="mesaHeader">Mesa 1 <span id="c1"></span></div><div class="mesaBody" id="m1"></div></div>
+      <div class="mesa m2"><div class="mesaHeader">Mesa 2 <span id="c2"></span></div><div class="mesaBody" id="m2"></div></div>
+      <div class="mesa m3"><div class="mesaHeader">Mesa 3 <span id="c3"></span></div><div class="mesaBody" id="m3"></div></div>
+      <div class="mesa m4"><div class="mesaHeader">Mesa 4 <span id="c4"></span></div><div class="mesaBody" id="m4"></div></div>
+      <div class="mesa m5"><div class="mesaHeader">Mesa 5 <span id="c5"></span></div><div class="mesaBody" id="m5"></div></div>
+      <div class="mesa m6"><div class="mesaHeader">Mesa 6 <span id="c6"></span></div><div class="mesaBody" id="m6"></div></div>
+      <div class="mesa m7"><div class="mesaHeader">Mesa 7 <span id="c7"></span></div><div class="mesaBody" id="m7"></div></div>
+      <div class="mesa m8"><div class="mesaHeader">Mesa 8 <span id="c8"></span></div><div class="mesaBody" id="m8"></div></div>
+      <div class="mesa m9"><div class="mesaHeader">Mesa 9 <span id="c9"></span></div><div class="mesaBody" id="m9"></div></div>
+      <div class="mesa m10"><div class="mesaHeader">Mesa 10 <span id="c10"></span></div><div class="mesaBody" id="m10"></div></div>
+
     </div>
   </div>
-
-  <div id="err"></div>
 </div>
 
 <script>
-  // === CONFIG ===
-  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzzuYdqWMgo8UJjXqm-rJETAnRyFeklo7m03s7gb7ehEL2ueiearC253nHcfwptNvnw/exec"; // <-- tu /exec
-  const params = new URLSearchParams(location.search);
-  const admin = params.get('admin') || '';
+  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzzuYdqWMgo8UJjXqm-rJETAnRyFeklo7m03s7gb7ehEL2ueiearC253nHcfwptNvnw/exec";
+  const admin = new URLSearchParams(location.search).get('admin') || '';
 
-  const $ = (id)=>document.getElementById(id);
+  const $ = id => document.getElementById(id);
 
-  let rawDash = null;
-
-  function escapeHtml(s){
-    return (s ?? '').toString()
-      .replaceAll('&','&amp;')
-      .replaceAll('<','&lt;')
-      .replaceAll('>','&gt;')
-      .replaceAll('"','&quot;')
-      .replaceAll("'","&#039;");
-  }
-
-  function showError(msgHtml){
-    $('err').innerHTML = msgHtml ? `<div class="error">${msgHtml}</div>` : '';
-  }
-
-  function normalize(s){
-    return (s ?? '')
-      .toString()
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g,'');
-  }
-
-  function render(dash){
-    rawDash = dash;
-
-    // Mesas 1..10
-    for(let m=1; m<=10; m++){
-      const key = String(m);
-      const arr = (dash.mesas && dash.mesas[key]) ? dash.mesas[key] : [];
-
-      // contador X/10
-      $('c'+m).textContent = `${arr.length}/${getComputedStyle(document.documentElement).getPropertyValue('--max').trim() || '10'}`;
-
-      // lista
-      $('m'+m).innerHTML = arr.length
-        ? arr.map(p => `<div class="name">${escapeHtml((p.nombre||'').toString().trim())}</div>`).join('')
-        : `<div style="color:rgba(47,47,47,.55);font-weight:800">—</div>`;
-    }
-
-    // Sin asignar
-    const ua = dash.unassigned || [];
-    $('uaCount').textContent = ua.length;
-    $('uaList').innerHTML = ua.length
-      ? ua.map(p => `<div class="uaItem">${escapeHtml((p.nombre||'').toString().trim())}</div>`).join('')
-      : `<div style="color:rgba(47,47,47,.55);font-weight:850">—</div>`;
-  }
-
-  function applySearch(){
-    const q = normalize(($('q').value || '').trim());
-
-    // reset styles
-    document.querySelectorAll('.mesa').forEach(el=>{
-      el.style.opacity = '';
-      el.style.filter = '';
-    });
-    document.querySelectorAll('.uaItem').forEach(el=>{
-      el.style.opacity = '';
-    });
-
-    if(!q) return;
-
-    // Fade everything
-    document.querySelectorAll('.mesa').forEach(el=>{
-      el.style.opacity = '0.35';
-      el.style.filter = 'grayscale(0.1)';
-    });
-
-    // Highlight mesas with match
-    for(let m=1; m<=10; m++){
-      const box = document.querySelector('.mesa.m'+m);
-      if(!box) continue;
-      const names = Array.from(box.querySelectorAll('.name')).map(n=>normalize(n.textContent));
-      const match = names.some(n=>n.includes(q));
-      if(match){
-        box.style.opacity = '1';
-        box.style.filter = 'none';
-      }
-    }
-
-    // Highlight unassigned items
-    document.querySelectorAll('.uaItem').forEach(el=>{
-      const match = normalize(el.textContent).includes(q);
-      el.style.opacity = match ? '1' : '0.35';
-    });
-  }
-
-  async function load(){
-    showError('');
-
-    if(!WEBAPP_URL.includes('http')){
-      showError('Configura <b>WEBAPP_URL</b> en este archivo.');
-      return;
-    }
-    if(!admin){
-      showError(`Acceso restringido. Abre con <code>?admin=TU_TOKEN</code>`);
-      return;
-    }
-
-    try{
-      const url = `${WEBAPP_URL}?action=mesasDashboard&admin=${encodeURIComponent(admin)}`;
-      const res = await fetch(url);
-      const data = await res.json();
-      if(!data.ok){
-        showError(escapeHtml(data.error || 'Error'));
-        return;
-      }
-      render(data);
-      applySearch();
-    }catch(e){
-      showError('Error de conexión.');
-    }
-  }
-
-  function exportCsv(){
-    if(!admin) return;
-    window.open(`${WEBAPP_URL}?action=exportMesasCsv&admin=${encodeURIComponent(admin)}`, '_blank');
-  }
-
-  // === Escala responsiva del plano ===
-  function applyPlanScale(){
-    const inner = document.getElementById('planInner');
-    if(!inner) return;
-
-    // Nota: como en móvil usamos min-width y scroll,
-    // la escala se mantiene agradable y "exacta".
+  function applyScale(){
+    const inner = $('planInner');
     const w = inner.clientWidth;
-    const reference = 1100; // ajusta si quieres un poco más grande/pequeño
-    const s = Math.max(0.85, Math.min(1.10, w / reference));
-    inner.style.setProperty('--s', s.toFixed(3));
+    inner.style.setProperty('--s', Math.max(0.95, Math.min(1.05, w/1200)));
+    inner.style.setProperty('--ts', Math.max(0.85, Math.min(1, w/1250)));
   }
 
-  const ro = new ResizeObserver(() => applyPlanScale());
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const inner = document.getElementById('planInner');
-    if(inner) ro.observe(inner);
-
-    applyPlanScale();
-    load();
-
-    $('q').addEventListener('input', applySearch);
-    $('reload').addEventListener('click', load);
-    $('csv').addEventListener('click', exportCsv);
-  });
+  new ResizeObserver(applyScale).observe($('planInner'));
+  applyScale();
 </script>
 </body>
 </html>
