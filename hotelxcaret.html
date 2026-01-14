@@ -284,6 +284,109 @@
       height:100%;
       border:0;
     }
+    /* ===== Navegación interna por secciones (TOC) ===== */
+:root{
+  --tocTop: 88px; /* Ajusta si tu header es más alto */
+}
+
+.section-nav{
+  position: sticky;
+  top: var(--tocTop);
+  z-index: 20;
+  margin: 14px 0 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: rgba(255,255,255,0.86);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.section-nav__bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.section-nav__title{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  margin: 0;
+  color: var(--brand, #2F4667);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+.section-nav__title i{ color: var(--sm-accent, #C6B28A); }
+
+.section-nav__toggle{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(231,220,203,0.28);
+  color:#3F3A36;
+  cursor:pointer;
+  font-weight: 800;
+  font-family: inherit;
+}
+
+.section-nav__panel{
+  padding: 0 14px 14px;
+}
+
+.section-nav__list{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style:none;
+}
+
+.section-nav__link{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  text-decoration:none;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.8);
+  color:#3F3A36;
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+  transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+.section-nav__link:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.10);
+}
+.section-nav__link i{ color: var(--sm-accent, #C6B28A); }
+
+/* Para que al saltar por ancla NO se tape el título */
+#equipaje-parques,
+#videos-xcaret,
+#apps-xcaret,
+#restaurantes-fase2,
+#formulario-experiencias{
+  scroll-margin-top: calc(var(--tocTop) + 18px);
+}
+
+/* Colapsable */
+.section-nav[data-collapsed="true"] .section-nav__panel{ display:none; }
+
+@media (max-width: 780px){
+  :root{ --tocTop: 78px; } /* Ajusta si en móvil cambia */
+  .section-nav__list{ flex-direction: column; }
+  .section-nav__link{ width: 100%; justify-content: space-between; }
+}
+
   </style>
 </head>
 <body>
@@ -326,7 +429,32 @@
   </div>
 
   <div class="contenido-pagina">
-    <h1><i class="fa-solid fa-circle-info" style="color:var(--sm-accent);"></i> Consejos y recomendaciones (Hotel Xcaret México)</h1>
+<h1 id="top"><i class="fa-solid fa-circle-info" style="color:var(--sm-accent);"></i> Consejos y recomendaciones (Hotel Xcaret México)</h1>
+<!-- =======================
+     Navegación interna por secciones
+     ======================= -->
+<nav class="section-nav" id="sectionNav" data-collapsed="false" aria-label="Navegación por secciones">
+  <div class="section-nav__bar">
+    <p class="section-nav__title">
+      <i class="fa-solid fa-compass"></i> Navegación rápida
+    </p>
+
+    <button class="section-nav__toggle" type="button" id="sectionNavToggle" aria-expanded="true">
+      <i class="fa-solid fa-bars"></i> Secciones
+    </button>
+  </div>
+
+  <div class="section-nav__panel" id="sectionNavPanel">
+    <ul class="section-nav__list">
+      <li><a class="section-nav__link" href="#top"><i class="fa-solid fa-arrow-up"></i> Inicio</a></li>
+      <li><a class="section-nav__link" href="#equipaje-parques"><i class="fa-solid fa-suitcase"></i> Equipaje & parques</a></li>
+      <li><a class="section-nav__link" href="#videos-xcaret"><i class="fa-brands fa-youtube"></i> Videos</a></li>
+      <li><a class="section-nav__link" href="#apps-xcaret"><i class="fa-solid fa-mobile-screen-button"></i> Apps</a></li>
+      <li><a class="section-nav__link" href="#restaurantes-fase2"><i class="fa-solid fa-utensils"></i> Restaurantes Fase 2</a></li>
+      <li><a class="section-nav__link" href="#formulario-experiencias"><i class="fa-solid fa-file-pdf"></i> Formulario PDF</a></li>
+    </ul>
+  </div>
+</nav>
 
     <div class="hero-card">
       <h2><i class="fa-solid fa-clock"></i> Aunque el check-in es a las 3:00 pm, puedes llegar al mediodía o antes</h2>
@@ -382,7 +510,7 @@
       <div class="tip-card">
         <h3><i class="fa-solid fa-bus-simple"></i> Transporte y parques (día de llegada)</h3>
         <ul>
-          <li>El traslado aeropuerto → hotel. Está incluido, recuerda compartirnos tu itinerario de viaje .</li>
+          <li>El traslado aeropuerto → hotel. Está incluido, recuerda compartir tu itinerario de viaje .</li>
           <li>Ir a parques el mismo día es posible, pero suele rendir poco si llegas al mediodía.</li>
           <li>Mejor: aprovecha el hotel, descansa y deja parques grandes para días completos.</li>
         </ul>
@@ -934,7 +1062,40 @@
         }
       });
     })();
-  </script>
+
+  (function initSectionNav(){
+    const nav = document.getElementById('sectionNav');
+    const toggle = document.getElementById('sectionNavToggle');
+    if (!nav || !toggle) return;
+
+    function setCollapsed(isCollapsed){
+      nav.setAttribute('data-collapsed', isCollapsed ? 'true' : 'false');
+      toggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+      toggle.innerHTML = isCollapsed
+        ? '<i class="fa-solid fa-bars"></i> Secciones'
+        : '<i class="fa-solid fa-xmark"></i> Cerrar';
+    }
+
+    // En móvil inicia colapsado
+    const isMobile = window.matchMedia('(max-width: 780px)').matches;
+    setCollapsed(isMobile);
+
+    toggle.addEventListener('click', () => {
+      const collapsed = nav.getAttribute('data-collapsed') === 'true';
+      setCollapsed(!collapsed);
+    });
+
+    // Al dar click en un link, en móvil colapsa (no oculta contenido, solo cierra el panel)
+    nav.addEventListener('click', (e) => {
+      const a = e.target.closest('a.section-nav__link');
+      if (!a) return;
+      if (window.matchMedia('(max-width: 780px)').matches){
+        setCollapsed(true);
+      }
+    });
+  })();
+</script>
+
 
   <footer class="footer-legal">
     <div class="footer-legal__inner">
