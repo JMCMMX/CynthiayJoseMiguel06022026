@@ -284,109 +284,164 @@
       height:100%;
       border:0;
     }
-    /* ===== Navegación interna por secciones (TOC) ===== */
-:root{
-  --tocTop: 88px; /* Ajusta si tu header es más alto */
-}
 
-.section-nav{
-  position: sticky;
-  top: var(--tocTop);
-  z-index: 20;
-  margin: 14px 0 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(0,0,0,0.06);
-  background: rgba(255,255,255,0.86);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 26px rgba(0,0,0,0.08);
-  overflow: hidden;
-}
+    /* ===== Navegación flotante tipo burbuja (TOC) ===== */
+    :root{
+      --fabBottom: 18px;
+      --fabRight:  16px;
+      --fabZ: 9998;
+      --fabPanelW: 320px;
+      --fabTopOffset: 92px;
+    }
 
-.section-nav__bar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 12px;
-  padding: 12px 14px;
-}
+    #top,
+    #equipaje-parques,
+    #videos-xcaret,
+    #apps-xcaret,
+    #restaurantes-fase2,
+    #formulario-experiencias{
+      scroll-margin-top: calc(var(--fabTopOffset) + 12px);
+    }
 
-.section-nav__title{
-  display:flex;
-  align-items:center;
-  gap: 10px;
-  margin: 0;
-  color: var(--brand, #2F4667);
-  font-size: 1.05rem;
-  font-weight: 800;
-}
-.section-nav__title i{ color: var(--sm-accent, #C6B28A); }
+    .fab-nav{
+      position: fixed;
+      right: var(--fabRight);
+      bottom: var(--fabBottom);
+      z-index: var(--fabZ);
+      font-family: inherit;
+    }
 
-.section-nav__toggle{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(0,0,0,0.10);
-  background: rgba(231,220,203,0.28);
-  color:#3F3A36;
-  cursor:pointer;
-  font-weight: 800;
-  font-family: inherit;
-}
+    .fab-btn{
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.10);
+      background: var(--brand, #2F4667);
+      color: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 16px 34px rgba(47,70,103,0.26);
+      transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+    }
+    .fab-btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 22px 46px rgba(47,70,103,0.30);
+    }
 
-.section-nav__panel{
-  padding: 0 14px 14px;
-}
+    .fab-panel{
+      position: absolute;
+      right: 0;
+      bottom: 70px;
+      width: min(var(--fabPanelW), calc(100vw - 24px));
+      border-radius: 18px;
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 22px 50px rgba(0,0,0,0.18);
+      overflow: hidden;
+      display: none;
+    }
 
-.section-nav__list{
-  display:flex;
-  flex-wrap:wrap;
-  gap: 10px;
-  margin: 0;
-  padding: 0;
-  list-style:none;
-}
+    .fab-nav[data-open="true"] .fab-panel{ display:block; }
 
-.section-nav__link{
-  display:inline-flex;
-  align-items:center;
-  gap: 8px;
-  padding: 10px 12px;
-  border-radius: 999px;
-  text-decoration:none;
-  border: 1px solid rgba(0,0,0,0.08);
-  background: rgba(255,255,255,0.8);
-  color:#3F3A36;
-  font-weight: 700;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.06);
-  transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
-}
-.section-nav__link:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 14px 28px rgba(0,0,0,0.10);
-}
-.section-nav__link i{ color: var(--sm-accent, #C6B28A); }
+    .fab-panel__head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 12px 12px;
+      background: linear-gradient(180deg, rgba(231,220,203,0.42), rgba(231,220,203,0.18));
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
 
-/* Para que al saltar por ancla NO se tape el título */
-#equipaje-parques,
-#videos-xcaret,
-#apps-xcaret,
-#restaurantes-fase2,
-#formulario-experiencias{
-  scroll-margin-top: calc(var(--tocTop) + 18px);
-}
+    .fab-panel__title{
+      margin: 0;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      font-weight: 900;
+      color: var(--brand, #2F4667);
+      font-size: 1.0rem;
+    }
+    .fab-panel__title i{ color: var(--sm-accent, #C6B28A); }
 
-/* Colapsable */
-.section-nav[data-collapsed="true"] .section-nav__panel{ display:none; }
+    .fab-close{
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(255,255,255,0.70);
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      color:#3F3A36;
+    }
 
-@media (max-width: 780px){
-  :root{ --tocTop: 78px; } /* Ajusta si en móvil cambia */
-  .section-nav__list{ flex-direction: column; }
-  .section-nav__link{ width: 100%; justify-content: space-between; }
-}
+    .fab-panel__body{
+      padding: 12px 12px 14px;
+    }
 
+    .fab-links{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .fab-link{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      text-decoration:none;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.86);
+      color:#3F3A36;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.07);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .fab-link:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(0,0,0,0.10);
+    }
+
+    .fab-link .left{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+    .fab-link i{ color: var(--sm-accent, #C6B28A); }
+    .fab-link .arrow{ opacity: .65; }
+
+    .fab-hint{
+      margin-top: 10px;
+      font-size: 0.88rem;
+      opacity: 0.85;
+      line-height: 1.45;
+      color:#3F3A36;
+    }
+
+    .fab-backdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.00);
+      display:none;
+      z-index: calc(var(--fabZ) - 1);
+    }
+    .fab-nav[data-open="true"] + .fab-backdrop{ display:block; }
+
+    @media (max-width: 780px){
+      :root{ --fabPanelW: 92vw; }
+    }
   </style>
 </head>
 <body>
@@ -429,32 +484,7 @@
   </div>
 
   <div class="contenido-pagina">
-<h1 id="top"><i class="fa-solid fa-circle-info" style="color:var(--sm-accent);"></i> Consejos y recomendaciones (Hotel Xcaret México)</h1>
-<!-- =======================
-     Navegación interna por secciones
-     ======================= -->
-<nav class="section-nav" id="sectionNav" data-collapsed="false" aria-label="Navegación por secciones">
-  <div class="section-nav__bar">
-    <p class="section-nav__title">
-      <i class="fa-solid fa-compass"></i> Navegación rápida
-    </p>
-
-    <button class="section-nav__toggle" type="button" id="sectionNavToggle" aria-expanded="true">
-      <i class="fa-solid fa-bars"></i> Secciones
-    </button>
-  </div>
-
-  <div class="section-nav__panel" id="sectionNavPanel">
-    <ul class="section-nav__list">
-      <li><a class="section-nav__link" href="#top"><i class="fa-solid fa-arrow-up"></i> Inicio</a></li>
-      <li><a class="section-nav__link" href="#equipaje-parques"><i class="fa-solid fa-suitcase"></i> Equipaje & parques</a></li>
-      <li><a class="section-nav__link" href="#videos-xcaret"><i class="fa-brands fa-youtube"></i> Videos</a></li>
-      <li><a class="section-nav__link" href="#apps-xcaret"><i class="fa-solid fa-mobile-screen-button"></i> Apps</a></li>
-      <li><a class="section-nav__link" href="#restaurantes-fase2"><i class="fa-solid fa-utensils"></i> Restaurantes Fase 2</a></li>
-      <li><a class="section-nav__link" href="#formulario-experiencias"><i class="fa-solid fa-file-pdf"></i> Formulario PDF</a></li>
-    </ul>
-  </div>
-</nav>
+    <h1 id="top"><i class="fa-solid fa-circle-info" style="color:var(--sm-accent);"></i> Consejos y recomendaciones (Hotel Xcaret México)</h1>
 
     <div class="hero-card">
       <h2><i class="fa-solid fa-clock"></i> Aunque el check-in es a las 3:00 pm, puedes llegar al mediodía o antes</h2>
@@ -585,9 +615,6 @@
         </div>
       </div>
 
-      <!-- =======================
-           Bloques por parque
-           ======================= -->
       <h2 style="margin: 18px 0 10px; display:flex; align-items:center; gap:10px; color: var(--brand, #2F4667);">
         <i class="fa-solid fa-map-location-dot" style="color: var(--sm-accent, #C6B28A);"></i>
         Checklist por parque
@@ -625,7 +652,7 @@
             <li>Bloqueador biodegradable (muy importante).</li>
             <li>Bolsa impermeable para celular (si lo llevas).</li>
             <li>Pick-up de lunes a sábado Hotel Xcaret Arte 8:50 hrs y Hotel Xcaret México 8:40</li>
-            <li><strong>IMPORTANTE:</strong>Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
+            <li><strong>IMPORTANTE:</strong> Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
           </ul>
         </div>
 
@@ -636,7 +663,7 @@
             <li>Traje de baño (para áreas con agua, según ruta).</li>
             <li>Toalla (opcional).</li>
             <li>Bolsa pequeña / locker.</li>
-            <li><strong>IMPORTANTE:</strong>Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
+            <li><strong>IMPORTANTE:</strong> Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
           </ul>
         </div>
 
@@ -660,7 +687,7 @@
             <li>Toalla y muda seca.</li>
             <li>Bolsa impermeable / funda para celular.</li>
             <li>Pick-up de lunes a domingo Hotel Xcaret Arte 9:00 hrs y Hotel Xcaret México 9:15</li>
-            <li><strong>IMPORTANTE:</strong>Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
+            <li><strong>IMPORTANTE:</strong> Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
           </ul>
         </div>
 
@@ -672,7 +699,7 @@
             <li>Suéter ligero (por si refresca).</li>
             <li>Evita llevar cosas de valor innecesarias.</li>
             <li>Pick-up de lunes a sábado Hotel Xcaret Arte 18:10 hrs y Hotel Xcaret México 18:20</li>
-            <li><strong>IMPORTANTE:</strong>Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
+            <li><strong>IMPORTANTE:</strong> Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
           </ul>
         </div>
       </div>
@@ -680,12 +707,12 @@
       <div class="note" style="margin-top: 16px;">
         <strong>Regla de oro:</strong> todo debe caber en un locker y/o mochila pequeña.
         Si dudas, mejor deja lo extra en la habitación.
-        <ul><strong>Importante:</strong> toda la información se ha obtenido desde su app disponible para Android y IOS</ul>
+        <ul><li><strong>Importante:</strong> toda la información se ha obtenido desde su app disponible para Android y IOS</li></ul>
       </div>
     </section>
 
     <!-- =======================
-         Videos: Hotel & Parques (Modal + Mobile collapse; SIN recomendaciones extra)
+         Videos: Hotel & Parques
          ======================= -->
     <section id="videos-xcaret" style="margin-top: 24px;">
 
@@ -703,7 +730,6 @@
         </div>
       </div>
 
-      <!-- ===== HOTEL ===== -->
       <div class="xv-sectionHead">
         <h2 class="xv-title">
           <i class="fa-solid fa-hotel"></i>
@@ -735,7 +761,6 @@
         </div>
       </div>
 
-      <!-- ===== PARQUES ===== -->
       <h2 style="margin: 22px 0 10px; display:flex; align-items:center; gap:10px; color: var(--brand, #2F4667);">
         <i class="fa-solid fa-tree" style="color: var(--sm-accent, #C6B28A);"></i>
         Parques Xcaret
@@ -770,7 +795,7 @@
     </div>
 
     <!-- =======================
-         NUEVO: Apps oficiales (Hotel + Xcaret)
+         Apps oficiales (Hotel + Xcaret)
          ======================= -->
     <section id="apps-xcaret" style="margin-top: 22px;">
       <div class="hero-card">
@@ -832,7 +857,7 @@
       <div class="hero-card">
         <h2><i class="fa-solid fa-utensils"></i> Restaurantes nuevos (Fase 2)</h2>
         <p>
-          La expansión (Fase 2) trajo nuevos restaurantes y conceptos dentro del resort. </strong> algunos suelen requerir
+          La expansión (Fase 2) trajo nuevos restaurantes y conceptos dentro del resort. Algunos suelen requerir
           <strong>reservación</strong> para cena.
         </p>
 
@@ -948,53 +973,51 @@
         </div>
 
       </div>
-
-
-
     </section>
 
     <div class="note">
       <strong>Idea recomendada para el día 1:</strong> úsalo como día de llegada (hotel/ríos/alberca + cena + reservas).
       Así no empiezas corriendo y el resto del viaje lo aprovechas al máximo.
     </div>
-<!-- =======================
-     Formulario PDF (Experiencias)
-     ======================= -->
-<section id="formulario-experiencias" style="margin-top: 22px;">
-  <div class="hero-card">
-    <h2><i class="fa-solid fa-file-pdf"></i> Formulario de Experiencias</h2>
 
-    <p>
-      <strong>Muy importante:</strong>
-      Cuando tengas claro tu itinerario debes de llenar el siguiente formulario con las reservas que quieres realizar y
-      mandarlo a <a href="mailto:dxguestservice@hotelxcaret.com">dxguestservice@hotelxcaret.com</a>.
-    </p>
+    <!-- =======================
+         Formulario PDF (Experiencias)
+         ======================= -->
+    <section id="formulario-experiencias" style="margin-top: 22px;">
+      <div class="hero-card">
+        <h2><i class="fa-solid fa-file-pdf"></i> Formulario de Experiencias</h2>
 
-    <div class="cta-row" style="margin-top: 12px;">
-      <a class="cta-btn"
-         href="Formulario2026.pdf"
-         download="Formulario_de_Experiencias_2026.pdf">
-        <i class="fa-solid fa-file-arrow-down"></i> Descargar formulario (PDF)
-      </a>
+        <p>
+          <strong>Muy importante:</strong>
+          Cuando tengas claro tu itinerario debes de llenar el siguiente formulario con las reservas que quieres realizar y
+          mandarlo a <a href="mailto:dxguestservice@hotelxcaret.com">dxguestservice@hotelxcaret.com</a>.
+        </p>
 
-      <a class="cta-btn secondary"
-         href="Formulario2026.pdf"
-         target="_blank"
-         rel="noopener noreferrer">
-        <i class="fa-solid fa-up-right-from-square"></i> Ver en el navegador
-      </a>
+        <div class="cta-row" style="margin-top: 12px;">
+          <a class="cta-btn"
+             href="Formulario%20de%20Experiencias%202026.pdf"
+             download="Formulario_de_Experiencias_2026.pdf">
+            <i class="fa-solid fa-file-arrow-down"></i> Descargar formulario (PDF)
+          </a>
 
-      <a class="cta-btn secondary"
-         href="mailto:dxguestservice@hotelxcaret.com?subject=Formulario%20de%20Experiencias%202026&body=Hola%2C%0A%0AAdjunto%20el%20Formulario%20de%20Experiencias%202026%20con%20las%20reservas%20que%20deseo%20realizar.%0A%0AGracias.">
-        <i class="fa-solid fa-envelope"></i> Enviar correo
-      </a>
-    </div>
+          <a class="cta-btn secondary"
+             href="Formulario%20de%20Experiencias%202026.pdf"
+             target="_blank"
+             rel="noopener noreferrer">
+            <i class="fa-solid fa-up-right-from-square"></i> Ver en el navegador
+          </a>
 
-    <p class="mini">
-      <strong>Nota:</strong> si tu navegador no descarga el PDF automáticamente, se abrirá para que lo guardes.
-    </p>
-  </div>
-</section>
+          <a class="cta-btn secondary"
+             href="mailto:dxguestservice@hotelxcaret.com?subject=Formulario%20de%20Experiencias%202026&body=Hola%2C%0A%0AAdjunto%20el%20Formulario%20de%20Experiencias%202026%20con%20las%20reservas%20que%20deseo%20realizar.%0A%0AGracias.">
+            <i class="fa-solid fa-envelope"></i> Enviar correo
+          </a>
+        </div>
+
+        <p class="mini">
+          <strong>Nota:</strong> si tu navegador no descarga el PDF automáticamente, se abrirá para que lo guardes.
+        </p>
+      </div>
+    </section>
 
     <div class="navegacion-volver" style="margin-top:18px;">
       <a href="index.html" class="boton-volver">← Volver a la Página Principal</a>
@@ -1005,6 +1028,9 @@
   <script src="menu.js"></script>
 
   <script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    // ===== Modal de videos =====
     (function initXcaretVideoModal(){
       const modal = document.getElementById('xvModal');
       const frameWrap = document.getElementById('xvModalFrameWrap');
@@ -1063,43 +1089,48 @@
       });
     })();
 
-  (function initSectionNav(){
-    const nav = document.getElementById('sectionNav');
-    const toggle = document.getElementById('sectionNavToggle');
-    if (!nav || !toggle) return;
 
-    function setCollapsed(isCollapsed){
-      nav.setAttribute('data-collapsed', isCollapsed ? 'true' : 'false');
-      toggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
-      toggle.innerHTML = isCollapsed
-        ? '<i class="fa-solid fa-bars"></i> Secciones'
-        : '<i class="fa-solid fa-xmark"></i> Cerrar';
-    }
+    // ===== Burbuja flotante =====
+    (function initFabNav(){
+      const fab = document.getElementById('fabNav');
+      const btn = document.getElementById('fabBtn');
+      const close = document.getElementById('fabClose');
+      const backdrop = document.getElementById('fabBackdrop');
 
-    // En móvil inicia colapsado
-    const isMobile = window.matchMedia('(max-width: 780px)').matches;
-    setCollapsed(isMobile);
+      if (!fab || !btn || !close || !backdrop) return;
 
-    toggle.addEventListener('click', () => {
-      const collapsed = nav.getAttribute('data-collapsed') === 'true';
-      setCollapsed(!collapsed);
-    });
-
-    // Al dar click en un link, en móvil colapsa (no oculta contenido, solo cierra el panel)
-    nav.addEventListener('click', (e) => {
-      const a = e.target.closest('a.section-nav__link');
-      if (!a) return;
-      if (window.matchMedia('(max-width: 780px)').matches){
-        setCollapsed(true);
+      function setOpen(isOpen){
+        fab.setAttribute('data-open', isOpen ? 'true' : 'false');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        btn.innerHTML = isOpen
+          ? '<i class="fa-solid fa-xmark"></i>'
+          : '<i class="fa-solid fa-compass"></i>';
       }
-    });
-  })();
-</script>
 
+      btn.addEventListener('click', () => {
+        const open = fab.getAttribute('data-open') === 'true';
+        setOpen(!open);
+      });
+
+      close.addEventListener('click', () => setOpen(false));
+      backdrop.addEventListener('click', () => setOpen(false));
+
+      fab.addEventListener('click', (e) => {
+        const a = e.target.closest('a.fab-link');
+        if (!a) return;
+        setOpen(false);
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') setOpen(false);
+      });
+    })();
+
+  });
+</script>
 
   <footer class="footer-legal">
     <div class="footer-legal__inner">
-
       <p class="footer-legal__title">
         Cynthia &amp; José Miguel · 6 de febrero de 2026
       </p>
@@ -1118,9 +1149,73 @@
       <p class="footer-legal__small">
         © 2026 Cynthia &amp; José Miguel · Todos los derechos reservados
       </p>
-
     </div>
   </footer>
+
+  <!-- =======================
+       Burbuja flotante: Navegación por secciones
+       ======================= -->
+  <div class="fab-nav" id="fabNav" data-open="false" aria-label="Navegación por secciones">
+    <div class="fab-panel" id="fabPanel" role="dialog" aria-modal="false" aria-label="Secciones de la página">
+      <div class="fab-panel__head">
+        <p class="fab-panel__title"><i class="fa-solid fa-compass"></i> Secciones</p>
+        <button class="fab-close" type="button" id="fabClose" aria-label="Cerrar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="fab-panel__body">
+        <ul class="fab-links">
+          <li>
+            <a class="fab-link" href="#top">
+              <span class="left"><i class="fa-solid fa-arrow-up"></i> Inicio</span>
+              <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+            </a>
+          </li>
+          <li>
+            <a class="fab-link" href="#equipaje-parques">
+              <span class="left"><i class="fa-solid fa-suitcase"></i> Equipaje & parques</span>
+              <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+            </a>
+          </li>
+          <li>
+            <a class="fab-link" href="#videos-xcaret">
+              <span class="left"><i class="fa-brands fa-youtube"></i> Videos</span>
+              <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+            </a>
+          </li>
+          <li>
+            <a class="fab-link" href="#apps-xcaret">
+              <span class="left"><i class="fa-solid fa-mobile-screen-button"></i> Apps</span>
+              <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+            </a>
+          </li>
+          <li>
+            <a class="fab-link" href="#restaurantes-fase2">
+              <span class="left"><i class="fa-solid fa-utensils"></i> Restaurantes Fase 2</span>
+              <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+            </a>
+          </li>
+          <li>
+            <a class="fab-link" href="#formulario-experiencias">
+              <span class="left"><i class="fa-solid fa-file-pdf"></i> Formulario PDF</span>
+              <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="fab-hint">
+          <strong>Tip:</strong> Toca una sección para ir directo sin perder contenido.
+        </div>
+      </div>
+    </div>
+
+    <button class="fab-btn" type="button" id="fabBtn" aria-label="Abrir navegación" aria-expanded="false">
+      <i class="fa-solid fa-compass"></i>
+    </button>
+  </div>
+
+  <div class="fab-backdrop" id="fabBackdrop" aria-hidden="true"></div>
 
 </body>
 </html>
