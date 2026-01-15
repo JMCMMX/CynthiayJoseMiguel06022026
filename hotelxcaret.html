@@ -285,162 +285,38 @@
       border:0;
     }
 
-    /* ===== Navegación flotante tipo burbuja (TOC) ===== */
+    /* ===== Navegación interna por secciones (TOC) ===== */
     :root{
-      --fabBottom: 18px;
-      --fabRight:  16px;
-      --fabZ: 9998;
-      --fabPanelW: 320px;
-      --fabTopOffset: 92px;
+      --tocTop: 88px; /* Ajusta si tu header es más alto */
     }
 
-    #top,
+    /* Para que al saltar por ancla NO se tape el título */
     #equipaje-parques,
     #videos-xcaret,
     #apps-xcaret,
     #restaurantes-fase2,
-    #formulario-experiencias{
-      scroll-margin-top: calc(var(--fabTopOffset) + 12px);
+    #formulario-experiencias,
+    #top{
+      scroll-margin-top: calc(var(--tocTop) + 18px);
     }
-
-    .fab-nav{
-      position: fixed;
-      right: var(--fabRight);
-      bottom: var(--fabBottom);
-      z-index: var(--fabZ);
-      font-family: inherit;
-    }
-
-    .fab-btn{
-      width: 56px;
-      height: 56px;
-      border-radius: 999px;
-      border: 1px solid rgba(0,0,0,0.10);
-      background: var(--brand, #2F4667);
-      color: #fff;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 16px 34px rgba(47,70,103,0.26);
-      transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
-    }
-    .fab-btn:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 22px 46px rgba(47,70,103,0.30);
-    }
-
-    .fab-panel{
-      position: absolute;
-      right: 0;
-      bottom: 70px;
-      width: min(var(--fabPanelW), calc(100vw - 24px));
-      border-radius: 18px;
-      border: 1px solid rgba(0,0,0,0.10);
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 22px 50px rgba(0,0,0,0.18);
-      overflow: hidden;
-      display: none;
-    }
-
-    .fab-nav[data-open="true"] .fab-panel{ display:block; }
-
-    .fab-panel__head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      padding: 12px 12px;
-      background: linear-gradient(180deg, rgba(231,220,203,0.42), rgba(231,220,203,0.18));
-      border-bottom: 1px solid rgba(0,0,0,0.06);
-    }
-
-    .fab-panel__title{
-      margin: 0;
-      display:flex;
-      align-items:center;
-      gap: 10px;
-      font-weight: 900;
-      color: var(--brand, #2F4667);
-      font-size: 1.0rem;
-    }
-    .fab-panel__title i{ color: var(--sm-accent, #C6B28A); }
-
-    .fab-close{
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      border: 1px solid rgba(0,0,0,0.10);
-      background: rgba(255,255,255,0.70);
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      color:#3F3A36;
-    }
-
-    .fab-panel__body{
-      padding: 12px 12px 14px;
-    }
-
-    .fab-links{
-      list-style:none;
-      padding:0;
-      margin:0;
-      display:flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .fab-link{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      width: 100%;
-      padding: 12px 12px;
-      border-radius: 14px;
-      text-decoration:none;
-      border: 1px solid rgba(0,0,0,0.08);
-      background: rgba(255,255,255,0.86);
-      color:#3F3A36;
-      font-weight: 800;
-      box-shadow: 0 10px 22px rgba(0,0,0,0.07);
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .fab-link:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 16px 30px rgba(0,0,0,0.10);
-    }
-
-    .fab-link .left{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-    }
-    .fab-link i{ color: var(--sm-accent, #C6B28A); }
-    .fab-link .arrow{ opacity: .65; }
-
-    .fab-hint{
-      margin-top: 10px;
-      font-size: 0.88rem;
-      opacity: 0.85;
-      line-height: 1.45;
-      color:#3F3A36;
-    }
-
-    .fab-backdrop{
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.00);
-      display:none;
-      z-index: calc(var(--fabZ) - 1);
-    }
-    .fab-nav[data-open="true"] + .fab-backdrop{ display:block; }
 
     @media (max-width: 780px){
-      :root{ --fabPanelW: 92vw; }
+      :root{ --tocTop: 78px; } /* Ajusta si en móvil cambia */
+    }
+
+    /* ===== Burbuja tipo QA (estilo index) ===== */
+    @keyframes qa-pulse {
+      0%{ box-shadow:0 0 0 0 rgba(47,70,103,.4) }
+      70%{ box-shadow:0 0 0 20px rgba(47,70,103,0) }
+      100%{ box-shadow:0 0 0 0 rgba(47,70,103,0) }
+    }
+    @keyframes qa-popin {
+      from { opacity:0; transform: translate(12px,50%); }
+      to   { opacity:1; transform: translate(0,50%); }
+    }
+    .qa-bubbles.hide {
+      opacity:0;
+      transform: translateY(50%) translateX(8px);
     }
   </style>
 </head>
@@ -652,7 +528,7 @@
             <li>Bloqueador biodegradable (muy importante).</li>
             <li>Bolsa impermeable para celular (si lo llevas).</li>
             <li>Pick-up de lunes a sábado Hotel Xcaret Arte 8:50 hrs y Hotel Xcaret México 8:40</li>
-            <li><strong>IMPORTANTE:</strong> Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
+            <li><strong>IMPORTANTE:</strong>Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
           </ul>
         </div>
 
@@ -663,7 +539,7 @@
             <li>Traje de baño (para áreas con agua, según ruta).</li>
             <li>Toalla (opcional).</li>
             <li>Bolsa pequeña / locker.</li>
-            <li><strong>IMPORTANTE:</strong> Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
+            <li><strong>IMPORTANTE:</strong>Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
           </ul>
         </div>
 
@@ -687,7 +563,7 @@
             <li>Toalla y muda seca.</li>
             <li>Bolsa impermeable / funda para celular.</li>
             <li>Pick-up de lunes a domingo Hotel Xcaret Arte 9:00 hrs y Hotel Xcaret México 9:15</li>
-            <li><strong>IMPORTANTE:</strong> Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
+            <li><strong>IMPORTANTE:</strong>Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
           </ul>
         </div>
 
@@ -699,7 +575,7 @@
             <li>Suéter ligero (por si refresca).</li>
             <li>Evita llevar cosas de valor innecesarias.</li>
             <li>Pick-up de lunes a sábado Hotel Xcaret Arte 18:10 hrs y Hotel Xcaret México 18:20</li>
-            <li><strong>IMPORTANTE:</strong> Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
+            <li><strong>IMPORTANTE:</strong>Se requiere reservación. Las cancelaciones deben realizarse con 24 horas de anticipación para evitar un cargo de $25 USD por persona.</li>
           </ul>
         </div>
       </div>
@@ -707,12 +583,12 @@
       <div class="note" style="margin-top: 16px;">
         <strong>Regla de oro:</strong> todo debe caber en un locker y/o mochila pequeña.
         Si dudas, mejor deja lo extra en la habitación.
-        <ul><li><strong>Importante:</strong> toda la información se ha obtenido desde su app disponible para Android y IOS</li></ul>
+        <ul><strong>Importante:</strong> toda la información se ha obtenido desde su app disponible para Android y IOS</ul>
       </div>
     </section>
 
     <!-- =======================
-         Videos: Hotel & Parques
+         Videos: Hotel & Parques (Modal + Mobile collapse; SIN recomendaciones extra)
          ======================= -->
     <section id="videos-xcaret" style="margin-top: 24px;">
 
@@ -783,7 +659,6 @@
 
     </section>
 
-    <!-- ===== Modal / Lightbox ===== -->
     <div class="xv-modal" id="xvModal" aria-hidden="true" role="dialog" aria-label="Reproductor de video">
       <div class="xv-modal__backdrop" data-xv-close></div>
       <div class="xv-modal__panel" role="document">
@@ -794,9 +669,6 @@
       </div>
     </div>
 
-    <!-- =======================
-         Apps oficiales (Hotel + Xcaret)
-         ======================= -->
     <section id="apps-xcaret" style="margin-top: 22px;">
       <div class="hero-card">
         <h2><i class="fa-solid fa-mobile-screen-button"></i> Descarga las apps oficiales</h2>
@@ -853,11 +725,10 @@
     </section>
 
     <section id="restaurantes-fase2" style="margin-top: 22px;">
-
       <div class="hero-card">
         <h2><i class="fa-solid fa-utensils"></i> Restaurantes nuevos (Fase 2)</h2>
         <p>
-          La expansión (Fase 2) trajo nuevos restaurantes y conceptos dentro del resort. Algunos suelen requerir
+          La expansión (Fase 2) trajo nuevos restaurantes y conceptos dentro del resort. </strong> algunos suelen requerir
           <strong>reservación</strong> para cena.
         </p>
 
@@ -880,7 +751,6 @@
       </h2>
 
       <div class="tips-grid">
-
         <div class="tip-card">
           <h3><i class="fa-solid fa-crown"></i> HA’ (cocina de autor)</h3>
           <ul>
@@ -971,7 +841,6 @@
             <li>Tip: si quieres teppanyaki, pregunta por cupo/horarios.</li>
           </ul>
         </div>
-
       </div>
     </section>
 
@@ -980,9 +849,6 @@
       Así no empiezas corriendo y el resto del viaje lo aprovechas al máximo.
     </div>
 
-    <!-- =======================
-         Formulario PDF (Experiencias)
-         ======================= -->
     <section id="formulario-experiencias" style="margin-top: 22px;">
       <div class="hero-card">
         <h2><i class="fa-solid fa-file-pdf"></i> Formulario de Experiencias</h2>
@@ -995,13 +861,13 @@
 
         <div class="cta-row" style="margin-top: 12px;">
           <a class="cta-btn"
-             href="Formulario%20de%20Experiencias%202026.pdf"
+             href="Formulario2026.pdf"
              download="Formulario_de_Experiencias_2026.pdf">
             <i class="fa-solid fa-file-arrow-down"></i> Descargar formulario (PDF)
           </a>
 
           <a class="cta-btn secondary"
-             href="Formulario%20de%20Experiencias%202026.pdf"
+             href="Formulario2026.pdf"
              target="_blank"
              rel="noopener noreferrer">
             <i class="fa-solid fa-up-right-from-square"></i> Ver en el navegador
@@ -1028,109 +894,109 @@
   <script src="menu.js"></script>
 
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
 
-    // ===== Modal de videos =====
-    (function initXcaretVideoModal(){
-      const modal = document.getElementById('xvModal');
-      const frameWrap = document.getElementById('xvModalFrameWrap');
+      // ===== Modal de videos =====
+      (function initXcaretVideoModal(){
+        const modal = document.getElementById('xvModal');
+        const frameWrap = document.getElementById('xvModalFrameWrap');
 
-      if (!modal || !frameWrap) return;
+        if (!modal || !frameWrap) return;
 
-      function openVideo(videoId){
-        const src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
-        frameWrap.innerHTML = `<iframe
-          src="${src}"
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen></iframe>`;
-        modal.classList.add('xv-open');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeVideo(){
-        modal.classList.remove('xv-open');
-        modal.setAttribute('aria-hidden', 'true');
-        frameWrap.innerHTML = '';
-        document.body.style.overflow = '';
-      }
-
-      document.addEventListener('click', (e) => {
-        const thumb = e.target.closest('.xv-thumb');
-        if (thumb && thumb.dataset.yt){
-          openVideo(thumb.dataset.yt);
-          return;
+        function openVideo(videoId){
+          const src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+          frameWrap.innerHTML = `<iframe
+            src="${src}"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>`;
+          modal.classList.add('xv-open');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
         }
 
-        if (e.target.closest('[data-xv-close]')){
-          closeVideo();
-          return;
+        function closeVideo(){
+          modal.classList.remove('xv-open');
+          modal.setAttribute('aria-hidden', 'true');
+          frameWrap.innerHTML = '';
+          document.body.style.overflow = '';
         }
 
-        const tgl = e.target.closest('.xv-toggle');
-        if (tgl && tgl.dataset.target){
-          const firstMore = document.querySelector(tgl.dataset.target);
-          if (!firstMore) return;
+        document.addEventListener('click', (e) => {
+          const thumb = e.target.closest('.xv-thumb');
+          if (thumb && thumb.dataset.yt){
+            openVideo(thumb.dataset.yt);
+            return;
+          }
 
-          const isOpen = firstMore.classList.contains('xv-open');
-          firstMore.classList.toggle('xv-open', !isOpen);
+          if (e.target.closest('[data-xv-close]')){
+            closeVideo();
+            return;
+          }
 
-          tgl.innerHTML = (!isOpen)
-            ? '<i class="fa-solid fa-layer-group"></i> Ver menos'
-            : '<i class="fa-solid fa-layer-group"></i> Ver más';
+          const tgl = e.target.closest('.xv-toggle');
+          if (tgl && tgl.dataset.target){
+            const firstMore = document.querySelector(tgl.dataset.target);
+            if (!firstMore) return;
+
+            const isOpen = firstMore.classList.contains('xv-open');
+            firstMore.classList.toggle('xv-open', !isOpen);
+
+            tgl.innerHTML = (!isOpen)
+              ? '<i class="fa-solid fa-layer-group"></i> Ver menos'
+              : '<i class="fa-solid fa-layer-group"></i> Ver más';
+          }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && modal.classList.contains('xv-open')){
+            closeVideo();
+          }
+        });
+      })();
+
+      // ===== Burbuja Secciones (estilo QA del index) =====
+      (function(){
+        const root     = document.getElementById('secBot');
+        const fab      = document.getElementById('secFab');
+        const panel    = document.getElementById('secPanel');
+        const overlay  = document.getElementById('secOverlay');
+        const closeBtn = document.getElementById('secClose');
+        const bubbles  = document.getElementById('secBubbles');
+
+        function setOpen(open){
+          if (!panel || !overlay || !fab) return;
+          panel.hidden   = !open;
+          overlay.hidden = !open;
+          panel.style.display = open ? 'grid' : 'none';
+          fab.setAttribute('aria-expanded', String(open));
+          if (open && bubbles) bubbles.classList.add('hide');
         }
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('xv-open')){
-          closeVideo();
-        }
-      });
-    })();
-
-
-    // ===== Burbuja flotante =====
-    (function initFabNav(){
-      const fab = document.getElementById('fabNav');
-      const btn = document.getElementById('fabBtn');
-      const close = document.getElementById('fabClose');
-      const backdrop = document.getElementById('fabBackdrop');
-
-      if (!fab || !btn || !close || !backdrop) return;
-
-      function setOpen(isOpen){
-        fab.setAttribute('data-open', isOpen ? 'true' : 'false');
-        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        btn.innerHTML = isOpen
-          ? '<i class="fa-solid fa-xmark"></i>'
-          : '<i class="fa-solid fa-compass"></i>';
-      }
-
-      btn.addEventListener('click', () => {
-        const open = fab.getAttribute('data-open') === 'true';
-        setOpen(!open);
-      });
-
-      close.addEventListener('click', () => setOpen(false));
-      backdrop.addEventListener('click', () => setOpen(false));
-
-      fab.addEventListener('click', (e) => {
-        const a = e.target.closest('a.fab-link');
-        if (!a) return;
         setOpen(false);
-      });
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') setOpen(false);
-      });
-    })();
+        setTimeout(()=> { if (bubbles) bubbles.classList.add('hide'); }, 9000);
 
-  });
-</script>
+        if (fab) fab.addEventListener('click', (e)=>{
+          e.stopPropagation();
+          setOpen(fab.getAttribute('aria-expanded') !== 'true');
+        });
+
+        if (closeBtn) closeBtn.addEventListener('click', ()=> setOpen(false));
+        if (overlay) overlay.addEventListener('click', ()=> setOpen(false));
+
+        document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') setOpen(false); });
+
+        document.querySelectorAll('#secPanel a.sec-link').forEach(a=>{
+          a.addEventListener('click', ()=> setOpen(false));
+        });
+      })();
+
+    });
+  </script>
 
   <footer class="footer-legal">
     <div class="footer-legal__inner">
+
       <p class="footer-legal__title">
         Cynthia &amp; José Miguel · 6 de febrero de 2026
       </p>
@@ -1149,73 +1015,97 @@
       <p class="footer-legal__small">
         © 2026 Cynthia &amp; José Miguel · Todos los derechos reservados
       </p>
+
     </div>
   </footer>
 
-  <!-- =======================
-       Burbuja flotante: Navegación por secciones
-       ======================= -->
-  <div class="fab-nav" id="fabNav" data-open="false" aria-label="Navegación por secciones">
-    <div class="fab-panel" id="fabPanel" role="dialog" aria-modal="false" aria-label="Secciones de la página">
-      <div class="fab-panel__head">
-        <p class="fab-panel__title"><i class="fa-solid fa-compass"></i> Secciones</p>
-        <button class="fab-close" type="button" id="fabClose" aria-label="Cerrar">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
+  <!-- ============ BURBUJA NAVEGACIÓN (estilo QA de index) ============ -->
+  <div class="qa-bot" id="secBot" aria-live="polite" style="position:fixed;bottom:20px;right:20px;z-index:1000;">
+    <button class="qa-fab" id="secFab" aria-controls="secPanel" aria-expanded="false" aria-label="Abrir navegación por secciones"
+            style="position:relative;border:none;cursor:pointer;width:70px;height:70px;border-radius:50%;background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.25);display:grid;place-items:center;">
+      <span class="qa-fab-ring" aria-hidden="true"
+            style="position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 0 rgba(47,70,103,.35);animation:qa-pulse 2.4s ease-out infinite;"></span>
+      <span class="qa-fab-avatar" aria-hidden="true">
+        <img src="logo.svg" alt="Navegación" style="width:55px;height:55px;object-fit:contain;border-radius:50%;">
+      </span>
+    </button>
 
-      <div class="fab-panel__body">
-        <ul class="fab-links">
-          <li>
-            <a class="fab-link" href="#top">
-              <span class="left"><i class="fa-solid fa-arrow-up"></i> Inicio</span>
-              <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
-            </a>
-          </li>
-          <li>
-            <a class="fab-link" href="#equipaje-parques">
-              <span class="left"><i class="fa-solid fa-suitcase"></i> Equipaje & parques</span>
-              <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
-            </a>
-          </li>
-          <li>
-            <a class="fab-link" href="#videos-xcaret">
-              <span class="left"><i class="fa-brands fa-youtube"></i> Videos</span>
-              <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
-            </a>
-          </li>
-          <li>
-            <a class="fab-link" href="#apps-xcaret">
-              <span class="left"><i class="fa-solid fa-mobile-screen-button"></i> Apps</span>
-              <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
-            </a>
-          </li>
-          <li>
-            <a class="fab-link" href="#restaurantes-fase2">
-              <span class="left"><i class="fa-solid fa-utensils"></i> Restaurantes Fase 2</span>
-              <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
-            </a>
-          </li>
-          <li>
-            <a class="fab-link" href="#formulario-experiencias">
-              <span class="left"><i class="fa-solid fa-file-pdf"></i> Formulario PDF</span>
-              <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
-            </a>
-          </li>
-        </ul>
-
-        <div class="fab-hint">
-          <strong>Tip:</strong> Toca una sección para ir directo sin perder contenido.
-        </div>
+    <div class="qa-bubbles" id="secBubbles" aria-hidden="true"
+     style="position:absolute;right:84px;bottom:62px;transform:none;display:flex;flex-direction:column;gap:6px;pointer-events:none;transition:opacity .6s ease,transform .6s ease;">
+ <div class="qa-bubble qa-bubble-main"
+           style="background:#2F4667;color:#fff;font-weight:700;padding:10px 14px;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,.2);max-width:260px;animation:qa-popin .6s ease-out both;">
+        ¿Mucha info? Toca aquí
       </div>
     </div>
 
-    <button class="fab-btn" type="button" id="fabBtn" aria-label="Abrir navegación" aria-expanded="false">
-      <i class="fa-solid fa-compass"></i>
-    </button>
-  </div>
+    <div class="qa-overlay" id="secOverlay" hidden style="position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:999;"></div>
 
-  <div class="fab-backdrop" id="fabBackdrop" aria-hidden="true"></div>
+    <aside class="qa-panel" id="secPanel" role="dialog" aria-modal="false" aria-labelledby="secTitle" hidden
+           style="position:fixed;bottom:100px;right:20px;width:min(92vw,440px);max-height:70vh;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.25);display:none;grid-template-rows:auto 1fr auto;z-index:1000;">
+      <header class="qa-header"
+              style="background:linear-gradient(to right,#F2EEE9,#E6DECF);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">
+        <h2 id="secTitle" style="margin:0;font-size:18px;color:#2F4667;">Navegación por secciones</h2>
+        <button class="qa-close" id="secClose" aria-label="Cerrar navegación"
+                style="border:none;background:transparent;font-size:22px;cursor:pointer;">✕</button>
+      </header>
+
+      <div class="qa-list" role="list" style="padding:10px 16px;overflow-y:auto;">
+
+        <article class="qa-item" style="border:1px solid rgba(0,0,0,.08);border-radius:12px;margin-bottom:10px;">
+          <a class="sec-link" href="#top"
+             style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;text-decoration:none;color:#3F3A36;font-weight:800;">
+            <span><i class="fa-solid fa-arrow-up" style="color:#C6B28A;margin-right:10px;"></i> Inicio</span>
+            <i class="fa-solid fa-chevron-right" style="opacity:.5;"></i>
+          </a>
+        </article>
+
+        <article class="qa-item" style="border:1px solid rgba(0,0,0,.08);border-radius:12px;margin-bottom:10px;">
+          <a class="sec-link" href="#equipaje-parques"
+             style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;text-decoration:none;color:#3F3A36;font-weight:800;">
+            <span><i class="fa-solid fa-suitcase" style="color:#C6B28A;margin-right:10px;"></i> Equipaje & parques</span>
+            <i class="fa-solid fa-chevron-right" style="opacity:.5;"></i>
+          </a>
+        </article>
+
+        <article class="qa-item" style="border:1px solid rgba(0,0,0,.08);border-radius:12px;margin-bottom:10px;">
+          <a class="sec-link" href="#videos-xcaret"
+             style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;text-decoration:none;color:#3F3A36;font-weight:800;">
+            <span><i class="fa-brands fa-youtube" style="color:#C6B28A;margin-right:10px;"></i> Videos</span>
+            <i class="fa-solid fa-chevron-right" style="opacity:.5;"></i>
+          </a>
+        </article>
+
+        <article class="qa-item" style="border:1px solid rgba(0,0,0,.08);border-radius:12px;margin-bottom:10px;">
+          <a class="sec-link" href="#apps-xcaret"
+             style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;text-decoration:none;color:#3F3A36;font-weight:800;">
+            <span><i class="fa-solid fa-mobile-screen-button" style="color:#C6B28A;margin-right:10px;"></i> Apps</span>
+            <i class="fa-solid fa-chevron-right" style="opacity:.5;"></i>
+          </a>
+        </article>
+
+        <article class="qa-item" style="border:1px solid rgba(0,0,0,.08);border-radius:12px;margin-bottom:10px;">
+          <a class="sec-link" href="#restaurantes-fase2"
+             style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;text-decoration:none;color:#3F3A36;font-weight:800;">
+            <span><i class="fa-solid fa-utensils" style="color:#C6B28A;margin-right:10px;"></i> Restaurantes Fase 2</span>
+            <i class="fa-solid fa-chevron-right" style="opacity:.5;"></i>
+          </a>
+        </article>
+
+        <article class="qa-item" style="border:1px solid rgba(0,0,0,.08);border-radius:12px;margin-bottom:10px;">
+          <a class="sec-link" href="#formulario-experiencias"
+             style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;text-decoration:none;color:#3F3A36;font-weight:800;">
+            <span><i class="fa-solid fa-file-pdf" style="color:#C6B28A;margin-right:10px;"></i> Formulario PDF</span>
+            <i class="fa-solid fa-chevron-right" style="opacity:.5;"></i>
+          </a>
+        </article>
+
+      </div>
+
+      <footer class="qa-footer" style="font-size:14px;padding:10px;text-align:center;color:#6B5F56;background:#faf8f4;">
+        Toca una sección para ir directo
+      </footer>
+    </aside>
+  </div>
 
 </body>
 </html>
