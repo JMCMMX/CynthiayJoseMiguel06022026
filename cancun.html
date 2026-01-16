@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hospedaje fuera de Xcaret | Boda Cynthia y José Miguel</title>
+
+  <!-- Tipografías (ajústalas si ya usas otras) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --arena:#E7DCCB;
+      --duna:#CDBDA7;
+      --mar:#5AA7C7;
+      --mar2:#2E7FA4;
+      --tinta:#24323A;
+      --blanco:#ffffff;
+      --sombra: 0 18px 40px rgba(0,0,0,.12);
+      --radio: 18px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Lato", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--tinta);
+      background: linear-gradient(180deg, #f6f1e9 0%, #ffffff 70%);
+    }
+    a{color:inherit}
+    .container{
+      width:min(1100px, 92vw);
+      margin:0 auto;
+    }
+
+    /* ===== Top bar / header ===== */
+    header{
+      position:sticky; top:0; z-index:50;
+      background: rgba(255,255,255,.86);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:12px 0;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width: 220px;
+    }
+    .logo{
+      width:44px; height:44px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 30% 30%, var(--mar) 0%, var(--mar2) 55%, #1f5f77 100%);
+      box-shadow: 0 10px 18px rgba(46,127,164,.22);
+      display:grid; place-items:center;
+      color:#fff; font-weight:800;
+      letter-spacing:.5px;
+      user-select:none;
+    }
+    .brand h1{
+      margin:0;
+      font-size: 18px;
+      line-height:1.1;
+      font-weight:800;
+    }
+    .brand small{
+      display:block;
+      margin-top:3px;
+      font-weight:400;
+      opacity:.8;
+      font-size:12px;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .nav a{
+      text-decoration:none;
+      font-size:13px;
+      padding:10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.08);
+      background:#fff;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .nav a:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(0,0,0,.10);
+      border-color: rgba(90,167,199,.40);
+    }
+    .nav a.primary{
+      background: linear-gradient(135deg, var(--mar) 0%, var(--mar2) 100%);
+      color:#fff;
+      border: none;
+    }
+
+    /* ===== Hero ===== */
+    .hero{
+      padding: 26px 0 8px;
+    }
+    .heroCard{
+      background:
+        radial-gradient(1100px 320px at 20% -20%, rgba(90,167,199,.35) 0%, rgba(90,167,199,0) 60%),
+        radial-gradient(900px 300px at 85% 0%, rgba(205,189,167,.55) 0%, rgba(205,189,167,0) 62%),
+        linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.92));
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: var(--sombra);
+      border-radius: calc(var(--radio) + 10px);
+      padding: 22px;
+      overflow:hidden;
+      position:relative;
+    }
+    .heroTitle{
+      font-family:"Dancing Script", cursive;
+      font-size: clamp(34px, 4vw, 52px);
+      margin:0 0 6px;
+      letter-spacing:.2px;
+    }
+    .heroSub{
+      margin:0;
+      font-size: 15px;
+      line-height:1.6;
+      max-width: 78ch;
+      opacity:.92;
+    }
+    .badges{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.75);
+      font-size:13px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:50%;
+      background: var(--mar);
+      box-shadow: 0 0 0 4px rgba(90,167,199,.15);
+    }
+
+    /* ===== Sections / cards ===== */
+    section{
+      padding: 18px 0;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 18px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns: 1fr}
+      .brand{min-width:unset}
+    }
+
+    .card{
+      background:#fff;
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: var(--radio);
+      box-shadow: 0 14px 32px rgba(0,0,0,.10);
+      padding: 18px;
+    }
+    .card h2{
+      margin:0 0 10px;
+      font-size: 18px;
+      letter-spacing:.2px;
+    }
+    .muted{opacity:.78}
+    .pillRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+    .pill{
+      font-size:12px;
+      padding:8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.08);
+      background: linear-gradient(180deg, rgba(231,220,203,.55), rgba(255,255,255,.95));
+    }
+
+    .list{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      line-height: 1.65;
+      font-size: 14px;
+    }
+    .callout{
+      margin-top: 14px;
+      border-radius: 16px;
+      padding: 14px;
+      border:1px solid rgba(90,167,199,.35);
+      background: rgba(90,167,199,.08);
+      font-size: 13.5px;
+      line-height: 1.55;
+    }
+
+    /* ===== Map ===== */
+    .mapWrap{
+      border-radius: var(--radio);
+      overflow:hidden;
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: 0 14px 32px rgba(0,0,0,.12);
+      background:#fff;
+    }
+    .mapTop{
+      padding: 12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom:1px solid rgba(0,0,0,.06);
+      background: linear-gradient(180deg, rgba(231,220,203,.55), rgba(255,255,255,.96));
+    }
+    .mapTop strong{font-size:14px}
+    .mapTop a{
+      text-decoration:none;
+      font-size:13px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--mar) 0%, var(--mar2) 100%);
+      color:#fff;
+      white-space:nowrap;
+    }
+    iframe{
+      width:100%;
+      height: 520px;
+      border:0;
+      display:block;
+    }
+    @media (max-width: 640px){
+      iframe{height: 520px;}
+      .mapTop{flex-direction:column; align-items:flex-start}
+    }
+
+    /* ===== Footer ===== */
+    footer{
+      margin-top: 24px;
+      padding: 20px 0 34px;
+      border-top: 1px solid rgba(0,0,0,.06);
+      background: linear-gradient(180deg, rgba(255,255,255,.0), rgba(231,220,203,.35));
+    }
+    .foot{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 14px;
+      align-items:center;
+      justify-content:space-between;
+      font-size: 12.5px;
+      opacity: .9;
+    }
+    .miniLinks{
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .miniLinks a{
+      text-decoration:none;
+      border-bottom: 1px dashed rgba(0,0,0,.25);
+      padding-bottom: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="topbar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">C&J</div>
+          <div>
+            <h1>Boda Cynthia & José Miguel</h1>
+            <small>Playa del Carmen • 6 Feb 2026</small>
+          </div>
+        </div>
+
+        <!-- Ajusta links a los nombres reales de tus páginas -->
+        <nav class="nav" aria-label="Navegación">
+          <a href="index.html">Inicio</a>
+          <a href="lugar.html">Lugar</a>
+          <a href="hospedaje.html">Xcaret</a>
+          <a class="primary" href="hospedaje-fuera.html">Hospedaje fuera</a>
+          <a href="vuelos.html">Vuelos</a>
+          <a href="rsvp.html">RSVP</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="container">
+      <div class="heroCard">
+        <h2 class="heroTitle">Hospedaje fuera de Xcaret 🏝️</h2>
+        <p class="heroSub">
+          Si prefieres hospedarte en otro hotel o en Airbnb, aquí tienes recomendaciones prácticas y un mapa con puntos útiles
+          (zonas, accesos, transporte y sugerencias).
+        </p>
+
+        <div class="badges" aria-label="Resumen rápido">
+          <div class="badge"><span class="dot"></span> Recomendaciones por zona</div>
+          <div class="badge"><span class="dot"></span> Tips de traslados</div>
+          <div class="badge"><span class="dot"></span> Mapa interactivo (My Maps)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <main>
+    <section>
+      <div class="container">
+        <div class="grid">
+          <!-- Left: Recommendations -->
+          <div class="card">
+            <h2>Recomendaciones para elegir dónde hospedarte</h2>
+            <p class="muted" style="margin:0; line-height:1.6; font-size:14px;">
+              La mejor opción depende de tu plan (playa, caminable, vida nocturna, tranquilidad o facilidad de traslados).
+              Estas sugerencias te ayudan a decidir rápido.
+            </p>
+
+            <h3 style="margin:16px 0 8px; font-size:15px;">Zonas sugeridas</h3>
+            <ul class="list">
+              <li><strong>Centro / 5ta Avenida:</strong> caminable, restaurantes y ambiente. Ideal si quieres moverte sin coche.</li>
+              <li><strong>Playacar:</strong> más tranquilo, zona residencial/hotelera, buena para familias.</li>
+              <li><strong>Carretera Federal / alrededores:</strong> opciones económicas, útil si vienes en auto y priorizas costo.</li>
+              <li><strong>Riviera Maya (cercanías):</strong> si encuentras una buena tarifa, revisa tiempos de traslado.</li>
+            </ul>
+
+            <div class="pillRow" aria-label="Tips rápidos">
+              <div class="pill">Prioriza seguridad y reseñas</div>
+              <div class="pill">Revisa estacionamiento</div>
+              <div class="pill">Confirma políticas de check-in</div>
+              <div class="pill">Considera el traslado a Xcaret</div>
+            </div>
+
+            <div class="callout">
+              <strong>Tip importante:</strong> si tu hospedaje es Airbnb, confirma <em>dirección exacta</em>, instrucciones de acceso,
+              y si el anfitrión permite entradas tarde. En Playa del Carmen, algunos fraccionamientos piden identificación para entrar.
+            </div>
+          </div>
+
+          <!-- Right: Transport & logistics -->
+          <div class="card">
+            <h2>Traslados y logística</h2>
+
+            <ul class="list">
+              <li><strong>Traslado al evento:</strong> considera pedir Uber/taxi con anticipación (sobre todo a la salida).</li>
+              <li><strong>Tiempo extra:</strong> planea margen para tráfico + acceso, especialmente en hora pico.</li>
+              <li><strong>Si vienes en auto:</strong> revisa dónde vas a estacionarte (hotel/airbnb + cercanía al punto del evento).</li>
+              <li><strong>Grupo/familia:</strong> a veces conviene transporte privado compartido para ida y regreso.</li>
+            </ul>
+
+            <div class="callout">
+              <strong>Recomendación general de seguridad:</strong> usa servicios reconocidos, evita acuerdos informales en la calle
+              y confirma tarifas antes de subir si tomas taxi.
+            </div>
+
+            <h3 style="margin:16px 0 8px; font-size:15px;">Checklist rápido</h3>
+            <ul class="list">
+              <li>Captura de pantalla con la reserva + dirección</li>
+              <li>Teléfono del anfitrión / recepción</li>
+              <li>Plan B de traslado (Uber / taxi / privado)</li>
+              <li>Horario de salida recomendado</li>
+            </ul>
+
+            <div class="callout">
+              <strong>Si quieres algo fácil:</strong> hospedarte en zona céntrica suele simplificar comida, transporte y tiempos.
+              Si prefieres tranquilidad, Playacar es una buena opción.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map -->
+    <section>
+      <div class="container">
+        <div class="mapWrap" role="region" aria-label="Mapa de recomendaciones (My Maps)">
+          <div class="mapTop">
+            <div>
+              <strong>Mapa interactivo de recomendaciones</strong><br/>
+              <span class="muted" style="font-size:12.5px;">Abre el mapa para ver capas, puntos guardados y rutas sugeridas.</span>
+            </div>
+            <a href="https://www.google.com/maps/d/u/0/edit?mid=1QVfssFDUmi3Sby9ex-KJLQ7-0NSdibU&usp=sharing" target="_blank" rel="noopener">
+              Abrir en Google Maps
+            </a>
+          </div>
+
+          <!-- Embed de My Maps:
+               Nota: el embed usa /d/embed?mid=...  (no /edit)
+          -->
+          <iframe
+            title="Mapa My Maps - Recomendaciones"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps/d/embed?mid=1QVfssFDUmi3Sby9ex-KJLQ7-0NSdibU">
+          </iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="foot">
+        <div>
+          <strong>Cynthia & José Miguel</strong> · Sitio informativo para invitados.
+          <span class="muted">Los costos, tiempos y disponibilidad pueden cambiar sin previo aviso.</span>
+        </div>
+
+        <div class="miniLinks">
+          <a href="hospedaje.html">Hospedaje Xcaret</a>
+          <a href="vuelos.html">Vuelos</a>
+          <a href="rsvp.html">Confirmar asistencia</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

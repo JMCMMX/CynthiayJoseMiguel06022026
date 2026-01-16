@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hospedaje fuera + Day Pass | Boda Cynthia y Jose Miguel</title>
+
+  <!-- Favicon / PWA -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="alternate icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#2F4667">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#F2EEE9">
+
+  <!-- Tu CSS global -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{ --sm-accent:#C6B28A; --brand:#2F4667; }
+
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0;
+      font-family:'Lato',sans-serif;
+      background:#F2EEE9;
+      color:#3F3A36;
+      line-height:1.6;
+    }
+
+    /* ====== MENÚ (idéntico a tu index) ====== */
+    .staggered-menu-wrapper{ position:fixed; inset:0; height:100vh; width:100%; z-index:999; pointer-events:none; }
+    .staggered-menu-header{ position:absolute; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; padding:1.5em; z-index:20; }
+    .staggered-menu-header>*{ pointer-events:auto; }
+    .sm-logo{ display:inline-flex; align-items:center; gap:.5rem; text-decoration:none; }
+    .sm-logo-img{ height:56px; width:auto; display:block; transition:filter .3s ease }
+    .home-page:not(.menu-open) .sm-logo-img{ filter:invert(1) brightness(2) contrast(1); }
+    .menu-open .sm-logo-img{ filter:none; }
+
+    .sm-toggle{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.6rem;
+      background:rgba(0,0,0,0.25);
+      color:#F2EEE9;
+      border:none;
+      cursor:pointer;
+      padding:.8em 1.4em;
+      border-radius:999px;
+      backdrop-filter: blur(6px);
+      font-family:'Lato',sans-serif;
+      font-weight:700;
+      font-size:0.95rem;
+      letter-spacing:0.5px;
+      text-transform:uppercase;
+      overflow:hidden;
+      width:110px;
+      transition:background .3s ease, color .3s ease;
+      box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    }
+    .staggered-menu-wrapper[data-open] .sm-toggle{
+      color:#3F3A36;
+      background:rgba(255,255,255,0.8);
+    }
+    .sm-icon, .sm-icon-line{ display:none; }
+    .menu-tip{ display:none; }
+
+    .sm-toggle-text-open, .sm-toggle-text-close{
+      display:block;
+      transition:transform .4s ease, opacity .4s ease;
+    }
+    .sm-toggle-text-close{
+      position:absolute;
+      opacity:0;
+      transform:translateY(100%);
+    }
+    .staggered-menu-wrapper[data-open] .sm-toggle-text-open{
+      opacity:0;
+      transform:translateY(-100%);
+    }
+    .staggered-menu-wrapper[data-open] .sm-toggle-text-close{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .staggered-menu-panel,.sm-prelayers{ position:absolute; top:0; right:0; width:clamp(300px,38vw,420px); height:100%; }
+    .staggered-menu-panel{
+      background:#F2EEE9; display:flex; flex-direction:column; padding:7em 2em 2em;
+      overflow-y:auto; z-index:10; pointer-events:auto; transform:translateX(100%); transition:transform .55s ease;
+    }
+    .staggered-menu-wrapper[data-open] .staggered-menu-panel{ transform:translateX(0) }
+    .sm-prelayers{ pointer-events:none; z-index:5 }
+    .sm-prelayer{ position:absolute; inset:0; transform:translateX(100%); transition:transform .5s ease }
+    .staggered-menu-wrapper[data-open] .sm-prelayer{ transform:translateX(0) }
+
+    .sm-panel-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.6rem; counter-reset:smItem }
+    .sm-panel-item{
+      position:relative; color:#3F3A36; font-weight:700; text-decoration:none;
+      font-size:clamp(2rem,5vw,3rem); text-transform:uppercase; letter-spacing:-2px;
+      padding-right:1.6em; display:inline-block; transition:color .25s ease;
+    }
+    .sm-panel-item:hover{ color:var(--sm-accent) }
+    .sm-panel-item::after{
+      counter-increment:smItem; content:counter(smItem,decimal-leading-zero);
+      position:absolute; top:.1em; right:0; font-size:16px; color:var(--sm-accent); opacity:.9;
+    }
+    @media (max-width:640px){
+      .staggered-menu-header{ padding:1.1em }
+      .staggered-menu-panel,.sm-prelayers{ width:100%; left:0; right:0 }
+      .staggered-menu-panel{ padding-left:1.4em; padding-right:1.4em }
+      .sm-logo-img{ height:50px }
+    }
+
+    /* ====== CONTENIDO (mismo formato general de tu página) ====== */
+    .page{
+      min-height:100vh;
+      padding: 120px 0 40px; /* espacio para header fixed */
+    }
+    .container{
+      width:min(1100px, 92vw);
+      margin:0 auto;
+    }
+    .page-title{
+      margin:0 0 6px;
+      font-family:'Dancing Script',cursive;
+      font-weight:700;
+      font-size:clamp(38px, 5vw, 56px);
+      color:#2F4667;
+    }
+    .page-sub{
+      margin:0 0 18px;
+      font-size:16px;
+      color:#6B5F56;
+      max-width: 90ch;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 16px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:16px;
+      box-shadow:0 10px 26px rgba(0,0,0,.08);
+      padding:16px;
+    }
+    .card h2{
+      margin:0 0 8px;
+      font-size:18px;
+      letter-spacing:.2px;
+      color:#2F4667;
+    }
+    .muted{ color:#6B5F56; }
+
+    .pillrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+    .pill{
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.08);
+      background: rgba(198,178,138,.16);
+      color:#3F3A36;
+      font-weight:700;
+    }
+
+    .list{ margin:10px 0 0; padding-left:18px; }
+    .list li{ margin:6px 0; }
+
+    .cta{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+    .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:800;
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      color:#2F4667;
+      box-shadow:0 8px 18px rgba(0,0,0,.10);
+      transition: transform .15s ease;
+    }
+    .btn:active{ transform: scale(.98); }
+    .btn.primary{
+      background:#2F4667;
+      color:#F2EEE9;
+      border-color:transparent;
+    }
+
+    .note{
+      margin-top:10px;
+      font-size:13px;
+      color:#6B5F56;
+      background: rgba(230,222,207,.55);
+      border:1px dashed rgba(0,0,0,.12);
+      padding:10px 12px;
+      border-radius:14px;
+    }
+
+    .time{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:14px;
+      font-weight:800;
+      color:#2F4667;
+      margin-top: 4px;
+    }
+    .time i{ color:#C6B28A; }
+
+    /* ===== MAPA (MyMaps) ===== */
+    .mapWrap{
+      margin-top: 14px;
+      border-radius: 16px;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.08);
+      box-shadow:0 10px 26px rgba(0,0,0,.08);
+      background:#fff;
+    }
+    .mapTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 12px;
+      background: rgba(230,222,207,.55);
+      border-bottom:1px solid rgba(0,0,0,.06);
+    }
+    .mapTop strong{ color:#2F4667; font-size:14px; }
+    .mapTop a{
+      text-decoration:none;
+      font-weight:800;
+      font-size:13px;
+      padding:9px 12px;
+      border-radius:999px;
+      background:#2F4667;
+      color:#F2EEE9;
+      white-space:nowrap;
+    }
+    .mapTop a:active{ transform: scale(.98); }
+    iframe{
+      width:100%;
+      height:520px;
+      border:0;
+      display:block;
+    }
+    @media (max-width:640px){
+      iframe{ height:520px; }
+      .mapTop{ flex-direction:column; align-items:flex-start; }
+    }
+
+    /* ===== Tabs simples (mismo formato) ===== */
+    .tabs{
+      display:flex; flex-wrap:wrap; gap:10px;
+      margin: 6px 0 14px;
+    }
+    .tabbtn{
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      color:#2F4667;
+      font-weight:900;
+      padding:10px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      box-shadow:0 8px 18px rgba(0,0,0,.08);
+      transition: transform .15s ease, background .2s ease, color .2s ease;
+    }
+    .tabbtn:active{ transform: scale(.98); }
+    .tabbtn.active{
+      background:#2F4667;
+      color:#F2EEE9;
+      border-color: transparent;
+    }
+    .tabpanel{ display:none; }
+    .tabpanel.active{ display:block; }
+  </style>
+</head>
+
+<body class="home-page">
+
+  <!-- ===== Menú (igual que tu index) ===== -->
+  <div class="staggered-menu-wrapper">
+    <div class="sm-prelayers" aria-hidden="true">
+      <div class="sm-prelayer" style="background:#2F4667;"></div>
+      <div class="sm-prelayer" style="background:#A3ADA0;"></div>
+      <div class="sm-prelayer" style="background:#E6DECF;"></div>
+    </div>
+
+    <header class="staggered-menu-header">
+      <a href="index.html" class="sm-logo" aria-label="Homepage">
+        <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img" loading="eager" decoding="async">
+      </a>
+
+      <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
+        <span class="sm-toggle-text-open">MENU</span>
+        <span class="sm-toggle-text-close" aria-hidden="true">CERRAR</span>
+      </button>
+    </header>
+
+    <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
+      <div class="sm-panel-inner">
+        <ul class="sm-panel-list" role="list">
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina principal</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span class="sm-panel-itemLabel">Agradecimientos</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="menu.html"><span class="sm-panel-itemLabel">Menú</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedarte en Xcaret</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
+          <li><a class="sm-panel-item" href="evento.html">Mapa del evento</a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
+          <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===== Contenido ===== -->
+  <main class="page" role="main">
+    <div class="container">
+      <h1 class="page-title">Hospedaje fuera + Day Pass</h1>
+      <p class="page-sub">
+        Si prefieres hospedarte en otro hotel o Airbnb, aquí tienes recomendaciones y un plan extra por si quieres vivir la experiencia Xcaret.
+        <strong>El evento inicia a las 6:00 p.m.</strong>
+      </p>
+
+      <div class="grid">
+        <!-- Columna principal: Tabs (Hospedaje fuera / Day Pass) -->
+        <section class="card" aria-label="Hospedaje fuera y Day Pass">
+          <div class="tabs" role="tablist" aria-label="Secciones">
+            <button class="tabbtn active" id="tab-hosp" role="tab" aria-selected="true" aria-controls="panel-hosp" type="button">
+              Hospedaje fuera
+            </button>
+            <button class="tabbtn" id="tab-day" role="tab" aria-selected="false" aria-controls="panel-day" type="button">
+              Day Pass / Parques
+            </button>
+          </div>
+
+          <!-- Panel: Hospedaje fuera -->
+          <div class="tabpanel active" id="panel-hosp" role="tabpanel" aria-labelledby="tab-hosp">
+            <h2>Hospedaje fuera de Xcaret</h2>
+            <p class="muted" style="margin:0;">
+              Puedes hospedarte donde prefieras. Estas sugerencias te ayudan a elegir una zona y planear traslados.
+            </p>
+
+            <div class="pillrow" aria-label="Tips rápidos hospedaje">
+              <div class="pill">Prioriza seguridad y reseñas</div>
+              <div class="pill">Revisa estacionamiento</div>
+              <div class="pill">Confirma políticas de check-in</div>
+              <div class="pill">Considera el traslado a Xcaret</div>
+            </div>
+
+            <ul class="list">
+            <li><strong>Traslado al evento:</strong> considera pedir Uber/taxi con anticipación (sobre todo a la salida).</li>
+              <li><strong>Tiempo extra:</strong> planea margen para tráfico + acceso, especialmente en hora pico.</li>
+              <li><strong>Si vienes en auto:</strong> revisa dónde vas a estacionarte (hotel/airbnb + cercanía al punto del evento).</li>
+              <li><strong>Grupo/familia:</strong> a veces conviene transporte privado compartido para ida y regreso.</li>
+            </ul>
+
+            <div class="note">
+              si tu hospedaje es Airbnb, confirma <em>dirección exacta</em>, instrucciones de acceso,
+              y si el anfitrión permite entradas tarde. En Playa del Carmen, algunos fraccionamientos piden identificación para entrar.
+            </div>
+
+         
+
+          </div>
+
+          <!-- Panel: Day Pass / Parques -->
+          <div class="tabpanel" id="panel-day" role="tabpanel" aria-labelledby="tab-day">
+            <h2>Day Pass / Parques (con descuentos para mexicanos)</h2>
+            <p class="muted" style="margin:0;">
+              Si vienes con tiempo, puedes aprovechar la experiencia Xcaret con <strong>Day Pass</strong> o <strong>entradas a parques</strong>.
+              Usualmente hay <strong>promociones y tarifas especiales para mexicanos</strong> (varían por temporada y disponibilidad).
+            </p>
+
+            <div class="pillrow" aria-label="Opciones day pass">
+              <span class="pill">Day Pass (Hotel)</span>
+              <span class="pill">Parques / Tours</span>
+              <span class="pill">Tarifa Mexicano</span>
+              <span class="pill">Compra anticipada</span>
+            </div>
+
+            <ul class="list">
+              <li><strong>Si te hospedas fuera:</strong> el Day Pass puede ser ideal para disfrutar el hotel durante el día.</li>
+              <li><strong>Si te gusta explorar:</strong> parques y tours son una gran opción para tu viaje.</li>
+              <li><strong>Tip:</strong> revisa requisitos de “tarifa mexicano” (por ejemplo, identificación vigente) y términos de la promo.</li>
+            </ul>
+
+            <div class="note">
+              Nota: las promociones/descuentos pueden cambiar. Te recomendamos revisar la opción vigente al momento de comprar.
+            </div>
+
+
+          </div>
+        </section>
+
+        <!-- Columna secundaria: horario + checklist -->
+        <aside class="card" aria-label="Horario y checklist">
+          <h2>Horario del evento</h2>
+          <div class="time"><i class="fa-regular fa-clock"></i> El evento inicia a las <strong>6:00 p.m.</strong></div>
+          <p style="margin:10px 0 0;">
+            Te sugerimos llegar con anticipación para estar con calma antes del inicio.
+          </p>
+
+          <div class="cta" style="margin-top:12px;">
+            <a class="btn primary" href="fecha-hora.html"><i class="fa-regular fa-calendar"></i> Fecha y hora</a>
+            <a class="btn" href="evento.html"><i class="fa-solid fa-map-location-dot"></i> Cómo llegar</a>
+          </div>
+
+          <div class="note" style="margin-top:12px;">
+            <strong>Checklist rápido:</strong><br>
+            • Dirección exacta / punto de llegada<br>
+            • Plan de regreso (Uber/taxi/privado)<br>
+            • Tiempo extra por accesos y tráfico
+          </div>
+                      <!-- Mapa MyMaps embebido -->
+            <div class="mapWrap" role="region" aria-label="Mapa de recomendaciones (My Maps)">
+              <div class="mapTop">
+                <div>
+                  <strong>Mapa del evento</strong><br>
+                  <span class="muted" style="font-size:12.5px;">Este es el mapa de las ubicaciones</span>
+                </div>
+                <a href="https://www.google.com/maps/d/u/0/edit?mid=1QVfssFDUmi3Sby9ex-KJLQ7-0NSdibU&usp=sharing" target="_blank" rel="noopener">
+                  Abrir mapa
+                </a>
+              </div>
+              <iframe
+                title="Mapa My Maps - Recomendaciones"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps/d/embed?mid=1QVfssFDUmi3Sby9ex-KJLQ7-0NSdibU">
+              </iframe>
+              <!-- Video: Recorrido Google Earth -->
+<h3 style="margin:16px 0 8px;color:#2F4667;">Recorrido del área</h3>
+<p class="muted" style="margin:0 0 10px;">
+  Vista general del entorno y accesos cercanos.
+</p>
+
+<div class="videoWrap" aria-label="Recorrido Google Earth">
+  <div class="videoRatio">
+    <iframe
+      src="https://www.youtube.com/watch?v=xsJ4gq28osg"
+      title="Recorrido Google Earth"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
+            </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== JS: Toggle del menú (igual que tu index) ===== -->
+  <script>
+    (function(){
+      const wrapper = document.querySelector('.staggered-menu-wrapper');
+      const panel   = document.getElementById('staggered-menu-panel');
+      const toggle  = document.querySelector('.sm-toggle');
+      const body    = document.body;
+      const isOpen = ()=> toggle.getAttribute('aria-expanded') === 'true';
+      function open(){
+        wrapper.setAttribute('data-open','');
+        panel.setAttribute('aria-hidden','false');
+        toggle.setAttribute('aria-expanded','true');
+        body.classList.add('menu-open');
+      }
+      function close(){
+        wrapper.removeAttribute('data-open');
+        panel.setAttribute('aria-hidden','true');
+        toggle.setAttribute('aria-expanded','false');
+        body.classList.remove('menu-open');
+      }
+      toggle.addEventListener('click', ()=> isOpen()? close(): open());
+    })();
+  </script>
+
+  <!-- ===== Tabs: Hospedaje / Day Pass ===== -->
+  <script>
+    (function(){
+      const tabHosp = document.getElementById('tab-hosp');
+      const tabDay  = document.getElementById('tab-day');
+      const panelHosp = document.getElementById('panel-hosp');
+      const panelDay  = document.getElementById('panel-day');
+
+      function activate(which){
+        const isHosp = which === 'hosp';
+        tabHosp.classList.toggle('active', isHosp);
+        tabDay.classList.toggle('active', !isHosp);
+        tabHosp.setAttribute('aria-selected', String(isHosp));
+        tabDay.setAttribute('aria-selected', String(!isHosp));
+        panelHosp.classList.toggle('active', isHosp);
+        panelDay.classList.toggle('active', !isHosp);
+      }
+
+      tabHosp.addEventListener('click', ()=> activate('hosp'));
+      tabDay.addEventListener('click', ()=> activate('day'));
+    })();
+  </script>
+
+  <!-- ===== Footer legal (igual estructura que tu index) ===== -->
+  <footer class="footer-legal">
+    <div class="footer-legal__inner">
+
+      <p class="footer-legal__title">
+        Cynthia &amp; José Miguel · 6 de febrero de 2026
+      </p>
+
+      <p class="footer-legal__text">
+        Este sitio web es de <strong>carácter informativo y personal</strong>, creado con motivo de nuestra celebración.
+        No está afiliado, patrocinado ni administrado por Hoteles Xcaret, Google, aerolíneas u otras marcas mencionadas.
+      </p>
+
+      <p class="footer-legal__text">
+        Las búsquedas de vuelos, hospedaje y reservaciones se realizan en <strong>sitios externos</strong>.
+        Cynthia y José Miguel no gestionan pagos, cambios, cancelaciones ni disponibilidad.
+        Al continuar, aplican los términos y políticas de privacidad de cada proveedor.
+      </p>
+
+      <p class="footer-legal__small">
+        © 2026 Cynthia &amp; José Miguel · Todos los derechos reservados
+      </p>
+
+    </div>
+  </footer>
+
+</body>
+</html>
