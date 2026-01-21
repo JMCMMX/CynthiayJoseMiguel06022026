@@ -153,19 +153,8 @@
       position: relative;
       isolation: isolate;
     }
-    .ticketBar::before{
-      content:"";
-      position:absolute; inset:-2px;
-      background: linear-gradient(90deg,
-        transparent 0 10%,
-        rgba(203,184,167,.22) 10% 12%,
-        transparent 12% 22%,
-        rgba(90,167,199,.16) 22% 24%,
-        transparent 24% 100%);
-      opacity:.38;
-      pointer-events:none;
-      transform: rotate(-1.2deg);
-    }
+.ticketBar::before{ display:none; }
+
     .ticketBar::after{
       content:"";
       position:absolute;
@@ -191,33 +180,10 @@
       .ticketInner{ grid-template-columns: 1fr; }
     }
 
-    /* perforado visual */
-    .ticketInner::before{
-      content:"";
-      position:absolute;
-      top:12px; bottom:12px;
-      left: 35%;
-      width: 2px;
-      background: repeating-linear-gradient(
-        to bottom,
-        rgba(63,58,54,.22) 0 6px,
-        transparent 6px 12px
-      );
-      opacity:.30;
-      border-radius: 2px;
-    }
-    .ticketInner::after{
-      content:"";
-      position:absolute;
-      top: 12px;
-      left: 35%;
-      width: 18px; height: 18px;
-      border-radius: 999px;
-      transform: translateX(-50%);
-      background: rgba(231,220,203,.55);
-      border: 1px solid rgba(0,0,0,.08);
-      box-shadow: inset 0 2px 5px rgba(0,0,0,.08);
-    }
+    .ticketInner::before{ display:none; }
+
+.ticketInner::after{ display:none !important; }    /* quita hoyito arriba (opcional) */
+
     .notchBottom{
       position:absolute;
       bottom: 12px;
