@@ -25,8 +25,8 @@
       --duna:#CDBDA7;
       --mar:#5AA7C7;
 
-      --tinta:#3F3A36;      /* texto principal */
-      --tinta2:#1f3b4d;     /* acento oscuro */
+      --tinta:#3F3A36;
+      --tinta2:#1f3b4d;
       --blanco:#ffffff;
 
       --soft:rgba(0,0,0,.10);
@@ -39,7 +39,6 @@
       --max:1100px;
       --pad:16px;
 
-      /* Para tu site.css si ya usa --brand */
       --brand: var(--duna);
       --brand-strong: var(--tinta2);
       --text: var(--tinta);
@@ -435,11 +434,21 @@
       box-shadow: 0 12px 22px rgba(0,0,0,.10);
       transition: transform .15s ease, box-shadow .15s ease;
       color: var(--tinta2);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      white-space:nowrap;
     }
     .btn:hover{
       transform: translateY(-1px);
       box-shadow: 0 16px 30px rgba(0,0,0,.14);
     }
+    .btn.secondary{
+      background: linear-gradient(180deg, #fff, rgba(90,167,199,.14));
+      border-color: rgba(90,167,199,.22);
+      color: var(--tinta2);
+    }
+    .btn[disabled]{ opacity:.55; cursor:not-allowed; transform:none; box-shadow: 0 12px 22px rgba(0,0,0,.08); }
 
     /* Right */
     .tR{ display:flex; align-items:center; justify-content:flex-end; gap: 12px; }
@@ -613,7 +622,64 @@
       color: var(--tinta);
     }
 
-    /* ===== Footer legal (tu estilo, adaptado a paleta) ===== */
+    /* ===== NUEVO: formulario de felicitación ===== */
+    .msgGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 620px){
+      .msgGrid{ grid-template-columns: 1fr; }
+    }
+    .field{
+      display:grid;
+      gap:6px;
+    }
+    .label{
+      font-size: 12px;
+      letter-spacing: .9px;
+      font-weight: 950;
+      opacity: .78;
+      text-transform: uppercase;
+    }
+    .input, .textarea{
+      border-radius: 14px;
+      border: 1px solid var(--soft2);
+      background: #fff;
+      padding: 10px 12px;
+      font: inherit;
+      color: var(--tinta);
+      outline: none;
+      box-shadow: 0 10px 18px rgba(0,0,0,.06);
+    }
+    .textarea{
+      min-height: 120px;
+      resize: vertical;
+    }
+    .help{
+      margin: 0;
+      font-size: 13px;
+      opacity: .84;
+      line-height: 1.5;
+    }
+    .tiny{
+      margin: 8px 0 0 0;
+      font-size: 12px;
+      opacity: .72;
+    }
+    .okBadge{
+      display:none;
+      margin-top: 10px;
+      border-radius: 14px;
+      padding: 10px 12px;
+      border: 1px solid rgba(90,167,199,.28);
+      background: rgba(90,167,199,.10);
+      color: var(--tinta2);
+      font-weight: 900;
+    }
+    .okBadge[data-show="true"]{ display:block; }
+
+    /* ===== Footer legal ===== */
     .footer-legal{
       margin-top: 26px;
       padding: 22px var(--pad);
@@ -657,14 +723,62 @@
       .inkSplat.show{ animation:none !important; }
       .scanline.run{ animation:none !important; }
     }
+    /* =========================
+   🔔 CTA HIGHLIGHT (botones clave)
+   ========================= */
+@keyframes ctaPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(90,167,199,.55); transform: translateY(0); }
+  70%  { box-shadow: 0 0 0 14px rgba(90,167,199,0); }
+  100% { box-shadow: 0 0 0 0 rgba(90,167,199,0); transform: translateY(0); }
+}
+
+@keyframes ctaFloat {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-2px); }
+}
+
+/* clase reutilizable */
+.cta-attention{
+  position: relative;
+  animation:
+    ctaPulse 2.6s ease-out infinite,
+    ctaFloat 3.8s ease-in-out infinite;
+}
+
+/* pequeño indicador visual (flecha suave) */
+.cta-attention::after{
+  content: "↙️";
+  position: absolute;
+  top: -14px;
+  right: 10px;
+  font-size: 14px;
+  opacity: .75;
+  animation: ctaFloat 1.8s ease-in-out infinite;
+}
+
+/* cuando el usuario interactúa, se apaga */
+.cta-attention.is-used{
+  animation: none !important;
+}
+.cta-attention.is-used::after{
+  display: none;
+}
+
+/* accesibilidad */
+@media (prefers-reduced-motion: reduce){
+  .cta-attention,
+  .cta-attention::after{
+    animation: none !important;
+  }
+}
+
   </style>
 </head>
 
 <body>
-  <!-- ====== NAV / MENÚ (igual en TODAS las páginas) ====== -->
+  <!-- ====== NAV / MENÚ ====== -->
   <div class="staggered-menu-wrapper">
     <div class="sm-prelayers" aria-hidden="true">
-      <!-- Ajustado a tu paleta -->
       <div class="sm-prelayer" style="background:#1f3b4d;"></div>
       <div class="sm-prelayer" style="background:#5AA7C7;"></div>
       <div class="sm-prelayer" style="background:#E7DCCB;"></div>
@@ -711,7 +825,7 @@
         <h2>Un detalle simbólico 💌</h2>
         <p>
           Tu presencia es nuestro mejor obsequio. Si deseas dejarnos un mensaje bonito o apoyar nuestro fondo de experiencias para nuestra luna de miel,
-          lo recibimos con muchísimo cariño <strong>(siempre opcional)</strong>.
+          lo recibimos con muchísimo cariño <strong>(la transferencia es opcional, Solo dejanos un mensaje de felicitación)</strong>.
         </p>
         <p class="hint">Abajo encontrarás un simulador interactivo: no es una “lista”, es una forma divertida de imaginar el viaje ✨</p>
       </section>
@@ -783,10 +897,17 @@
 
             <div class="actions">
               <span class="ref">Ref: <strong id="tRef">THAI</strong></span>
-              <button class="btn" id="tOpen" type="button">
-                <i class="fa-solid fa-qrcode" aria-hidden="true"></i>
-                Ver datos para transferir
-              </button>
+
+<button class="btn cta-attention" id="tOpen" type="button">
+  <i class="fa-solid fa-qrcode"></i>
+  Ver datos para transferir
+</button>
+
+<button class="btn secondary cta-attention" id="tMsg" type="button">
+  <i class="fa-solid fa-pen-nib"></i>
+  Dejar mensaje
+</button>
+
             </div>
           </div>
 
@@ -804,7 +925,7 @@
     </div>
   </main>
 
-  <!-- ===== Modal oculto (QR + Datos) ===== -->
+  <!-- ===== Modal Transfer (QR + Datos) ===== -->
   <div class="backdrop" id="mBack" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
       <div class="mHeader">
@@ -864,7 +985,65 @@
     </div>
   </div>
 
-  <!-- ===== Footer (adaptado a tu paleta) ===== -->
+  <!-- ✅ NUEVO: Modal Mensaje -->
+  <div class="backdrop" id="msgBack" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="msgTitle">
+      <div class="mHeader">
+        <div>
+          <h3 class="mTitle" id="msgTitle">Déjanos un mensaje 💌</h3>
+          <p class="mSub">No importa si transferiste o no — nos encantará leerte. Ref sugerida: <strong id="msgRefTag">THAI</strong>.</p>
+        </div>
+        <button class="mClose" id="msgClose" type="button" aria-label="Cerrar">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="mBody">
+        <section class="panel" data-show="true">
+          <p class="help" style="margin-top:0;">
+            Si quieres, incluye tu nombre para saber de quién es. El mensaje se guarda en nuestro Google Sheet.
+          </p>
+
+          <div class="msgGrid" style="margin-top:10px;">
+            <div class="field">
+              <span class="label">Tu nombre (opcional)</span>
+              <input class="input" id="msgName" type="text" maxlength="80" placeholder="Ej. Ana Pérez">
+            </div>
+
+            <div class="field">
+              <span class="label">Referencia del ticket</span>
+              <input class="input" id="msgRef" type="text" maxlength="24" placeholder="Ej. THAI" />
+              <p class="tiny">Se llena automáticamente con la referencia actual, pero puedes cambiarla.</p>
+            </div>
+
+            <div class="field" style="grid-column:1/-1;">
+              <span class="label">Tu mensaje</span>
+              <textarea class="textarea" id="msgText" maxlength="800" placeholder="Escríbenos tu felicitación..."></textarea>
+              <p class="tiny">Máx. 800 caracteres.</p>
+            </div>
+          </div>
+
+          <div class="mActions">
+            <button class="btnLite" id="msgSend" type="button">
+              <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+              Enviar mensaje
+            </button>
+            <button class="btnLite" id="msgClear" type="button">Limpiar</button>
+          </div>
+
+          <div class="okBadge" id="msgOk" data-show="false">
+            ¡Listo! Gracias por tu mensaje 💛
+          </div>
+
+          <p class="tiny">
+            Al enviar, se registran: fecha/hora, nombre, mensaje, referencia y el valor actual del simulador (solo como contexto).
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Footer ===== -->
   <footer class="footer-legal">
     <div class="footer-legal__inner">
       <p class="footer-legal__title">Cynthia &amp; José Miguel · 6 de febrero de 2026</p>
@@ -888,10 +1067,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="menu.js"></script>
 
-  <!-- ===== Lógica Ticket + Modal ===== -->
+  <!-- ===== Lógica Ticket + Modales + Guardar mensajes ===== -->
   <script>
   (function(){
     const buildQR = (data) => `https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=${encodeURIComponent(data)}`;
+
+    /* =========================
+       ✅ CONFIG: URL de tu Web App Apps Script
+       ========================= */
+    const SCRIPT_WEBAPP_URL = "TU_SCRIPT_WEBAPP_URL"; // <-- pega aquí la URL de Deploy (web app)
 
     // Ticket
     const range = document.getElementById('tRange');
@@ -918,7 +1102,7 @@
     const elSeat  = document.getElementById('tSeat');
     const elDate  = document.getElementById('tDate');
 
-    // Modal
+    // Modal Transfer
     const back = document.getElementById('mBack');
     const btnOpen = document.getElementById('tOpen');
     const btnClose= document.getElementById('mClose');
@@ -942,31 +1126,33 @@
     const copyPP    = document.getElementById('copyPP');
     const openPP    = document.getElementById('openPP');
 
+    // ✅ Modal Mensaje
+    const msgBack = document.getElementById('msgBack');
+    const msgBtn  = document.getElementById('tMsg');
+    const msgClose= document.getElementById('msgClose');
+    const msgRefTag = document.getElementById('msgRefTag');
+    const msgName = document.getElementById('msgName');
+    const msgRef  = document.getElementById('msgRef');
+    const msgText = document.getElementById('msgText');
+    const msgSend = document.getElementById('msgSend');
+    const msgClear= document.getElementById('msgClear');
+    const msgOk   = document.getElementById('msgOk');
+
     const MILES_PER_MXN = 0.6;
     const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ✅ Reemplaza SOLO este bloque: const stages = [...]
-const stages = [
-  // Salimos de México
-  { min:0, max:1500, ref:'SUR', emoji:'✈️', stamp:'MX', flight:'MEX-CYJM', gate:'MEX', seat:'14A', date:'06 FEB 2026',
-    title:'BOARDING PASS · SOLO POR DIVERSIÓN', sub:'Mueve la barra para “sellar” el avance.', from:'México', via:'Escala', to:'Caribe' },
-
-  // Tier medio: Sudamérica (menos caro que Asia, pero ya “viaje grande”)
-  { min:1500, max:8000, ref:'SUR', emoji:'🗺️', stamp:'SUDAMERICA', flight:'MEX-SUR1', gate:'MEX', seat:'06C', date:'06 FEB 2026',
-    title:'SUDAMÉRICA · ETAPA 1', sub:'Naturaleza, cultura y aventura.', from:'México', via:'Bogotá', to:'Patagonia' },
-
-  // Tier medio-alto: Tailandia
-  { min:8000, max:18000, ref:'THAI', emoji:'🐘', stamp:'TAILANDIA', flight:'MEX-THAI', gate:'MEX', seat:'21F', date:'06 FEB 2026',
-    title:'TAILANDIA · ETAPA 2', sub:'Playas, templos y una vibra increíble.', from:'México', via:'Tokyo', to:'Bangkok' },
-
-  // Tier alto: “Camino a China”
-  { min:18000, max:24000, ref:'CHINA', emoji:'🏮', stamp:'ASIA', flight:'MEX-ASIA', gate:'MEX', seat:'10B', date:'06 FEB 2026',
-    title:'ASIA · ETAPA 3', sub:'Más lejos, más épico.', from:'México', via:'Seúl', to:'Beijing' },
-
-  // ✅ Tier más caro: China (máximo)
-  { min:24000, max:30000, ref:'CHINA', emoji:'🐉', stamp:'CULTURA', flight:'MEX-CHINA', gate:'VIP', seat:'01A', date:'06 FEB 2026',
-    title:'CHINA · ETAPA FINAL', sub:'Gran Muralla, historia y sabores — el “top tier”.', from:'México', via:'Shanghái', to:'China' }
-];
+    const stages = [
+      { min:0, max:1500, ref:'SUR', emoji:'✈️', stamp:'MX', flight:'MEX-CYJM', gate:'MEX', seat:'14A', date:'06 FEB 2026',
+        title:'BOARDING PASS · SOLO POR DIVERSIÓN', sub:'Mueve la barra para “sellar” el avance.', from:'México', via:'Escala', to:'Caribe' },
+      { min:1500, max:8000, ref:'SUR', emoji:'🗺️', stamp:'SUDAMERICA', flight:'MEX-SUR1', gate:'MEX', seat:'06C', date:'06 FEB 2026',
+        title:'SUDAMÉRICA · ETAPA 1', sub:'Naturaleza, cultura y aventura.', from:'México', via:'Bogotá', to:'Patagonia' },
+      { min:8000, max:18000, ref:'THAI', emoji:'🐘', stamp:'TAILANDIA', flight:'MEX-THAI', gate:'MEX', seat:'21F', date:'06 FEB 2026',
+        title:'TAILANDIA · ETAPA 2', sub:'Playas, templos y una vibra increíble.', from:'México', via:'Tokyo', to:'Bangkok' },
+      { min:18000, max:24000, ref:'CHINA', emoji:'🏮', stamp:'ASIA', flight:'MEX-ASIA', gate:'MEX', seat:'10B', date:'06 FEB 2026',
+        title:'ASIA · ETAPA 3', sub:'Más lejos, más épico.', from:'México', via:'Seúl', to:'Beijing' },
+      { min:24000, max:30000, ref:'CHINA', emoji:'🐉', stamp:'CULTURA', flight:'MEX-CHINA', gate:'VIP', seat:'01A', date:'06 FEB 2026',
+        title:'CHINA · ETAPA FINAL', sub:'Gran Muralla, historia y sabores — el “top tier”.', from:'México', via:'Shanghái', to:'China' }
+    ];
 
     const getStage = (v) => stages.find(s => v >= s.min && v < s.max) || stages[stages.length-1];
 
@@ -979,7 +1165,6 @@ const stages = [
       catch(e){ return String(Math.round(n)); }
     };
 
-    // micro audio stamp (sutil)
     let audioCtx = null;
     function stampSound(){
       if(reduceMotion) return;
@@ -1040,6 +1225,10 @@ const stages = [
       mRef.textContent = ref;
       refS.textContent = ref;
       ppNote.textContent = 'Experiencia ' + ref;
+
+      // ✅ sincroniza también el modal de mensaje
+      msgRefTag.textContent = ref;
+      msgRef.value = ref;
     }
 
     function setValue(v){
@@ -1084,7 +1273,7 @@ const stages = [
       }
     }
 
-    // Modal
+    // Modal Transfer
     function setTab(which){
       const isS = which === 'spei';
       tabS.setAttribute('aria-selected', isS);
@@ -1097,7 +1286,6 @@ const stages = [
       back.setAttribute('aria-hidden','false');
       document.body.style.overflow = 'hidden';
 
-      // Genera QR SOLO al abrir
       qrS.src = buildQR('014420606315026655');
       qrP.src = buildQR(ppLink.href);
 
@@ -1113,7 +1301,6 @@ const stages = [
     btnOpen.addEventListener('click', openModal);
     btnClose.addEventListener('click', closeModal);
     back.addEventListener('click', (e)=>{ if(e.target === back) closeModal(); });
-    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && back.getAttribute('data-open')==='true') closeModal(); });
 
     tabS.addEventListener('click', ()=>setTab('spei'));
     tabP.addEventListener('click', ()=>setTab('pp'));
@@ -1142,12 +1329,113 @@ const stages = [
       setTimeout(()=>alert('Sugerencia: agrega la nota "'+ppNote.textContent+'" en PayPal 💖'), 200);
     });
 
+    // ✅ Modal Mensaje
+    function openMsgModal(){
+      msgOk.setAttribute('data-show','false');
+      msgBack.setAttribute('data-open','true');
+      msgBack.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+      // precarga ref actual
+      msgRef.value = (elRef.textContent || '').trim();
+      msgRefTag.textContent = msgRef.value || 'REF';
+      setTimeout(()=>msgName.focus(), 30);
+    }
+    function closeMsgModal(){
+      msgBack.removeAttribute('data-open');
+      msgBack.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+
+    msgBtn.addEventListener('click', openMsgModal);
+    msgClose.addEventListener('click', closeMsgModal);
+    msgBack.addEventListener('click', (e)=>{ if(e.target === msgBack) closeMsgModal(); });
+
+    // Escape cierra cualquiera
+    document.addEventListener('keydown', (e)=>{
+      if(e.key !== 'Escape') return;
+      if(back.getAttribute('data-open')==='true') closeModal();
+      if(msgBack.getAttribute('data-open')==='true') closeMsgModal();
+    });
+
+    msgRef.addEventListener('input', ()=>{
+      msgRefTag.textContent = (msgRef.value || '').trim() || 'REF';
+    });
+
+    msgClear.addEventListener('click', ()=>{
+      msgName.value = '';
+      msgText.value = '';
+      msgOk.setAttribute('data-show','false');
+      msgName.focus();
+    });
+
+    // ✅ Enviar a Apps Script (sin depender de transferencia)
+    async function sendMessageToSheet(payload){
+      if(!SCRIPT_WEBAPP_URL || SCRIPT_WEBAPP_URL.includes("TU_SCRIPT_WEBAPP_URL")){
+        throw new Error("Falta configurar SCRIPT_WEBAPP_URL");
+      }
+
+      // Para evitar preflight/CORS: x-www-form-urlencoded + no-cors
+      const body = new URLSearchParams(payload);
+
+      await fetch(SCRIPT_WEBAPP_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+        body
+      });
+      // En no-cors no podemos leer respuesta; si no explota, asumimos enviado.
+      return true;
+    }
+
+    msgSend.addEventListener('click', async ()=>{
+      const name = (msgName.value || '').trim();
+      const ref  = (msgRef.value || '').trim();
+      const text = (msgText.value || '').trim();
+
+      if(!text){
+        alert('Por favor escribe tu mensaje 🙂');
+        msgText.focus();
+        return;
+      }
+
+      msgSend.setAttribute('disabled','true');
+
+      const amount = Number(range.value || 0);
+      const payload = {
+        nombre: name,
+        mensaje: text,
+        ref: ref,
+        monto: String(amount),
+        pagina: location.href,
+        ua: navigator.userAgent
+      };
+
+      try{
+        await sendMessageToSheet(payload);
+        msgOk.setAttribute('data-show','true');
+        // limpia solo el mensaje (opcional)
+        msgText.value = '';
+      }catch(err){
+        alert('No se pudo enviar el mensaje. Revisa la URL del Web App y el Deploy.\n\n' + (err && err.message ? err.message : err));
+      }finally{
+        msgSend.removeAttribute('disabled');
+      }
+    });
+
+    // Ticket input
     range.addEventListener('input', (e)=> setValue(e.target.value));
     setValue(range.value);
 
     // desbloquea audio en primer toque
     document.addEventListener('pointerdown', ()=>{ try{ if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); }catch(e){} }, { once:true });
   })();
+  // 🔕 Desactivar highlight después del primer uso
+[tOpen, tMsg].forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    btn.classList.add('is-used');
+  });
+});
+
   </script>
 </body>
 </html>
