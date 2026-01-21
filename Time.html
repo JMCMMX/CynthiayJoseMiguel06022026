@@ -7,45 +7,40 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet"/>
-    
-    <!-- ===== CSS AÑADIDO PARA EL NUEVO BOTÓN DE MENÚ ===== -->
+
     <style>
       /* ===== CAMBIO: Estilos del botón de Menú ===== */
       .sm-toggle{
-        position:relative; 
-        display:inline-flex; 
-        align-items:center; 
+        position:relative;
+        display:inline-flex;
+        align-items:center;
         justify-content: center;
         gap:.6rem;
-        background:rgba(0,0,0,0.25); 
-        color:#F2EEE9; 
-        border:none; 
+        background:rgba(0,0,0,0.25);
+        color:#F2EEE9;
+        border:none;
         cursor:pointer;
-        padding:.8em 1.4em; /* Más padding para un botón */
-        border-radius:999px; /* Botón flotante redondeado */
+        padding:.8em 1.4em;
+        border-radius:999px;
         backdrop-filter: blur(6px);
-        font-family: 'Lato', sans-serif; /* Asegurar la fuente */
-        font-weight: 700; /* Más grueso */
+        font-family: 'Lato', sans-serif;
+        font-weight: 700;
         font-size: 0.95rem;
         letter-spacing: 0.5px;
         text-transform: uppercase;
-        overflow: hidden; /* Para el cambio de texto */
-        width: 110px; /* Ancho fijo para evitar saltos */
+        overflow: hidden;
+        width: 110px;
         transition: background .3s ease, color .3s ease;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       }
-      .staggered-menu-wrapper[data-open] .sm-toggle{ 
-        color:#3F3A36; 
+      .staggered-menu-wrapper[data-open] .sm-toggle{
+        color:#3F3A36;
         background:rgba(255,255,255,0.8);
       }
-  
-      /* Ocultar el icono de hamburguesa y sus líneas (ya no se usan) */
+
       .sm-icon, .sm-icon-line { display: none; }
-  
-      /* Ocultar el "tip" del menú (ya no se usa) */
       .menu-tip, .menu-guide { display: none; }
-      
-      /* Estilos para los textos del botón (MENU / CERRAR) */
+
       .sm-toggle-text-open, .sm-toggle-text-close {
         display: block;
         transition: transform .4s ease, opacity .4s ease;
@@ -55,8 +50,6 @@
         opacity: 0;
         transform: translateY(100%);
       }
-  
-      /* Estado abierto (muestra CERRAR, oculta MENU) */
       .staggered-menu-wrapper[data-open] .sm-toggle-text-open {
         opacity: 0;
         transform: translateY(-100%);
@@ -67,7 +60,7 @@
       }
       /* ===== FIN CAMBIO Menú ===== */
 
-      /* Estilos del panel de menú (copiados de index.html por si no están en style.css) */
+      /* Estilos del panel de menú */
       .staggered-menu-wrapper{ position:fixed; inset:0; height:100vh; width:100%; z-index:999; pointer-events:none; }
       .staggered-menu-header{ position:absolute; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; padding:1.5em; z-index:20; }
       .staggered-menu-header>*{ pointer-events:auto; }
@@ -84,9 +77,8 @@
       .sm-prelayers{ pointer-events:none; z-index:5 }
       .sm-prelayer{ position:absolute; inset:0; transform:translateX(100%); transition:transform .5s ease }
       .staggered-menu-wrapper[data-open] .sm-prelayer{ transform:translateX(0) }
-  
+
       .sm-panel-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.6rem; counter-reset:smItem }
-      /* Estos estilos son de tu `Time.html` - los mantengo */
       .sm-panel-itemWrap .sm-panel-item {
         position:relative; color:#3F3A36; font-weight:700; text-decoration:none;
         font-size:clamp(2rem,5vw,3rem); text-transform:uppercase; letter-spacing:-2px;
@@ -103,8 +95,156 @@
         .staggered-menu-panel{ padding-left:1.4em; padding-right:1.4em }
         .sm-logo-img{ height:50px }
       }
+
+      /* ===== NUEVO: Widgets clima + tráfico (ligero, acorde) ===== */
+      .widgets-wrap{
+        width:min(980px, 92vw);
+        margin: 28px auto 0;
+        display:grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 16px;
+      }
+      .widget-card{
+        background: rgba(242,238,233,0.92);
+        border: 1px solid rgba(63,58,54,0.08);
+        border-radius: 18px;
+        padding: 16px 16px 14px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        backdrop-filter: blur(6px);
+        font-family: 'Lato', sans-serif;
+        color:#3F3A36;
+      }
+      .widget-title{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        margin:0 0 10px;
+        font-weight:800;
+        letter-spacing: .2px;
+      }
+      .widget-title i{
+        width: 34px; height:34px;
+        display:inline-flex; align-items:center; justify-content:center;
+        border-radius: 12px;
+        background: rgba(90,167,199,0.14);
+        color:#2F4667;
+      }
+      .widget-sub{
+        margin:0 0 10px;
+        opacity:.85;
+        line-height: 1.35;
+        font-size: .95rem;
+      }
+
+      .wx-grid{
+        display:grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+      }
+      .wx-day{
+        background: rgba(255,255,255,0.55);
+        border: 1px solid rgba(63,58,54,0.06);
+        border-radius: 14px;
+        padding: 10px 10px 8px;
+        min-height: 110px;
+      }
+      .wx-date{
+        font-weight: 800;
+        font-size: .9rem;
+        margin-bottom: 6px;
+      }
+      .wx-metric{
+        font-size: .88rem;
+        opacity:.9;
+        display:flex;
+        align-items:center;
+        gap:7px;
+        margin: 4px 0;
+      }
+      .wx-metric i{ opacity:.85; width: 16px; text-align:center; }
+      .wx-note{
+        margin-top: 10px;
+        font-size: .9rem;
+        opacity:.85;
+        line-height: 1.35;
+      }
+
+      .form-row{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .form-row.single{ grid-template-columns: 1fr; }
+      label{
+        font-size: .85rem;
+        font-weight: 700;
+        opacity:.9;
+        display:block;
+        margin: 0 0 6px;
+      }
+      input, select{
+        width:100%;
+        padding: 11px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(63,58,54,0.12);
+        background: rgba(255,255,255,0.75);
+        color:#3F3A36;
+        outline: none;
+        font-family: 'Lato', sans-serif;
+      }
+      input:focus, select:focus{
+        border-color: rgba(90,167,199,0.55);
+        box-shadow: 0 0 0 4px rgba(90,167,199,0.15);
+      }
+      .btn-row{
+        display:flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .wbtn{
+        border: 0;
+        cursor: pointer;
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-weight: 800;
+        letter-spacing: .2px;
+        font-family:'Lato', sans-serif;
+        transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;
+      }
+      .wbtn:active{ transform: translateY(1px); }
+      .wbtn-primary{
+        background:#2F4667;
+        color:#F2EEE9;
+        box-shadow: 0 10px 20px rgba(47,70,103,0.18);
+      }
+      .wbtn-ghost{
+        background: rgba(90,167,199,0.14);
+        color:#2F4667;
+        border: 1px solid rgba(47,70,103,0.18);
+      }
+      .result-box{
+        margin-top: 12px;
+        background: rgba(255,255,255,0.55);
+        border: 1px dashed rgba(63,58,54,0.18);
+        border-radius: 14px;
+        padding: 12px;
+        line-height: 1.35;
+      }
+      .result-big{
+        font-size: 1.05rem;
+        font-weight: 900;
+      }
+
+      @media (max-width: 900px){
+        .widgets-wrap{ grid-template-columns: 1fr; }
+        .wx-grid{ grid-template-columns: 1fr; }
+        .wx-day{ min-height: auto; }
+      }
     </style>
 </head>
+
 <body class="page-time">
 
     <div class="staggered-menu-wrapper">
@@ -116,38 +256,27 @@
         <header class="staggered-menu-header">
             <a href="index.html" class="sm-logo" aria-label="Homepage">
                 <img src="logo.svg" alt="Cynthia & Jose Miguel" class="sm-logo-img">
-            </a> 
-            
-            <!-- ===== BOTÓN DE MENÚ ACTUALIZADO ===== -->
+            </a>
+
             <button class="sm-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
               <span class="sm-toggle-text-open">MENU</span>
               <span class="sm-toggle-text-close" aria-hidden="true">CERRAR</span>
             </button>
-            <!-- ===== FIN DEL CAMBIO ===== -->
-            
         </header>
+
         <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
             <div class="sm-panel-inner">
                 <ul class="sm-panel-list" role="list">
-                  <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina
-                                principal</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span
-                                class="sm-panel-itemLabel">Agradecimientos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y
-                                Hora</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="index.html"><span class="sm-panel-itemLabel">Pagina principal</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="gracias.html"><span class="sm-panel-itemLabel">Agradecimientos</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="fecha-hora.html"><span class="sm-panel-itemLabel">Fecha y Hora</span></a></li>
                     <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="menu.html"><span class="sm-panel-itemLabel">Menú</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span
-                                class="sm-panel-itemLabel">Hospedaje</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedarte en
-                                Xcaret</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span
-                                class="sm-panel-itemLabel">Vuelos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="evento.html"><span
-                                class="sm-panel-itemLabel">Mapa del evento</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span
-                                class="sm-panel-itemLabel">Regalos</span></a></li>
-                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta
-                                Regresiva</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="hospedaje.html"><span class="sm-panel-itemLabel">Hospedaje</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="xcaret.html"><span class="sm-panel-itemLabel">Hospedarte en Xcaret</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="vuelos.html"><span class="sm-panel-itemLabel">Vuelos</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="evento.html"><span class="sm-panel-itemLabel">Mapa del evento</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="regalos.html"><span class="sm-panel-itemLabel">Regalos</span></a></li>
+                    <li class="sm-panel-itemWrap"><a class="sm-panel-item" href="Time.html"><span class="sm-panel-itemLabel">Cuenta Regresiva</span></a></li>
                 </ul>
             </div>
         </aside>
@@ -161,16 +290,101 @@
         <div class="time-block"><span id="seconds" class="number">0</span><span class="label">Segundos</span></div>
     </div>
     <div id="message" style="display: none; margin-top: 20px; font-size: 1.5em; color: green;">¡El tiempo ha terminado!</div>
-    
+
+    <!-- ===== NUEVO: Widgets Clima + Tráfico ===== -->
+    <section class="widgets-wrap" aria-label="Widgets de clima y tráfico">
+
+      <!-- CLIMA -->
+      <article class="widget-card" id="weatherWidget">
+        <h2 class="widget-title">
+          <i class="fa-solid fa-cloud-sun"></i>
+          Clima previsto (Xcaret) — 4 a 8 Feb 2026
+        </h2>
+        <p class="widget-sub" id="wxStatus">
+          Cargando pronóstico…
+        </p>
+
+        <div class="wx-grid" id="wxGrid" style="display:none;">
+          <!-- JS inserta 5 tarjetas -->
+        </div>
+
+        <p class="wx-note" id="wxFallback" style="display:none;">
+          <strong>Nota:</strong> Los pronósticos confiables normalmente se ven a ~10–16 días. Si todavía falta, aquí mostraremos un
+          resumen típico de febrero y el widget se activará automáticamente cuando falten pocos días.
+          <br><br>
+          <span style="opacity:.9">
+            <i class="fa-solid fa-temperature-half"></i> Febrero suele ser cálido (aprox. mediados de 20s °C) y relativamente seco en Riviera Maya.
+          </span>
+        </p>
+      </article>
+
+      <!-- TRÁFICO / ATRASOS -->
+      <article class="widget-card" id="trafficWidget">
+        <h2 class="widget-title">
+          <i class="fa-solid fa-route"></i>
+          Considera atrasos viales — calcula tu hora de salida
+        </h2>
+        <p class="widget-sub">
+          Revisa el tiempo real en Google Maps y agrega un colchón. Esto te recomienda <strong>a qué hora salir</strong> para llegar a tiempo a Xcaret.
+        </p>
+
+        <div class="form-row">
+          <div>
+            <label for="originInput">¿Desde dónde sales?</label>
+            <input id="originInput" type="text" placeholder="Ej. Hotel Xcaret México / Playa del Carmen / Tulum">
+          </div>
+          <div>
+            <label for="arrivalTime">Hora objetivo de llegada</label>
+            <input id="arrivalTime" type="time" value="17:00">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label for="routeMinutes">Tiempo de ruta (min)</label>
+            <input id="routeMinutes" type="number" min="1" step="1" value="45" placeholder="Ej. 45">
+          </div>
+          <div>
+            <label for="bufferMinutes">Colchón por tráfico (min)</label>
+            <select id="bufferMinutes">
+              <option value="15">15 min (ligero)</option>
+              <option value="30" selected>30 min (recomendado)</option>
+              <option value="45">45 min (alto)</option>
+              <option value="60">60 min (muy alto)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="wbtn wbtn-primary" id="calcDepartureBtn" type="button">
+            <i class="fa-solid fa-clock"></i> Calcular hora de salida
+          </button>
+          <button class="wbtn wbtn-ghost" id="openMapsBtn" type="button">
+            <i class="fa-brands fa-google"></i> Abrir ruta a Xcaret en Google Maps
+          </button>
+        </div>
+
+        <div class="result-box" id="departureResult" style="display:none;">
+          <div class="result-big" id="departureBig">—</div>
+          <div id="departureSmall" style="margin-top:6px; opacity:.9;"></div>
+        </div>
+
+        <p class="wx-note" style="margin-top:10px;">
+          Tip práctico: si vas a llegar a las <strong>18:00</strong>, para ceremonia en playa, una meta segura es estar <strong>60–90 min antes</strong>
+          dentro del complejo/área, por filtros, traslados internos y fotos.
+        </p>
+      </article>
+
+    </section>
+    <!-- ===== FIN Widgets ===== -->
+
     <div class="navegacion-volver">
         <a href="index.html" class="boton-volver">&larr; Volver a la Página Principal</a>
     </div>
-    
-    
-    <script src="script.js"></script> 
-    
+
+    <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    
+
     <!-- ===== SCRIPT DE MENÚ ACTUALIZADO (reemplaza a menu.js) ===== -->
     <script>
       (function(){
@@ -192,6 +406,168 @@
           body.classList.remove('menu-open');
         }
         toggle.addEventListener('click', ()=> isOpen()? close(): open());
+      })();
+    </script>
+
+    <!-- ===== NUEVO: JS Clima (Open-Meteo) + Tráfico ===== -->
+    <script>
+      (function(){
+        // ====== CONFIG ======
+        const XC_LAT = 20.5809134;
+        const XC_LON = -87.1196980;
+
+        // Fechas objetivo: 2 antes, día, 2 después (4–8 Feb 2026)
+        const START = "2026-02-04";
+        const END   = "2026-02-08";
+
+        const wxStatus   = document.getElementById('wxStatus');
+        const wxGrid     = document.getElementById('wxGrid');
+        const wxFallback = document.getElementById('wxFallback');
+
+        function fmtShortDate(iso){
+          const d = new Date(iso + "T00:00:00");
+          const opts = { weekday: 'short', day: '2-digit', month: 'short' };
+          return d.toLocaleDateString('es-MX', opts);
+        }
+
+        function wxIconFromCode(code){
+          // Mapeo básico de "weathercode" Open-Meteo
+          // 0: despejado | 1-3: nubes | 45/48: niebla | 51-67: llovizna/lluvia | 71-77: nieve | 80-82: chubascos | 95-99: tormenta
+          if (code === 0) return { icon:"fa-sun", label:"Despejado" };
+          if ([1,2,3].includes(code)) return { icon:"fa-cloud-sun", label:"Nublado" };
+          if ([45,48].includes(code)) return { icon:"fa-smog", label:"Neblina" };
+          if (code >= 51 && code <= 67) return { icon:"fa-cloud-rain", label:"Lluvia" };
+          if (code >= 71 && code <= 77) return { icon:"fa-snowflake", label:"Nieve" };
+          if (code >= 80 && code <= 82) return { icon:"fa-cloud-showers-heavy", label:"Chubascos" };
+          if (code >= 95) return { icon:"fa-bolt", label:"Tormenta" };
+          return { icon:"fa-cloud", label:"Variable" };
+        }
+
+        function buildDayCard(day){
+          const iconMeta = wxIconFromCode(day.weathercode);
+          return `
+            <div class="wx-day">
+              <div class="wx-date">${fmtShortDate(day.date)}</div>
+              <div class="wx-metric"><i class="fa-solid ${iconMeta.icon}"></i> ${iconMeta.label}</div>
+              <div class="wx-metric"><i class="fa-solid fa-temperature-high"></i> ${Math.round(day.tmax)}° / ${Math.round(day.tmin)}°</div>
+              <div class="wx-metric"><i class="fa-solid fa-droplet"></i> ${Math.round(day.precip)} mm</div>
+              <div class="wx-metric"><i class="fa-solid fa-umbrella"></i> ${day.pop != null ? Math.round(day.pop) + "%" : "—"}</div>
+              <div class="wx-metric"><i class="fa-solid fa-wind"></i> ${day.wind != null ? Math.round(day.wind) + " km/h" : "—"}</div>
+            </div>
+          `;
+        }
+
+        async function loadWeather(){
+          try{
+            const url = new URL("https://api.open-meteo.com/v1/forecast");
+            url.searchParams.set("latitude",  XC_LAT);
+            url.searchParams.set("longitude", XC_LON);
+            url.searchParams.set("timezone",  "America/Cancun");
+            url.searchParams.set("start_date", START);
+            url.searchParams.set("end_date",   END);
+            url.searchParams.set("daily", [
+              "weathercode",
+              "temperature_2m_max",
+              "temperature_2m_min",
+              "precipitation_sum",
+              "precipitation_probability_max",
+              "windspeed_10m_max"
+            ].join(","));
+
+            const res = await fetch(url.toString(), { cache: "no-store" });
+
+            if(!res.ok){
+              throw new Error("Respuesta no OK: " + res.status);
+            }
+
+            const data = await res.json();
+
+            // Si Open-Meteo no devuelve la ventana (p.ej. demasiado lejos), daily puede venir vacío
+            const t = data && data.daily && data.daily.time;
+            if(!t || !Array.isArray(t) || t.length === 0){
+              wxStatus.textContent = "Aún no hay pronóstico disponible para esas fechas.";
+              wxFallback.style.display = "block";
+              return;
+            }
+
+            const daily = data.daily;
+            const days = daily.time.map((date, i) => ({
+              date,
+              weathercode: daily.weathercode ? daily.weathercode[i] : null,
+              tmax: daily.temperature_2m_max ? daily.temperature_2m_max[i] : null,
+              tmin: daily.temperature_2m_min ? daily.temperature_2m_min[i] : null,
+              precip: daily.precipitation_sum ? daily.precipitation_sum[i] : null,
+              pop: daily.precipitation_probability_max ? daily.precipitation_probability_max[i] : null,
+              wind: daily.windspeed_10m_max ? daily.windspeed_10m_max[i] : null
+            }));
+
+            wxGrid.innerHTML = days.map(buildDayCard).join("");
+            wxGrid.style.display = "grid";
+            wxStatus.innerHTML = `Pronóstico para Xcaret (actualizado al abrir esta página).`;
+          }catch(err){
+            wxStatus.textContent = "No se pudo cargar el pronóstico ahora.";
+            wxFallback.style.display = "block";
+          }
+        }
+
+        // ====== TRÁFICO / HORA DE SALIDA ======
+        const originInput      = document.getElementById('originInput');
+        const arrivalTime      = document.getElementById('arrivalTime');
+        const routeMinutes     = document.getElementById('routeMinutes');
+        const bufferMinutes    = document.getElementById('bufferMinutes');
+        const calcDepartureBtn = document.getElementById('calcDepartureBtn');
+        const openMapsBtn      = document.getElementById('openMapsBtn');
+        const departureResult  = document.getElementById('departureResult');
+        const departureBig     = document.getElementById('departureBig');
+        const departureSmall   = document.getElementById('departureSmall');
+
+        function pad2(n){ return String(n).padStart(2,"0"); }
+
+        function computeDeparture(){
+          const arr = arrivalTime.value;
+          const rm  = parseInt(routeMinutes.value, 10);
+          const bm  = parseInt(bufferMinutes.value, 10);
+
+          if(!arr || isNaN(rm) || rm <= 0 || isNaN(bm) || bm < 0){
+            departureResult.style.display = "block";
+            departureBig.textContent = "Revisa los datos.";
+            departureSmall.textContent = "Asegúrate de poner una hora objetivo y minutos válidos.";
+            return;
+          }
+
+          // Construye una fecha "hoy" solo para cálculo de reloj
+          const now = new Date();
+          const [hh, mm] = arr.split(":").map(x => parseInt(x, 10));
+          const arrival = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm, 0, 0);
+
+          const total = rm + bm;
+          const depart = new Date(arrival.getTime() - total * 60000);
+
+          departureResult.style.display = "block";
+          departureBig.textContent = `Salida recomendada: ${pad2(depart.getHours())}:${pad2(depart.getMinutes())}`;
+          departureSmall.innerHTML =
+            `Cálculo: <strong>${rm} min</strong> de ruta + <strong>${bm} min</strong> de colchón = <strong>${total} min</strong>.<br>
+             Objetivo de llegada: <strong>${arr}</strong>.`;
+        }
+
+        function openGoogleMaps(){
+          const origin = (originInput.value || "").trim();
+          const dest = "Parque Xcaret";
+          // Nota: sin API key no podemos calcular tráfico, pero Maps mostrará condición real al abrir.
+          const url = new URL("https://www.google.com/maps/dir/");
+          // Formato: /dir/?api=1&origin=...&destination=...
+          url.searchParams.set("api", "1");
+          if(origin) url.searchParams.set("origin", origin);
+          url.searchParams.set("destination", dest);
+          url.searchParams.set("travelmode", "driving");
+          window.open(url.toString(), "_blank", "noopener");
+        }
+
+        calcDepartureBtn.addEventListener("click", computeDeparture);
+        openMapsBtn.addEventListener("click", openGoogleMaps);
+
+        // Carga clima al iniciar
+        loadWeather();
       })();
     </script>
 
