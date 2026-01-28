@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mesas - Cynthia & José Miguel</title>
+  <style>
+    :root{
+      --bg:#fbfaf8;
+      --ink:#243040;
+      --muted:#6b7686;
+      --line:rgba(36,48,64,.18);
+
+      --accent:#cbbba5;
+      --accent2:#b7c7cf;
+
+      --shadow: 0 18px 35px rgba(0,0,0,.10);
+      --shadow2: 0 10px 22px rgba(0,0,0,.08);
+
+      --radius: 18px;
+      --maxPerMesa: 10;
+
+      /* Ajustes de layout */
+      --canvasW: 1000px;   /* más ancho para que respiren */
+      --canvasH: 600px;    /* más alto para evitar recortes */
+      --mesaSize: 160px;   /* tamaño de mesa */
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      background:
+        radial-gradient(900px 420px at 50% 0%, rgba(203,187,165,.22), transparent 60%),
+        radial-gradient(700px 420px at 90% 10%, rgba(183,199,207,.18), transparent 60%),
+        var(--bg);
+      color:var(--ink);
+    }
+
+    .topbar{
+      position:sticky; top:0; z-index:20;
+      background: rgba(251,250,248,.82);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar__inner{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 16px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .brand__title{font-weight:750; letter-spacing:.2px}
+    .brand__subtitle{color:var(--muted); font-size:13px; margin-top:2px}
+
+    .search{
+      position:relative;
+      min-width: 280px;
+      width: min(520px, 100%);
+    }
+    .search input{
+      width:100%;
+      padding: 12px 38px 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.72);
+      outline:none;
+      font-size: 14px;
+    }
+    .search input:focus{
+      border-color: rgba(203,187,165,.9);
+      box-shadow: 0 0 0 4px rgba(203,187,165,.20);
+    }
+    #clearBtn{
+      position:absolute;
+      right:8px; top:50%;
+      transform: translateY(-50%);
+      border:0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 16px;
+      cursor:pointer;
+      padding:6px;
+      border-radius: 10px;
+    }
+    #clearBtn:hover{background: rgba(36,48,64,.06)}
+
+    .suggestions{
+      position:absolute;
+      top: calc(100% + 8px);
+      left:0; right:0;
+      background: rgba(255,255,255,.92);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      display:none;
+    }
+    .suggestions.show{display:block}
+    .suggestion{
+      padding:10px 12px;
+      cursor:pointer;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      font-size:14px;
+    }
+    .suggestion:hover{background: rgba(203,187,165,.18)}
+    .suggestion small{color:var(--muted); white-space:nowrap}
+
+    .page{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 16px 24px;
+    }
+    .note{
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.62);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .layoutWrap{
+      margin-top: 14px;
+      overflow-x:auto;
+      padding: 0 16px 8px; /* 👈 agrega aire a los lados del scroll */
+    }
+
+    /* Lienzo */
+    .layout{
+      position:relative;
+      width: var(--canvasW);
+      height: var(--canvasH);
+      margin: 0 auto;
+      border-radius: 22px;
+      background:
+        radial-gradient(900px 520px at 50% 50%, rgba(0,0,0,.05), transparent 60%),
+        rgba(255,255,255,.35);
+    }
+    @media (max-width: 1240px){
+      .layout{margin:0;}
+    }
+    @media (max-width: 640px){
+      .layout{ width: var(--canvasW); } /* mantiene el plano y haces swipe */
+    }
+
+    /* Banner Novios */
+    .noviosBanner{
+      position:absolute;
+      left:55%; top: 16px;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,.85);
+      border: 1px solid rgba(203,187,165,.85);
+      border-radius: 14px;
+      padding: 10px 18px;
+      letter-spacing: 3px;
+      font-size: 14px;
+      color: rgba(36,48,64,.85);
+      box-shadow: var(--shadow2);
+      text-transform: uppercase;
+    }
+
+    /* Pista */
+    .pista{
+      position:absolute;
+      left:55%; top:55%;
+      transform: translate(-50%, -45%);
+      width: 360px;
+      height: 160px;
+      border-radius: 14px;
+      background:
+        radial-gradient(340px 180px at 50% 35%, rgba(0,0,0,.06), transparent 70%),
+        linear-gradient(145deg, rgba(203,187,165,.35), rgba(247,244,239,.78));
+      border: 1px solid rgba(203,187,165,.55);
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+    }
+    .pista__title{
+      letter-spacing: 4px;
+      font-weight: 800;
+      color: rgba(36,48,64,.78);
+    }
+    .pista__subtitle{
+      margin-top: 6px;
+      color: rgba(36,48,64,.55);
+      font-size: 13px;
+    }
+
+    /* Mesas */
+    .mesa{
+      position:absolute;
+      left: var(--x);
+      top: var(--y);
+      transform: translate(-50%, -50%);
+      width: var(--mesaSize);
+      height: var(--mesaSize);
+      border-radius: 999px;
+      background: rgba(255,255,255,.90);
+      border: 1px solid rgba(203,187,165,.85);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+
+    .mesa__head{
+      height: 26px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 6px 10px;
+      background: linear-gradient(90deg, rgba(183,199,207,.35), rgba(203,187,165,.18));
+      border-bottom: 1px solid rgba(36,48,64,.10);
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: rgba(36,48,64,.78);
+    }
+    .mesa__head b{letter-spacing: 2px; text-transform: uppercase}
+    .mesa__count{
+      font-size: 11px;
+      color: rgba(36,48,64,.55);
+      letter-spacing: 0;
+      white-space:nowrap;
+    }
+
+    .mesa__body{
+      padding: 8px 10px 10px;
+      height: calc(100% - 26px);
+      overflow:auto;
+      scrollbar-width: thin;
+    }
+    .name{
+      font-size: 12px;
+      padding: 6px 8px;
+      border: 1px solid rgba(36,48,64,.10);
+      background: rgba(247,244,239,.75);
+      border-radius: 999px;
+      margin-bottom: 6px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow:hidden;
+    }
+    .name:last-child{margin-bottom:0}
+
+    .mesa.highlight{
+      outline: 3px solid rgba(183,199,207,.95);
+      outline-offset: 4px;
+      transform: translate(-50%, -50%) scale(1.02);
+    }
+    .name.hit{
+      border-color: rgba(183,199,207,.95);
+      box-shadow: 0 0 0 3px rgba(183,199,207,.22);
+      background: rgba(183,199,207,.18);
+    }
+
+    .footer{
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    #toast{
+      position:fixed;
+      right:16px; bottom:16px;
+      max-width:360px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow2);
+      color: rgba(36,48,64,.92);
+      display:none;
+      z-index: 40;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand">
+        <div class="brand__title">Asignación de mesas</div>
+        <div class="brand__subtitle">Busca tu nombre y revisa tu mesa</div>
+      </div>
+
+      <div class="search">
+        <input id="searchInput" type="search" placeholder="Escribe tu nombre…" autocomplete="off" />
+        <button id="clearBtn" type="button" aria-label="Limpiar">✕</button>
+        <div id="suggestions" class="suggestions" aria-live="polite"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="note">
+      <p>Tip: el buscador ignora acentos. Si no aparece, prueba con otro apellido o abreviación.</p>
+    </section>
+
+    <section class="layoutWrap">
+      <div id="layout" class="layout" role="img" aria-label="Plano de mesas">
+        <div class="noviosBanner">Mesa de Novios</div>
+
+        <div class="pista" aria-label="Pista">
+          <div class="pista__title">PISTA</div>
+          <div class="pista__subtitle">Centro</div>
+        </div>
+
+        <!-- ✅ Coordenadas ajustadas a “zona segura” (sin recortes) -->
+        <!-- lado izquierdo -->
+        <div class="mesa" data-mesa="9" style="--x: 55%; --y: 100%;"></div>
+        <div class="mesa" data-mesa="1" style="--x: 35%; --y: 16%;"></div>
+        <div class="mesa" data-mesa="3" style="--x: 20%; --y: 36%;"></div>
+        <div class="mesa" data-mesa="5" style="--x: 24%; --y: 66%;"></div>
+
+        <!-- lado derecho -->
+        <div class="mesa" data-mesa="2" style="--x: 75%; --y: 16%;"></div>
+        <div class="mesa" data-mesa="4" style="--x: 86%; --y: 36%;"></div>
+        <div class="mesa" data-mesa="6" style="--x: 86%; --y: 66%;"></div>
+
+        <!-- abajo -->
+        <div class="mesa" data-mesa="7" style="--x: 38%; --y: 88%;"></div>
+        <div class="mesa" data-mesa="8" style="--x: 75%; --y: 88%;"></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <small>Visualización informativa. La asignación final puede ajustarse por logística del evento.</small>
+    </footer>
+  </main>
+
+  <div id="toast"></div>
+
+  <script>
+    const GUESTS = [
+      { nombre: "Angelica Perez", mesa: "1" },
+      { nombre: "Antonio De Jesús De La Luz", mesa: "1" },
+      { nombre: "Carmen Dominguez Rios", mesa: "1" },
+      { nombre: "Hilda Pérez García", mesa: "1" },
+      { nombre: "Jorge Escobar Ortega", mesa: "1" },
+      { nombre: "Jose Cruz De Jesús De La Luz", mesa: "1" },
+      { nombre: "Karla Erika Escobar Osorio", mesa: "1" },
+      { nombre: "María De La Luz Montiel", mesa: "1" },
+      { nombre: "Nayeli Lopez Suarez", mesa: "1" },
+      { nombre: "Rocio Isabel Palafox", mesa: "1" },
+
+      { nombre: "Anahiz Rojas Serrano", mesa: "2" },
+      { nombre: "Ariadna Camilo Modesto", mesa: "2" },
+      { nombre: "Blanca Modesto Rodriguez", mesa: "2" },
+      { nombre: "Daniel Castrillo Modesto", mesa: "2" },
+      { nombre: "Erik Santiago Amador Modesto", mesa: "2" },
+      { nombre: "Luis Angel Camilo Modesto", mesa: "2" },
+      { nombre: "Miriam Modesto Peralta", mesa: "2" },
+      { nombre: "Olivia Modesto Rodriguez", mesa: "2" },
+      { nombre: "Vicente Castrillo Oropeza", mesa: "2" },
+
+      { nombre: "Antonio Del Valle Hernandez", mesa: "3" },
+      { nombre: "David Lopez Del Valle", mesa: "3" },
+      { nombre: "Esmeralda Del Valle Hernandez", mesa: "3" },
+      { nombre: "Gregorio De Jesús De La Luz", mesa: "3" },
+      { nombre: "Gustavo Del Valle Hernandez", mesa: "3" },
+      { nombre: "Gustavo Isaí Del Valle Becerril", mesa: "3" },
+      { nombre: "Hanna Jatziri Del Valle Becerril", mesa: "3" },
+      { nombre: "Isabella Rosas Lopez", mesa: "3" },
+      { nombre: "Karina Del Valle Hernandez", mesa: "3" },
+      { nombre: "Nathalia Lucia Del Valle Becerril.", mesa: "3" },
+      { nombre: "Regina Lopez Del Valle", mesa: "3" },
+
+      { nombre: "Alejandra Rosas Zepeda", mesa: "4" },
+      { nombre: "Brenda Fabiola Garcia Velazquez", mesa: "4" },
+      { nombre: "Itzel Juarez", mesa: "4" },
+      { nombre: "José Leonardo Cortes Mora", mesa: "4" },
+      { nombre: "Luis Modesto Rodriguez", mesa: "4" },
+      { nombre: "María Maribel Peralta González", mesa: "4" },
+      { nombre: "Miguel Angel Modesto Rodriguez", mesa: "4" },
+      { nombre: "Nancy Valentín Ortega", mesa: "4" },
+      { nombre: "Pesce Soria Aiko Romina", mesa: "4" },
+      { nombre: "Roberto Modesto Rodriguez", mesa: "4" },
+
+      { nombre: "Alejandra Villa Cruz", mesa: "5" },
+      { nombre: "Angel García De Jesús", mesa: "5" },
+      { nombre: "Cristina Rubio Morquecho", mesa: "5" },
+      { nombre: "Mariel  De Jesús Villa", mesa: "5" },
+      { nombre: "Mario De Jesus De La Luz", mesa: "5" },
+      { nombre: "Nancy Lopez", mesa: "5" },
+      { nombre: "Pedro De Jesús De La Luz", mesa: "5" },
+      { nombre: "Shara Damiana De Jesús Villa", mesa: "5" },
+
+      { nombre: "Ana De la Luz", mesa: "6" },
+      { nombre: "Diego De Jesus Lopez", mesa: "6" },
+      { nombre: "Jhoseline Daniela Bernal Cruz", mesa: "6" },
+      { nombre: "Josue Gabriel De Jesús Del Valle", mesa: "6" },
+      { nombre: "Karla De Jesus Lopez", mesa: "6" },
+      { nombre: "Lucio Alberto De Jesús Domínguez", mesa: "6" },
+      { nombre: "Marco Antonio De Jesús Domínguez", mesa: "6" },
+      { nombre: "Ximena De Jesús Del Valle", mesa: "6" },
+      { nombre: "Yair De Jesus Lopez", mesa: "6" },
+      { nombre: "Yuritzi De Jesus Gutierrez", mesa: "6" },
+
+      { nombre: "Alicia Vargas Franco", mesa: "7" },
+      { nombre: "Alonso Mendez Serrano", mesa: "7" },
+      { nombre: "Camille Danie Philadelphie Desirée Delamare", mesa: "7" },
+      { nombre: "Elías Rodriguez Cortez", mesa: "7" },
+      { nombre: "Esaú Eduardo Vargas", mesa: "7" },
+      { nombre: "Fabián Alejandro Martínez García", mesa: "7" },
+      { nombre: "Gibran Jaimes", mesa: "7" },
+      { nombre: "Irene Margarita Cortez Melendrez", mesa: "7" },
+      { nombre: "Johana Estela Rojas", mesa: "7" },
+      { nombre: "Roberto Rodríguez Rios", mesa: "7" },
+
+      { nombre: "Erika Meza", mesa: "8" },
+      { nombre: "Felicitas Damian", mesa: "8" },
+      { nombre: "Guadalupe Aponce", mesa: "8" },
+      { nombre: "Jose Armando Meza Cortes", mesa: "8" },
+      { nombre: "Laura Gómez", mesa: "8" },
+      { nombre: "Leonardo Mayen De Jesus", mesa: "8" },
+      { nombre: "Monica De Jesus Aponce", mesa: "8" },
+      { nombre: "Polo De Jesús Sanchez", mesa: "8" },
+      { nombre: "Rocío De Jesus Aponce", mesa: "8" },
+      { nombre: "Vania Mayen De Jesus", mesa: "8" },
+
+      { nombre: "Annahí Echeverria Benitez", mesa: "9" },
+      { nombre: "Augustė Volungevičiūtė", mesa: "9" },
+      { nombre: "Carlos Eduardo De Leon Cantu", mesa: "9" },
+      { nombre: "Carlos Fernando Merlos", mesa: "9" },
+      { nombre: "Edna castaños sepulveda", mesa: "9" },
+      { nombre: "Juan Pablo Loza Andrade", mesa: "9" },
+      { nombre: "Liliana Nohemí Gaytan de la Rosa", mesa: "9" },
+      { nombre: "Sebastian Solis", mesa: "9" },
+      { nombre: "Sebastién Montagnion", mesa: "9" },
+      { nombre: "Valerian André Henri Lenud", mesa: "9" },
+
+      { nombre: "Cynthia De Jesus Dominguez", mesa: "Novios" },
+      { nombre: "Jose Miguel Castrillo Modesto", mesa: "Novios" }
+    ];
+
+    const MAX_PER_MESA = Number(getComputedStyle(document.documentElement).getPropertyValue('--maxPerMesa')) || 10;
+
+    const layoutEl = document.getElementById('layout');
+    const searchInput = document.getElementById('searchInput');
+    const suggestionsEl = document.getElementById('suggestions');
+    const clearBtn = document.getElementById('clearBtn');
+    const toastEl = document.getElementById('toast');
+
+    let byMesa = new Map();
+    let flatIndex = [];
+
+    function norm(s){
+      return (s || '')
+        .toString()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g,' ');
+    }
+
+    function escapeHtml(s){
+      return (s || '').replace(/[&<>"']/g, (c) => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+      }[c]));
+    }
+
+    function cssEscape(s){ return (s || '').replace(/"/g, '\\"'); }
+
+    function showToast(msg){
+      toastEl.textContent = msg;
+      toastEl.style.display = 'block';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => (toastEl.style.display = 'none'), 2400);
+    }
+
+    function mesaLabel(m){
+      if(!m) return 'Sin mesa';
+      if(norm(m) === norm('Novios')) return 'Novios';
+      return 'Mesa ' + m;
+    }
+
+    function buildIndexes(){
+      byMesa = new Map();
+      flatIndex = [];
+
+      for(const g of GUESTS){
+        const nombre = (g.nombre || '').toString().trim();
+        const mesa = (g.mesa || '').toString().trim();
+        if(!nombre) continue;
+
+        if(!byMesa.has(mesa)) byMesa.set(mesa, []);
+        byMesa.get(mesa).push(nombre);
+
+        flatIndex.push({ nombre, mesa, norm: norm(nombre) });
+      }
+
+      for(const [m, arr] of byMesa.entries()){
+        arr.sort((a,b) => a.localeCompare(b, 'es', { sensitivity: 'base' }));
+      }
+    }
+
+    function renderMesas(){
+      const mesaNodes = Array.from(layoutEl.querySelectorAll('.mesa[data-mesa]'));
+
+      for(const node of mesaNodes){
+        const mesaValue = node.getAttribute('data-mesa'); // "1".."9"
+        const names = byMesa.get(mesaValue) || [];
+
+        node.innerHTML = `
+          <div class="mesa__head">
+            <b>Mesa ${escapeHtml(mesaValue)}</b>
+            <span class="mesa__count">${names.length}/${MAX_PER_MESA}</span>
+          </div>
+          <div class="mesa__body">
+            ${names.length
+              ? names.map(n => `<div class="name">${escapeHtml(n)}</div>`).join('')
+              : `<div class="name" style="opacity:.55">—</div>`
+            }
+          </div>
+        `;
+      }
+    }
+
+    function clearHighlights(){
+      layoutEl.querySelectorAll('.mesa.highlight').forEach(el => el.classList.remove('highlight'));
+      layoutEl.querySelectorAll('.name.hit').forEach(el => el.classList.remove('hit'));
+    }
+
+    function highlightPerson(person){
+      clearHighlights();
+
+      const mesa = person.mesa;
+      if(!mesa){
+        showToast('Tu nombre está en la lista pero aún no tiene mesa asignada.');
+        return;
+      }
+
+      if(norm(mesa) === norm('Novios')){
+        showToast('Mesa: Novios');
+        return;
+      }
+
+      const mesaEl = layoutEl.querySelector(`.mesa[data-mesa="${cssEscape(mesa)}"]`);
+      if(!mesaEl){
+        showToast(`Encontrado en ${mesaLabel(mesa)}, pero esa mesa no está en el plano.`);
+        return;
+      }
+
+      mesaEl.classList.add('highlight');
+
+      const chips = Array.from(mesaEl.querySelectorAll('.name'));
+      const targetNorm = norm(person.nombre);
+
+      let targetChip = chips.find(c => norm(c.textContent) === targetNorm) || chips.find(c => norm(c.textContent).includes(targetNorm));
+      if(targetChip){
+        targetChip.classList.add('hit');
+        targetChip.scrollIntoView({ block:'center', inline:'nearest', behavior:'smooth' });
+      }
+
+      mesaEl.scrollIntoView({ block:'center', inline:'center', behavior:'smooth' });
+    }
+
+    function updateSuggestions(){
+      const q = norm(searchInput.value);
+      clearHighlights();
+
+      if(!q){
+        suggestionsEl.classList.remove('show');
+        suggestionsEl.innerHTML = '';
+        return;
+      }
+
+      const matches = flatIndex.filter(x => x.norm.includes(q)).slice(0, 10);
+
+      if(matches.length === 0){
+        suggestionsEl.innerHTML = `<div class="suggestion"><span>No encontrado</span><small>Revisa acentos</small></div>`;
+        suggestionsEl.classList.add('show');
+        return;
+      }
+
+      suggestionsEl.innerHTML = matches.map((m, i) => `
+        <div class="suggestion" data-i="${i}">
+          <span>${escapeHtml(m.nombre)}</span>
+          <small>${escapeHtml(mesaLabel(m.mesa))}</small>
+        </div>
+      `).join('');
+      suggestionsEl.classList.add('show');
+
+      Array.from(suggestionsEl.querySelectorAll('.suggestion[data-i]')).forEach(el => {
+        el.addEventListener('click', () => {
+          const idx = Number(el.getAttribute('data-i'));
+          highlightPerson(matches[idx]);
+          suggestionsEl.classList.remove('show');
+        });
+      });
+    }
+
+    function onEnter(){
+      const q = norm(searchInput.value);
+      if(!q) return;
+
+      const person = flatIndex.find(x => x.norm.includes(q));
+      if(person){
+        suggestionsEl.classList.remove('show');
+        highlightPerson(person);
+      }else{
+        showToast('No se encontró el nombre. Prueba sin acentos o con otro apellido.');
+      }
+    }
+
+    searchInput.addEventListener('input', updateSuggestions);
+    searchInput.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter') onEnter();
+      if(e.key === 'Escape'){
+        suggestionsEl.classList.remove('show');
+        suggestionsEl.innerHTML = '';
+        clearHighlights();
+      }
+    });
+
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      suggestionsEl.classList.remove('show');
+      suggestionsEl.innerHTML = '';
+      clearHighlights();
+      searchInput.focus();
+    });
+
+    document.addEventListener('click', (e) => {
+      if(!suggestionsEl.contains(e.target) && e.target !== searchInput){
+        suggestionsEl.classList.remove('show');
+      }
+    });
+
+    buildIndexes();
+    renderMesas();
+  </script>
+</body>
+</html>
