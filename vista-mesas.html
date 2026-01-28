@@ -20,16 +20,15 @@
       --shadow:0 18px 45px rgba(0,0,0,.14);
       --radius:18px;
 
-      /* ===== POSICIONES (SEPARADAS) ===== */
+      /* ===== POSICIONES ===== */
       --novios-top: 10%;
       --novios-left: 50%;
 
       --pista-top: 50%;
       --pista-left: 50%;
 
-      /* 🔧 Ajuste: 9 y 10 MÁS AFUERA para separarlas de 3 y 4 */
+      /* 🔧 Ajuste: 9 más afuera para separarla */
       --t9-top: 22%;  --t9-left: 4%;
-      --t10-top:22%; --t10-left:96%;
 
       --t1-top: 20%;  --t1-left: 26%;
       --t2-top: 20%;  --t2-left: 74%;
@@ -43,9 +42,10 @@
       --t7-top: 82%;  --t7-left: 38%;
       --t8-top: 82%;  --t8-left: 62%;
 
-      --base-table: 150;
-      --base-novios-w: 260;
-      --base-novios-h: 64;
+      /* ===== TAMAÑOS BASE (MÁS GRANDES) ===== */
+      --base-table: 190;          /* antes 150 */
+      --base-novios-w: 300;       /* antes 260 */
+      --base-novios-h: 72;        /* antes 64 */
     }
 
     *{box-sizing:border-box}
@@ -137,8 +137,8 @@
     .planInner{
       position:relative;
       aspect-ratio:16/9;
-      min-height:540px;
-      min-width:1150px; /* scroll horizontal en móviles, evita encimados */
+      min-height:560px;
+      min-width:1200px; /* un poco más ancho por mesas más grandes */
       --s:1;
       --ts:1;
     }
@@ -188,14 +188,14 @@
     }
 
     .mesaHeader{
-      padding:6px 10px;
+      padding:8px 12px;
       background:linear-gradient(135deg, rgba(90,167,199,.22), rgba(231,220,203,.30));
       border-bottom:1px solid rgba(205,189,167,.45);
       display:flex;
       justify-content:space-between;
       align-items:center;
       font-weight:900;
-      font-size:.75rem;
+      font-size:.78rem;
       letter-spacing:.14em;
       text-transform:uppercase;
       color:rgba(47,47,47,.75);
@@ -204,7 +204,7 @@
     .mesaHeader .count{
       font-weight:1000;
       letter-spacing:.08em;
-      font-size:.72rem;
+      font-size:.74rem;
       padding:4px 8px;
       border-radius:999px;
       background:rgba(231,220,203,.55);
@@ -214,16 +214,22 @@
     }
 
     .mesaBody{
-      padding:8px 10px;
-      font-size:.78rem;
+      padding:10px 12px;
+      font-size:.92rem; /* más grande */
+      line-height:1.15;
       overflow:auto;
       scrollbar-width: thin;
     }
 
     .name{
-      padding:3px 0;
+      padding:5px 0;
       border-bottom:1px dashed rgba(205,189,167,.35);
       font-weight:800;
+
+      /* ✅ evita que “se corten” */
+      white-space:normal;
+      overflow-wrap:anywhere;
+      word-break:break-word;
     }
     .name:last-child{border-bottom:0}
 
@@ -259,7 +265,6 @@
     .m7{top:var(--t7-top);left:var(--t7-left)}
     .m8{top:var(--t8-top);left:var(--t8-left)}
     .m9{top:var(--t9-top);left:var(--t9-left)}
-    .m10{top:var(--t10-top);left:var(--t10-left)}
 
     .status{
       margin-top:10px;
@@ -297,7 +302,7 @@
         <small>Centro</small>
       </div>
 
-      <!-- Mesas -->
+      <!-- Mesas (sin Mesa 10) -->
       <div class="mesa m1"><div class="mesaHeader">Mesa 1 <span class="count" id="c1">—</span></div><div class="mesaBody" id="m1"></div></div>
       <div class="mesa m2"><div class="mesaHeader">Mesa 2 <span class="count" id="c2">—</span></div><div class="mesaBody" id="m2"></div></div>
       <div class="mesa m3"><div class="mesaHeader">Mesa 3 <span class="count" id="c3">—</span></div><div class="mesaBody" id="m3"></div></div>
@@ -307,7 +312,6 @@
       <div class="mesa m7"><div class="mesaHeader">Mesa 7 <span class="count" id="c7">—</span></div><div class="mesaBody" id="m7"></div></div>
       <div class="mesa m8"><div class="mesaHeader">Mesa 8 <span class="count" id="c8">—</span></div><div class="mesaBody" id="m8"></div></div>
       <div class="mesa m9"><div class="mesaHeader">Mesa 9 <span class="count" id="c9">—</span></div><div class="mesaBody" id="m9"></div></div>
-      <div class="mesa m10"><div class="mesaHeader">Mesa 10 <span class="count" id="c10">—</span></div><div class="mesaBody" id="m10"></div></div>
 
     </div>
   </div>
@@ -317,8 +321,7 @@
   // =========================
   // CONFIG
   // =========================
-  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzzuYdqWMgo8UJjXqm-rJETAnRyFeklo7m03s7gb7ehEL2ueiearC253nHcfwptNvnw/exec"; // <-- tu /exec
-  const admin = new URLSearchParams(location.search).get('admin') || '';
+  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzzuYdqWMgo8UJjXqm-rJETAnRyFeklo7m03s7gb7ehEL2ueiearC253nHcfwptNvnw/exec"; // <-- tu /exec (PÚBLICO)
 
   const $ = (id) => document.getElementById(id);
 
@@ -363,7 +366,7 @@
     const s = Math.max(0.95, Math.min(1.06, w / 1200));
 
     // ts: tamaño de mesas (compacta un poco si el contenedor es angosto)
-    const ts = Math.max(0.86, Math.min(1.00, w / 1250));
+    const ts = Math.max(0.86, Math.min(1.00, w / 1300));
 
     inner.style.setProperty('--s', s.toFixed(3));
     inner.style.setProperty('--ts', ts.toFixed(3));
@@ -388,7 +391,7 @@
   }
 
   function clearAll(){
-    for(let i=1;i<=10;i++){
+    for(let i=1;i<=9;i++){
       $('c'+i).textContent = '—';
       $('m'+i).innerHTML = `<div style="opacity:.55;font-weight:800">—</div>`;
     }
@@ -402,14 +405,10 @@
       setStatus('Configura WEBAPP_URL en el archivo.', 'err');
       return;
     }
-    if(!admin){
-      setStatus('Acceso restringido. Abre con ?admin=TU_TOKEN', 'err');
-      return;
-    }
 
     try{
       setStatus('Cargando mesas…', '');
-      const url = `${WEBAPP_URL}?action=mesasDashboard&admin=${encodeURIComponent(admin)}`;
+      const url = `${WEBAPP_URL}?action=mesasDashboard`;
       const res = await fetch(url, { cache: 'no-store' });
       const data = await res.json();
 
@@ -419,7 +418,7 @@
       }
 
       const mesas = data.mesas || {};
-      for(let i=1;i<=10;i++){
+      for(let i=1;i<=9;i++){
         renderMesa(i, mesas[String(i)] || []);
       }
 
@@ -452,7 +451,7 @@
     });
 
     // highlight mesas con match
-    for(let m=1; m<=10; m++){
+    for(let m=1; m<=9; m++){
       const box = document.querySelector('.mesa.m'+m);
       if(!box) continue;
       const names = Array.from(box.querySelectorAll('.name')).map(n => normalize(n.textContent));
@@ -468,9 +467,7 @@
   // CSV
   // =========================
   function exportCsv(){
-    if(!admin) return;
-    // Si tu Apps Script expone esto, perfecto:
-    window.open(`${WEBAPP_URL}?action=exportMesasCsv&admin=Xul@peluch3${encodeURIComponent(admin)}`, '_blank');
+    window.open(`${WEBAPP_URL}?action=exportMesasCsv`, '_blank');
   }
 
   // =========================
