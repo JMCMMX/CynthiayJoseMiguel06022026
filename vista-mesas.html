@@ -10,44 +10,35 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --arena:#E7DCCB;
-      --duna:#CDBDA7;
-      --mar:#5AA7C7;
+   :root{
+  /* ...tus colores y demás igual... */
 
-      --card:rgba(255,255,255,.92);
-      --text:#2f2f2f;
-      --shadow:0 18px 45px rgba(0,0,0,.14);
-      --radius:18px;
+  --novios-top: 10%;
+  --novios-left: 50%;
 
-      /* ===== POSICIONES ===== */
-      --novios-top: 10%;
-      --novios-left: 50%;
+  --pista-top: 50%;
+  --pista-left: 50%;
 
-      --pista-top: 50%;
-      --pista-left: 50%;
+  /* ✅ Más separación horizontal + un poco más de aire vertical */
+  --t1-top: 18%;  --t1-left: 22%;
+  --t2-top: 18%;  --t2-left: 78%;
 
-      /* 🔧 Ajuste: 9 más afuera para separarla */
-      --t9-top: 22%;  --t9-left: 4%;
+  --t3-top: 38%;  --t3-left: 12%;
+  --t4-top: 38%;  --t4-left: 88%;
 
-      --t1-top: 20%;  --t1-left: 26%;
-      --t2-top: 20%;  --t2-left: 74%;
+  --t5-top: 64%;  --t5-left: 12%;
+  --t6-top: 64%;  --t6-left: 88%;
 
-      --t3-top: 38%;  --t3-left: 16%;
-      --t4-top: 38%;  --t4-left: 84%;
+  --t7-top: 84%;  --t7-left: 34%;
+  --t8-top: 84%;  --t8-left: 66%;
 
-      --t5-top: 62%;  --t5-left: 16%;
-      --t6-top: 62%;  --t6-left: 84%;
+  --t9-top: 22%;  --t9-left: 4%;
 
-      --t7-top: 82%;  --t7-left: 38%;
-      --t8-top: 82%;  --t8-left: 62%;
-
-      /* ===== TAMAÑOS BASE (MÁS GRANDES) ===== */
-      --base-table: 190;          /* antes 150 */
-      --base-novios-w: 300;       /* antes 260 */
-      --base-novios-h: 72;        /* antes 64 */
-    }
-
+  /* tamaños como los dejaste */
+  --base-table: 190;
+  --base-novios-w: 300;
+  --base-novios-h: 72;
+}
     *{box-sizing:border-box}
 
     body{
@@ -134,14 +125,15 @@
       position:relative;
     }
 
-    .planInner{
-      position:relative;
-      aspect-ratio:16/9;
-      min-height:560px;
-      min-width:1200px; /* un poco más ancho por mesas más grandes */
-      --s:1;
-      --ts:1;
-    }
+.planInner{
+  position:relative;
+  aspect-ratio:16/9;
+  min-height:560px;
+  min-width:1400px; /* antes 1200px */
+  --s:1;
+  --ts:1;
+}
+
 
     /* ===== PISTA ===== */
     .pista{
