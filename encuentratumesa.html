@@ -3,197 +3,103 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mesas - Cynthia & José Miguel</title>
+  <title>Encuentra tu mesa</title>
   <style>
     :root{
       --bg:#fbfaf8;
       --ink:#243040;
       --muted:#6b7686;
       --line:rgba(36,48,64,.18);
-
       --accent:#cbbba5;
-      --accent2:#b7c7cf;
+      --accent2:#5aa7c7;
 
       --shadow: 0 18px 35px rgba(0,0,0,.10);
       --shadow2: 0 10px 22px rgba(0,0,0,.08);
 
-      --radius: 18px;
-      --maxPerMesa: 10;
-
-      /* Ajustes de layout */
-      --canvasW: 1000px;   /* más ancho para que respiren */
-      --canvasH: 600px;    /* más alto para evitar recortes */
-      --mesaSize: 160px;   /* tamaño de mesa */
+      --canvasW: 1100px;
+      --canvasH: 640px;
+      --mesaSize: 60px;
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
       background:
         radial-gradient(900px 420px at 50% 0%, rgba(203,187,165,.22), transparent 60%),
-        radial-gradient(700px 420px at 90% 10%, rgba(183,199,207,.18), transparent 60%),
+        radial-gradient(700px 420px at 90% 10%, rgba(90,167,199,.12), transparent 60%),
         var(--bg);
       color:var(--ink);
     }
 
-    .topbar{
-      position:sticky; top:0; z-index:20;
+    header{
+      position:sticky; top:0; z-index:10;
       background: rgba(251,250,248,.82);
+      border-bottom:1px solid var(--line);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
     }
-    .topbar__inner{
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 14px 16px;
-      display:flex;
-      gap:14px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-    }
-    .brand__title{font-weight:750; letter-spacing:.2px}
-    .brand__subtitle{color:var(--muted); font-size:13px; margin-top:2px}
+    .wrap{max-width:1100px;margin:0 auto;padding:14px 16px}
+    .title{font-weight:800;letter-spacing:.2px}
+    .sub{color:var(--muted);font-size:13px;margin-top:2px}
 
-    .search{
-      position:relative;
-      min-width: 280px;
-      width: min(520px, 100%);
-    }
-    .search input{
-      width:100%;
-      padding: 12px 38px 12px 12px;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.72);
-      outline:none;
-      font-size: 14px;
-    }
-    .search input:focus{
-      border-color: rgba(203,187,165,.9);
-      box-shadow: 0 0 0 4px rgba(203,187,165,.20);
-    }
-    #clearBtn{
-      position:absolute;
-      right:8px; top:50%;
-      transform: translateY(-50%);
-      border:0;
-      background: transparent;
-      color: var(--muted);
-      font-size: 16px;
-      cursor:pointer;
-      padding:6px;
-      border-radius: 10px;
-    }
-    #clearBtn:hover{background: rgba(36,48,64,.06)}
-
-    .suggestions{
-      position:absolute;
-      top: calc(100% + 8px);
-      left:0; right:0;
-      background: rgba(255,255,255,.92);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-      display:none;
-    }
-    .suggestions.show{display:block}
-    .suggestion{
-      padding:10px 12px;
-      cursor:pointer;
+    .searchRow{
+      margin-top:10px;
       display:flex;
-      justify-content:space-between;
       gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .input{
+      flex:1;
+      min-width:240px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.75);
+      outline:none;
       font-size:14px;
     }
-    .suggestion:hover{background: rgba(203,187,165,.18)}
-    .suggestion small{color:var(--muted); white-space:nowrap}
-
-    .page{
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 12px 16px 24px;
+    .input:focus{
+      border-color: rgba(203,187,165,.9);
+      box-shadow:0 0 0 4px rgba(203,187,165,.20);
     }
-    .note{
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.62);
-      border-radius: var(--radius);
-      padding: 10px 12px;
-      color: var(--muted);
-      font-size: 13px;
+    .btn{
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.75);
+      cursor:pointer;
+      font-weight:700;
     }
+    .btn:hover{background:rgba(203,187,165,.18)}
+    .hint{color:var(--muted);font-size:12px;margin-top:8px}
 
-    .layoutWrap{
-      margin-top: 14px;
+    main{max-width:1100px;margin:0 auto;padding:14px 16px 26px}
+
+    .stageWrap{
       overflow-x:auto;
-      padding: 0 16px 8px; /* 👈 agrega aire a los lados del scroll */
+      padding: 6px 10px 12px;
     }
 
-    /* Lienzo */
-    .layout{
+    .stage{
       position:relative;
-      width: var(--canvasW);
-      height: var(--canvasH);
+      width:var(--canvasW);
+      height:var(--canvasH);
+      border-radius:22px;
+
+      /* ✅ Fondo con tu SVG */
+      background-color: rgba(255,255,255,.35);
+      background-image: url("./Layout.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+
       margin: 0 auto;
-      border-radius: 22px;
-      background:
-        radial-gradient(900px 520px at 50% 50%, rgba(0,0,0,.05), transparent 60%),
-        rgba(255,255,255,.35);
-    }
-    @media (max-width: 1240px){
-      .layout{margin:0;}
-    }
-    @media (max-width: 640px){
-      .layout{ width: var(--canvasW); } /* mantiene el plano y haces swipe */
-    }
 
-    /* Banner Novios */
-    .noviosBanner{
-      position:absolute;
-      left:55%; top: 16px;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,.85);
-      border: 1px solid rgba(203,187,165,.85);
-      border-radius: 14px;
-      padding: 10px 18px;
-      letter-spacing: 3px;
-      font-size: 14px;
-      color: rgba(36,48,64,.85);
-      box-shadow: var(--shadow2);
-      text-transform: uppercase;
-    }
-
-    /* Pista */
-    .pista{
-      position:absolute;
-      left:55%; top:55%;
-      transform: translate(-50%, -45%);
-      width: 360px;
-      height: 160px;
-      border-radius: 14px;
-      background:
-        radial-gradient(340px 180px at 50% 35%, rgba(0,0,0,.06), transparent 70%),
-        linear-gradient(145deg, rgba(203,187,165,.35), rgba(247,244,239,.78));
-      border: 1px solid rgba(203,187,165,.55);
-      box-shadow: var(--shadow);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-    }
-    .pista__title{
-      letter-spacing: 4px;
-      font-weight: 800;
-      color: rgba(36,48,64,.78);
-    }
-    .pista__subtitle{
-      margin-top: 6px;
-      color: rgba(36,48,64,.55);
-      font-size: 13px;
+      /* ✅ IMPORTANTE: el zoom ahora se aplica por JS (translate + scale) */
+      transform-origin:center;
+      transition: transform .7s cubic-bezier(.2,.85,.2,1);
+      will-change: transform;
     }
 
     /* Mesas */
@@ -205,39 +111,34 @@
       width: var(--mesaSize);
       height: var(--mesaSize);
       border-radius: 999px;
-      background: rgba(255,255,255,.90);
-      border: 1px solid rgba(203,187,165,.85);
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(203,187,165,.90);
       box-shadow: var(--shadow2);
       overflow:hidden;
+      transition:
+        transform .7s cubic-bezier(.2,.85,.2,1),
+        opacity .25s ease,
+        filter .25s ease;
     }
 
-    .mesa__head{
-      height: 26px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+    .mesaHead{
+      height: 28px;
+      display:flex; align-items:center; justify-content:space-between;
       padding: 6px 10px;
-      background: linear-gradient(90deg, rgba(183,199,207,.35), rgba(203,187,165,.18));
+      background: linear-gradient(90deg, rgba(90,167,199,.20), rgba(203,187,165,.18));
       border-bottom: 1px solid rgba(36,48,64,.10);
       font-size: 12px;
       letter-spacing: 2px;
       color: rgba(36,48,64,.78);
+      user-select:none;
     }
-    .mesa__head b{letter-spacing: 2px; text-transform: uppercase}
-    .mesa__count{
-      font-size: 11px;
-      color: rgba(36,48,64,.55);
-      letter-spacing: 0;
-      white-space:nowrap;
-    }
-
-    .mesa__body{
+    .mesaHead b{text-transform:uppercase}
+    .mesaBody{
       padding: 8px 10px 10px;
-      height: calc(100% - 26px);
+      height: calc(100% - 28px);
       overflow:auto;
-      scrollbar-width: thin;
     }
-    .name{
+    .chip{
       font-size: 12px;
       padding: 6px 8px;
       border: 1px solid rgba(36,48,64,.10);
@@ -248,28 +149,47 @@
       text-overflow: ellipsis;
       overflow:hidden;
     }
-    .name:last-child{margin-bottom:0}
+    .chip:last-child{margin-bottom:0}
 
-    .mesa.highlight{
-      outline: 3px solid rgba(183,199,207,.95);
-      outline-offset: 4px;
-      transform: translate(-50%, -50%) scale(1.02);
+    /* Modo “focus”: oculta todo excepto la mesa objetivo */
+    .stage.is-focus .mesa{
+      opacity:.08;
+      filter: blur(0.2px) grayscale(.2);
+      pointer-events:none;
     }
-    .name.hit{
-      border-color: rgba(183,199,207,.95);
-      box-shadow: 0 0 0 3px rgba(183,199,207,.22);
-      background: rgba(183,199,207,.18);
+    .stage.is-focus .mesa.is-target{
+      opacity:1;
+      filter:none;
+      pointer-events:auto;
+      transform: translate(-50%, -50%) scale(1.25);
+      outline: 3px solid rgba(90,167,199,.55);
+      outline-offset: 6px;
+      box-shadow: 0 26px 46px rgba(0,0,0,.16);
+      z-index: 5;
     }
 
-    .footer{
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 12px;
+    .resultBar{
+      margin-top:12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.65);
+      border-radius: 16px;
+      padding: 10px 12px;
+      display:none;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
     }
+    .resultBar.show{display:flex}
+    .resultBar .left{
+      display:flex; flex-direction:column; gap:2px;
+    }
+    .resultBar .left b{letter-spacing:.3px}
+    .resultBar .left small{color:var(--muted)}
+    .resultBar .right{display:flex; gap:10px; align-items:center}
 
-    #toast{
-      position:fixed;
-      right:16px; bottom:16px;
+    .toast{
+      position:fixed; right:16px; bottom:16px;
       max-width:360px;
       padding:12px 12px;
       border-radius:14px;
@@ -278,66 +198,67 @@
       box-shadow: var(--shadow2);
       color: rgba(36,48,64,.92);
       display:none;
-      z-index: 40;
+      z-index: 50;
     }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar__inner">
-      <div class="brand">
-        <div class="brand__title">Asignación de mesas</div>
-        <div class="brand__subtitle">Busca tu nombre y revisa tu mesa</div>
-      </div>
+  <header>
+    <div class="wrap">
+      <div class="title">Encuentra tu mesa</div>
+      <div class="sub">Escribe tu nombre. Se mostrará únicamente tu mesa y los invitados de esa mesa.</div>
 
-      <div class="search">
-        <input id="searchInput" type="search" placeholder="Escribe tu nombre…" autocomplete="off" />
-        <button id="clearBtn" type="button" aria-label="Limpiar">✕</button>
-        <div id="suggestions" class="suggestions" aria-live="polite"></div>
+      <div class="searchRow">
+        <input id="nameInput" class="input" type="search" placeholder="Ej. Karina Del Valle Hernandez" autocomplete="off" />
+        <button id="btnFind" class="btn" type="button">Buscar</button>
+        <button id="btnReset" class="btn" type="button">Ver plano</button>
+      </div>
+      <div class="hint">Tip: el buscador ignora acentos. Si no te encuentra, prueba con otro apellido o sin segundo nombre.</div>
+
+      <div id="resultBar" class="resultBar">
+        <div class="left">
+          <b id="rbTitle">Mesa</b>
+          <small id="rbSub">—</small>
+        </div>
+        <div class="right">
+          <button id="btnBack" class="btn" type="button">Cambiar nombre</button>
+        </div>
       </div>
     </div>
   </header>
 
-  <main class="page">
-    <section class="note">
-      <p>Tip: el buscador ignora acentos. Si no aparece, prueba con otro apellido o abreviación.</p>
-    </section>
+  <main>
+    <div class="stageWrap" id="stageWrap">
+      <div id="stage" class="stage">
 
-    <section class="layoutWrap">
-      <div id="layout" class="layout" role="img" aria-label="Plano de mesas">
-        <div class="noviosBanner">Mesa de Novios</div>
+        <!-- NO CAMBIAR COORDENADAS -->
+        <div class="mesa" data-mesa="6" style="--x: 40%; --y: 50%;"></div>
+        <div class="mesa" data-mesa="5" style="--x: 48%; --y: 45%;"></div>
+        <div class="mesa" data-mesa="9" style="--x: 58%; --y: 43%;"></div>
 
-        <div class="pista" aria-label="Pista">
-          <div class="pista__title">PISTA</div>
-          <div class="pista__subtitle">Centro</div>
-        </div>
+        <div class="mesa" data-mesa="4" style="--x: 37%; --y: 62%;"></div>
+        <div class="mesa" data-mesa="3" style="--x: 56%; --y: 55%;"></div>
+        <div class="mesa" data-mesa="7" style="--x: 63%; --y: 53%;"></div>
+        <div class="mesa" data-mesa="1" style="--x: 60%; --y: 63%;"></div>
 
-        <!-- ✅ Coordenadas ajustadas a “zona segura” (sin recortes) -->
-        <!-- lado izquierdo -->
-        <div class="mesa" data-mesa="9" style="--x: 55%; --y: 100%;"></div>
-        <div class="mesa" data-mesa="1" style="--x: 35%; --y: 16%;"></div>
-        <div class="mesa" data-mesa="3" style="--x: 20%; --y: 36%;"></div>
-        <div class="mesa" data-mesa="5" style="--x: 24%; --y: 66%;"></div>
+        <div class="mesa" data-mesa="2" style="--x: 41%; --y: 75%"></div>
+        <div class="mesa" data-mesa="8" style="--x: 33%; --y: 72%;"></div>
+        <!-- /NO CAMBIAR COORDENADAS -->
 
-        <!-- lado derecho -->
-        <div class="mesa" data-mesa="2" style="--x: 75%; --y: 16%;"></div>
-        <div class="mesa" data-mesa="4" style="--x: 86%; --y: 36%;"></div>
-        <div class="mesa" data-mesa="6" style="--x: 86%; --y: 66%;"></div>
-
-        <!-- abajo -->
-        <div class="mesa" data-mesa="7" style="--x: 38%; --y: 88%;"></div>
-        <div class="mesa" data-mesa="8" style="--x: 75%; --y: 88%;"></div>
       </div>
-    </section>
+    </div>
 
-    <footer class="footer">
-      <small>Visualización informativa. La asignación final puede ajustarse por logística del evento.</small>
-    </footer>
+    <div class="hint" style="max-width:1100px;margin:10px auto 0;padding:0 16px;">
+      * Esta vista es informativa. La asignación final puede ajustarse por logística del evento.
+    </div>
   </main>
 
-  <div id="toast"></div>
+  <div id="toast" class="toast"></div>
 
   <script>
+    /********************
+     * DATOS (TU LISTA)
+     ********************/
     const GUESTS = [
       { nombre: "Angelica Perez", mesa: "1" },
       { nombre: "Antonio De Jesús De La Luz", mesa: "1" },
@@ -440,202 +361,205 @@
       { nombre: "Jose Miguel Castrillo Modesto", mesa: "Novios" }
     ];
 
-    const MAX_PER_MESA = Number(getComputedStyle(document.documentElement).getPropertyValue('--maxPerMesa')) || 10;
-
-    const layoutEl = document.getElementById('layout');
-    const searchInput = document.getElementById('searchInput');
-    const suggestionsEl = document.getElementById('suggestions');
-    const clearBtn = document.getElementById('clearBtn');
+    /********************
+     * UTIL
+     ********************/
+    const nameInput = document.getElementById('nameInput');
+    const btnFind = document.getElementById('btnFind');
+    const btnReset = document.getElementById('btnReset');
+    const btnBack = document.getElementById('btnBack');
     const toastEl = document.getElementById('toast');
+    const stage = document.getElementById('stage');
+    const stageWrap = document.getElementById('stageWrap');
 
-    let byMesa = new Map();
-    let flatIndex = [];
+    const resultBar = document.getElementById('resultBar');
+    const rbTitle = document.getElementById('rbTitle');
+    const rbSub = document.getElementById('rbSub');
 
     function norm(s){
-      return (s || '')
+      return (s||'')
         .toString()
         .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
         .toLowerCase()
         .trim()
         .replace(/\s+/g,' ');
     }
-
-    function escapeHtml(s){
-      return (s || '').replace(/[&<>"']/g, (c) => ({
-        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
-      }[c]));
+    function esc(s){
+      return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
     }
-
-    function cssEscape(s){ return (s || '').replace(/"/g, '\\"'); }
-
-    function showToast(msg){
+    function toast(msg){
       toastEl.textContent = msg;
       toastEl.style.display = 'block';
-      clearTimeout(window.__toastTimer);
-      window.__toastTimer = setTimeout(() => (toastEl.style.display = 'none'), 2400);
+      clearTimeout(window.__t);
+      window.__t = setTimeout(()=>toastEl.style.display='none', 2200);
     }
 
-    function mesaLabel(m){
-      if(!m) return 'Sin mesa';
-      if(norm(m) === norm('Novios')) return 'Novios';
-      return 'Mesa ' + m;
+    // ✅ ZOOM: centra la mesa y hace zoom al escenario
+    // Ajusta ZOOM_SCALE si quieres más/menos acercamiento.
+    const ZOOM_SCALE = 2.2;
+
+    function zoomToElement(el){
+      if(!el) return;
+
+      // Forzar que el contenedor sea visible en viewport (por si hay scroll vertical)
+      stageWrap.scrollIntoView({ behavior:'smooth', block:'start', inline:'nearest' });
+
+      // Medidas reales en pantalla (sin transform aplicado aún)
+      const wrapRect = stageWrap.getBoundingClientRect();
+      const stageRect = stage.getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
+
+      // Centro visible del contenedor (viewport del wrap)
+      const wrapCenterX = wrapRect.left + wrapRect.width / 2;
+      const wrapCenterY = wrapRect.top + wrapRect.height / 2;
+
+      // Centro del elemento
+      const elCenterX = elRect.left + elRect.width / 2;
+      const elCenterY = elRect.top + elRect.height / 2;
+
+      // Diferencia en píxeles (lo que hay que mover para centrar)
+      const dx = wrapCenterX - elCenterX;
+      const dy = wrapCenterY - elCenterY;
+
+      // Aplicar transform al stage (translate + scale)
+      stage.style.transform = `translate(${dx}px, ${dy}px) scale(${ZOOM_SCALE})`;
     }
 
-    function buildIndexes(){
-      byMesa = new Map();
-      flatIndex = [];
-
-      for(const g of GUESTS){
-        const nombre = (g.nombre || '').toString().trim();
-        const mesa = (g.mesa || '').toString().trim();
-        if(!nombre) continue;
-
-        if(!byMesa.has(mesa)) byMesa.set(mesa, []);
-        byMesa.get(mesa).push(nombre);
-
-        flatIndex.push({ nombre, mesa, norm: norm(nombre) });
-      }
-
-      for(const [m, arr] of byMesa.entries()){
-        arr.sort((a,b) => a.localeCompare(b, 'es', { sensitivity: 'base' }));
-      }
+    function resetZoom(){
+      stage.style.transform = 'translate(0px, 0px) scale(1)';
     }
 
-    function renderMesas(){
-      const mesaNodes = Array.from(layoutEl.querySelectorAll('.mesa[data-mesa]'));
+    // Index por mesa
+    const byMesa = new Map();
+    const flat = [];
+    for(const g of GUESTS){
+      const n = (g.nombre||'').trim();
+      const m = (g.mesa||'').trim();
+      if(!n) continue;
+      if(!byMesa.has(m)) byMesa.set(m, []);
+      byMesa.get(m).push(n);
+      flat.push({nombre:n, mesa:m, key:norm(n)});
+    }
+    for(const [m, arr] of byMesa.entries()){
+      arr.sort((a,b)=>a.localeCompare(b,'es',{sensitivity:'base'}));
+    }
 
-      for(const node of mesaNodes){
-        const mesaValue = node.getAttribute('data-mesa'); // "1".."9"
-        const names = byMesa.get(mesaValue) || [];
-
-        node.innerHTML = `
-          <div class="mesa__head">
-            <b>Mesa ${escapeHtml(mesaValue)}</b>
-            <span class="mesa__count">${names.length}/${MAX_PER_MESA}</span>
-          </div>
-          <div class="mesa__body">
-            ${names.length
-              ? names.map(n => `<div class="name">${escapeHtml(n)}</div>`).join('')
-              : `<div class="name" style="opacity:.55">—</div>`
-            }
+    // Render inicial: todas las mesas con placeholders mínimos (sin nombres)
+    function renderAllEmpty(){
+      document.querySelectorAll('.mesa[data-mesa]').forEach(el=>{
+        const m = el.getAttribute('data-mesa');
+        el.classList.remove('is-target');
+        el.innerHTML = `
+          <div class="mesaHead"><b>Mesa ${esc(m)}</b><span></span></div>
+          <div class="mesaBody">
+            <div class="chip" style="opacity:.55">—</div>
           </div>
         `;
-      }
-    }
-
-    function clearHighlights(){
-      layoutEl.querySelectorAll('.mesa.highlight').forEach(el => el.classList.remove('highlight'));
-      layoutEl.querySelectorAll('.name.hit').forEach(el => el.classList.remove('hit'));
-    }
-
-    function highlightPerson(person){
-      clearHighlights();
-
-      const mesa = person.mesa;
-      if(!mesa){
-        showToast('Tu nombre está en la lista pero aún no tiene mesa asignada.');
-        return;
-      }
-
-      if(norm(mesa) === norm('Novios')){
-        showToast('Mesa: Novios');
-        return;
-      }
-
-      const mesaEl = layoutEl.querySelector(`.mesa[data-mesa="${cssEscape(mesa)}"]`);
-      if(!mesaEl){
-        showToast(`Encontrado en ${mesaLabel(mesa)}, pero esa mesa no está en el plano.`);
-        return;
-      }
-
-      mesaEl.classList.add('highlight');
-
-      const chips = Array.from(mesaEl.querySelectorAll('.name'));
-      const targetNorm = norm(person.nombre);
-
-      let targetChip = chips.find(c => norm(c.textContent) === targetNorm) || chips.find(c => norm(c.textContent).includes(targetNorm));
-      if(targetChip){
-        targetChip.classList.add('hit');
-        targetChip.scrollIntoView({ block:'center', inline:'nearest', behavior:'smooth' });
-      }
-
-      mesaEl.scrollIntoView({ block:'center', inline:'center', behavior:'smooth' });
-    }
-
-    function updateSuggestions(){
-      const q = norm(searchInput.value);
-      clearHighlights();
-
-      if(!q){
-        suggestionsEl.classList.remove('show');
-        suggestionsEl.innerHTML = '';
-        return;
-      }
-
-      const matches = flatIndex.filter(x => x.norm.includes(q)).slice(0, 10);
-
-      if(matches.length === 0){
-        suggestionsEl.innerHTML = `<div class="suggestion"><span>No encontrado</span><small>Revisa acentos</small></div>`;
-        suggestionsEl.classList.add('show');
-        return;
-      }
-
-      suggestionsEl.innerHTML = matches.map((m, i) => `
-        <div class="suggestion" data-i="${i}">
-          <span>${escapeHtml(m.nombre)}</span>
-          <small>${escapeHtml(mesaLabel(m.mesa))}</small>
-        </div>
-      `).join('');
-      suggestionsEl.classList.add('show');
-
-      Array.from(suggestionsEl.querySelectorAll('.suggestion[data-i]')).forEach(el => {
-        el.addEventListener('click', () => {
-          const idx = Number(el.getAttribute('data-i'));
-          highlightPerson(matches[idx]);
-          suggestionsEl.classList.remove('show');
-        });
       });
     }
 
-    function onEnter(){
-      const q = norm(searchInput.value);
-      if(!q) return;
+    // Render solo la mesa objetivo con sus nombres
+    function renderMesa(mesa){
+      const target = document.querySelector(`.mesa[data-mesa="${mesa}"]`);
+      if(!target) return;
 
-      const person = flatIndex.find(x => x.norm.includes(q));
-      if(person){
-        suggestionsEl.classList.remove('show');
-        highlightPerson(person);
-      }else{
-        showToast('No se encontró el nombre. Prueba sin acentos o con otro apellido.');
-      }
+      // vaciar otras mesas (solo placeholder)
+      document.querySelectorAll('.mesa[data-mesa]').forEach(el=>{
+        const m = el.getAttribute('data-mesa');
+        if(m !== mesa){
+          el.classList.remove('is-target');
+          el.innerHTML = `
+            <div class="mesaHead"><b>Mesa ${esc(m)}</b><span></span></div>
+            <div class="mesaBody"><div class="chip" style="opacity:.55">—</div></div>
+          `;
+        }
+      });
+
+      const names = byMesa.get(mesa) || [];
+      target.classList.add('is-target');
+      target.innerHTML = `
+        <div class="mesaHead">
+          <b>Mesa ${esc(mesa)}</b>
+          <span>${names.length} invitado(s)</span>
+        </div>
+        <div class="mesaBody">
+          ${names.map(n => `<div class="chip">${esc(n)}</div>`).join('')}
+        </div>
+      `;
     }
 
-    searchInput.addEventListener('input', updateSuggestions);
-    searchInput.addEventListener('keydown', (e) => {
-      if(e.key === 'Enter') onEnter();
-      if(e.key === 'Escape'){
-        suggestionsEl.classList.remove('show');
-        suggestionsEl.innerHTML = '';
-        clearHighlights();
+    function focusOnMesa(mesa){
+      stage.classList.add('is-focus');
+      renderMesa(mesa);
+
+      const target = document.querySelector(`.mesa[data-mesa="${mesa}"]`);
+      if(target){
+        // Primero: asegurar que esté dentro del scroll horizontal
+        target.scrollIntoView({behavior:'smooth', block:'center', inline:'center'});
+
+        // Luego: aplicar zoom centrado (espera un tick para que scrollIntoView termine)
+        setTimeout(()=> zoomToElement(target), 250);
       }
-    });
 
-    clearBtn.addEventListener('click', () => {
-      searchInput.value = '';
-      suggestionsEl.classList.remove('show');
-      suggestionsEl.innerHTML = '';
-      clearHighlights();
-      searchInput.focus();
-    });
+      rbTitle.textContent = `Mesa ${mesa}`;
+      rbSub.textContent = `Se muestran solo los invitados de tu mesa.`;
+      resultBar.classList.add('show');
+    }
 
-    document.addEventListener('click', (e) => {
-      if(!suggestionsEl.contains(e.target) && e.target !== searchInput){
-        suggestionsEl.classList.remove('show');
+    function resetView(){
+      stage.classList.remove('is-focus');
+      resultBar.classList.remove('show');
+      renderAllEmpty();
+      resetZoom();
+    }
+
+    function find(){
+      const q = norm(nameInput.value);
+      if(!q){
+        toast('Escribe tu nombre.');
+        return;
       }
+
+      let person = flat.find(x => x.key === q);
+      if(!person){
+        person = flat.find(x => x.key.includes(q));
+      }
+
+      if(!person){
+        toast('No encontramos tu nombre. Prueba con otro apellido o sin acentos.');
+        return;
+      }
+
+      if(norm(person.mesa) === norm('Novios')){
+        toast('Mesa: Novios');
+        rbTitle.textContent = 'Mesa de Novios';
+        rbSub.textContent = 'Consulta con los organizadores si aplica.';
+        resultBar.classList.add('show');
+        stage.classList.remove('is-focus');
+        renderAllEmpty();
+        resetZoom();
+        return;
+      }
+
+      focusOnMesa(person.mesa);
+    }
+
+    // Events
+    btnFind.addEventListener('click', find);
+    nameInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') find(); });
+
+    btnReset.addEventListener('click', ()=>{ nameInput.value=''; resetView(); });
+    btnBack.addEventListener('click', ()=>{
+      stage.classList.remove('is-focus');
+      resultBar.classList.remove('show');
+      nameInput.focus();
+      renderAllEmpty();
+      resetZoom();
     });
 
-    buildIndexes();
-    renderMesas();
+    // init
+    renderAllEmpty();
+    resetZoom();
   </script>
 </body>
 </html>
