@@ -200,16 +200,30 @@
       display:none;
       z-index: 50;
     }
+    /* chips grandes para el modal */
+.mmChip{
+  font-size: 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(36,48,64,.12);
+  background: rgba(247,244,239,.9);
+  border-radius: 999px;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.mmChip:last-child{ margin-bottom:0; }
+
   </style>
 </head>
 <body>
   <header>
     <div class="wrap">
       <div class="title">Encuentra tu mesa</div>
-      <div class="sub">Escribe tu nombre. Se mostrará únicamente tu mesa y los invitados de esa mesa.</div>
+      <div class="sub">Escribe tu nombre igual que como confirmaste desde tu invitación. Se mostrará únicamente tu mesa y los invitados de esa mesa.</div>
 
       <div class="searchRow">
-        <input id="nameInput" class="input" type="search" placeholder="Ej. Karina Del Valle Hernandez" autocomplete="off" />
+        <input id="nameInput" class="input" type="search" placeholder="Ej. Esmeralda Del Valle Hernandez" autocomplete="off" />
         <button id="btnFind" class="btn" type="button">Buscar</button>
         <button id="btnReset" class="btn" type="button">Ver plano</button>
       </div>
@@ -254,6 +268,27 @@
   </main>
 
   <div id="toast" class="toast"></div>
+<!-- Modal Mesa -->
+<div id="mesaModalBackdrop" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:60;"></div>
+
+<div id="mesaModal" style="display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:min(560px, 92vw); max-height:min(70vh, 520px);
+  background:rgba(255,255,255,.96); border:1px solid rgba(36,48,64,.18);
+  border-radius:18px; box-shadow:0 26px 60px rgba(0,0,0,.22);
+  z-index:61; overflow:hidden;">
+  <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:12px 14px; border-bottom:1px solid rgba(36,48,64,.12);">
+    <div>
+      <div id="mmTitle" style="font-weight:900; letter-spacing:.4px;">Mesa</div>
+      <div id="mmSub" style="font-size:12px; color:#6b7686; margin-top:2px;">—</div>
+    </div>
+    <button id="mmClose" class="btn" type="button">Cerrar</button>
+  </div>
+
+  <div id="mmList" style="padding:12px 14px; overflow:auto; max-height:calc(70vh - 70px);">
+    <!-- chips -->
+  </div>
+</div>
 
   <script>
     /********************
@@ -375,6 +410,31 @@
     const resultBar = document.getElementById('resultBar');
     const rbTitle = document.getElementById('rbTitle');
     const rbSub = document.getElementById('rbSub');
+const mesaModal = document.getElementById('mesaModal');
+const mesaModalBackdrop = document.getElementById('mesaModalBackdrop');
+const mmTitle = document.getElementById('mmTitle');
+const mmSub = document.getElementById('mmSub');
+const mmList = document.getElementById('mmList');
+const mmClose = document.getElementById('mmClose');
+
+function openMesaModal(mesa){
+  const names = byMesa.get(mesa) || [];
+  mmTitle.textContent = `Mesa ${mesa}`;
+  mmSub.textContent = `${names.length} invitado(s)`;
+  mmList.innerHTML = names.map(n => `<div class="mmChip">${esc(n)}</div>`).join('');
+
+  mesaModalBackdrop.style.display = 'block';
+  mesaModal.style.display = 'block';
+}
+
+function closeMesaModal(){
+  mesaModalBackdrop.style.display = 'none';
+  mesaModal.style.display = 'none';
+}
+
+mmClose.addEventListener('click', closeMesaModal);
+mesaModalBackdrop.addEventListener('click', closeMesaModal);
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMesaModal(); });
 
     function norm(s){
       return (s||'')
@@ -504,6 +564,8 @@
       rbTitle.textContent = `Mesa ${mesa}`;
       rbSub.textContent = `Se muestran solo los invitados de tu mesa.`;
       resultBar.classList.add('show');
+      openMesaModal(mesa);
+
     }
 
     function resetView(){
@@ -511,6 +573,8 @@
       resultBar.classList.remove('show');
       renderAllEmpty();
       resetZoom();
+      closeMesaModal();
+
     }
 
     function find(){
@@ -561,5 +625,6 @@
     renderAllEmpty();
     resetZoom();
   </script>
+  
 </body>
 </html>
