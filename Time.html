@@ -282,13 +282,24 @@
         </aside>
     </div>
 
-    <h1>Tiempo restante hasta el 6 Feb 2026, 18:00</h1>
+    <h1>Horas restantes hasta el 6 Feb 2026, 18:00</h1>
+
+    <!-- ===== CONTADOR: HORAS (TOTALES), MINUTOS, SEGUNDOS ===== -->
     <div id="countdown-timer">
-        <div class="time-block"><span id="days" class="number">0</span><span class="label">Días</span></div>
-        <div class="time-block"><span id="hours" class="number">0</span><span class="label">Horas</span></div>
-        <div class="time-block"><span id="minutes" class="number">0</span><span class="label">Minutos</span></div>
-        <div class="time-block"><span id="seconds" class="number">0</span><span class="label">Segundos</span></div>
+      <div class="time-block">
+          <span id="hours" class="number">0</span>
+          <span class="label">Horas</span>
+      </div>
+      <div class="time-block">
+          <span id="minutes" class="number">00</span>
+          <span class="label">Minutos</span>
+      </div>
+      <div class="time-block">
+          <span id="seconds" class="number">00</span>
+          <span class="label">Segundos</span>
+      </div>
     </div>
+
     <div id="message" style="display: none; margin-top: 20px; font-size: 1.5em; color: green;">¡El tiempo ha terminado!</div>
 
     <!-- ===== NUEVO: Widgets Clima + Tráfico ===== -->
@@ -382,6 +393,7 @@
         <a href="index.html" class="boton-volver">&larr; Volver a la Página Principal</a>
     </div>
 
+    <!-- Mantengo tu script.js, pero el contador lo hacemos inline abajo para asegurar horas totales -->
     <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
@@ -409,6 +421,41 @@
       })();
     </script>
 
+    <!-- ===== NUEVO: CONTADOR (Horas totales + min + seg) ===== -->
+    <script>
+      (function(){
+        const eventDate = new Date("Feb 6, 2026 18:00:00").getTime();
+
+        const hoursEl   = document.getElementById("hours");
+        const minutesEl = document.getElementById("minutes");
+        const secondsEl = document.getElementById("seconds");
+        const timerEl   = document.getElementById("countdown-timer");
+        const messageEl = document.getElementById("message");
+
+        function update(){
+          const now  = Date.now();
+          const diff = eventDate - now;
+
+          if(diff <= 0){
+            timerEl.style.display = "none";
+            if(messageEl) messageEl.style.display = "block";
+            return;
+          }
+
+          const totalHours = Math.floor(diff / (1000 * 60 * 60));
+          const minutes    = Math.floor((diff / (1000 * 60)) % 60);
+          const seconds    = Math.floor((diff / 1000) % 60);
+
+          hoursEl.textContent   = totalHours.toLocaleString("es-MX");
+          minutesEl.textContent = String(minutes).padStart(2,"0");
+          secondsEl.textContent = String(seconds).padStart(2,"0");
+        }
+
+        update();
+        setInterval(update, 1000);
+      })();
+    </script>
+
     <!-- ===== NUEVO: JS Clima (Open-Meteo) + Tráfico ===== -->
     <script>
       (function(){
@@ -431,8 +478,6 @@
         }
 
         function wxIconFromCode(code){
-          // Mapeo básico de "weathercode" Open-Meteo
-          // 0: despejado | 1-3: nubes | 45/48: niebla | 51-67: llovizna/lluvia | 71-77: nieve | 80-82: chubascos | 95-99: tormenta
           if (code === 0) return { icon:"fa-sun", label:"Despejado" };
           if ([1,2,3].includes(code)) return { icon:"fa-cloud-sun", label:"Nublado" };
           if ([45,48].includes(code)) return { icon:"fa-smog", label:"Neblina" };
@@ -475,15 +520,11 @@
             ].join(","));
 
             const res = await fetch(url.toString(), { cache: "no-store" });
-
-            if(!res.ok){
-              throw new Error("Respuesta no OK: " + res.status);
-            }
+            if(!res.ok) throw new Error("Respuesta no OK: " + res.status);
 
             const data = await res.json();
-
-            // Si Open-Meteo no devuelve la ventana (p.ej. demasiado lejos), daily puede venir vacío
             const t = data && data.daily && data.daily.time;
+
             if(!t || !Array.isArray(t) || t.length === 0){
               wxStatus.textContent = "Aún no hay pronóstico disponible para esas fechas.";
               wxFallback.style.display = "block";
@@ -503,7 +544,7 @@
 
             wxGrid.innerHTML = days.map(buildDayCard).join("");
             wxGrid.style.display = "grid";
-            wxStatus.innerHTML = `Pronóstico para Xcaret (actualizado al abrir esta página).`;
+            wxStatus.textContent = "Pronóstico para Xcaret (actualizado al abrir esta página).";
           }catch(err){
             wxStatus.textContent = "No se pudo cargar el pronóstico ahora.";
             wxFallback.style.display = "block";
@@ -535,11 +576,11 @@
             return;
           }
 
-          // Construye una fecha "hoy" solo para cálculo de reloj
           const now = new Date();
-          const [hh, mm] = arr.split(":").map(x => parseInt(x, 10));
-          const arrival = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm, 0, 0);
+          const parts = arr.split(":").map(x => parseInt(x, 10));
+          const hh = parts[0], mm = parts[1];
 
+          const arrival = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm, 0, 0);
           const total = rm + bm;
           const depart = new Date(arrival.getTime() - total * 60000);
 
@@ -553,9 +594,7 @@
         function openGoogleMaps(){
           const origin = (originInput.value || "").trim();
           const dest = "Parque Xcaret";
-          // Nota: sin API key no podemos calcular tráfico, pero Maps mostrará condición real al abrir.
           const url = new URL("https://www.google.com/maps/dir/");
-          // Formato: /dir/?api=1&origin=...&destination=...
           url.searchParams.set("api", "1");
           if(origin) url.searchParams.set("origin", origin);
           url.searchParams.set("destination", dest);
@@ -563,10 +602,9 @@
           window.open(url.toString(), "_blank", "noopener");
         }
 
-        calcDepartureBtn.addEventListener("click", computeDeparture);
-        openMapsBtn.addEventListener("click", openGoogleMaps);
+        if(calcDepartureBtn) calcDepartureBtn.addEventListener("click", computeDeparture);
+        if(openMapsBtn) openMapsBtn.addEventListener("click", openGoogleMaps);
 
-        // Carga clima al iniciar
         loadWeather();
       })();
     </script>
