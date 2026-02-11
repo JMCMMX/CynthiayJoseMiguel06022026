@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bar Menu · Barra Internacional</title>
+
+  <!-- Fonts (elegante como referencia) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --ink:#2f2f2f;
+      --muted:#6a6a6a;
+      --rule:rgba(47,47,47,.25);
+      --accent:#2f6b4f; /* verde discreto */
+      --paper:#ffffff; /* NO imprimir fondo; tu hoja es café claro */
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact;
+      font-family:"Montserrat",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      letter-spacing:.2px;
+    }
+
+    /* Hoja carta centrada */
+    .page{
+      width:8.5in;
+      min-height:11in;
+      margin:0 auto;
+      padding:.8in .75in;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+      gap:.45in;
+    }
+
+    /* Encabezado tipo referencia */
+    header{
+      text-align:center;
+      margin-top:.05in;
+    }
+    .kicker{
+      font-family:"Montserrat",sans-serif;
+      font-size:.72rem;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:var(--muted);
+      margin:0 0 .18rem 0;
+    }
+    h1{
+      font-family:"Cormorant Garamond",serif;
+      font-size:2.25rem;
+      letter-spacing:.12em;
+      font-weight:500;
+      margin:.05rem 0 .25rem 0;
+      text-transform:uppercase;
+    }
+    .sub{
+      font-family:"Cormorant Garamond",serif;
+      font-size:1.05rem;
+      color:var(--muted);
+      margin:0;
+      letter-spacing:.04em;
+    }
+
+    /* Ornam. hoja */
+    .leaf{
+      width:54px;
+      height:18px;
+      margin:.3rem auto .1rem;
+      display:block;
+    }
+
+    /* Secciones centradas con línea sutil */
+    .sections{
+      display:flex;
+      flex-direction:column;
+      gap:.32in;
+      margin-top:.05in;
+    }
+
+    .section{
+      text-align:center;
+      padding:0 .2in;
+    }
+
+    .section h2{
+      font-family:"Cormorant Garamond",serif;
+      font-size:1.05rem;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      font-weight:600;
+      margin:0;
+    }
+
+    .rule{
+      width:2.2in;
+      height:1px;
+      background:var(--rule);
+      margin:.18rem auto .22rem;
+    }
+
+    .items{
+      list-style:none;
+      padding:0;
+      margin:0 auto;
+      max-width:5.9in;
+      display:flex;
+      flex-direction:column;
+      gap:.14rem;
+      line-height:1.35;
+      color:var(--ink);
+      font-size:.92rem;
+    }
+
+    .items li{
+      margin:0;
+    }
+
+    .items .note{
+      color:var(--muted);
+      font-size:.86rem;
+      margin-top:.1rem;
+    }
+
+    /* Dos columnas para “muchas” secciones (mantiene look centrado) */
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:.35in .25in;
+      margin-top:.05in;
+    }
+
+    footer{
+      margin-top:auto;
+      text-align:center;
+      padding-top:.25in;
+      color:var(--muted);
+      font-size:.78rem;
+      line-height:1.35;
+    }
+    footer .fine-rule{
+      width:2.8in;
+      height:1px;
+      background:var(--rule);
+      margin:0 auto .18rem;
+    }
+
+    /* Impresión */
+    @page{
+      size: Letter;
+      margin:0;
+    }
+    @media print{
+      body{ background:#fff; }
+      .page{ margin:0; }
+    }
+
+    /* Responsive (por si lo ves en pantalla) */
+    @media (max-width: 900px){
+      .page{ width:auto; min-height:auto; padding:22px; }
+      .grid{ grid-template-columns:1fr; }
+      .rule{ width:180px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page" aria-label="Bar Menu">
+    <header>
+      <p class="kicker">Cynthia &amp; José Miguel</p>
+      <h1>BAR MENU</h1>
+
+      <!-- Hoja botánica simple (SVG) -->
+      <svg class="leaf" viewBox="0 0 120 40" aria-hidden="true">
+        <path d="M15 25c22-18 42-18 60 0" fill="none" stroke="rgba(47,107,79,.55)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M15 25c16-10 30-10 46 0" fill="none" stroke="rgba(47,107,79,.35)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M75 25c10-10 18-12 30-10" fill="none" stroke="rgba(47,107,79,.35)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M22 26c4-10 10-14 18-14c-7 6-11 11-12 16" fill="none" stroke="rgba(47,107,79,.55)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M94 16c6 0 10 3 12 9c-4-4-8-6-13-6" fill="none" stroke="rgba(47,107,79,.55)" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+
+      <p class="sub">Barra Internacional</p>
+    </header>
+
+    <!-- Layout tipo referencia: secciones centradas y algunas en 2 columnas -->
+    <section class="sections">
+      <!-- Fila 1 (2 columnas) -->
+      <div class="grid">
+        <div class="section">
+          <h2>Brandy</h2>
+          <div class="rule"></div>
+          <ul class="items">
+            <li>Brandy Fundador</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>Gin / Ginebra</h2>
+          <div class="rule"></div>
+          <ul class="items">
+            <li>Tanqueray</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>Beer / Cerveza</h2>
+          <div class="rule"></div>
+          <ul class="items">
+            <li>Corona</li>
+            <li>Corona Light</li>
+            <li>Indio</li>
+            <li>Negra Modelo</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>Rum / Ron</h2>
+          <div class="rule"></div>
+          <ul class="items">
+            <li>Bacardi Blanco</li>
+            <li>Appleton Special</li>
+            <li>Bacardi Añejo</li>
+            <li>Bacardi Solera</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Fila 2 (2 columnas) -->
+      <div class="grid">
+        <div class="section">
+          <h2>Tequila</h2>
+          <div class="rule"></div>
+          <ul class="items">
+            <li>Cuervo 1800 Reposado</li>
+            <li>José Cuervo Especial Plata</li>
+            <li>Herradura Blanco</li>
+            <li>Don Julio</li>
+            <li>Sauza Hornitos Reposado</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>Vodka</h2>
+          <div class="rule"></div>
+          <ul class="items">
+            <li>Absolut</li>
+            <li>Smirnoff</li>
+          </ul>
+
+          <div style="height:.18in"></div>
+
+          <h2>Whisky</h2>
+          <div class="rule"></div>
+          <ul class="items">
+            <li>Chivas Regal 12 Años</li>
+            <li>J&amp;B</li>
+            <li>Jack Daniel’s</li>
+            <li>Johnnie Walker Etiqueta Negra</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Vinos (centrado ancho completo) -->
+      <div class="section">
+        <h2>Wine / Vinos</h2>
+        <div class="rule"></div>
+        <ul class="items">
+          <li>Vino Blanco Xin Chen Colombard</li>
+          <li>Vino Tinto Calixa Monte Xanic (Cabernet Sauvignon)</li>
+        </ul>
+      </div>
+
+      <!-- Licores -->
+      <div class="section">
+        <h2>Licor</h2>
+        <div class="rule"></div>
+        <ul class="items">
+          <li>Amaretto Disaronno</li>
+          <li>Anís Dulce</li>
+          <li>Anís Seco</li>
+          <li>Crema Irlandesa Baileys</li>
+          <li>Café Kahlúa</li>
+          <li>Miel y Tuna Aristí</li>
+          <li>Naranja Controy</li>
+        </ul>
+      </div>
+
+      <!-- Cocktails -->
+      <div class="section">
+        <h2>Cocktails</h2>
+        <div class="rule"></div>
+        <ul class="items">
+          <li>Piña Colada</li>
+          <li>Margaritas y Daiquiris (Limón, Mango, Tamarindo, Fresa)</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      <div class="fine-rule"></div>
+      <div>SODAS / REFRESCOS: Coca-Cola, Coca-Cola Light, Fanta, Sprite, Frescas</div>
+      <div>JUICE / JUGOS: Naranja, Piña, Tomate, Arándano · AGUA: Agua natural</div>
+    </footer>
+  </main>
+</body>
+</html>
