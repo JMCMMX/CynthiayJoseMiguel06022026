@@ -1,0 +1,448 @@
+<!-- mensajes.html (copia/pega)
+     ✅ Modo recomendado: Apps Script que entregue JSON
+     - Pon tu URL en SCRIPT_WEBAPP_URL
+     - En tu Apps Script agrega un doGet que soporte ?action=list (abajo te dejo el snippet al final)
+-->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mensajes · Cynthia & José Miguel</title>
+
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --arena:#E7DCCB;
+      --duna:#CDBDA7;
+      --mar:#5AA7C7;
+      --tinta:#3F3A36;
+      --tinta2:#1f3b4d;
+      --soft:rgba(0,0,0,.10);
+      --soft2:rgba(0,0,0,.14);
+      --shadow:0 14px 40px rgba(0,0,0,.10);
+      --r:18px;
+      --max:1100px;
+      --pad:16px;
+    }
+
+    body{
+      margin:0;
+      font-family:"Lato",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      color:var(--tinta);
+      background:
+        radial-gradient(1200px 520px at 20% -10%, rgba(90,167,199,.16), transparent 60%),
+        radial-gradient(1200px 520px at 110% 0%, rgba(203,184,167,.28), transparent 55%),
+        linear-gradient(180deg, #fff, #fbf7f1);
+    }
+
+    .wrap{ max-width:var(--max); margin:0 auto; padding:22px var(--pad) 40px; }
+
+    .hero{
+      border-radius:var(--r);
+      border:1px solid var(--soft);
+      background:
+        radial-gradient(900px 240px at 10% 0%, rgba(203,184,167,.26), transparent 55%),
+        radial-gradient(900px 240px at 90% 20%, rgba(90,167,199,.18), transparent 55%),
+        linear-gradient(180deg, #ffffff, rgba(231,220,203,.35));
+      box-shadow:var(--shadow);
+      padding:clamp(18px, 3vw, 26px);
+      margin: 14px 0 14px;
+      position:relative;
+      overflow:hidden;
+      isolation:isolate;
+    }
+    .hero h1{
+      font-family:"Dancing Script",cursive;
+      font-size:clamp(34px, 4vw, 52px);
+      margin:0 0 8px 0;
+      color:var(--tinta2);
+      letter-spacing:.2px;
+    }
+    .hero p{ margin:0; opacity:.9; line-height:1.55; max-width:75ch; }
+    .meta{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .pill{
+      border-radius:999px;
+      padding:8px 12px;
+      background:#fff;
+      border:1px solid var(--soft2);
+      box-shadow:0 10px 18px rgba(0,0,0,.08);
+      font-weight:900;
+      color:var(--tinta2);
+      font-size:13px;
+      letter-spacing:.3px;
+      display:flex; align-items:center; gap:8px;
+    }
+    .pill small{ font-weight:900; opacity:.65; color:var(--tinta); }
+
+    .toolbar{
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center; justify-content:space-between;
+      margin: 10px 0 14px;
+    }
+    .search{
+      flex: 1 1 320px;
+      display:flex; gap:10px; align-items:center;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--soft2);
+      box-shadow:0 10px 18px rgba(0,0,0,.08);
+      padding:10px 12px;
+    }
+    .search input{
+      border:0; outline:0; width:100%;
+      font: inherit; color:var(--tinta);
+      background:transparent;
+    }
+    .select{
+      flex: 0 0 auto;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--soft2);
+      box-shadow:0 10px 18px rgba(0,0,0,.08);
+      padding:10px 12px;
+      font: inherit;
+      font-weight:900;
+      color:var(--tinta2);
+      outline:0;
+    }
+    .btn{
+      border-radius:999px;
+      padding:10px 12px;
+      border:1px solid var(--soft2);
+      background:linear-gradient(180deg,#fff, rgba(231,220,203,.28));
+      font-weight:950;
+      cursor:pointer;
+      box-shadow:0 12px 22px rgba(0,0,0,.10);
+      color:var(--tinta2);
+      transition:transform .15s ease, box-shadow .15s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{ transform:translateY(-1px); box-shadow:0 16px 30px rgba(0,0,0,.14); }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .card{
+      grid-column: span 6;
+      border-radius:var(--r);
+      background:#fff;
+      border:1px solid rgba(0,0,0,.10);
+      box-shadow:0 12px 26px rgba(0,0,0,.10);
+      padding: 14px;
+      position:relative;
+      overflow:hidden;
+    }
+    @media (max-width: 900px){ .card{ grid-column: span 12; } }
+
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:-50% -60%;
+      background: linear-gradient(100deg, transparent 40%, rgba(90,167,199,.14) 50%, transparent 60%);
+      transform: translateX(-60%) rotate(10deg);
+      animation: sheen 9s linear infinite;
+      opacity:.6;
+      pointer-events:none;
+    }
+    @keyframes sheen{
+      0%{ transform: translateX(-65%) rotate(10deg); opacity:.18; }
+      50%{ opacity:.55; }
+      100%{ transform: translateX(65%) rotate(10deg); opacity:.18; }
+    }
+    @media (prefers-reduced-motion: reduce){ .card::after{ animation:none !important; } }
+
+    .top{
+      display:flex; align-items:flex-start; justify-content:space-between;
+      gap: 10px;
+      position:relative; z-index:1;
+    }
+    .who{
+      display:flex; flex-direction:column; gap:4px;
+      min-width: 0;
+    }
+    .name{
+      font-weight:950;
+      color:var(--tinta2);
+      letter-spacing:.2px;
+      overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+      max-width: 60ch;
+    }
+    .sub{
+      font-size:12px;
+      opacity:.78;
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+    .tag{
+      border-radius:999px;
+      padding:6px 10px;
+      background: rgba(231,220,203,.35);
+      border:1px solid rgba(203,189,167,.35);
+      font-weight:950;
+      color:var(--tinta2);
+      letter-spacing:.3px;
+    }
+    .msg{
+      margin: 12px 0 0 0;
+      position:relative; z-index:1;
+      line-height:1.6;
+      white-space:pre-wrap;
+      overflow-wrap:anywhere;
+    }
+
+    .state{
+      border-radius:var(--r);
+      border:1px solid var(--soft);
+      background: rgba(255,255,255,.75);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      opacity:.9;
+      margin-top: 12px;
+    }
+    .muted{ opacity:.75; }
+
+    /* Opcional: ocultar página si no hay permiso */
+    .hidden{ display:none !important; }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Mensajes 💌</h1>
+      <p>
+        Aquí verán, de forma ordenada y bonita, las felicitaciones que nos dejan nuestros invitados.
+        (Esta página es para ustedes; no es necesario compartirla.)
+      </p>
+      <div class="meta">
+        <div class="pill"><small>Total</small> <span id="count">—</span></div>
+        <div class="pill"><small>Última actualización</small> <span id="updated">—</span></div>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <div class="search" aria-label="Buscar">
+        <span class="muted">🔎</span>
+        <input id="q" type="text" placeholder="Buscar por nombre, mensaje o referencia…">
+      </div>
+
+      <select id="sort" class="select" aria-label="Orden">
+        <option value="new">Más recientes</option>
+        <option value="old">Más antiguos</option>
+        <option value="name">Nombre (A–Z)</option>
+        <option value="ref">Referencia</option>
+      </select>
+
+      <button class="btn" id="reload" type="button">Recargar</button>
+    </div>
+
+    <div id="state" class="state">
+      Cargando mensajes…
+      <div class="muted" style="margin-top:6px; font-size:13px;">
+        Si ves este texto permanentemente, revisa que tu Apps Script tenga habilitado el endpoint JSON (snippet al final del archivo).
+      </div>
+    </div>
+
+    <section class="grid" id="grid" aria-label="Mensajes"></section>
+  </main>
+
+  <script>
+  (function(){
+    // ✅ Pega aquí la URL de tu Web App (Apps Script deploy)
+    // Debe soportar: GET ?action=list&limit=500
+    const SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxgCZ-lhUkJkh74Vz9VffhIJzyVZ9tqKL3zd2rh2vY3idCkjuZt0gWzC9xrX5VZT4zr/exec";
+
+    const els = {
+      state: document.getElementById('state'),
+      grid: document.getElementById('grid'),
+      q: document.getElementById('q'),
+      sort: document.getElementById('sort'),
+      reload: document.getElementById('reload'),
+      count: document.getElementById('count'),
+      updated: document.getElementById('updated'),
+    };
+
+    let all = [];      // dataset crudo
+    let view = [];     // filtrado + ordenado
+
+    function fmtDate(d){
+      try{
+        return new Intl.DateTimeFormat('es-MX', {
+          dateStyle:'medium',
+          timeStyle:'short'
+        }).format(d);
+      }catch(e){
+        return String(d);
+      }
+    }
+
+    function safe(s){ return (s == null ? '' : String(s)); }
+
+    function render(){
+      els.grid.innerHTML = '';
+
+      if(view.length === 0){
+        els.state.classList.remove('hidden');
+        els.state.textContent = all.length ? 'No hay resultados para tu búsqueda.' : 'Aún no hay mensajes guardados.';
+        els.count.textContent = String(all.length);
+        return;
+      }
+
+      els.state.classList.add('hidden');
+      els.count.textContent = String(all.length);
+
+      const frag = document.createDocumentFragment();
+      for(const m of view){
+        const card = document.createElement('article');
+        card.className = 'card';
+
+        const name = safe(m.nombre).trim() || 'Invitado/a';
+        const ref  = safe(m.ref).trim();
+        const ts   = m.timestamp ? new Date(m.timestamp) : null;
+        const dateText = ts && !isNaN(ts) ? fmtDate(ts) : '';
+
+        card.innerHTML = `
+          <div class="top">
+            <div class="who">
+              <div class="name" title="${name}">${name}</div>
+              <div class="sub">
+                ${dateText ? `<span class="muted">${dateText}</span>` : ``}
+                ${ref ? `<span class="tag">${ref}</span>` : ``}
+              </div>
+            </div>
+          </div>
+          <p class="msg">${safe(m.mensaje).trim()}</p>
+        `;
+        frag.appendChild(card);
+      }
+      els.grid.appendChild(frag);
+    }
+
+    function apply(){
+      const q = els.q.value.trim().toLowerCase();
+      const sort = els.sort.value;
+
+      view = all.filter(m=>{
+        if(!q) return true;
+        const hay = [
+          safe(m.nombre),
+          safe(m.mensaje),
+          safe(m.ref)
+        ].join(' ').toLowerCase();
+        return hay.includes(q);
+      });
+
+      if(sort === 'new'){
+        view.sort((a,b)=> (new Date(b.timestamp||0)) - (new Date(a.timestamp||0)));
+      }else if(sort === 'old'){
+        view.sort((a,b)=> (new Date(a.timestamp||0)) - (new Date(b.timestamp||0)));
+      }else if(sort === 'name'){
+        view.sort((a,b)=> safe(a.nombre).localeCompare(safe(b.nombre), 'es', {sensitivity:'base'}));
+      }else if(sort === 'ref'){
+        view.sort((a,b)=> safe(a.ref).localeCompare(safe(b.ref), 'es', {sensitivity:'base'}));
+      }
+
+      render();
+    }
+
+    async function load(){
+      els.state.classList.remove('hidden');
+      els.state.textContent = 'Cargando mensajes…';
+      els.updated.textContent = '—';
+
+      if(!SCRIPT_WEBAPP_URL || SCRIPT_WEBAPP_URL.includes('TU_SCRIPT_WEBAPP_URL')){
+        els.state.textContent = 'Falta configurar SCRIPT_WEBAPP_URL en mensajes.html';
+        all = [];
+        apply();
+        return;
+      }
+
+      // cache-bust
+      const url = new URL(SCRIPT_WEBAPP_URL);
+      url.searchParams.set('action', 'list');
+      url.searchParams.set('limit', '500');
+      url.searchParams.set('_', String(Date.now()));
+
+      try{
+        const res = await fetch(url.toString(), { method:'GET' });
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+
+        // Espera: { ok:true, rows:[{timestamp,nombre,mensaje,ref,...}] }
+        all = Array.isArray(data.rows) ? data.rows : [];
+        els.updated.textContent = fmtDate(new Date());
+        apply();
+      }catch(err){
+        els.state.classList.remove('hidden');
+        els.state.textContent =
+          'No se pudieron cargar los mensajes. Revisa que tu Apps Script responda JSON en GET ?action=list.\n\n' +
+          (err && err.message ? err.message : err);
+        all = [];
+        apply();
+      }
+    }
+
+    els.q.addEventListener('input', apply);
+    els.sort.addEventListener('change', apply);
+    els.reload.addEventListener('click', load);
+
+    load();
+  })();
+  </script>
+
+  <!--
+  ✅ SNIPPET NECESARIO EN Apps Script (Code.gs) PARA QUE ESTE HTML FUNCIONE
+  Agrega esto a tu Code.gs (solo el doGet), mantén tu doPost igual.
+
+  function doGet(e){
+    const action = (e && e.parameter && e.parameter.action) ? String(e.parameter.action) : '';
+    if(action !== 'list'){
+      return ContentService.createTextOutput('OK: Web App activo')
+        .setMimeType(ContentService.MimeType.TEXT);
+    }
+
+    const limit = Math.min(1000, Math.max(1, Number(e.parameter.limit || 500)));
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sh = ss.getSheetByName('Mensajes') || ss.insertSheet('Mensajes');
+
+    const values = sh.getDataRange().getValues();
+    if(values.length <= 1){
+      return ContentService.createTextOutput(JSON.stringify({ok:true, rows:[]}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    const headers = values[0].map(h => String(h).trim());
+    const rows = values.slice(1).map(r=>{
+      const obj = {};
+      headers.forEach((h,i)=> obj[h] = r[i]);
+      // normaliza keys esperadas por el front
+      return {
+        timestamp: obj.timestamp || obj.Timestamp || obj.fecha || obj.Fecha || r[0],
+        nombre: obj.nombre || obj.Nombre || '',
+        mensaje: obj.mensaje || obj.Mensaje || '',
+        ref: obj.ref || obj.Ref || obj.referencia || '',
+        monto: obj.monto || obj.Monto || '',
+        pagina: obj.pagina || obj.Pagina || '',
+        userAgent: obj.userAgent || obj.ua || ''
+      };
+    });
+
+    // últimos N
+    const sliced = rows.slice(-limit);
+
+    return ContentService.createTextOutput(JSON.stringify({ok:true, rows:sliced}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  -->
+</body>
+</html>
